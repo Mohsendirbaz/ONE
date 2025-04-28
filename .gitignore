@@ -43,8 +43,6 @@ typings/
 # Optional npm cache directory
 .npm
 
-# SF directory - explicitly excluded
-SF/
 
 # Optional eslint cache
 .eslintcache

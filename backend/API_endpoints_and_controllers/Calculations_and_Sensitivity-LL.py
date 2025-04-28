@@ -17,6 +17,17 @@ import shutil
 import copy
 import logging
 from datetime import datetime
+import re
+import argparse
+import csv
+from pathlib import Path
+from typing import Dict, List, Set, Tuple, Optional, Union, Any
+import importlib.util
+import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('Agg')  # Use non-interactive backend
+import numpy as np
+from matplotlib.colors import LinearSegmentedColormap
 
 # =====================================
 # Base Configuration
@@ -1492,6 +1503,1325 @@ def check_endpoint_availability():
     return None
 
 # =====================================
+# HTML Album Organizer Functions
+# =====================================
+def safe_json_dump(data: Any, file_path: Union[str, Path]) -> bool:
+    """Safely write JSON data to a file with error handling
+
+    Args:
+        data: The data to serialize to JSON
+        file_path: Path to the output file
+
+    Returns:
+        bool: True if successful, False on error
+    """
+    try:
+        with open(file_path, 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=2)
+        return True
+    except Exception as e:
+        logger.error(f"Error writing JSON to {file_path}: {e}")
+        return False
+
+def ensure_directory_exists(directory_path: Union[str, Path]) -> None:
+    """Ensure the specified directory exists, creating it if necessary
+
+    Args:
+        directory_path: Path to the directory
+    """
+    os.makedirs(directory_path, exist_ok=True)
+
+def organize_html_albums(base_dir: Optional[Union[str, Path]] = None,
+                         specified_versions: Optional[List[int]] = None) -> bool:
+    """
+    Organizes HTML plot files into standardized album directories that are compatible
+    with the Front_Subtab_HTML.py server and enhances them for the DynamicSubPlot tab.
+
+    Args:
+        base_dir: Base directory containing batch folders (optional)
+        specified_versions: List of version numbers to process (optional)
+
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    # Determine base directory
+    if not base_dir:
+        # Use same path logic as in the main scripts
+        backend_dir = Path(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        base_dir = backend_dir.parent / 'Original'
+
+    if not os.path.exists(base_dir):
+        logger.error(f"Base directory does not exist: {base_dir}")
+        return False
+
+    # Get all version directories
+    logger.info(f"Scanning for version directories in {base_dir}")
+
+    all_batches = [d for d in os.listdir(base_dir)
+                   if d.startswith("Batch(") and d.endswith(")")]
+
+    # Filter to specified versions if provided
+    if specified_versions:
+        batches = [f"Batch({v})" for v in specified_versions if f"Batch({v})" in all_batches]
+        logger.info(f"Processing specified versions: {specified_versions}")
+    else:
+        batches = all_batches
+
+    if not batches:
+        logger.warning("No batch directories found")
+        return False
+
+    # Track all created albums for index generation
+    all_created_albums = []
+
+    # Process each batch directory
+    for batch in batches:
+        # Extract version number
+        version_match = re.match(r"Batch\((\d+)\)", batch)
+        if not version_match:
+            logger.warning(f"Invalid batch directory format: {batch}")
+            continue
+
+        version = version_match.group(1)
+        results_dir = os.path.join(base_dir, batch, f"Results({version})")
+
+        if not os.path.exists(results_dir):
+            logger.warning(f"Results directory not found: {results_dir}")
+            continue
+
+        # Find HTML plot directories (v*_*_Plot)
+        plot_dirs = [d for d in os.listdir(results_dir)
+                     if os.path.isdir(os.path.join(results_dir, d)) and
+                     (d.startswith("v") and "_Plot" in d)]
+
+        if not plot_dirs:
+            logger.info(f"No HTML plot directories found for version {version}")
+            continue
+
+        # Categorize plot directories by type
+        categorized_plots = {}  # Plot type -> list of directory names
+        for plot_dir_name in plot_dirs:
+            # Extract the metric name and versions identifier from directory name
+            dir_match = re.match(r"v(\d+(?:_\d+)*)_(.+)_Plot", plot_dir_name)
+            if not dir_match:
+                dir_match = re.match(r"v(\d+(?:_\d+)*)_(.+)", plot_dir_name)
+                if not dir_match:
+                    logger.warning(f"Invalid plot directory format: {plot_dir_name}")
+                    continue
+
+            versions_id = dir_match.group(1)
+            plot_type = dir_match.group(2)
+
+            if plot_type not in categorized_plots:
+                categorized_plots[plot_type] = []
+
+            categorized_plots[plot_type].append((versions_id, plot_dir_name))
+
+        # Process each plot type
+        for plot_type, dirs in categorized_plots.items():
+            # Create a mapping of versions_id -> directories
+            versions_map = {}
+            for versions_id, dir_name in dirs:
+                if versions_id not in versions_map:
+                    versions_map[versions_id] = []
+                versions_map[versions_id].append(dir_name)
+
+            # Process each version combination
+            for versions_id, dir_names in versions_map.items():
+                # Create standardized album name:
+                # Format: HTML_v{versions_id}_{plot_type}
+                album_name = f"HTML_v{versions_id}_{plot_type}"
+                album_dir = os.path.join(results_dir, album_name)
+
+                # Create album directory
+                ensure_directory_exists(album_dir)
+                logger.info(f"Created HTML album directory: {album_dir}")
+
+                # Track created album
+                all_created_albums.append({
+                    "version": version,
+                    "versions_id": versions_id,
+                    "plot_type": plot_type,
+                    "album_name": album_name,
+                    "path": album_dir
+                })
+
+                # Copy files from all source directories to the album
+                html_files = []
+                for dir_name in dir_names:
+                    source_dir = os.path.join(results_dir, dir_name)
+                    for file_name in os.listdir(source_dir):
+                        if file_name.lower().endswith('.html'):
+                            html_files.append(file_name)
+                            src_path = os.path.join(source_dir, file_name)
+                            dest_path = os.path.join(album_dir, file_name)
+
+                            # Only copy if file doesn't exist or is different
+                            if not os.path.exists(dest_path) or os.path.getsize(src_path) != os.path.getsize(dest_path):
+                                shutil.copy2(src_path, dest_path)
+                                logger.info(f"Copied {file_name} to album {album_name}")
+                            else:
+                                logger.info(f"File {file_name} already exists in album {album_name}, skipping")
+
+                # Create a metadata file to help with frontend rendering
+                metadata_path = os.path.join(album_dir, "album_metadata.json")
+
+                # Convert versions_id to a list of integers
+                version_numbers = [int(v) for v in versions_id.split('_')]
+
+                metadata = {
+                    "album_id": album_name,
+                    "version": version,
+                    "versions": version_numbers,
+                    "versions_identifier": versions_id,
+                    "plot_type": plot_type,
+                    "metric_name": plot_type,
+                    "display_name": f"{plot_type.replace('_', ' ')} for versions [{versions_id.replace('_', ', ')}]",
+                    "html_files": html_files,
+                    "description": f"Interactive visualization of {plot_type.replace('_', ' ')} across multiple versions",
+                    "category": "financial_analysis",
+                    "created": True
+                }
+
+                safe_json_dump(metadata, metadata_path)
+                logger.info(f"Created metadata file for album {album_name}")
+
+    # Create index file with all albums
+    if all_created_albums:
+        index_path = os.path.join(base_dir, "html_albums_index.json")
+        album_index = {
+            "albums": all_created_albums,
+            "count": len(all_created_albums),
+            "types": list(set(album["plot_type"] for album in all_created_albums)),
+            "versions": list(set(album["version"] for album in all_created_albums))
+        }
+
+        safe_json_dump(album_index, index_path)
+        logger.info(f"Created HTML albums index at {index_path}")
+
+    logger.info("HTML album organization completed successfully")
+    return True
+
+# =====================================
+# Album Organizer Functions
+# =====================================
+def organize_plot_albums(base_dir=None):
+    """
+    Organizes PNG plots into standardized album directories that are compatible
+    with the Front_Subtab_Plot.py server.
+    """
+    # Determine base directory
+    if not base_dir:
+        # Same path logic as in the main scripts
+        backend_dir = Path(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        base_dir = backend_dir.parent /'Original'
+
+    if not os.path.exists(base_dir):
+        logger.error(f"Base directory does not exist: {base_dir}")
+        return False
+
+    # Get all version directories
+    logger.info(f"Scanning for version directories in {base_dir}")
+    batches = [d for d in os.listdir(base_dir) if d.startswith("Batch(") and d.endswith(")")]
+
+    if not batches:
+        logger.warning("No batch directories found")
+        return False
+
+    for batch in batches:
+        # Extract version number
+        version_match = re.match(r"Batch\((\d+)\)", batch)
+        if not version_match:
+            logger.warning(f"Invalid batch directory format: {batch}")
+            continue
+
+        version = version_match.group(1)
+        results_dir = os.path.join(base_dir, batch, f"Results({version})")
+
+        if not os.path.exists(results_dir):
+            logger.warning(f"Results directory not found: {results_dir}")
+            continue
+
+        # Look for AnnotatedStaticPlots directories
+        plot_dirs = [d for d in os.listdir(results_dir) 
+                     if os.path.isdir(os.path.join(results_dir, d)) and 
+                     "_AnnotatedStaticPlots" in d]
+
+        if not plot_dirs:
+            logger.info(f"No plot directories found for version {version}")
+            continue
+
+        # Process each plot directory
+        for plot_dir_name in plot_dirs:
+            plot_dir = os.path.join(results_dir, plot_dir_name)
+
+            # Extract the versions identifier from the directory name
+            versions_id_match = re.match(r"(.+)_AnnotatedStaticPlots", plot_dir_name)
+            if not versions_id_match:
+                logger.warning(f"Invalid plot directory format: {plot_dir_name}")
+                continue
+
+            versions_id = versions_id_match.group(1)
+
+            # Create standardized album categories based on plot types
+            png_files = [f for f in os.listdir(plot_dir) if f.lower().endswith('.png')]
+
+            # Group files by type
+            file_groups = {}
+            for png_file in png_files:
+                # Extract plot type from filename
+                plot_type_match = re.match(r"aggregated_(.+)_" + re.escape(versions_id) + r"\.png", png_file)
+                if not plot_type_match:
+                    logger.warning(f"Cannot extract plot type from filename: {png_file}")
+                    continue
+
+                plot_type = plot_type_match.group(1)
+                if plot_type not in file_groups:
+                    file_groups[plot_type] = []
+                file_groups[plot_type].append(png_file)
+
+            # Create category albums
+            for plot_type, files in file_groups.items():
+                # Create standardized album name:
+                # Format: versions_id_PlotType
+                album_name = f"{versions_id}_PlotType_{plot_type}"
+                album_dir = os.path.join(results_dir, album_name)
+
+                # Create album directory
+                os.makedirs(album_dir, exist_ok=True)
+                logger.info(f"Created album directory: {album_dir}")
+
+                # Copy files to album
+                for png_file in files:
+                    src_path = os.path.join(plot_dir, png_file)
+                    dest_path = os.path.join(album_dir, png_file)
+                    shutil.copy2(src_path, dest_path)
+                    logger.info(f"Copied {png_file} to album {album_name}")
+
+    logger.info("Album organization completed successfully")
+    return True
+
+# =====================================
+# Generate Plots Functions
+# =====================================
+def create_png_plot(plot_data, output_path):
+    """
+    Create a PNG plot from the plot data.
+
+    Args:
+        plot_data (dict): The plot data
+        output_path (str): The output path for the PNG file
+    """
+    # Extract plot data
+    x_param = plot_data["x_param"]
+    y_param = plot_data["y_param"]
+    plot_type = plot_data["plot_type"]
+    axis_label = plot_data["axis_label"]
+    baseline_data = plot_data["datapoints"]["baseline"]
+    variations_data = plot_data["datapoints"]["variations"]
+
+    # Create figure and axis
+    fig, ax = plt.subplots(figsize=(10, 6))
+
+    # Set title and labels
+    ax.set_title(f"{y_param} vs {x_param} ({plot_type})")
+    ax.set_xlabel(x_param)
+    ax.set_ylabel(axis_label)
+
+    # Plot baseline data if available
+    if baseline_data:
+        x_values = [float(x) for x in baseline_data.keys()]
+        y_values = [float(y) for y in baseline_data.values()]
+        ax.plot(x_values, y_values, 'o-', label='Baseline', color='blue')
+
+    # Plot variations data if available
+    if variations_data:
+        x_values = [float(x) for x in variations_data.keys()]
+        y_values = [float(y) for y in variations_data.values()]
+
+        # Different plot types
+        if plot_type == "point":
+            ax.scatter(x_values, y_values, label='Variations', color='red', s=50)
+        elif plot_type == "bar":
+            ax.bar(x_values, y_values, label='Variations', color='green', alpha=0.7)
+        elif plot_type == "waterfall":
+            # For waterfall, connect points with lines
+            ax.plot(x_values, y_values, 's-', label='Variations', color='purple')
+        else:
+            # Default to line plot
+            ax.plot(x_values, y_values, 'o-', label='Variations', color='red')
+
+    # Add grid and legend
+    ax.grid(True, linestyle='--', alpha=0.7)
+    ax.legend()
+
+    # Adjust layout
+    plt.tight_layout()
+
+    # Save the plot
+    plt.savefig(output_path, dpi=300, bbox_inches='tight')
+    plt.close(fig)
+
+    logger.info(f"Created PNG plot: {output_path}")
+
+def generate_plots(version):
+    """
+    Generate plot algorithm for sensitivity analysis.
+
+    Args:
+        version (str): Version number
+    """
+    # Try different possible locations for the codebase root
+    possible_roots = [
+        # Current directory method
+        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+        # Hard-coded path as seen in the error
+        r"C:\Users\Mohse\IdeaProjects2\codebase",
+        # Alternative with backend included
+        r"C:\Users\Mohse\IdeaProjects2\codebase\backend"
+    ]
+
+    code_files_path = None
+    calsen_paths_file = None
+
+    # Try each possible root until we find the calsen_paths.json file
+    for root in possible_roots:
+        test_path = os.path.join(root, "Original")
+        test_calsen_path = os.path.join(
+            test_path,
+            f"Batch({version})",
+            f"Results({version})",
+            "Sensitivity",
+            "Reports",
+            "calsen_paths.json"
+        )
+
+        if os.path.exists(test_calsen_path):
+            code_files_path = test_path
+            calsen_paths_file = test_calsen_path
+            logger.info(f"Found calsen_paths.json at: {calsen_paths_file}")
+            break
+
+    if calsen_paths_file is None:
+        logger.error("Could not find calsen_paths.json in any of the expected locations")
+        return
+
+    # Load calsen_paths.json
+    try:
+        with open(calsen_paths_file, 'r') as f:
+            data = json.load(f)
+    except Exception as e:
+        logger.error(f"Error loading calsen_paths.json: {e}")
+        return
+
+    # Get SenParameters from payload
+    sen_parameters = data["payload"]["SenParameters"]
+
+    # Override all comparisonTypes to "primary (x axis)"
+    for s_param, param_data in data["path_sets"].items():
+        param_data["comparisonType"] = "primary (x axis)"
+
+    # Group parameters by their compareToKey
+    param_groups = {}
+
+    # Process parameters in order to maintain proper plot sequence
+    param_order = []
+    for s_param, param_data in data["path_sets"].items():
+        compare_to_key = param_data.get("compareToKey", "")
+        if compare_to_key:
+            if compare_to_key not in param_groups:
+                param_groups[compare_to_key] = []
+                param_order.append(compare_to_key)
+            param_groups[compare_to_key].append(s_param)
+
+    # Create plots based on parameter groups
+    plots = []
+    for i, compare_to_key in enumerate(param_order):
+        group_params = param_groups[compare_to_key]
+
+        # Create a plot for each group
+        plot = {
+            "plot_id": f"plot_{i+1}",
+            "x_param": compare_to_key,
+            "y_params": group_params,
+            "plot_types": []
+        }
+
+        # Determine plot types for each parameter (bar, point, waterfall)
+        for s_param in group_params:
+            if s_param in sen_parameters:
+                param_config = sen_parameters[s_param]
+                if param_config.get("bar", False):
+                    plot["plot_types"].append("bar")
+                if param_config.get("point", False):
+                    plot["plot_types"].append("point")
+                if param_config.get("waterfall", False):
+                    plot["plot_types"].append("waterfall")
+
+        # Remove duplicates
+        plot["plot_types"] = list(set(plot["plot_types"]))
+
+        plots.append(plot)
+
+    # Base output directory
+    output_base_dir = os.path.join(
+        code_files_path,
+        f"Batch({version})",
+        f"Results({version})",
+        "Sensitivity"
+    )
+
+    # Create plot files
+    created_plots = 0
+
+    for plot in plots:
+        plot_id = plot["plot_id"]
+        x_param = plot["x_param"]
+        y_params = plot["y_params"]
+        plot_types = plot["plot_types"]
+
+        logger.info(f"\nGenerating {plot_id}:")
+        logger.info(f"  X-axis parameter: {x_param}")
+        logger.info(f"  Y-axis parameters: {', '.join(y_params)}")
+        logger.info(f"  Plot types: {', '.join(plot_types)}")
+
+        # Get the data points for each parameter
+        for plot_type in plot_types:
+            # Capitalize plot type for directory
+            plot_type_dir = plot_type.capitalize()
+
+            for y_param in y_params:
+                # Get the mode from the parameter data
+                if y_param in data["path_sets"]:
+                    param_data = data["path_sets"][y_param]
+                    mode = param_data.get("mode", "")
+
+                    # Capitalize mode for directory
+                    mode_dir = mode.capitalize()
+
+                    # Create directory path
+                    plot_dir = os.path.join(output_base_dir, mode_dir, plot_type_dir)
+                    os.makedirs(plot_dir, exist_ok=True)
+
+                    # Create plot file name
+                    plot_file_name = f"{y_param}_{x_param}_plot.json"
+                    plot_file_path = os.path.join(plot_dir, plot_file_name)
+
+                    # Create the plot data
+                    plot_data = {
+                        "x_param": x_param,
+                        "y_param": y_param,
+                        "plot_type": plot_type,
+                        "mode": mode,
+                        "axis_label": param_data.get("axisLabel", f"{y_param} vs {x_param}"),
+                        "compare_to_key": x_param,
+                        "comparison_type": "primary (x axis)",
+                        "datapoints": {
+                            "baseline": {},
+                            "variations": {}
+                        }
+                    }
+
+                    # Check if plotCoordinates are available in the parameter data
+                    if "plotCoordinates" in param_data:
+                        # Use plotCoordinates from calsen_paths.json
+                        plot_coordinates = param_data["plotCoordinates"]
+
+                        # Process coordinates for plot data
+                        for coord in plot_coordinates:
+                            if "x" in coord and "y" in coord:
+                                # For variations, use the label if available
+                                label = coord.get("label", "")
+                                if label:
+                                    # Add to variations
+                                    plot_data["datapoints"]["variations"][str(coord["x"])] = coord["y"]
+                                else:
+                                    # Add to baseline if no label (assuming it's baseline)
+                                    plot_data["datapoints"]["baseline"][str(coord["x"])] = coord["y"]
+
+                        logger.info(f"  Using plotCoordinates from calsen_paths.json for {y_param}")
+                    else:
+                        # Check if variations have plotCoordinates
+                        has_coordinates = False
+                        for var_str, var_data in param_data.get("variations", {}).items():
+                            if "plotCoordinates" in var_data:
+                                has_coordinates = True
+                                # Process coordinates for this variation
+                                for coord in var_data["plotCoordinates"]:
+                                    if "x" in coord and "y" in coord:
+                                        # Add to variations
+                                        plot_data["datapoints"]["variations"][str(coord["x"])] = coord["y"]
+
+                        if has_coordinates:
+                            logger.info(f"  Using variation plotCoordinates from calsen_paths.json for {y_param}")
+                        else:
+                            logger.info(f"  Warning: No plotCoordinates found for {y_param}")
+
+                            # If no plotCoordinates are available, create empty plot data
+                            # This ensures the plot file is still created even without data
+                            plot_data["datapoints"] = {
+                                "baseline": {},
+                                "variations": {}
+                            }
+
+                    # Save the plot data as JSON
+                    try:
+                        with open(plot_file_path, 'w') as f:
+                            json.dump(plot_data, f, indent=2)
+                        logger.info(f"  Created JSON plot file: {plot_file_path}")
+                        created_plots += 1
+
+                        # Also create PNG plot
+                        # Create PNG directory structure
+                        png_dir = os.path.join(output_base_dir, mode_dir, plot_type_dir, "PNG")
+                        os.makedirs(png_dir, exist_ok=True)
+
+                        # Create PNG file name
+                        png_file_name = f"{y_param}_{x_param}_plot.png"
+                        png_file_path = os.path.join(png_dir, png_file_name)
+
+                        # Generate PNG plot
+                        create_png_plot(plot_data, png_file_path)
+                        created_plots += 1
+                    except Exception as e:
+                        logger.error(f"  Error saving plot files: {e}")
+
+    # Save the updated calsen_paths.json with the comparisonType changes
+    try:
+        with open(calsen_paths_file, 'w') as f:
+            json.dump(data, f, indent=2)
+        logger.info(f"\nSuccessfully updated {calsen_paths_file} with comparisonType changes")
+    except Exception as e:
+        logger.error(f"Error saving {calsen_paths_file}: {e}")
+
+    # Calculate the number of JSON and PNG files (half of total created_plots)
+    json_count = created_plots // 2
+    png_count = created_plots // 2
+
+    logger.info(f"\nPlot generation complete. Created {json_count} JSON and {png_count} PNG plot files using coordinate points from calsen_paths.json.")
+    logger.info(f"PNG files are available in the PNG subdirectories and can be displayed in the plot gallery and sensitivity tabs.")
+    return True
+
+# =====================================
+# Process Sensitivity Results Functions
+# =====================================
+def extract_price_from_summary(version, param_id, variation):
+    """
+    Extract price value from economic summary for a specific parameter variation.
+
+    Args:
+        version (int): Version number
+        param_id (str): Parameter ID (e.g., "S35")
+        variation (float): Variation value
+
+    Returns:
+        float: Extracted price value or None if not found
+    """
+    try:
+        # Format variation string for directory name
+        var_str = f"{variation:+.2f}"
+
+        # First, find the correct Economic_Summary file for this variation
+        # Check in the parameter variation directory
+        search_paths = [
+            # Main directory search pattern
+            os.path.join(
+                ORIGINAL_BASE_DIR,
+                f'Batch({version})',
+                f'Results({version})',
+                'Sensitivity',
+                f'{param_id}',
+                '*',
+                f'{var_str}',
+                f'Economic_Summary*.csv'
+            ),
+            # Secondary locations based on directory structure
+            os.path.join(
+                ORIGINAL_BASE_DIR,
+                f'Batch({version})',
+                f'Results({version})',
+                'Sensitivity',
+                'Multipoint',
+                'Configuration',
+                f'{param_id}_{var_str}',
+                f'Economic_Summary*.csv'
+            ),
+            os.path.join(
+                ORIGINAL_BASE_DIR,
+                f'Batch({version})',
+                f'Results({version})',
+                'Sensitivity',
+                'Symmetrical',
+                'Configuration',
+                f'{param_id}_{var_str}',
+                f'Economic_Summary*.csv'
+            )
+        ]
+
+        summary_file = None
+        for pattern in search_paths:
+            matches = glob.glob(pattern)
+            if matches:
+                summary_file = matches[0]
+                logger.info(f"Found economic summary for {param_id} variation {var_str}: {summary_file}")
+                break
+
+        if not summary_file:
+            logger.warning(f"No economic summary found for {param_id} variation {var_str}")
+            return None
+
+        # Read the economic summary and extract price
+        economic_df = pd.read_csv(summary_file)
+        price_row = economic_df[economic_df['Metric'] == 'Average Selling Price (Project Life Cycle)']
+
+        if price_row.empty:
+            logger.warning(f"Price metric not found in economic summary for {param_id} variation {var_str}")
+            return None
+
+        price_value = float(price_row.iloc[0, 1])  # Assuming value is in second column
+        logger.info(f"Extracted price value for {param_id} variation {var_str}: {price_value}")
+        return price_value
+
+    except Exception as e:
+        logger.error(f"Error extracting price for {param_id} variation {var_str}: {str(e)}")
+        return None
+
+def process_parameter_variations(version, param_id, param_config):
+    """
+    Process variations for a specific parameter and generate result data.
+
+    Args:
+        version (int): Version number
+        param_id (str): Parameter ID
+        param_config (dict): Parameter configuration
+
+    Returns:
+        dict: Result data structure
+    """
+    try:
+        mode = param_config.get('mode', 'symmetrical')
+        values = param_config.get('values', [])
+        compare_to_key = param_config.get('compareToKey', 'S13')
+
+        # Determine variations based on mode
+        if mode.lower() == 'symmetrical':
+            base_variation = values[0]
+            variations = [base_variation, -base_variation]
+        else:
+            variations = values
+
+        # Initialize result data structure
+        result_data = {
+            'param_id': param_id,
+            'mode': mode,
+            'compare_to_key': compare_to_key,
+            'variations': {},
+            'timestamp': time.strftime("%Y-%m-%d %H:%M:%S")
+        }
+
+        # Process each variation
+        for variation in variations:
+            # Extract price for this variation
+            price = extract_price_from_summary(version, param_id, variation)
+
+            if price is not None:
+                # Add to result data
+                var_str = f"{variation:+.2f}"
+                result_data['variations'][var_str] = {
+                    'price': price,
+                    'variation': variation
+                }
+                logger.info(f"Added price {price} for {param_id} variation {var_str}")
+
+        return result_data
+
+    except Exception as e:
+        logger.error(f"Error processing variations for {param_id}: {str(e)}")
+        return None
+
+def process_sensitivity_results(version, wait_time_minutes=3):
+    """
+    Process sensitivity results for all parameters.
+
+    Args:
+        version (int): Version number
+        wait_time_minutes (float): Wait time in minutes before processing
+
+    Returns:
+        dict: Processing summary
+    """
+    # Log start information
+    logger.info(f"=== Starting Sensitivity Results Processing ===")
+    logger.info(f"Version: {version}")
+    logger.info(f"Wait time: {wait_time_minutes} minutes")
+
+    # Wait for specified time
+    if wait_time_minutes > 0:
+        logger.info(f"Waiting {wait_time_minutes} minutes before processing...")
+        time.sleep(wait_time_minutes * 60)
+
+    # Load sensitivity configuration
+    is_configured, config_data = check_sensitivity_config_status()
+
+    if not is_configured or not config_data:
+        logger.error("Failed to load sensitivity configuration, exiting")
+        return {'status': 'error', 'error': 'Failed to load sensitivity configuration'}
+
+    # Get sensitivity parameters
+    sen_parameters = config_data.get('SenParameters', {})
+
+    if not sen_parameters:
+        logger.warning("No sensitivity parameters found in configuration")
+        return {'status': 'error', 'error': 'No sensitivity parameters found in configuration'}
+
+    # Initialize processing summary
+    processing_summary = {
+        'status': 'success',
+        'parameters_processed': 0,
+        'variations_processed': 0,
+        'errors': []
+    }
+
+    # Process each parameter
+    for param_id, param_config in sen_parameters.items():
+        if not param_config.get('enabled'):
+            continue
+
+        logger.info(f"=== Processing Parameter: {param_id} ===")
+
+        # Process variations and get result data
+        result_data = process_parameter_variations(version, param_id, param_config)
+
+        if not result_data:
+            error_msg = f"No result data generated for {param_id}"
+            logger.warning(error_msg)
+            processing_summary['errors'].append(error_msg)
+            continue
+
+        # Store results
+        store_result = store_results(version, param_id, result_data)
+
+        if store_result.get('status') == 'error':
+            error_msg = f"Failed to store results for {param_id}: {store_result.get('error')}"
+            logger.error(error_msg)
+            processing_summary['errors'].append(error_msg)
+        else:
+            logger.info(f"Successfully processed and stored results for {param_id}")
+            processing_summary['parameters_processed'] += 1
+            processing_summary['variations_processed'] += len(result_data.get('variations', {}))
+
+    logger.info(f"=== Sensitivity Results Processing Completed ===")
+    logger.info(f"Processed {processing_summary['parameters_processed']} parameters with {processing_summary['variations_processed']} variations")
+
+    if processing_summary['errors']:
+        logger.warning(f"Encountered {len(processing_summary['errors'])} errors during processing")
+
+    return processing_summary
+
+# =====================================
+# Sense Config Base Functions
+# =====================================
+def setup_sense_config_logging():
+    """Configure logging for sense_config_base functionality."""
+    # Create logs directory if it doesn't exist
+    os.makedirs(LOGS_DIR, exist_ok=True)
+
+    # Configure sensitivity logger as a separate logger
+    sensitivity_logger = logging.getLogger('sensitivity')
+    sensitivity_logger.setLevel(logging.DEBUG)
+    sensitivity_logger.propagate = False  # Prevent propagation to root logger
+
+    sensitivity_handler = logging.FileHandler(os.path.join(LOGS_DIR, "SENSITIVITY.log"))
+    sensitivity_handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(message)s'))
+    sensitivity_logger.addHandler(sensitivity_handler)
+
+    sensitivity_logger.info("Sensitivity logging configured correctly for sense_config_base functionality")
+
+def import_sensitivity_functions():
+    """Import necessary functions from Sen_Config module."""
+    sensitivity_logger = logging.getLogger('sensitivity')
+
+    try:
+        # Add the Configuration_managment directory to the path
+        config_mgmt_path = os.path.join(SCRIPT_DIR, "Configuration_management")
+        if config_mgmt_path not in sys.path:
+            sys.path.append(config_mgmt_path)
+
+        # Try direct import
+        try:
+            from Sen_Config import apply_sensitivity_variation, find_parameter_by_id
+            sensitivity_logger.info("Successfully imported sensitivity functions via direct import")
+            return apply_sensitivity_variation, find_parameter_by_id
+        except ImportError:
+            sensitivity_logger.warning("Direct import failed, attempting spec import...")
+
+        # Try spec import if direct import fails
+        sen_config_path = os.path.join(config_mgmt_path, "Sen_Config.py")
+        if os.path.exists(sen_config_path):
+            spec = importlib.util.spec_from_file_location("Sen_Config", sen_config_path)
+            sen_config_module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(sen_config_module)
+
+            apply_sensitivity_variation = getattr(sen_config_module, 'apply_sensitivity_variation')
+            find_parameter_by_id = getattr(sen_config_module, 'find_parameter_by_id')
+
+            sensitivity_logger.info("Successfully imported sensitivity functions via spec import")
+            return apply_sensitivity_variation, find_parameter_by_id
+        else:
+            raise ImportError(f"Could not find Sen_Config.py at {sen_config_path}")
+
+    except Exception as e:
+        sensitivity_logger.error(f"Failed to import sensitivity functions: {str(e)}")
+        raise ImportError(f"Failed to import required functions: {str(e)}")
+
+def generate_sensitivity_datapoints_from_config(version, SenParameters):
+    """
+    Generate SensitivityPlotDatapoints_{version}.json file with baseline and variation points.
+    Uses actual modified values from configuration modules.
+
+    Args:
+        version (int): Version number
+        SenParameters (dict): Dictionary containing sensitivity parameters
+
+    Returns:
+        str: Path to the generated file
+    """
+    sensitivity_logger = logging.getLogger('sensitivity')
+
+    # Import necessary functions if not already available
+    try:
+        apply_sensitivity_variation, find_parameter_by_id = import_sensitivity_functions()
+    except Exception as e:
+        sensitivity_logger.error(f"Failed to import sensitivity functions for datapoints generation: {str(e)}")
+        return None
+
+    # Define paths
+    target_base_dir = os.path.join(BASE_DIR, 'backend', 'Original')
+    results_folder = os.path.join(target_base_dir, f'Batch({version})', f'Results({version})')
+    source_dir = os.path.join(ORIGINAL_BASE_DIR, f'Batch({version})', f'Results({version})')
+
+    sensitivity_logger.info(f"Generating SensitivityPlotDatapoints_{version}.json in {results_folder}")
+
+    # Find a base configuration module to extract baseline values
+    base_config = None
+    base_config_path = None
+
+    for module_num in range(1, 101):
+        potential_path = os.path.join(source_dir, f"{version}_config_module_{module_num}.json")
+        if os.path.exists(potential_path):
+            base_config_path = potential_path
+            try:
+                with open(base_config_path, 'r') as f:
+                    base_config = json.load(f)
+                sensitivity_logger.info(f"Loaded base configuration from {base_config_path}")
+                break
+            except Exception as e:
+                sensitivity_logger.warning(f"Failed to load {potential_path}: {str(e)}")
+                continue
+
+    if not base_config:
+        sensitivity_logger.warning("No base configuration module found. Using fallback values.")
+
+    # Initialize the datapoints structure
+    datapoints = {
+        "metadata": {
+            "structure_explanation": {
+                "S35,S13": "Key format: 'enabledParam,compareToKey' where S35 is enabled parameter and S13 is comparison key",
+                "baseline": "Reference point measurement",
+                "baseline:key": "Numerical measurement point for baseline (e.g., 10000)",
+                "baseline:value": "Reference measurement value to compare against",
+                "info": "Position indicator: '+' (all above), '-' (all below), or 'b#' (# variations below baseline)",
+                "data": "Collection of variation measurements",
+                "data:keys": "Numerical measurement points using actual modified values",
+                "data:values": "Actual measurements. Must be initially null/empty when created by sense_config_base.py"
+            }
+        }
+    }
+
+    # Process each enabled parameter
+    for param_id, param_config in SenParameters.items():
+        if not param_config.get('enabled'):
+            continue
+
+        # Get comparison key from parameter configuration
+        compare_to_key = param_config.get('compareToKey', 'S13')
+        combined_key = f"{param_id},{compare_to_key}"
+
+        # Get mode and values from parameter configuration
+        # Normalize mode terminology to match Sen_Config.py
+        mode = param_config.get('mode', 'percentage')
+        normalized_mode = mode.lower()  # Use lowercase for consistency
+
+        values = param_config.get('values', [])
+
+        if not values:
+            continue
+
+        # Get baseline value from base configuration if available
+        baseline_value = None
+        if base_config:
+            try:
+                # Find parameter key in base configuration
+                param_key = find_parameter_by_id(base_config, param_id)
+
+                # Extract the value using that key
+                baseline_value = base_config[param_key]
+                sensitivity_logger.info(f"Found base value {baseline_value} for {param_id} via key {param_key}")
+            except Exception as e:
+                sensitivity_logger.error(f"Error finding parameter {param_id} in base config: {str(e)}")
+
+        # If no baseline value found, use parameter number as fallback
+        if baseline_value is None:
+            param_num = int(param_id[1:]) if param_id[1:].isdigit() else 0
+            baseline_value = 10000 + (param_num * 100)
+            sensitivity_logger.warning(f"Using fallback baseline value {baseline_value} for {param_id}")
+
+        # Convert baseline value to numeric if it's not already
+        try:
+            if isinstance(baseline_value, str):
+                if '.' in baseline_value:
+                    baseline_value = float(baseline_value)
+                else:
+                    baseline_value = int(baseline_value)
+        except (ValueError, TypeError):
+            sensitivity_logger.warning(f"Could not convert baseline value to numeric: {baseline_value}")
+            baseline_value = 10000 + (int(param_id[1:]) if param_id[1:].isdigit() else 0) * 100
+
+        # Ensure baseline_key is an integer for the datapoints structure
+        baseline_key = int(baseline_value)
+
+        # Create data points dictionary excluding baseline
+        data_points = {}
+
+        # Analyze variation positions
+        variations_below_baseline = 0
+        all_below = True
+        all_above = True
+
+        # Create a temporary config copy for calculating modified values
+        temp_config = copy.deepcopy(base_config) if base_config else {}
+
+        # Process each variation
+        for variation in sorted(values):
+            # Skip baseline variation (typically 0) if present
+            if variation == 0:
+                continue
+
+            # Determine position relative to baseline
+            if variation < 0:
+                variations_below_baseline += 1
+                all_above = False
+            elif variation > 0:
+                all_below = False
+
+            # Calculate the actual modified value
+            modified_value = None
+
+            # Try to calculate the actual modified value using apply_sensitivity_variation
+            if base_config and param_key:
+                try:
+                    # Create a fresh copy to avoid cumulative modifications
+                    var_config = copy.deepcopy(base_config)
+
+                    # Apply the variation to get modified config
+                    var_config = apply_sensitivity_variation(
+                        var_config,
+                        param_id,
+                        variation,
+                        normalized_mode
+                    )
+
+                    # Extract the modified value
+                    modified_value = var_config[param_key]
+                    sensitivity_logger.info(f"Calculated modified value {modified_value} for {param_id} with variation {variation}")
+                except Exception as e:
+                    sensitivity_logger.warning(f"Error calculating modified value: {str(e)}")
+
+            # Fallback calculation if the above method failed
+            if modified_value is None:
+                if normalized_mode == 'percentage':
+                    # For percentage mode, apply percentage change
+                    modified_value = baseline_value * (1 + variation/100)
+                elif normalized_mode == 'directvalue':
+                    # For direct value mode, use variation value directly
+                    modified_value = variation
+                elif normalized_mode == 'absolutedeparture':
+                    # For absolute departure mode, add variation to the baseline
+                    modified_value = baseline_value + variation
+                else:
+                    # Default to percentage mode for unknown modes
+                    modified_value = baseline_value * (1 + variation/100)
+                sensitivity_logger.info(f"Using fallback calculation for modified value: {modified_value}")
+
+            # Ensure modified_value is numeric
+            if isinstance(modified_value, str):
+                try:
+                    if '.' in modified_value:
+                        modified_value = float(modified_value)
+                    else:
+                        modified_value = int(modified_value)
+                except (ValueError, TypeError):
+                    sensitivity_logger.warning(f"Could not convert modified value to numeric: {modified_value}")
+                    # Use variation as fallback
+                    modified_value = variation
+
+            # Use the modified value as the point key (ensure it's an integer)
+            point_key = int(modified_value)
+            data_points[str(point_key)] = None
+
+            sensitivity_logger.info(
+                f"Added point for {param_id}: variation={variation}, modified_value={modified_value}, point_key={point_key}"
+            )
+
+        # Determine info indicator
+        if all_below:
+            info_indicator = "-"
+        elif all_above:
+            info_indicator = "+"
+        else:
+            info_indicator = f"b{variations_below_baseline}"
+
+        # Add to datapoints structure
+        datapoints[combined_key] = {
+            "baseline": {str(baseline_key): None},
+            "info": info_indicator,
+            "data": data_points
+        }
+
+        sensitivity_logger.info(
+            f"Added datapoints for {combined_key}: baseline={baseline_key}, "
+            f"mode={normalized_mode}, variations={len(data_points)}, info={info_indicator}"
+        )
+
+    # Write to file in Results folder (not in Sensitivity subfolder)
+    output_file = os.path.join(results_folder, f"SensitivityPlotDatapoints_{version}.json")
+
+    try:
+        with open(output_file, 'w') as f:
+            json.dump(datapoints, f, indent=2)
+        sensitivity_logger.info(
+            f"Successfully saved SensitivityPlotDatapoints_{version}.json with "
+            f"{len(datapoints) - 1} parameter entries"
+        )
+    except Exception as e:
+        error_msg = f"Failed to write SensitivityPlotDatapoints_{version}.json: {str(e)}"
+        sensitivity_logger.error(error_msg)
+
+    return output_file
+
+def process_config_modules_for_sensitivity(version, SenParameters):
+    """
+    Process all configuration modules (1-100) for all parameter variations.
+    Apply sensitivity variations and save modified configurations.
+
+    Args:
+        version (int): Version number
+        SenParameters (dict): Dictionary containing sensitivity parameters
+
+    Returns:
+        dict: Summary of processed modules and their status
+    """
+    sensitivity_logger = logging.getLogger('sensitivity')
+    processing_summary = {
+        'total_found': 0,
+        'total_modified': 0,
+        'errors': [],
+        'processed_modules': {},
+        'csv_files_copied': 0,
+        'py_files_copied': 0
+    }
+
+    try:
+        # Import sensitivity functions from Sen_Config
+        apply_sensitivity_variation, find_parameter_by_id = import_sensitivity_functions()
+
+        # Source directory in ORIGINAL_BASE_DIR (root level)
+        source_dir = os.path.join(ORIGINAL_BASE_DIR, f'Batch({version})', f'Results({version})')
+
+        # Target directory in backend/Original
+        target_base_dir = os.path.join(BASE_DIR, 'backend', 'Original')
+        results_folder = os.path.join(target_base_dir, f'Batch({version})', f'Results({version})')
+        sensitivity_dir = os.path.join(results_folder, 'Sensitivity')
+
+        # Create ConfigurationPlotSpec directory at the same level as Results
+        config_plot_spec_dir = os.path.join(target_base_dir, f'Batch({version})', f'ConfigurationPlotSpec({version})')
+        os.makedirs(config_plot_spec_dir, exist_ok=True)
+        sensitivity_logger.info(f"Created/ensured ConfigurationPlotSpec directory: {config_plot_spec_dir}")
+
+        # Short pause before looking for CSV files to ensure they exist
+        sensitivity_logger.info("Starting short pause to ensure CSV files exist...")
+        time.sleep(3)  # 3-second pause to ensure files exist
+        sensitivity_logger.info("Resuming after pause, checking for CSV files...")
+
+        # Define the specific CSV files we want to copy
+        target_csv_files = [
+            f"Configuration_Matrix({version}).csv",
+            f"General_Configuration_Matrix({version}).csv"
+        ]
+
+        # Get the Python configuration file path
+        code_files_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "Original")
+        config_file = os.path.join(code_files_path, f"Batch({version})", f"ConfigurationPlotSpec({version})", f"configurations({version}).py")
+
+        # Filter to only existing files
+        existing_csv_files = [
+            f for f in target_csv_files
+            if os.path.exists(os.path.join(source_dir, f))
+        ]
+
+        py_file_exists = os.path.exists(config_file)
+
+        if len(existing_csv_files) < len(target_csv_files):
+            missing_files = set(target_csv_files) - set(existing_csv_files)
+            sensitivity_logger.warning(f"Some target CSV files not found even after pause: {missing_files}")
+        if not py_file_exists:
+            sensitivity_logger.warning(f"Python configuration file not found: {config_file}")
+
+        # Process each parameter's variation directory
+        for param_id, param_config in SenParameters.items():
+            if not param_config.get('enabled'):
+                continue
+
+            # Get mode and values
+            mode = param_config.get('mode', 'symmetrical')
+            # Normalize mode terminology
+            if mode in ['symmetrical', 'multiple']:
+                normalized_mode = 'symmetrical'
+            elif mode in ['discrete']:
+                normalized_mode = 'multipoint'
+            else:
+                normalized_mode = mode.lower()
+
+            values = param_config.get('values', [])
+
+            if not values:
+                continue
+
+            sensitivity_logger.info(f"Processing parameter {param_id} with mode {normalized_mode}")
+
+            # Determine variation list based on normalized mode
+            if normalized_mode == 'symmetrical':
+                base_variation = values[0]
+                variation_list = [base_variation]
+            else:  # 'multipoint'
+                variation_list = values
+
+            # Process each variation
+            for variation in variation_list:
+                var_str = f"{variation:+.2f}"
+                param_var_dir = os.path.join(sensitivity_dir, param_id, normalized_mode, var_str)
+
+                # Create directory if it doesn't exist
+                os.makedirs(param_var_dir, exist_ok=True)
+                sensitivity_logger.info(f"Processing variation {var_str} in directory: {param_var_dir}")
+
+                # Copy only the specific CSV files we want
+                for csv_file in existing_csv_files:
+                    source_csv_path = os.path.join(source_dir, csv_file)
+                    target_csv_path = os.path.join(param_var_dir, csv_file)
+                    try:
+                        shutil.copy2(source_csv_path, target_csv_path)
+                        processing_summary['csv_files_copied'] += 1
+                        sensitivity_logger.info(f"Copied specific CSV file: {csv_file}")
+                    except Exception as e:
+                        error_msg = f"Failed to copy CSV file {csv_file}: {str(e)}"
+                        sensitivity_logger.error(error_msg)
+                        processing_summary['errors'].append(error_msg)
+
+                # Copy the Python configuration file if it exists
+                # Now copying to the new ConfigurationPlotSpec directory
+                if py_file_exists:
+                    # Copy to parameter variation directory
+                    target_py_path = os.path.join(param_var_dir, os.path.basename(config_file))
+                    try:
+                        shutil.copy2(config_file, target_py_path)
+                        processing_summary['py_files_copied'] += 1
+                        sensitivity_logger.info(f"Copied Python configuration file to variation dir: {os.path.basename(config_file)}")
+                    except Exception as e:
+                        error_msg = f"Failed to copy Python configuration file to variation dir: {str(e)}"
+                        sensitivity_logger.error(error_msg)
+                        processing_summary['errors'].append(error_msg)
+
+                    # Also copy to the main ConfigurationPlotSpec directory
+                    config_plot_spec_py_path = os.path.join(config_plot_spec_dir, os.path.basename(config_file))
+                    try:
+                        shutil.copy2(config_file, config_plot_spec_py_path)
+                        sensitivity_logger.info(f"Copied Python configuration file to main ConfigurationPlotSpec dir: {config_plot_spec_py_path}")
+                    except Exception as e:
+                        error_msg = f"Failed to copy Python configuration file to ConfigurationPlotSpec dir: {str(e)}"
+                        sensitivity_logger.error(error_msg)
+                        processing_summary['errors'].append(error_msg)
+
+                # Track modules for this parameter variation
+                param_key = f"{param_id}_{var_str}"
+                if param_key not in processing_summary['processed_modules']:
+                    processing_summary['processed_modules'][param_key] = []
+
+                # Process all possible module files (1-100)
+                for module_num in range(1, 101):
+                    source_config_path = os.path.join(source_dir, f"{version}_config_module_{module_num}.json")
+                    target_config_path = os.path.join(param_var_dir, f"{version}_config_module_{module_num}.json")
+
+                    # Skip if source JSON file doesn't exist
+                    if not os.path.exists(source_config_path):
+                        continue
+
+                    processing_summary['total_found'] += 1
+
+                    try:
+                        # Load the source config module
+                        with open(source_config_path, 'r') as f:
+                            config_module = json.load(f)
+
+                        # Apply sensitivity variation to the config
+                        modified_config = apply_sensitivity_variation(
+                            copy.deepcopy(config_module),
+                            param_id,
+                            variation,
+                            normalized_mode
+                        )
+
+                        # Save the modified config
+                        with open(target_config_path, 'w') as f:
+                            json.dump(modified_config, f, indent=4)
+
+                        processing_summary['total_modified'] += 1
+                        processing_summary['processed_modules'][param_key].append(module_num)
+                        sensitivity_logger.info(
+                            f"Applied {variation}{'%' if normalized_mode == 'symmetrical' else ''} "
+                            f"variation to config module {module_num} for {param_id}"
+                        )
+
+                    except Exception as e:
+                        error_msg = f"Failed to process config module {module_num} for {param_id}, variation {var_str}: {str(e)}"
+                        sensitivity_logger.error(error_msg)
+                        processing_summary['errors'].append(error_msg)
+
+        sensitivity_logger.info(
+            f"Config module processing completed: "
+            f"found {processing_summary['total_found']} JSON files, "
+            f"modified {processing_summary['total_modified']} JSON files, "
+            f"copied {processing_summary['csv_files_copied']} specific CSV files, "
+            f"copied {processing_summary['py_files_copied']} Python configuration files"
+        )
+
+        if processing_summary['errors']:
+            sensitivity_logger.warning(f"Encountered {len(processing_summary['errors'])} errors during processing")
+
+        # Generate the SensitivityPlotDatapoints_{version}.json file
+        sensitivity_logger.info("Generating SensitivityPlotDatapoints_{version}.json file with actual base values...")
+        datapoints_file = generate_sensitivity_datapoints_from_config(version, SenParameters)
+        sensitivity_logger.info(f"SensitivityPlotDatapoints generation completed: {datapoints_file}")
+
+        return processing_summary
+
+    except Exception as e:
+        error_msg = f"Error in config module processing: {str(e)}"
+        sensitivity_logger.exception(error_msg)
+        processing_summary['errors'].append(error_msg)
+        return processing_summary
+
+# =====================================
 # Pipeline Status Endpoint
 # =====================================
 @app.route('/status', methods=['GET'])
@@ -2540,33 +3870,34 @@ def check_calsen_paths():
 @app.route('/run-script-econ', methods=['POST'])
 def run_script_econ():
     """
-    Execute script_econ.py to extract metrics from Economic Summary CSV files
-    and append them to calsen_paths.json.
+    Extract metrics from Economic Summary CSV files and append them to calsen_paths.json
+    using the incorporated extract_metrics_to_json function.
     """
     data = request.get_json()
     version = data.get('version', '1')
 
     try:
-        # Get path to script_econ.py
-        script_path = os.path.join(BASE_DIR, 'backend', 'API_endpoints_and_controllers', 'script_econ.py')
+        # Call the incorporated extract_metrics_to_json function
+        logger.info(f"Extracting metrics for version {version}")
+        result = extract_metrics_to_json(version)
 
-        # Execute script_econ.py with the version argument
-        result = run_script(
-            script_path,
-            '--version', version,
-            script_type="python"
-        )
-
-        return jsonify({
-            'status': 'success',
-            'message': 'script_econ.py executed successfully',
-            'stdout': result.get('stdout', ''),
-            'stderr': result.get('stderr', '')
-        })
+        if result['status'] == 'success':
+            return jsonify({
+                'status': 'success',
+                'message': result['message'],
+                'metrics_processed': result['metrics_processed']
+            })
+        else:
+            return jsonify({
+                'status': 'error',
+                'message': result['message'],
+                'errors': result['errors']
+            }), 500
     except Exception as e:
+        logger.error(f"Error extracting metrics: {str(e)}")
         return jsonify({
             'status': 'error',
-            'message': f'Error executing script_econ.py: {str(e)}'
+            'message': f'Error extracting metrics: {str(e)}'
         }), 500
 
 # =====================================
@@ -2616,7 +3947,7 @@ def run_add_axis_labels():
 @app.route('/run-generate-plots', methods=['POST'])
 def run_generate_plots():
     """
-    Execute generate_plots.py to generate sensitivity plots.
+    Generate sensitivity plots using the incorporated generate_plots function.
     """
     data = request.get_json()
     version = data.get('version', '1')
@@ -2628,29 +3959,272 @@ def run_generate_plots():
         return jsonify({"error": "Parameter ID is required"}), 400
 
     try:
-        # Get path to generate_plots.py
-        script_path = os.path.join(BASE_DIR, 'backend', 'API_endpoints_and_controllers', 'generate_plots.py')
+        # Call the incorporated generate_plots function
+        logger.info(f"Generating plots for version {version}, parameter {param_id}, comparison key {compare_to_key}, plot type {plot_type}")
+        result = generate_plots(version)
 
-        # Execute generate_plots.py with the arguments
-        result = run_script(
-            script_path,
-            '--version', version,
-            '--param', param_id,
-            '--compare', compare_to_key,
-            '--type', plot_type,
-            script_type="python"
-        )
-
-        return jsonify({
-            'status': 'success',
-            'message': 'generate_plots.py executed successfully',
-            'stdout': result.get('stdout', ''),
-            'stderr': result.get('stderr', '')
-        })
+        if result:
+            return jsonify({
+                'status': 'success',
+                'message': 'Plots generated successfully',
+                'version': version,
+                'param_id': param_id,
+                'compare_to_key': compare_to_key,
+                'plot_type': plot_type
+            })
+        else:
+            return jsonify({
+                'status': 'error',
+                'message': 'Failed to generate plots'
+            }), 500
     except Exception as e:
+        logger.error(f"Error generating plots: {str(e)}")
         return jsonify({
             'status': 'error',
-            'message': f'Error executing generate_plots.py: {str(e)}'
+            'message': f'Error generating plots: {str(e)}'
+        }), 500
+
+# =====================================
+# HTML Album Organizer Endpoint
+# =====================================
+@app.route('/run-html-album-organizer', methods=['POST'])
+def run_html_album_organizer():
+    """
+    Organize HTML plot files into standardized album directories using the incorporated organize_html_albums function.
+    """
+    data = request.get_json()
+    version = data.get('version')
+
+    try:
+        # Convert version to list of integers if provided
+        specified_versions = None
+        if version:
+            if isinstance(version, list):
+                specified_versions = [int(v) for v in version]
+            else:
+                specified_versions = [int(version)]
+
+        # Call the incorporated organize_html_albums function
+        logger.info(f"Organizing HTML albums for versions: {specified_versions}")
+        result = organize_html_albums(specified_versions=specified_versions)
+
+        if result:
+            return jsonify({
+                'status': 'success',
+                'message': 'HTML albums organized successfully',
+                'versions': specified_versions
+            })
+        else:
+            return jsonify({
+                'status': 'error',
+                'message': 'Failed to organize HTML albums'
+            }), 500
+    except Exception as e:
+        logger.error(f"Error organizing HTML albums: {str(e)}")
+        return jsonify({
+            'status': 'error',
+            'message': f'Error organizing HTML albums: {str(e)}'
+        }), 500
+
+# =====================================
+# Album Organizer Endpoint
+# =====================================
+@app.route('/run-album-organizer', methods=['POST'])
+def run_album_organizer():
+    """
+    Organize PNG plots into standardized album directories using the incorporated organize_plot_albums function.
+    """
+    try:
+        # Call the incorporated organize_plot_albums function
+        logger.info("Organizing PNG plot albums")
+        result = organize_plot_albums()
+
+        if result:
+            return jsonify({
+                'status': 'success',
+                'message': 'PNG plot albums organized successfully'
+            })
+        else:
+            return jsonify({
+                'status': 'error',
+                'message': 'Failed to organize PNG plot albums'
+            }), 500
+    except Exception as e:
+        logger.error(f"Error organizing PNG plot albums: {str(e)}")
+        return jsonify({
+            'status': 'error',
+            'message': f'Error organizing PNG plot albums: {str(e)}'
+        }), 500
+
+# =====================================
+# Script Econ Functions
+# =====================================
+def extract_metrics_to_json(version):
+    """
+    Extract metrics from Economic Summary CSV files based on selection vector
+    and append them to calsen_paths.json.
+
+    Args:
+        version (str): Version number
+
+    Returns:
+        dict: Status information
+    """
+    # Define metric selection vector - 1 means select, 0 means ignore
+    metrics_selection = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]  # Define your selection vector here
+
+    # Define metrics list for reference
+    metrics_list = [
+        'Internal Rate of Return',
+        'Average Selling Price (Project Life Cycle)',
+        'Total Overnight Cost (TOC)',
+        'Average Annual Revenue',
+        'Average Annual Operating Expenses',
+        'Average Annual Depreciation',
+        'Average Annual State Taxes',
+        'Average Annual Federal Taxes',
+        'Average Annual After-Tax Cash Flow',
+        'Cumulative NPV',
+        'Calculation Mode'
+    ]
+
+    # Calculate code_files_path based on the script's location
+    code_files_path = ORIGINAL_BASE_DIR
+
+    # Load calsen_paths.json
+    sensitivity_dir = os.path.join(
+        code_files_path,
+        f"Batch({version})",
+        f"Results({version})",
+        "Sensitivity"
+    )
+    reports_dir = os.path.join(sensitivity_dir, "Reports")
+    calsen_paths_file = os.path.join(reports_dir, "calsen_paths.json")
+
+    result = {
+        'status': 'success',
+        'message': f'Successfully updated {calsen_paths_file}',
+        'metrics_processed': 0,
+        'errors': []
+    }
+
+    try:
+        with open(calsen_paths_file, 'r') as f:
+            data = json.load(f)
+    except FileNotFoundError:
+        error_msg = f"Error: Could not find {calsen_paths_file}"
+        logger.error(error_msg)
+        result['status'] = 'error'
+        result['message'] = error_msg
+        result['errors'].append(error_msg)
+        return result
+    except json.JSONDecodeError:
+        error_msg = f"Error: Could not parse {calsen_paths_file} as JSON"
+        logger.error(error_msg)
+        result['status'] = 'error'
+        result['message'] = error_msg
+        result['errors'].append(error_msg)
+        return result
+
+    # Process each key in path_sets
+    for s_param, param_data in data["path_sets"].items():
+        mode_dir_name = param_data["mode"]
+
+        # Process each variation
+        for var_str, var_data in param_data["variations"].items():
+            # Construct path to the Economic Summary CSV file
+            economic_summary_file = os.path.join(
+                code_files_path,
+                f"Batch({version})",
+                f"Results({version})",
+                "Sensitivity",
+                s_param,
+                mode_dir_name,
+                "Configuration",
+                f"{s_param}_{var_str}",
+                f"Economic_Summary({version}).csv"
+            )
+
+            # Check if file exists
+            if not os.path.exists(economic_summary_file):
+                warning_msg = f"Warning: File not found: {economic_summary_file}"
+                logger.warning(warning_msg)
+                continue
+
+            # Read the CSV file
+            try:
+                with open(economic_summary_file, 'r', newline='') as csvfile:
+                    reader = csv.reader(csvfile)
+                    rows = list(reader)
+
+                    # Extract selected metrics based on the selection vector
+                    selected_metrics = {}
+                    for i, selected in enumerate(metrics_selection):
+                        if selected == 1 and i < len(rows):
+                            if len(rows[i]) >= 2:  # Ensure row has at least two columns
+                                metric_name = rows[i][0]
+                                metric_value = rows[i][1]
+                                selected_metrics[metric_name] = metric_value
+
+                    # Add selected metrics to the JSON
+                    if selected_metrics:
+                        var_data["metrics"] = selected_metrics
+                        result['metrics_processed'] += 1
+
+            except Exception as e:
+                error_msg = f"Error processing {economic_summary_file}: {str(e)}"
+                logger.error(error_msg)
+                result['errors'].append(error_msg)
+
+    # Save the updated JSON
+    try:
+        with open(calsen_paths_file, 'w') as f:
+            json.dump(data, f, indent=2)
+        logger.info(f"Successfully updated {calsen_paths_file}")
+    except Exception as e:
+        error_msg = f"Error saving {calsen_paths_file}: {str(e)}"
+        logger.error(error_msg)
+        result['status'] = 'error'
+        result['message'] = error_msg
+        result['errors'].append(error_msg)
+
+    return result
+
+# =====================================
+# Process Sensitivity Results Endpoint
+# =====================================
+@app.route('/run-process-sensitivity-results', methods=['POST'])
+def run_process_sensitivity_results():
+    """
+    Process sensitivity results using the incorporated process_sensitivity_results function.
+    """
+    data = request.get_json()
+    version = data.get('version', '1')
+    wait_time_minutes = data.get('wait_time_minutes', 0.5)  # Default to 30 seconds
+
+    try:
+        # Call the incorporated process_sensitivity_results function
+        logger.info(f"Processing sensitivity results for version {version} with wait time {wait_time_minutes} minutes")
+        result = process_sensitivity_results(int(version), float(wait_time_minutes))
+
+        if result.get('status') == 'success':
+            return jsonify({
+                'status': 'success',
+                'message': 'Sensitivity results processed successfully',
+                'version': version,
+                'parameters_processed': result.get('parameters_processed', 0),
+                'variations_processed': result.get('variations_processed', 0)
+            })
+        else:
+            return jsonify({
+                'status': 'error',
+                'message': result.get('error', 'Failed to process sensitivity results')
+            }), 500
+    except Exception as e:
+        logger.error(f"Error processing sensitivity results: {str(e)}")
+        return jsonify({
+            'status': 'error',
+            'message': f'Error processing sensitivity results: {str(e)}'
         }), 500
 
 # =====================================

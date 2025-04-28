@@ -8,27 +8,14 @@ import ExtendedScaling from 'src/components/truly_extended_scaling/ExtendedScali
 import FactEngine from './components/modules/FactEngine';
 import FactEngineAdmin from './components/modules/FactEngineAdmin';
 import GeneralFormConfig from './GeneralFormConfig.js';
-import './styles/HomePage.CSS/HomePage1.css';
-import './styles/HomePage.CSS/HomePage2.css';
-import './styles/HomePage.CSS/HomePage3.css';
-import './styles/HomePage.CSS/HomePage5.css';
-import './styles/HomePage.CSS/HomePage6.css';
-import './styles/HomePage.CSS/CustomizableTable.css';
-import './styles/HomePage.CSS/HomePage_AboutUs.css';
-import './styles/HomePage.CSS/HomePage_buttons.css';
-import './styles/HomePage.CSS/HomePage_monitoring.css';
-import './styles/HomePage.CSS/HomePage_FactEngine.css';
-import './styles/HomePage.CSS/HomePage_FactAdmin.css';
-import './styles/HomePage.CSS/HomePage_neumorphic-tabs.css';
+import './styles/HomePage.CSS/HCSS.css';
 import './styles/Themes/dark-theme.css';
 import './styles/Themes/light-theme.css';
 import './styles/Themes/creative-theme.css';
-import PropertySelector from './PropertySelector.js';
-import VersionSelector from './VersionSelector.js';
+// Import PropertySelector and VersionSelector from Consolidated3.js instead of separate files
+import { PropertySelector, VersionSelector } from './Consolidated3';
 import SpatialTransformComponent from './Naturalmotion.js'
 import useFormValues from './useFormValues.js';
-import './styles/HomePage.CSS/ResetOptionsPopup.css';
-import './styles/HomePage.CSS/RunOptionsPopup.css';
 import TestingZone from './components/modules/TestingZone';
 import CalculationMonitor from './components/modules/CalculationMonitor';
 import SensitivityMonitor from './components/modules/SensitivityMonitor';
@@ -39,6 +26,30 @@ import SensitivityPlotsTabs from './components/modules/SensitivityPlotsTabs';
 import CentralScalingTab from 'src/components/truly_extended_scaling/CentralScalingTab';
 import StickerHeader from './components/modules/HeaderBackground';
 import ProcessEconomicsLibrary from './components/process_economics_pilot/integration-module';
+import CFAConsolidationUI from './components/cfa/CFAConsolidationUI';
+
+// Import from Consolidated.js
+import { MatrixSubmissionService, ExtendedScaling as ConsolidatedExtendedScaling, GeneralFormConfig as ConsolidatedGeneralFormConfig, MatrixApp } from './Consolidated';
+
+// Import from Consolidated2.js
+import { 
+    useMatrixFormValues,
+    EfficacyManager,
+    VersionZoneManager,
+    MatrixValueEditor,
+    EfficacyPeriodEditor,
+    MatrixConfigExporter,
+    MatrixHistoryManager,
+    MatrixInheritanceManager,
+    MatrixValidator,
+    MatrixSummaryGenerator,
+    SensitivityConfigGenerator,
+    MatrixSyncService,
+    MatrixScalingManager
+} from './Consolidated2';
+
+// Import Consolidated3.js
+import MatrixApp3 from './Consolidated3';
 
 
 const HomePageContent = () => {
@@ -2414,6 +2425,9 @@ const HomePageContent = () => {
                     />
                 );
 
+            case 'CFAConsolidation':
+                return <CFAConsolidationUI />;
+
             case 'TestingZone':
                 return <TestingZone />;
 
@@ -2440,6 +2454,29 @@ const HomePageContent = () => {
                         S={S}
                     />
                 );
+
+            case 'Consolidated1':
+                return <MatrixApp />;
+
+            case 'Consolidated2':
+                return (
+                    <div className="consolidated2-container">
+                        <h2>Consolidated2 Components</h2>
+                        <div className="consolidated2-content">
+                            <VersionZoneManager 
+                                versions={{}} 
+                                zones={{}} 
+                                createVersion={() => {}} 
+                                setActiveVersion={() => {}} 
+                                createZone={() => {}} 
+                                setActiveZone={() => {}}
+                            />
+                        </div>
+                    </div>
+                );
+
+            case 'Consolidated3':
+                return <MatrixApp3 />;
 
             default:
                 return null;
@@ -2516,8 +2553,8 @@ const HomePageContent = () => {
                             Scaling
                         </button>
                         <button
-                            className={`tab-button ${activeTab === 'TestingZone' ? 'active' : ''}`}
-                            onClick={() => setActiveTab('TestingZone')}
+                            className={`tab-button ${activeTab === 'CFAConsolidation' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('CFAConsolidation')}
                         >
                             CFA Consolidation
                         </button>
@@ -2545,10 +2582,29 @@ const HomePageContent = () => {
                         >
                             Sensitivity Analysis
                         </button>
+                        <button
+                            className={`tab-button ${activeTab === 'Consolidated1' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('Consolidated1')}
+                        >
+                            Consolidated1
+                        </button>
+                        <button
+                            className={`tab-button ${activeTab === 'Consolidated2' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('Consolidated2')}
+                        >
+                            Consolidated2
+                        </button>
+                        <button
+                            className={`tab-button ${activeTab === 'Consolidated3' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('Consolidated3')}
+                        >
+                            Consolidated3
+                        </button>
                     </div>
                 </nav>
                 <div className="content-container">
-                    {activeTab !== 'AboutUs' && activeTab !== 'TestingZone' &&
+                    {activeTab !== 'AboutUs' && activeTab !== 'TestingZone' && 
+                     activeTab !== 'Consolidated1' && activeTab !== 'Consolidated2' && activeTab !== 'Consolidated3' &&
                         (
                         <>
                             <SensitivityMonitor

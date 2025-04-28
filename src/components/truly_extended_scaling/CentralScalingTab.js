@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Tab } from '@headlessui/react';
 import { CalculatorIcon, CubeIcon, CurrencyDollarIcon, ChartBarIcon } from '@heroicons/react/24/outline';
 import ExtendedScaling from './ExtendedScaling';
-import '../../styles/HomePage.CSS/CentralScalingTab.css'
+import '../../styles/HomePage.CSS/HCSS.css'
 
 // Scaling types configuration
 const scalingTypes = [

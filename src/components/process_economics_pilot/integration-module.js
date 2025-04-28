@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ProcessEconomicsLibrary from './process-economics-library';
 import CentralScalingTab from '../truly_extended_scaling/CentralScalingTab';
-import '../../styles/HomePage.CSS/integration-point.css'
+import '../../styles/HomePage.CSS/HCSS.css'
 /**
  * LibraryIntegration component that shows how to integrate the Process Economics Library
  * with the existing scaling components
@@ -29,7 +29,7 @@ const LibraryIntegration = ({
 }) => {
   // State to manage library visibility
   const [showLibrary, setShowLibrary] = useState(false);
-  
+
   // Current configuration for potential saving
   const [currentConfiguration, setCurrentConfiguration] = useState(null);
 
@@ -40,7 +40,7 @@ const LibraryIntegration = ({
     Amount6: 0,
     Amount7: 0
   });
-  
+
   // Handle active group changes
   const handleActiveGroupChange = (groupIndex, filterKeyword) => {
     setActiveScalingGroups(prev => ({
@@ -48,21 +48,21 @@ const LibraryIntegration = ({
       [filterKeyword]: groupIndex
     }));
   };
-  
+
   // Prepare current configuration for export
   const prepareCurrentConfiguration = () => {
     // Focus on the current scaling type's groups
     const currentGroups = scalingGroups.filter(group => 
       group._scalingType === filterKeyword
     );
-    
+
     // Generate tabConfigs from these groups
     const tabConfigs = currentGroups.map(group => ({
       id: group.id,
       label: group.name,
       _scalingType: group._scalingType || filterKeyword
     }));
-    
+
     // Create the configuration object
     const configuration = {
       version: "1.2.0",
@@ -80,32 +80,32 @@ const LibraryIntegration = ({
         itemExpressions: {}
       }
     };
-    
+
     setCurrentConfiguration(configuration);
     return configuration;
   };
-  
+
   // Open the library
   const openLibrary = () => {
     prepareCurrentConfiguration();
     setShowLibrary(true);
   };
-  
+
   // Close the library
   const closeLibrary = () => {
     setShowLibrary(false);
   };
-  
+
   // Handle importing a configuration from the library
   const handleImportConfiguration = (configuration) => {
     // Extract the scaling groups and tabConfigs from the configuration
     const { scalingGroups: importedGroups, tabConfigs } = configuration.currentState;
-    
+
     // Get all scaling groups of types different from the current one
     const otherGroups = scalingGroups.filter(group => 
       group._scalingType !== filterKeyword
     );
-    
+
     // Create the updated groups array, ensuring _scalingType is set
     const updatedGroups = [
       ...otherGroups,
@@ -114,17 +114,17 @@ const LibraryIntegration = ({
         _scalingType: filterKeyword
       }))
     ];
-    
+
     // Update the scaling groups
     if (onScalingGroupsChange) {
       onScalingGroupsChange(updatedGroups);
     }
-    
+
     // Select the first imported group
     if (importedGroups.length > 0) {
       handleActiveGroupChange(0, filterKeyword);
     }
-    
+
     // Close the library
     closeLibrary();
   };
@@ -145,7 +145,7 @@ const LibraryIntegration = ({
           Process Economics Library
         </button>
       </div>
-      
+
       {/* Normal Scaling UI */}
       <CentralScalingTab
         formValues={formValues}
@@ -168,7 +168,7 @@ const LibraryIntegration = ({
         onFinalResultsGenerated={onFinalResultsGenerated}
 
       />
-      
+
       {/* Library Modal */}
       {showLibrary && (
         <div className="library-modal-overlay">
@@ -180,7 +180,7 @@ const LibraryIntegration = ({
           />
         </div>
       )}
-      
+
     </div>
   );
 };

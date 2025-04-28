@@ -6,7 +6,7 @@ const cors = require('cors');
 
 const app = express();
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
 
 // Path configuration
 const PROJECT_ROOT = path.resolve(__dirname);
@@ -49,31 +49,32 @@ app.post('/api/update-form-values', (req, res) => {
       });
     }
 
-    const useFormValuesPath = path.join(SRC_DIR, 'useFormValues.js');
+    // Update both the old useFormValues.js and the new labelReferences.js
+    const labelReferencesPath = path.join(SRC_DIR, 'utils', 'labelReferences.js');
     const commonUtilsPath = path.join(BACKEND_DIR, 'common_utils.py');
 
     // Create backups first
-    const useFormValuesBackupSuccess = createBackup(useFormValuesPath);
+    const labelReferencesBackupSuccess = createBackup(labelReferencesPath);
     const commonUtilsBackupSuccess = createBackup(commonUtilsPath);
 
-    if (!useFormValuesBackupSuccess || !commonUtilsBackupSuccess) {
+    if (!labelReferencesBackupSuccess || !commonUtilsBackupSuccess) {
       return res.status(500).json({
         success: false,
         message: 'Failed to create backups. One or more files not found.'
       });
     }
 
-    // 1. Process useFormValues.js
-    let useFormValuesContent = fs.readFileSync(useFormValuesPath, 'utf8');
+    // 1. Process labelReferences.js
+    let labelReferencesContent = fs.readFileSync(labelReferencesPath, 'utf8');
 
-    // Update propertyMapping (only edited labels)
-    const propertyMappingRegex = /const propertyMapping = \{[\s\S]*?\};/;
-    const propertyMappingMatch = useFormValuesContent.match(propertyMappingRegex);
+    // Update propertyMapping for labels
+    const propertyMappingRegex = /export const propertyMapping = \{[\s\S]*?\};/;
+    const propertyMappingMatch = labelReferencesContent.match(propertyMappingRegex);
 
     if (!propertyMappingMatch) {
       return res.status(500).json({
         success: false,
-        message: 'Could not find propertyMapping in useFormValues.js'
+        message: 'Could not find propertyMapping in labelReferences.js'
       });
     }
 
@@ -91,13 +92,13 @@ app.post('/api/update-form-values', (req, res) => {
     });
 
     // Update defaultValues (only for edited labels)
-    const defaultValuesRegex = /const defaultValues = \{[\s\S]*?\};/;
-    const defaultValuesMatch = useFormValuesContent.match(defaultValuesRegex);
+    const defaultValuesRegex = /export const defaultValues = \{[\s\S]*?\};/;
+    const defaultValuesMatch = labelReferencesContent.match(defaultValuesRegex);
 
     if (!defaultValuesMatch) {
       return res.status(500).json({
         success: false,
-        message: 'Could not find defaultValues in useFormValues.js'
+        message: 'Could not find defaultValues in labelReferences.js'
       });
     }
 
@@ -106,8 +107,6 @@ app.post('/api/update-form-values', (req, res) => {
       // Only update default values for fields where the label was edited
       if (updates[key].labelEdited) {
         // More robust regex that handles various formats of the default value
-        // This handles numbers, strings, booleans, arrays, and both quoted and unquoted keys
-        // The pattern matches the key followed by a colon, then captures everything up to the next comma or closing brace
         const regex = new RegExp(`("${key}"|${key})\\s*:\\s*([^,}]*(\\{[^}]*\\})?[^,}]*)[,}]`);
         let match = defaultValuesContent.match(regex);
 
@@ -118,14 +117,9 @@ app.post('/api/update-form-values', (req, res) => {
           const rAmountMatch = key.match(/^rAmount(\d+)$/);
 
           if (vAmountMatch && vAmountMatch[1] >= 40 && vAmountMatch[1] <= 59) {
-            // This is a vAmount key, update only this specific key in the Object.fromEntries expression
-            console.log(`Special handling for vAmount key: ${key}`);
-
             // Extract the specific index for this vAmount key (0-19)
             const vIndex = parseInt(vAmountMatch[1]) - 40;
-
             // Create a new Object.fromEntries expression that updates only the specific key
-            // We'll use a conditional inside the mapping function to apply different values based on the index
             const newValue = JSON.stringify(updates[key].value);
 
             // Find the current Object.fromEntries expression for vAmount
@@ -138,24 +132,18 @@ app.post('/api/update-form-values', (req, res) => {
 
               // Replace with a new expression that uses a conditional to apply different values
               defaultValuesContent = defaultValuesContent.replace(
-                vEntriesRegex,
-                `...Object.fromEntries(Array.from({ length: 20 }, (_, i) => [\`vAmount\${40 + i}\`, i === ${vIndex} ? ${newValue} : ${currentValue}])),`
+                  vEntriesRegex,
+                  `...Object.fromEntries(Array.from({ length: 20 }, (_, i) => [\`vAmount\${40 + i}\`, i === ${vIndex} ? ${newValue} : ${currentValue}])),`
               );
-
               console.log(`Updated vAmount${vAmountMatch[1]} to ${newValue} while preserving other values`);
               return; // Skip the rest of the loop for this key
             }
           }
 
           if (rAmountMatch && rAmountMatch[1] >= 60 && rAmountMatch[1] <= 79) {
-            // This is an rAmount key, update only this specific key in the Object.fromEntries expression
-            console.log(`Special handling for rAmount key: ${key}`);
-
             // Extract the specific index for this rAmount key (0-19)
             const rIndex = parseInt(rAmountMatch[1]) - 60;
-
             // Create a new Object.fromEntries expression that updates only the specific key
-            // We'll use a conditional inside the mapping function to apply different values based on the index
             const newValue = JSON.stringify(updates[key].value);
 
             // Find the current Object.fromEntries expression for rAmount
@@ -168,10 +156,9 @@ app.post('/api/update-form-values', (req, res) => {
 
               // Replace with a new expression that uses a conditional to apply different values
               defaultValuesContent = defaultValuesContent.replace(
-                rEntriesRegex,
-                `...Object.fromEntries(Array.from({ length: 20 }, (_, i) => [\`rAmount\${60 + i}\`, i === ${rIndex} ? ${newValue} : ${currentValue}]))`
+                  rEntriesRegex,
+                  `...Object.fromEntries(Array.from({ length: 20 }, (_, i) => [\`rAmount\${60 + i}\`, i === ${rIndex} ? ${newValue} : ${currentValue}]))`
               );
-
               console.log(`Updated rAmount${rAmountMatch[1]} to ${newValue} while preserving other values`);
               return; // Skip the rest of the loop for this key
             }
@@ -204,11 +191,11 @@ app.post('/api/update-form-values', (req, res) => {
     });
 
     // Apply both updates to the file content
-    let updatedContent = useFormValuesContent
+    let updatedContent = labelReferencesContent
         .replace(propertyMappingRegex, propertyMappingContent)
         .replace(defaultValuesRegex, defaultValuesContent);
 
-    fs.writeFileSync(useFormValuesPath, updatedContent, 'utf8');
+    fs.writeFileSync(labelReferencesPath, updatedContent, 'utf8');
 
     // 2. Process common_utils.py (only property_mapping)
     let commonUtilsContent = fs.readFileSync(commonUtilsPath, 'utf8');
@@ -240,12 +227,33 @@ app.post('/api/update-form-values', (req, res) => {
 
     fs.writeFileSync(commonUtilsPath, updatedCommonUtilsContent, 'utf8');
 
+    // 3. Update the consolidated.js file to sync with matrix-based state management
+    try {
+      const consolidatedPath = path.join(SRC_DIR, 'Consolidated2.js');
+      if (fs.existsSync(consolidatedPath)) {
+        createBackup(consolidatedPath);
+        let consolidatedContent = fs.readFileSync(consolidatedPath, 'utf8');
+
+        // Find the propertyMapping import line
+        const importRegex = /import \{ propertyMapping, defaultValues \} from '\.\/utils\/labelReferences';/;
+        if (importRegex.test(consolidatedContent)) {
+          console.log('Found propertyMapping import in Consolidated2.js');
+        } else {
+          console.warn('Could not find propertyMapping import in Consolidated2.js');
+        }
+      } else {
+        console.warn('Consolidated2.js file not found, skipping updates');
+      }
+    } catch (error) {
+      console.error('Error updating Consolidated2.js:', error);
+    }
+
     res.json({
       success: true,
       message: `Successfully updated ${Object.keys(updates).length} items`,
       updatedItems: Object.keys(updates),
       backups: {
-        useFormValues: path.basename(useFormValuesPath) + '_backup',
+        labelReferences: path.basename(labelReferencesPath) + '_backup',
         commonUtils: path.basename(commonUtilsPath) + '_backup'
       }
     });
@@ -265,7 +273,8 @@ app.get('/api/health', (req, res) => {
   res.json({
     status: 'healthy',
     timestamp: new Date().toISOString(),
-    service: 'Label Update Service'
+    service: 'Label Update Service',
+    matrixEnabled: true
   });
 });
 
@@ -280,15 +289,16 @@ app.use((err, req, res, next) => {
 });
 
 // Get port from command line arguments or use default
-const PORT = process.argv.includes('--port') 
-  ? parseInt(process.argv[process.argv.indexOf('--port') + 1], 10) 
-  : 3060;
+const PORT = process.argv.includes('--port')
+    ? parseInt(process.argv[process.argv.indexOf('--port') + 1], 10)
+    : 3060;
 
 app.listen(PORT, () => {
   console.log(`Label Update server running on port ${PORT}`);
   console.log(`Project root: ${PROJECT_ROOT}`);
   console.log(`Source directory: ${SRC_DIR}`);
   console.log(`Backend directory: ${BACKEND_DIR}`);
+  console.log('Matrix-based state management enabled');
 });
 
 module.exports = app;

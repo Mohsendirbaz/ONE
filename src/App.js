@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import MatrixApp from './Consolidated3';
+import HomePage from './HomePage';
 import ErrorBoundary from './utils/ErrorBoundary';
 import './components/process_economics/styles/LibrarySystem.css'
 import './components/find_factual_precedence/styles/FactualPrecedence.css'
@@ -83,7 +83,7 @@ function App() {
         <ErrorBoundary>
             <Router>
                 <Routes>
-                    <Route path="/" element={<MatrixApp />} />
+                    <Route path="/" element={<HomePage />} />
                 </Routes>
             </Router>
         </ErrorBoundary>

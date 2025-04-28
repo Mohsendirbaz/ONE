@@ -5,10 +5,9 @@ import importlib.util
 import sys
 import copy
 import logging
-from pathlib import Path
-#
+
 # =====================================================================
-# CONFIG_MODULES - CONFIGURATION MODULE PROCESSOR (Updated for Matrix-Based Form Values)
+# CONFIG_MODULES - CONFIGURATION MODULE PROCESSOR
 # =====================================================================
 # This module is responsible for processing configuration matrices and creating
 # distinct configuration modules for different time intervals. It reads configuration
@@ -19,12 +18,12 @@ from pathlib import Path
 # 1. Reading configuration matrices from CSV files
 # 2. Processing filtered values for each interval
 # 3. Creating distinct configuration modules for each interval
-# 4. Handling special vector values (Amount4, Amount5, Amount6, Amount7)
+# 4. Handling special vector values (Amount4 and Amount5)
 # 5. Saving configuration modules as JSON files
 # =====================================================================
 
 # Initialize logging
-log_file_path = os.path.join(os.getcwd(), 'config_modules.log')
+log_file_path = os.path.join(os.getcwd(), 'LogName.log')
 logging.basicConfig(filename=log_file_path, level=logging.INFO, format='%(asctime)s %(message)s')
 
 # Function to parse the filtered_values string and convert it into a dictionary
@@ -42,6 +41,10 @@ def parse_filtered_values(filtered_values):
     Returns:
         list or dict: Parsed filtered values as a Python object
                      Returns an empty list if parsing fails
+
+    Note:
+        The function replaces double-double quotes ('""') with single double-quotes ('"')
+        to handle cases where quotes are escaped incorrectly in the input string.
     """
     try:
         # Convert double-double quotes for strings to single double-quotes before parsing
@@ -67,6 +70,12 @@ def strip_value(value):
 
     Returns:
         int, float, or original type: Converted value if possible, otherwise original value
+
+    Examples:
+        "123" -> 123 (int)
+        "123.45" -> 123.45 (float)
+        "abc" -> "abc" (str, unchanged)
+        True -> True (bool, unchanged)
     """
     if isinstance(value, str):
         try:
@@ -91,16 +100,17 @@ def find_index_from_id(fv_id):
 
     Returns:
         int or None: 0-based index extracted from the ID, or None if extraction fails
+
+    Examples:
+        "variableCostsAmount4_1" -> 0
+        "amounts_per_unitAmount5_3" -> 2
+        "nonNumericID" -> None
     """
     try:
-        # For variableCostsAmount4_1 or similar patterns
-        if '_' in fv_id:
-            index_part = fv_id.split('_')[-1]
-            return int(index_part) - 1  # Convert to 0-based index
-        else:
-            # For older format IDs, extract all digits
-            index_part = ''.join([c for c in fv_id if c.isdigit()])
-            return int(index_part) - 1  # Convert to 0-based index
+        # Extract all digits from the ID string
+        index_part = ''.join([c for c in fv_id if c.isdigit()])
+        # Convert to integer and subtract 1 to get 0-based index
+        return int(index_part) - 1  # Convert to 0-based index
     except ValueError:
         # Return None if no valid index can be extracted
         return None
@@ -113,11 +123,18 @@ def ensure_clean_directory(file_path):
     1. Creating the directory path if it doesn't exist
     2. Removing the file if it already exists
 
+    This ensures that we have a clean slate for writing new files and
+    prevents issues with appending to existing files or permission errors.
+
     Args:
         file_path (str): Full path to the file to be saved
 
     Returns:
         None
+
+    Side Effects:
+        - Creates directories if they don't exist
+        - Removes the target file if it exists
     """
     # Extract the directory path from the file path
     dir_path = os.path.dirname(file_path)
@@ -139,7 +156,7 @@ def update_and_save_config_module(config_received, config_matrix_df, results_fol
     1. Iterates through each row in the configuration matrix
     2. Creates a distinct configuration module for each interval
     3. Updates the module with the appropriate filtered values
-    4. Handles special vector values (Amount4, Amount5, Amount6, Amount7)
+    4. Handles special vector values (Amount4 and Amount5)
     5. Saves each module as a JSON file
 
     Args:
@@ -186,15 +203,11 @@ def update_and_save_config_module(config_received, config_matrix_df, results_fol
                 value = strip_value(item.get('value'))  # Convert to appropriate type
                 remarks = item.get('remarks')
 
-                # Skip processing if ID is missing
-                if not fv_id:
-                    continue
-
                 # Only update if the remark is not "Default entry"
                 # Default entries are skipped to avoid overriding with default values
                 if remarks != "Default entry":
                     # Special handling for vector values (Amount4, Amount5, Amount6, Amount7)
-                    if 'variableCostsAmount4' in fv_id:
+                    if 'Amount4' in fv_id:
                         # Update variable_costsAmount4 vector
                         vector_to_update = getattr(config_module, 'variable_costsAmount4', None)
                         if vector_to_update is not None:
@@ -208,7 +221,7 @@ def update_and_save_config_module(config_received, config_matrix_df, results_fol
                                 print(f"Index {index} for {fv_id} is out of bounds or invalid.")
                         else:
                             print(f"variable_costsAmount4 not found in config module {start_year}-{end_year}.")
-                    elif 'amounts_per_unitAmount5' in fv_id:
+                    elif 'Amount5' in fv_id:
                         # Update amounts_per_unitAmount5 vector
                         vector_to_update = getattr(config_module, 'amounts_per_unitAmount5', None)
                         if vector_to_update is not None:
@@ -222,7 +235,7 @@ def update_and_save_config_module(config_received, config_matrix_df, results_fol
                                 print(f"Index {index} for {fv_id} is out of bounds or invalid.")
                         else:
                             print(f"amounts_per_unitAmount5 not found in config module {start_year}-{end_year}.")
-                    elif 'variable_RevAmount6' in fv_id:
+                    elif 'Amount6' in fv_id:
                         # Update variable_RevAmount6 vector
                         vector_to_update = getattr(config_module, 'variable_RevAmount6', None)
                         if vector_to_update is not None:
@@ -236,7 +249,7 @@ def update_and_save_config_module(config_received, config_matrix_df, results_fol
                                 print(f"Index {index} for {fv_id} is out of bounds or invalid.")
                         else:
                             print(f"variable_RevAmount6 not found in config module {start_year}-{end_year}.")
-                    elif 'amounts_per_unitRevAmount7' in fv_id:
+                    elif 'Amount7' in fv_id:
                         # Update amounts_per_unitRevAmount7 vector
                         vector_to_update = getattr(config_module, 'amounts_per_unitRevAmount7', None)
                         if vector_to_update is not None:
@@ -250,33 +263,6 @@ def update_and_save_config_module(config_received, config_matrix_df, results_fol
                                 print(f"Index {index} for {fv_id} is out of bounds or invalid.")
                         else:
                             print(f"amounts_per_unitRevAmount7 not found in config module {start_year}-{end_year}.")
-                    # Handle special vAmount and rAmount fields from matrix
-                    elif 'vAmount' in fv_id:
-                        # For vAmount fields, also update the corresponding variableCostsAmount4 index
-                        # Example: vAmount40 corresponds to variableCostsAmount4[0]
-                        setattr(config_module, fv_id, value)
-                        
-                        vIndex = int(fv_id.replace('vAmount', ''))
-                        vector_index = vIndex - 40  # Calculate vector index (40 -> 0, 41 -> 1, etc.)
-                        
-                        if 0 <= vector_index < 10:  # Ensure index is in range
-                            vector_to_update = getattr(config_module, 'variable_costsAmount4', None)
-                            if vector_to_update is not None:
-                                vector_to_update[vector_index] = value
-                                print(f"Updated variable_costsAmount4 at index {vector_index} to {value} from {fv_id}")
-                    elif 'rAmount' in fv_id:
-                        # For rAmount fields, also update the corresponding amounts_per_unitAmount5 index
-                        # Example: rAmount60 corresponds to amounts_per_unitAmount5[0]
-                        setattr(config_module, fv_id, value)
-                        
-                        rIndex = int(fv_id.replace('rAmount', ''))
-                        vector_index = rIndex - 60  # Calculate vector index (60 -> 0, 61 -> 1, etc.)
-                        
-                        if 0 <= vector_index < 10:  # Ensure index is in range
-                            vector_to_update = getattr(config_module, 'amounts_per_unitAmount5', None)
-                            if vector_to_update is not None:
-                                vector_to_update[vector_index] = value
-                                print(f"Updated amounts_per_unitAmount5 at index {vector_index} to {value} from {fv_id}")
                     else:
                         # For other IDs, directly set the value as an attribute
                         setattr(config_module, fv_id, value)
@@ -303,4 +289,81 @@ def update_and_save_config_module(config_received, config_matrix_df, results_fol
         # Catch and log any exceptions that occur during processing
         print(f"An error occurred: {str(e)}")
         logging.error(f"Error in update_and_save_config_module: {str(e)}")
+
+def main(version):
+    """
+    Main function to process configuration modules for a specific version.
+
+    This function orchestrates the entire configuration module processing workflow:
+    1. Sets up paths to the necessary files and directories
+    2. Loads the configuration matrix from a CSV file
+    3. Loads the base configuration from a Python module
+    4. Calls update_and_save_config_module to process and save the configuration modules
+
+    Args:
+        version (str or int): Version number for the configuration to process
+
+    Returns:
+        None: Results are saved to files
+
+    Raises:
+        FileNotFoundError: If required files are not found
+        Exception: For any other errors that occur during processing
+    """
+    try:
+        # Set the path to the directory containing the modules
+        # Navigate up three levels from the current file to find the "Original" directory
+        code_files_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))),"Original")
+
+        # Define paths to the results folder and configuration matrix file
+        results_folder = os.path.join(code_files_path,f"Batch({version})", f"Results({version})")
+        config_matrix_file = os.path.join(results_folder, f"General_Configuration_Matrix({version}).csv")
+
+        # Ensure results folder exists
+        if not os.path.exists(results_folder):
+            os.makedirs(results_folder)
+
+        # Check if the configuration matrix file exists
+        if not os.path.exists(config_matrix_file):
+            raise FileNotFoundError(f"Config matrix file not found: {config_matrix_file}")
+
+        # Load the configuration matrix from the CSV file
+        config_matrix_df = pd.read_csv(config_matrix_file)
+
+        # Set the path to the configuration file
+        config_file = os.path.join(code_files_path, f"Batch({version})", f"ConfigurationPlotSpec({version})", f"configurations({version}).py")
+
+        # Check if the configuration file exists
+        if not os.path.exists(config_file):
+            raise FileNotFoundError(f"Config file not found: {config_file}")
+
+        # Dynamically import the configuration file
+        spec = importlib.util.spec_from_file_location("config", config_file)
+        config_received = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(config_received)
+
+        # Process and save the configuration modules
+        update_and_save_config_module(config_received, config_matrix_df, results_folder, version)
+
+    except Exception as e:
+        # Log any errors that occur during processing
+        print(f"Error in main function: {str(e)}")
+        logging.error(f"Error in main function: {str(e)}")
+        # Re-raise the exception to be caught by the caller
         raise
+
+# Main Execution Block
+# This section is executed when the script is run directly (not imported)
+if __name__ == "__main__":
+    try:
+        # Get the version from command line arguments or use default value 1
+        version = sys.argv[1] if len(sys.argv) > 1 else 1
+
+        # Call the main function with the specified version
+        main(version)
+    except Exception as e:
+        # Handle and log any exceptions that occur
+        print(f"Script execution failed: {str(e)}")
+        logging.error(f"Script execution failed: {str(e)}")
+        # Exit with error code 1 to indicate failure
+        sys.exit(1)

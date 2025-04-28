@@ -3,10 +3,9 @@ import json
 import logging
 import os
 import pandas as pd
-from pathlib import Path
-#
+
 # =====================================================================
-# TABLE MODULE - CONFIGURATION TABLE GENERATOR (Updated for Matrix-Based Form Values)
+# TABLE MODULE - CONFIGURATION TABLE GENERATOR
 # =====================================================================
 # This module is responsible for building a comprehensive table of configuration
 # properties from multiple configuration modules. It reads configuration modules
@@ -36,8 +35,6 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(message)s'  # Simple message format without timestamps
 )
-
-# Property mapping from IDs to human-readable names
 property_mapping = {
     "plantLifetimeAmount10": "Plant Lifetime",
     "bECAmount11": "Bare Erected Cost",
@@ -112,46 +109,6 @@ property_mapping = {
     "rAmount77": "r77",
     "rAmount78": "r78",
     "rAmount79": "r79",
-    "variableCostsAmount4_1": "Variable Costs Item 1",
-    "variableCostsAmount4_2": "Variable Costs Item 2",
-    "variableCostsAmount4_3": "Variable Costs Item 3",
-    "variableCostsAmount4_4": "Variable Costs Item 4",
-    "variableCostsAmount4_5": "Variable Costs Item 5",
-    "variableCostsAmount4_6": "Variable Costs Item 6",
-    "variableCostsAmount4_7": "Variable Costs Item 7",
-    "variableCostsAmount4_8": "Variable Costs Item 8",
-    "variableCostsAmount4_9": "Variable Costs Item 9",
-    "variableCostsAmount4_10": "Variable Costs Item 10",
-    "amounts_per_unitAmount5_1": "Amounts Per Unit Item 1",
-    "amounts_per_unitAmount5_2": "Amounts Per Unit Item 2",
-    "amounts_per_unitAmount5_3": "Amounts Per Unit Item 3",
-    "amounts_per_unitAmount5_4": "Amounts Per Unit Item 4",
-    "amounts_per_unitAmount5_5": "Amounts Per Unit Item 5",
-    "amounts_per_unitAmount5_6": "Amounts Per Unit Item 6",
-    "amounts_per_unitAmount5_7": "Amounts Per Unit Item 7",
-    "amounts_per_unitAmount5_8": "Amounts Per Unit Item 8",
-    "amounts_per_unitAmount5_9": "Amounts Per Unit Item 9",
-    "amounts_per_unitAmount5_10": "Amounts Per Unit Item 10",
-    "variable_RevAmount6_1": "Variable Rev Item 1",
-    "variable_RevAmount6_2": "Variable Rev Item 2",
-    "variable_RevAmount6_3": "Variable Rev Item 3",
-    "variable_RevAmount6_4": "Variable Rev Item 4",
-    "variable_RevAmount6_5": "Variable Rev Item 5",
-    "variable_RevAmount6_6": "Variable Rev Item 6",
-    "variable_RevAmount6_7": "Variable Rev Item 7",
-    "variable_RevAmount6_8": "Variable Rev Item 8",
-    "variable_RevAmount6_9": "Variable Rev Item 9",
-    "variable_RevAmount6_10": "Variable Rev Item 10",
-    "amounts_per_unitRevAmount7_1": "Amounts Per Unit Rev Item 1",
-    "amounts_per_unitRevAmount7_2": "Amounts Per Unit Rev Item 2",
-    "amounts_per_unitRevAmount7_3": "Amounts Per Unit Rev Item 3",
-    "amounts_per_unitRevAmount7_4": "Amounts Per Unit Rev Item 4",
-    "amounts_per_unitRevAmount7_5": "Amounts Per Unit Rev Item 5",
-    "amounts_per_unitRevAmount7_6": "Amounts Per Unit Rev Item 6",
-    "amounts_per_unitRevAmount7_7": "Amounts Per Unit Rev Item 7",
-    "amounts_per_unitRevAmount7_8": "Amounts Per Unit Rev Item 8",
-    "amounts_per_unitRevAmount7_9": "Amounts Per Unit Rev Item 9",
-    "amounts_per_unitRevAmount7_10": "Amounts Per Unit Rev Item 10",
 }
 
 def expand_vector_properties(properties, prop_name, vector):
@@ -169,6 +126,18 @@ def expand_vector_properties(properties, prop_name, vector):
 
     Returns:
         list: Updated list of properties with the expanded vector properties added
+
+    Example:
+        Input: 
+            properties = []
+            prop_name = "variable_costsAmount4"
+            vector = [100, 200, 300]
+        Output:
+            [
+                {'Property Name': 'Variable Costs_1', 'Value': 100},
+                {'Property Name': 'Variable Costs_2', 'Value': 200},
+                {'Property Name': 'Variable Costs_3', 'Value': 300}
+            ]
     """
     if isinstance(vector, list):
         # Enumerate starting from 1 to give human-readable indices
@@ -192,6 +161,14 @@ def collect_properties_from_config_module(config_module):
 
     Returns:
         list: List of dictionaries with 'Property Name' and 'Value' keys
+
+    Processing Steps:
+        1. Initialize an empty list to store properties
+        2. Iterate through all properties in the config module
+        3. Handle vector properties (variable_costsAmount4, amounts_per_unitAmount5, 
+           variable_RevAmount6, amounts_per_unitRevAmount7) specially
+        4. Map property IDs to readable names using property_mapping
+        5. Return the complete list of properties
     """
     properties = []
 
@@ -209,15 +186,6 @@ def collect_properties_from_config_module(config_module):
         elif prop == 'amounts_per_unitRevAmount7':
             # Handle amounts_per_unitRevAmount7 vector specially
             properties = expand_vector_properties(properties, prop, config_module[prop])
-        # Handle matrix-based form values with special naming conventions
-        elif prop.startswith('vAmount'):
-            # For vAmount properties, use property mapping or default name with index
-            presentable_name = property_mapping.get(prop, prop)
-            properties.append({'Property Name': presentable_name, 'Value': config_module[prop]})
-        elif prop.startswith('rAmount'):
-            # For rAmount properties, use property mapping or default name with index
-            presentable_name = property_mapping.get(prop, prop)
-            properties.append({'Property Name': presentable_name, 'Value': config_module[prop]})
         else:
             # For non-vector properties, just map the name and add to the list
             presentable_name = property_mapping.get(prop, prop)
@@ -234,35 +202,44 @@ def load_config_modules(results_folder, version):
     of tuples containing the start year and the module data.
 
     Args:
-        results_folder (str or Path): Path to the folder containing configuration module files
+        results_folder (str): Path to the folder containing configuration module files
         version (str or int): Version number to filter configuration module files
 
     Returns:
         list: List of tuples (start_year, config_module) sorted by start_year
+
+    Example:
+        If the results folder contains:
+            - 1_config_module_1.json
+            - 1_config_module_5.json
+            - 1_config_module_10.json
+
+        The function will return:
+            [(1, {...}), (5, {...}), (10, {...})]
+
+        where {...} represents the loaded JSON content of each file.
     """
     config_modules = []
-    results_folder = Path(results_folder)  # Convert to Path object for better path handling
 
     # Scan the results folder for configuration module files
-    for file in results_folder.glob(f"{version}_config_module_*.json"):
-        # Extract the start year from the filename
-        # The filename format is "{version}_config_module_{start_year}.json"
-        start_year = int(file.stem.split('_')[-1])
-        
-        # Load the configuration module from the JSON file
-        try:
-            with open(file, 'r') as f:
+    for file in os.listdir(results_folder):
+        # Filter files by prefix and suffix to find configuration modules for the specified version
+        if file.startswith(f"{version}_config_module_") and file.endswith('.json'):
+            file_path = os.path.join(results_folder, file)
+
+            # Load the configuration module from the JSON file
+            with open(file_path, 'r') as f:
                 config_module = json.load(f)
+
+                # Extract the start year from the filename
+                # The filename format is "{version}_config_module_{start_year}.json"
+                start_year = int(file.split('_')[-1].split('.')[0])
+
                 # Add the start year and config module as a tuple to the list
                 config_modules.append((start_year, config_module))
-        except Exception as e:
-            logging.error(f"Error loading config module {file}: {str(e)}")
-    
+
     # Sort the config modules by start year to ensure chronological order
-    config_modules.sort(key=lambda x: x[0])
-    logging.info(f"Loaded {len(config_modules)} config modules.")
-    
-    return config_modules
+    return sorted(config_modules, key=lambda x: x[0])
 
 def build_and_save_table(version):
     """
@@ -280,87 +257,55 @@ def build_and_save_table(version):
         version (str or int): Version number for the configuration
 
     Returns:
-        dict: Result status of the operation with either:
-            - {"message": "success message", "file": "file_path"} for successful operations
-            - {"error": "error message"} for failed operations
+        None: Results are saved to a file
+
+    Processing Steps:
+        1. Set up paths to the results folder
+        2. Load all configuration modules
+        3. Extract properties and set up the DataFrame
+        4. Fill the DataFrame with values from each module
+        5. Forward-fill missing values
+        6. Save the table to a CSV file
     """
-    try:
-        # Set up paths to the results folder
-        script_dir = Path(__file__).resolve().parent.parent
-        code_files_path = script_dir.parent / "Original"
-        results_folder = code_files_path / f"Batch({version})" / f"Results({version})"
-        
-        # Ensure the results folder exists
-        if not results_folder.exists():
-            os.makedirs(results_folder)
+    # Set up paths to the results folder
+    # Navigate up three levels from the current file to find the "Original" directory
+    code_files_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "Original")
+    results_folder = os.path.join(code_files_path, f'Batch({version})', f'Results({version})')
 
-        # Load all configuration modules for the specified version
-        config_modules = load_config_modules(results_folder, version)
-        if not config_modules:
-            # If no modules are found, log an error and return
-            error_msg = "No config modules found in results folder"
-            logging.error(error_msg)
-            return {"error": error_msg}
+    # Load all configuration modules for the specified version
+    config_modules = load_config_modules(results_folder, version)
+    if not config_modules:
+        # If no modules are found, log an error and return
+        logging.error("No config modules found in results folder")
+        return
 
-        # Get properties from the first module to set up the DataFrame
-        # This establishes the columns of the table
-        first_module_properties = collect_properties_from_config_module(config_modules[0][1])
-        column_headers = [prop['Property Name'] for prop in first_module_properties]
+    # Get properties from the first module to set up the DataFrame
+    # This establishes the columns of the table
+    first_module_properties = collect_properties_from_config_module(config_modules[0][1])
+    column_headers = [prop['Property Name'] for prop in first_module_properties]
 
-        # Create DataFrame with all properties for each year
-        # The rows are years from 1 to plant lifetime
-        plant_lifetime = config_modules[0][1].get('plantLifetimeAmount10', 20)  # Default to 20 if not found
-        df = pd.DataFrame(index=range(1, plant_lifetime + 1), columns=column_headers)
+    # Create DataFrame with all properties for each year
+    # The rows are years from 1 to plant lifetime
+    plant_lifetime = config_modules[0][1].get('plantLifetimeAmount10', 0)
+    df = pd.DataFrame(index=range(1, plant_lifetime + 1), columns=column_headers)
 
-        # Fill the DataFrame with values from each config module
-        # Each module corresponds to a specific start year
-        for start_year, config_module in config_modules:
-            # Extract properties from the module
-            properties = collect_properties_from_config_module(config_module)
-            # Assign each property value to the corresponding cell in the DataFrame
-            for prop in properties:
-                df.loc[start_year, prop['Property Name']] = prop['Value']
+    # Fill the DataFrame with values from each config module
+    # Each module corresponds to a specific start year
+    for start_year, config_module in config_modules:
+        # Extract properties from the module
+        properties = collect_properties_from_config_module(config_module)
+        # Assign each property value to the corresponding cell in the DataFrame
+        for prop in properties:
+            df.loc[start_year, prop['Property Name']] = prop['Value']
 
-        # Forward fill any missing values and handle deprecation warning
-        # This ensures that property values persist until they are explicitly changed
-        df = df.ffill().infer_objects(copy=False)
+    # Forward fill any missing values and handle deprecation warning
+    # This ensures that property values persist until they are explicitly changed
+    df = df.ffill().infer_objects(copy=False)
 
-        # Save the DataFrame to a CSV file
-        save_path = results_folder / f"Variable_Table({version}).csv"
-        df.to_csv(save_path, index_label='Year')
-        logging.info(f"Table saved successfully to {save_path}")
-        
-        return {
-            "message": f"Successfully built and saved variable table for version {version}",
-            "file": str(save_path)
-        }
-    
-    except Exception as e:
-        # Log any errors that occur
-        error_msg = f"Error building table: {str(e)}"
-        logging.error(error_msg)
-        return {"error": error_msg}
-
-# Create Flask API handler if this file is used as a server
-def create_table_api():
-    """Create a Flask API for the Table module functionality.
-    
-    Returns:
-        Flask app: A Flask application with Table module endpoints
-    """
-    from flask import Flask, jsonify
-    from flask_cors import CORS
-    
-    app = Flask(__name__)
-    CORS(app)
-    
-    @app.route('/table/<version>', methods=['GET'])
-    def run_table(version):
-        """Run the Table module for a specific version."""
-        result = build_and_save_table(version)
-        return jsonify(result)
-    
-    return app
+    # Save the DataFrame to a CSV file
+    save_path = os.path.join(results_folder, f"Variable_Table({version}).csv")
+    df.to_csv(save_path, index_label='Year')
+    logging.info(f"Table saved successfully to {save_path}")
 
 def main(version):
     """
@@ -373,16 +318,17 @@ def main(version):
         version (str or int): Version number for the configuration
 
     Returns:
-        dict: Result status of the operation
+        None: Results are saved to a file
+
+    Raises:
+        Exception: Catches and logs any exceptions that occur during processing
     """
     try:
         # Call the main function to build and save the table
-        return build_and_save_table(version)
+        build_and_save_table(version)
     except Exception as e:
         # Log any errors that occur
-        error_msg = f"Error in main function: {str(e)}"
-        logging.error(error_msg)
-        return {"error": error_msg}
+        logging.error(f"Error in main function: {str(e)}")
 
 # Main Execution Block
 # This section is executed when the script is run directly (not imported)
@@ -391,11 +337,4 @@ if __name__ == "__main__":
     version = sys.argv[1] if len(sys.argv) > 1 else 1
 
     # Call the main function with the specified version
-    result = main(version)
-    print(result)
-    
-    # If there are more than 2 arguments and the second one is "server",
-    # start the Flask server for API access
-    if len(sys.argv) > 2 and sys.argv[2] == "server":
-        app = create_table_api()
-        app.run(host='0.0.0.0', port=3054)
+    main(version)

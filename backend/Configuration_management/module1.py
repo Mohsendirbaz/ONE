@@ -6,16 +6,16 @@ import importlib.util
 import shutil
 import logging
 from pathlib import Path
-#
+
 # =====================================================================
-# MODULE1 - CONFIGURATION MATRIX BUILDER (Updated for Matrix-Based Form Values)
+# MODULE1 - CONFIGURATION MATRIX BUILDER
 # =====================================================================
 # This module is responsible for building configuration matrices from filtered values.
-# It processes configuration data from the matrix-based form values and creates 
-# various matrices and data structures used by other modules in the system.
+# It processes configuration data and creates various matrices and data structures
+# that are used by other modules in the configuration management system.
 #
 # The module handles:
-# 1. Processing filtered values from matrix-based configuration files
+# 1. Processing filtered values from configuration files
 # 2. Building configuration matrices with intervals and their properties
 # 3. Applying property mappings to make IDs more readable
 # 4. Saving configuration matrices and related data to CSV files
@@ -24,8 +24,6 @@ from pathlib import Path
 
 # Import using a proper relative import syntax
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-# Property mapping from IDs to human-readable names
 property_mapping = {
     "plantLifetimeAmount10": "Plant Lifetime",
     "bECAmount11": "Bare Erected Cost",
@@ -100,46 +98,6 @@ property_mapping = {
     "rAmount77": "r77",
     "rAmount78": "r78",
     "rAmount79": "r79",
-    "variableCostsAmount4_1": "Variable Costs Item 1",
-    "variableCostsAmount4_2": "Variable Costs Item 2",
-    "variableCostsAmount4_3": "Variable Costs Item 3",
-    "variableCostsAmount4_4": "Variable Costs Item 4",
-    "variableCostsAmount4_5": "Variable Costs Item 5",
-    "variableCostsAmount4_6": "Variable Costs Item 6",
-    "variableCostsAmount4_7": "Variable Costs Item 7",
-    "variableCostsAmount4_8": "Variable Costs Item 8",
-    "variableCostsAmount4_9": "Variable Costs Item 9",
-    "variableCostsAmount4_10": "Variable Costs Item 10",
-    "amounts_per_unitAmount5_1": "Amounts Per Unit Item 1",
-    "amounts_per_unitAmount5_2": "Amounts Per Unit Item 2",
-    "amounts_per_unitAmount5_3": "Amounts Per Unit Item 3",
-    "amounts_per_unitAmount5_4": "Amounts Per Unit Item 4",
-    "amounts_per_unitAmount5_5": "Amounts Per Unit Item 5",
-    "amounts_per_unitAmount5_6": "Amounts Per Unit Item 6",
-    "amounts_per_unitAmount5_7": "Amounts Per Unit Item 7",
-    "amounts_per_unitAmount5_8": "Amounts Per Unit Item 8",
-    "amounts_per_unitAmount5_9": "Amounts Per Unit Item 9",
-    "amounts_per_unitAmount5_10": "Amounts Per Unit Item 10",
-    "variable_RevAmount6_1": "Variable Rev Item 1",
-    "variable_RevAmount6_2": "Variable Rev Item 2",
-    "variable_RevAmount6_3": "Variable Rev Item 3",
-    "variable_RevAmount6_4": "Variable Rev Item 4",
-    "variable_RevAmount6_5": "Variable Rev Item 5",
-    "variable_RevAmount6_6": "Variable Rev Item 6",
-    "variable_RevAmount6_7": "Variable Rev Item 7",
-    "variable_RevAmount6_8": "Variable Rev Item 8",
-    "variable_RevAmount6_9": "Variable Rev Item 9",
-    "variable_RevAmount6_10": "Variable Rev Item 10",
-    "amounts_per_unitRevAmount7_1": "Amounts Per Unit Rev Item 1",
-    "amounts_per_unitRevAmount7_2": "Amounts Per Unit Rev Item 2",
-    "amounts_per_unitRevAmount7_3": "Amounts Per Unit Rev Item 3",
-    "amounts_per_unitRevAmount7_4": "Amounts Per Unit Rev Item 4",
-    "amounts_per_unitRevAmount7_5": "Amounts Per Unit Rev Item 5",
-    "amounts_per_unitRevAmount7_6": "Amounts Per Unit Rev Item 6",
-    "amounts_per_unitRevAmount7_7": "Amounts Per Unit Rev Item 7",
-    "amounts_per_unitRevAmount7_8": "Amounts Per Unit Rev Item 8",
-    "amounts_per_unitRevAmount7_9": "Amounts Per Unit Rev Item 9",
-    "amounts_per_unitRevAmount7_10": "Amounts Per Unit Rev Item 10",
 }
 
 # Get the directory where this script is located
@@ -148,9 +106,10 @@ uploads_dir = script_dir.parent / "Original"
 code_files_path = uploads_dir  # Maintain the same variable name for compatibility
 
 # Initialize logging
-log_file_path = Path(os.getcwd()) / 'module1.log'
+log_file_path = Path(os.getcwd()) / 'module.log'
 logging.basicConfig(filename=log_file_path, level=logging.INFO, format='%(asctime)s %(message)s')
 
+# Rest of the code remains exactly the same as in the original file
 def apply_property_mapping(filtered_value_intervals):
     """
     Apply human-readable property names to filtered value intervals.
@@ -202,6 +161,13 @@ def apply_filtered_values_and_build_matrix(config_received, filtered_values_json
             - sorted_points (list): Sorted list of all start/end points
             - filtered_value_intervals (list): List of tuples with filtered value data
             - general_config_matrix (list): Matrix based on continuous year range
+
+    Processing Steps:
+        1. Parse JSON strings into Python objects
+        2. Extract start/end points and build intervals
+        3. Create matrices with appropriate structure
+        4. Assign filtered values to the correct intervals
+        5. Format the output for saving
     """
     # Parse the JSON strings into Python objects
     filtered_values = [json.loads(item) for item in filtered_values_json]
@@ -274,50 +240,48 @@ def apply_filtered_values_and_build_matrix(config_received, filtered_values_json
             'filtered_values': []  # Will be populated with filtered values for this interval
         })
 
-    # Populate the matrices with filtered values
-    # For each filtered value, add it to all intervals that overlap with its start/end years
+    # Keep the rest of the function exactly as it is in the original
     for fv_tuple in filtered_value_intervals:
         fv_id = fv_tuple[0]
-        hs = fv_tuple[1]  # Filtered value start year
-        he = fv_tuple[2]  # Filtered value end year
+        hs = fv_tuple[1]
+        he = fv_tuple[2]
         value = fv_tuple[3]
         remarks = fv_tuple[4] if len(fv_tuple) > 4 else None
-        logging.info(f"Processing filtered value: {fv_tuple}")
-        
-        # Add the filtered value to all intervals in the config_matrix that overlap with it
+        logging.info(f"fv_tuple: {fv_tuple[1]}")
         for row in config_matrix:
-            # Skip if the interval doesn't overlap with the filtered value's period
-            if hs > row['end'] or he < row['start']:
+            if hs > row['end']:
                 continue
-            
-            # Create an item for the filtered value and add it to the row
+            if he < row['start']:
+                continue
             item = {"id": fv_id, "value": value}
             if remarks:
                 item["remarks"] = remarks
             row['filtered_values'].append(item)
 
-        # Add the filtered value to all intervals in the general_config_matrix that overlap with it
+    for fv_tuple in filtered_value_intervals:
+        fv_id = fv_tuple[0]
+        hs = fv_tuple[1]
+        he = fv_tuple[2]
+        value = fv_tuple[3]
+        remarks = fv_tuple[4] if len(fv_tuple) > 4 else None
+        logging.info(f"fv_tuple: {fv_tuple[1]}")
         for row in general_config_matrix:
-            # Skip if the interval doesn't overlap with the filtered value's period
-            if hs > row['end'] or he < row['start']:
+            if hs > row['end']:
                 continue
-            
-            # Create an item for the filtered value and add it to the row
+            if he < row['start']:
+                continue
             item = {"id": fv_id, "value": value}
             if remarks:
                 item["remarks"] = remarks
             row['filtered_values'].append(item)
 
-    # Convert the filtered_values arrays to JSON strings for storage in CSV
     for row in config_matrix:
         row['filtered_values'] = json.dumps(row['filtered_values'], indent=None)
 
     for row in general_config_matrix:
         row['filtered_values'] = json.dumps(row['filtered_values'], indent=None)
 
-    # Apply property mapping to make the filtered value intervals more readable
     filtered_value_intervals = apply_property_mapping(filtered_value_intervals)
-    
     return config_matrix, sorted_points, filtered_value_intervals, general_config_matrix
 
 def empty_folder(folder_path):
@@ -333,6 +297,10 @@ def empty_folder(folder_path):
 
     Returns:
         None
+
+    Note:
+        This function handles both files and directories, and catches exceptions
+        to prevent the process from stopping if a file cannot be deleted.
     """
     if os.path.exists(folder_path):
         for filename in os.listdir(folder_path):
@@ -362,133 +330,79 @@ def test_list_building(version, config_received):
 
     Returns:
         None: Results are saved to files
+
+    Processing Steps:
+        1. Extract filtered values from the configuration
+        2. Build configuration matrices using apply_filtered_values_and_build_matrix
+        3. Prepare the results folder
+        4. Save the matrices and related data to CSV files
+        5. Print summaries of the generated data
     """
-    try:
-        # Extract filtered values from the configuration
-        filtered_values_json = config_received.filtered_values_json
-        logging.info(f"Processing filtered values for version {version}")
+    # Extract filtered values from the configuration
+    filtered_values_json = config_received.filtered_values_json
 
-        # Build configuration matrices and related data
-        config_matrix, sorted_points, filtered_value_intervals, general_config_matrix = apply_filtered_values_and_build_matrix(config_received, filtered_values_json)
+    # Build configuration matrices and related data
+    config_matrix, sorted_points, filtered_value_intervals, general_config_matrix = apply_filtered_values_and_build_matrix(config_received, filtered_values_json)
 
-        # Prepare the results folder
-        results_folder = code_files_path / f"Batch({version})" / f"Results({version})"
-        results_folder.mkdir(parents=True, exist_ok=True)  # Create the folder if it doesn't exist
+    # Prepare the results folder
+    results_folder = code_files_path / f"Batch({version})" / f"Results({version})"
+    results_folder.mkdir(parents=True, exist_ok=True)  # Create the folder if it doesn't exist
 
-        # Empty the results folder to ensure clean output
-        empty_folder(results_folder)
+    # Empty the results folder to ensure clean output
+    empty_folder(results_folder)
 
-        # Define file paths for the output files
-        config_matrix_file = results_folder / f"Configuration_Matrix({version}).csv"
-        sorted_points_file = results_folder / f"Sorted_Points({version}).csv"
-        filtered_value_intervals_file = results_folder / f"Filtered_Value_Intervals({version}).csv"
-        general_config_matrix_file = results_folder / f"General_Configuration_Matrix({version}).csv"
+    # Define file paths for the output files
+    # Use Path for file paths to ensure cross-platform compatibility
+    config_matrix_file = results_folder / f"Configuration_Matrix({version}).csv"
+    sorted_points_file = results_folder / f"Sorted_Points({version}).csv"
+    filtered_value_intervals_file = results_folder / f"Filtered_Value_Intervals({version}).csv"
+    general_config_matrix_file = results_folder / f"General_Configuration_Matrix({version}).csv"
 
-        # Convert the config_matrix to a DataFrame and save it to CSV
-        config_matrix_df = pd.DataFrame(config_matrix)
-        config_matrix_df.to_csv(config_matrix_file, index=False)
-        logging.info(f"Saved configuration matrix to {config_matrix_file}")
+    # Convert the config_matrix to a DataFrame and save it to CSV
+    config_matrix_df = pd.DataFrame(config_matrix)
+    config_matrix_df.to_csv(config_matrix_file, index=False)
 
-        # Convert the general_config_matrix to a DataFrame and save it to CSV
-        general_config_matrix_df = pd.DataFrame(general_config_matrix)
-        general_config_matrix_df.to_csv(general_config_matrix_file, index=False)
-        logging.info(f"Saved general configuration matrix to {general_config_matrix_file}")
+    # Convert the general_config_matrix to a DataFrame and save it to CSV
+    general_config_matrix_df = pd.DataFrame(general_config_matrix)
+    general_config_matrix_df.to_csv(general_config_matrix_file, index=False)
 
-        # Convert the sorted_points to a DataFrame and save it to CSV
-        sorted_points_df = pd.DataFrame(sorted_points, columns=["Points"])
-        sorted_points_df.to_csv(sorted_points_file, index=False)
-        logging.info(f"Saved sorted points to {sorted_points_file}")
+    # Convert the sorted_points to a DataFrame and save it to CSV
+    sorted_points_df = pd.DataFrame(sorted_points, columns=["Points"])
+    sorted_points_df.to_csv(sorted_points_file, index=False)
 
-        # Convert the filtered_value_intervals to a DataFrame and save it to CSV
-        filtered_value_intervals_df = pd.DataFrame(filtered_value_intervals, columns=["ID", "Start", "End", "Value", "Remarks"])
-        filtered_value_intervals_df.to_csv(filtered_value_intervals_file, index=False)
-        logging.info(f"Saved filtered value intervals to {filtered_value_intervals_file}")
+    # Convert the filtered_value_intervals to a DataFrame and save it to CSV
+    filtered_value_intervals_df = pd.DataFrame(filtered_value_intervals, columns=["ID", "Start", "End", "Value", "Remarks"])
+    filtered_value_intervals_df.to_csv(filtered_value_intervals_file, index=False)
 
-        # Print summaries of the generated data for debugging and verification
-        print("Config Matrix:")
-        print(config_matrix_df)
-        print("Sorted Points:")
-        print(sorted_points_df)
-        print("Filtered Value Intervals:")
-        print(filtered_value_intervals_df)
-        
-        return {
-            "message": f"Successfully built configuration matrices for version {version}",
-            "files": {
-                "config_matrix": str(config_matrix_file),
-                "sorted_points": str(sorted_points_file),
-                "filtered_value_intervals": str(filtered_value_intervals_file),
-                "general_config_matrix": str(general_config_matrix_file)
-            }
-        }
-    except Exception as e:
-        error_msg = f"Error building configuration matrices: {str(e)}"
-        logging.error(error_msg)
-        return {"error": error_msg}
-
-# Create Flask API handler if this file is used as a server
-def create_module1_api():
-    """Create a Flask API for the module1 functionality.
-    
-    Returns:
-        Flask app: A Flask application with module1 endpoints
-    """
-    from flask import Flask, request, jsonify
-    from flask_cors import CORS
-    
-    app = Flask(__name__)
-    CORS(app)
-    
-    @app.route('/module1/<version>', methods=['GET'])
-    def run_module1(version):
-        """Run module1 for a specific version."""
-        try:
-            # Path to the configuration file
-            config_file = code_files_path / f"Batch({version})" / f"ConfigurationPlotSpec({version})" / f"configurations({version}).py"
-            
-            # Dynamically import the configuration file
-            spec = importlib.util.spec_from_file_location("config", str(config_file))
-            config_received = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(config_received)
-            
-            # Run the main function
-            result = test_list_building(version, config_received)
-            return jsonify(result)
-        except Exception as e:
-            error_msg = f"Error running module1: {str(e)}"
-            logging.error(error_msg)
-            return jsonify({"error": error_msg})
-    
-    return app
+    # Print summaries of the generated data for debugging and verification
+    print("Config Matrix:")
+    print(config_matrix_df)
+    print("Sorted Points:")
+    print(sorted_points_df)
+    print("Filtered Value Intervals:")
+    print(filtered_value_intervals_df)
 
 # Main Execution Block
-if __name__ == '__main__':
-    # Get the version from command line arguments or use default value 1
-    version = sys.argv[1] if len(sys.argv) > 1 else 1
+# This section is executed when the script is run directly (not imported)
 
-    try:
-        # Add the code_files_path to sys.path if it's not already there
-        if str(code_files_path) not in sys.path:
-            sys.path.append(str(code_files_path))
+# Get the version from command line arguments or use default value 1
+# The version is used to determine which configuration files to process
+version = sys.argv[1] if len(sys.argv) > 1 else 1
 
-        # Construct the path to the configuration file for the specified version
-        config_file = code_files_path / f"Batch({version})" / f"ConfigurationPlotSpec({version})" / f"configurations({version}).py"
+# Add the code_files_path to sys.path if it's not already there
+# This allows importing modules from that directory
+if str(code_files_path) not in sys.path:
+    sys.path.append(str(code_files_path))
 
-        # Dynamically import the configuration file
-        spec = importlib.util.spec_from_file_location("config", str(config_file))
-        config_received = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(config_received)
+# Construct the path to the configuration file for the specified version
+config_file = code_files_path / f"Batch({version})" / f"ConfigurationPlotSpec({version})" / f"configurations({version}).py"
 
-        # Call the main function with the loaded configuration
-        result = test_list_building(version, config_received)
-        print(result)
-    except Exception as e:
-        error_msg = f"Error in main execution: {str(e)}"
-        logging.error(error_msg)
-        print(error_msg)
-    
-    # If there are more than 2 arguments and the second one is "server",
-    # start the Flask server for API access
-    if len(sys.argv) > 2 and sys.argv[2] == "server":
-        app = create_module1_api()
-        app.run(host='0.0.0.0', port=3051)
+# Dynamically import the configuration file
+# This allows loading configuration data without hardcoding import statements
+spec = importlib.util.spec_from_file_location("config", str(config_file))
+config_received = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(config_received)
+
+# Call the main function with the loaded configuration
+# This will process the configuration and build the matrices
+test_list_building(version, config_received)

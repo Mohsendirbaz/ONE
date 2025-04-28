@@ -1,19 +1,17 @@
 import os
 import sys
 import re
-import json
 from pathlib import Path
-#
+
 # =====================================================================
-# FORMATTER MODULE (Updated for Matrix-Based Form Values)
+# FORMATTER MODULE
 # =====================================================================
 # This module is responsible for processing and sanitizing configuration files.
-# It reads raw configuration data from the matrix-based form values structure,
-# processes it into a standardized format, and writes sanitized configuration 
-# files that can be used by other modules.
+# It reads raw configuration data, processes it into a standardized format,
+# and writes sanitized configuration files that can be used by other modules.
 #
 # The module handles:
-# 1. Reading raw configuration files with unprocessed matrix-based data
+# 1. Reading raw configuration files with unprocessed data
 # 2. Parsing and extracting filtered values and their properties
 # 3. Formatting values according to their data types
 # 4. Processing vector assignments for special properties
@@ -66,117 +64,6 @@ def format_value(value, quote=True):
     if quote:
         return f'"{value.strip()}"'
     return value
-
-def process_matrix_filtered_values(content):
-    """Process filtered values from matrix-based form values format.
-    
-    This function processes the new matrix-based format of filtered values,
-    which includes efficacy periods and matrix structure.
-    
-    Args:
-        content (str): Raw matrix-based filtered values content
-        
-    Returns:
-        tuple: Processed sanitized lines and filtered values JSON
-    """
-    sanitized_lines = []
-    filtered_values_json = []
-    
-    # Initialize vectors with None values
-    variable_costsAmount4 = [None] * 10
-    amounts_per_unitAmount5 = [None] * 10
-    variable_RevAmount6 = [None] * 10
-    amounts_per_unitRevAmount7 = [None] * 10
-    
-    try:
-        # Parse the JSON content
-        content_json = json.loads(content)
-        
-        # Check if the content has the filteredValues key
-        if 'filteredValues' in content_json:
-            # Process each filtered value in the array
-            for filtered_value in content_json['filteredValues']:
-                fv_id = filtered_value.get('id', '')
-                value = filtered_value.get('value', '')
-                start = filtered_value.get('start', 0)
-                end = filtered_value.get('end', 20)
-                remarks = filtered_value.get('remarks', '')
-                
-                # Convert values to appropriate types
-                if isinstance(value, str):
-                    if value.lower() == 'true':
-                        value = True
-                    elif value.lower() == 'false':
-                        value = False
-                    else:
-                        try:
-                            if '.' in value:
-                                value = float(value)
-                            else:
-                                value = int(value)
-                        except (ValueError, TypeError):
-                            pass
-                
-                # Format value based on its type
-                if isinstance(value, bool):
-                    formatted_value = str(value)
-                elif isinstance(value, (int, float)):
-                    formatted_value = str(value)
-                elif value is None:
-                    formatted_value = "None"
-                else:
-                    # For string values, format with quotes
-                    formatted_value = f"'{value}'"
-                
-                # Special handling for vector values
-                if "variableCostsAmount4_" in fv_id:
-                    # Extract index from the ID (e.g., variableCostsAmount4_1 -> index 0)
-                    index = int(fv_id.split('_')[1]) - 1
-                    if 0 <= index < len(variable_costsAmount4):
-                        variable_costsAmount4[index] = value
-                elif "amounts_per_unitAmount5_" in fv_id:
-                    # Extract index from the ID
-                    index = int(fv_id.split('_')[1]) - 1
-                    if 0 <= index < len(amounts_per_unitAmount5):
-                        amounts_per_unitAmount5[index] = value
-                elif "variable_RevAmount6_" in fv_id:
-                    # Extract index from the ID
-                    index = int(fv_id.split('_')[1]) - 1
-                    if 0 <= index < len(variable_RevAmount6):
-                        variable_RevAmount6[index] = value
-                elif "amounts_per_unitRevAmount7_" in fv_id:
-                    # Extract index from the ID
-                    index = int(fv_id.split('_')[1]) - 1
-                    if 0 <= index < len(amounts_per_unitRevAmount7):
-                        amounts_per_unitRevAmount7[index] = value
-                else:
-                    # For regular parameters, add to sanitized lines
-                    sanitized_lines.append(f"{fv_id}={formatted_value}")
-                
-                # Create filtered value JSON for each parameter
-                filtered_value_json = {
-                    'filteredValue': {
-                        'id': fv_id,
-                        'value': value,
-                        'start': start,
-                        'end': end,
-                        'remarks': remarks
-                    }
-                }
-                filtered_values_json.append(json.dumps(filtered_value_json))
-        
-        # Add vector values to sanitized lines
-        sanitized_lines.append(f"variable_costsAmount4={variable_costsAmount4}")
-        sanitized_lines.append(f"amounts_per_unitAmount5={amounts_per_unitAmount5}")
-        sanitized_lines.append(f"variable_RevAmount6={variable_RevAmount6}")
-        sanitized_lines.append(f"amounts_per_unitRevAmount7={amounts_per_unitRevAmount7}")
-        
-        return '\n'.join(sanitized_lines), filtered_values_json
-    
-    except json.JSONDecodeError as e:
-        print(f"Error parsing JSON content: {e}")
-        # Fall back to the old method if JSON parsing fails
-        return medieval_parse_and_sanitize(content)
 
 def medieval_parse_and_sanitize(content):
     """Parse and sanitize configuration content.
@@ -386,6 +273,13 @@ def sanitize_file(version):
     processing its content using medieval_parse_and_sanitize, and writing the
     sanitized content to a new file.
 
+    The function follows these steps:
+    1. Construct file paths for the original and sanitized configuration files
+    2. Create necessary directories if they don't exist
+    3. Read the content of the original file
+    4. Process the content using medieval_parse_and_sanitize
+    5. Write the sanitized content and filtered values to the output file
+
     Args:
         version (str or int): Version number for configuration processing,
                              used to determine file paths
@@ -394,6 +288,10 @@ def sanitize_file(version):
         dict: Result status of the operation with either:
             - {"message": "success message"} for successful operations
             - {"error": "error message"} for failed operations
+
+    Raises:
+        No exceptions are raised directly; all exceptions are caught and
+        returned as error messages in the result dictionary
     """
     # Path Configuration
     original_file_path = UPLOAD_DIR / f'Batch({version})/ConfigurationPlotSpec({version})/U_configurations({version}).py'
@@ -419,14 +317,7 @@ def sanitize_file(version):
         return {"error": "Error reading from original file"}
 
     # Content Processing
-    # First try with the new matrix-based processor
-    try:
-        sanitized_content, filtered_values_json = process_matrix_filtered_values(raw_content)
-    except Exception as e:
-        print(f"Error processing with matrix format, falling back to medieval: {e}")
-        # Fall back to the original processor if matrix processing fails
-        sanitized_content, filtered_values_json = medieval_parse_and_sanitize(raw_content)
-    
+    sanitized_content, filtered_values_json = medieval_parse_and_sanitize(raw_content)
     print(f"Sanitized content: {sanitized_content}")
     print(f"Filtered values JSON: {filtered_values_json}")
 
@@ -444,30 +335,6 @@ def sanitize_file(version):
         print(f"Error writing to sanitized file at {sanitized_file_path}: {e}")
         return {"error": "Error writing to sanitized file"}
 
-# Create Flask API handler if this file is used as a server
-def create_formatter_api():
-    """Create a Flask API for the formatter module.
-    
-    This function creates a Flask API that exposes an endpoint to run the
-    formatter module with a specified version.
-    
-    Returns:
-        Flask app: A Flask application with formatter endpoints
-    """
-    from flask import Flask, request, jsonify
-    from flask_cors import CORS
-    
-    app = Flask(__name__)
-    CORS(app)
-    
-    @app.route('/formatter/<version>', methods=['GET'])
-    def run_formatter(version):
-        """Run the formatter for a specific version."""
-        result = sanitize_file(version)
-        return jsonify(result)
-    
-    return app
-
 # Main Execution Block
 if __name__ == '__main__':
     # Get the version from command line arguments or use default value 1
@@ -476,11 +343,4 @@ if __name__ == '__main__':
 
     # Call the sanitize_file function with the specified version
     # This will process the configuration files for that version
-    result = sanitize_file(version)
-    print(result)
-    
-    # If there are more than 2 arguments and the second one is "server",
-    # start the Flask server for API access
-    if len(sys.argv) > 2 and sys.argv[2] == "server":
-        app = create_formatter_api()
-        app.run(host='0.0.0.0', port=3050)
+    sanitize_file(version)

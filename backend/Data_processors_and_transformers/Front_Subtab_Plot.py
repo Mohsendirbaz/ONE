@@ -6,11 +6,11 @@ This module sets up a Flask server that provides an API endpoint to retrieve a l
 The main functions are:
 - `get_available_versions(directory: str) -> List[str]`: Retrieves a list of available versions based on the directory structure.
 - `log_png_file_names_for_versions(versions: List[str], base_directory: str) -> None`: Logs the names and paths of all PNG files found for the given versions.
-- `get_png_files(version: str) -> Tuple[str, int]`: Handles the API request to retrieve the PNG file information for the given version.
+- `get_png_files(version: str) -> Tuple[Response, int]`: Handles the API request to retrieve the PNG file information for the given version.
 """
 # Flask server setup for handling PNG file requests
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, Response
 from flask_cors import CORS
 import os
 import re
@@ -46,10 +46,10 @@ def log_png_file_names_for_versions(versions: List[str], base_directory: str) ->
             valid_albums = [a for a in albums if 
                            (a.endswith("_PlotType_" + a.split("_PlotType_")[1]) if "_PlotType_" in a else False) or 
                             "_AnnotatedStaticPlots" in a]
-            
+
             for album in valid_albums:
                 album_folder = os.path.join(version_folder, album)
-                
+
                 if os.path.exists(album_folder):
                     for filename in os.listdir(album_folder):
                         if filename.lower().endswith('.png'):
@@ -64,11 +64,11 @@ def log_png_file_names_for_versions(versions: List[str], base_directory: str) ->
 
 # In get_png_files function, enhance album handling
 @app.route('/api/album/<version>', methods=['GET'])
-def get_png_files(version: str) -> Tuple[str, int]:
+def get_png_files(version: str) -> Tuple[Response, int]:
     logging.info(f"Received request for PNG files with version: {version}")
-    
+
     version_folder = f"{BASE_PATH}/Batch({version})/Results({version})/"
-    
+
     if not os.path.exists(version_folder):
         logging.warning(f"Results folder does not exist: {version_folder}")
         return jsonify({"error": "Version folder not found"}), 404
@@ -76,17 +76,17 @@ def get_png_files(version: str) -> Tuple[str, int]:
     # Look for both organized albums and legacy directories
     albums = [d for d in os.listdir(version_folder) 
               if os.path.isdir(os.path.join(version_folder, d))]
-    
+
     # Filter to include both new album format and legacy AnnotatedStaticPlots directories
     valid_albums = [a for a in albums if 
                    (a.endswith("_PlotType_" + a.split("_PlotType_")[1]) if "_PlotType_" in a else False) or 
                     "_AnnotatedStaticPlots" in a]
-    
+
     png_files = []
-    
+
     for album in valid_albums:
         album_folder = os.path.join(version_folder, album)
-        
+
         if not os.path.exists(album_folder):
             logging.warning(f"Album folder does not exist: {album_folder}")
             continue
@@ -100,7 +100,7 @@ def get_png_files(version: str) -> Tuple[str, int]:
                     "album": album
                 })
                 logging.info(f"PNG file found: {filename}")
-    
+
     if not png_files:
         logging.info(f"No PNG files found for version {version}")
         return jsonify({"message": "No PNG files found"}), 404

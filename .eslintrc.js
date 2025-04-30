@@ -51,8 +51,7 @@ module.exports = {
     {
       // Files identified as inactive by the active-files-tracker rule
       files: [
-        "src/components/version/VersionControl.css",
-        "src/components/version/VersionControl.js"
+        "**/[I]_*.{js,jsx,ts,tsx}"
       ],
       rules: {
         // Silence all rules for inactive files

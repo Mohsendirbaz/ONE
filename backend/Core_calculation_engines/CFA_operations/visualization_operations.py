@@ -132,7 +132,7 @@ def create_operational_revenue_pie_chart(revenue_labels, revenue_sizes, selected
         plt.savefig(png_path, bbox_inches='tight', dpi=300)
         plt.close()
 
-def create_economic_summary(config_received, TOC, total_revenue, total_operating_expenses, 
+def create_economic_summary(config_received, toc, total_revenue, total_operating_expenses, 
                            total_depreciation, total_state_taxes, total_federal_taxes, 
                            total_after_tax_cash_flow, total_discounted_cash_flow, 
                            average_selling_price_operational, cumulative_npv, 
@@ -162,7 +162,7 @@ def create_economic_summary(config_received, TOC, total_revenue, total_operating
         'Value': [
             f"{config_received.iRRAmount30:.2%}",
             f"${average_selling_price_operational:,.2f}",
-            f"${TOC:,.0f}",
+            f"${toc:,.0f}",
             f"${average_annual_revenue:,.0f}",
             f"${average_annual_operating_expenses:,.0f}",
             f"${average_annual_depreciation:,.0f}",

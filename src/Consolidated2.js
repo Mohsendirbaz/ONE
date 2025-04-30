@@ -1244,6 +1244,7 @@ export function useMatrixFormValues() {
   return {
     // Core matrix structures
     formMatrix,
+    setFormMatrix,
     versions,
     zones,
 

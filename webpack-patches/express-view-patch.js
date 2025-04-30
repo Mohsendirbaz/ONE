@@ -10,8 +10,16 @@
  */
 const path = require('path');
 const fs = require('fs');
-// Add debug module with a no-op function if not available
-const debug = require('debug') ? require('debug')('express:view') : function() {};
+// Create a safe debug function that works in all environments
+let debug;
+try {
+  // Try to use the debug module if available
+  const debugModule = require('debug');
+  debug = debugModule('express:view');
+} catch (e) {
+  // Fallback to a no-op function if debug is not available
+  debug = function() {};
+}
 
 /**
  * Initialize a new `View` with the given `name`.

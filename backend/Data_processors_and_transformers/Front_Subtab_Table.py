@@ -3,13 +3,15 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 import os, logging, logging.config
 import pandas as pd
+from typing import List, Dict, Union, Any
+from os import PathLike
 
 app = Flask(__name__)
 CORS(app)
 
 BASE_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "Original")
 
-def get_versions(directory: str):
+def get_versions(directory: Union[str, PathLike]) -> List[str]:
     if not os.path.exists(directory):
         logging.warning(f"Directory not found: {directory}")
         return []
@@ -17,10 +19,10 @@ def get_versions(directory: str):
             if name.startswith("Batch(") and name.endswith(")")]
 
 @app.route('/api/csv-files/<version>')
-def get_csv_files(version: str):
+def get_csv_files(version: str) -> Any:
     logging.info(f"Processing request for version: {version}")
     results_path = os.path.join(BASE_PATH, f"Batch({version})", f"Results({version})")
-    csv_files = []
+    csv_files: List[Dict[str, Any]] = []
 
     if not os.path.exists(results_path):
         logging.warning(f"Results folder not found: {results_path}")
@@ -29,7 +31,7 @@ def get_csv_files(version: str):
     for root, _, files in os.walk(results_path):
         for file in files:
             if file.lower().endswith('.csv'):
-                file_path = os.path.join(root, file)
+                file_path: Union[str, PathLike] = os.path.join(root, file)
                 try:
                     df = pd.read_csv(file_path)
                     csv_files.append({

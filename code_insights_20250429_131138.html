@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backend Structure - Code Insights</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+        .sidebar {
+            position: fixed;
+            top: 60px;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 20px 0;
+            overflow-x: hidden;
+            overflow-y: auto;
+            background-color: #f8f9fa;
+        }
+        .nav-link {
+            color: #495057;
+        }
+        .nav-link.active {
+            color: #007bff;
+            font-weight: bold;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+        .search-container {
+            margin-bottom: 20px;
+        }
+        .chart-container {
+            height: 300px;
+            margin-bottom: 20px;
+        }
+        .table-responsive {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Backend Structure - Code Insights</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <span class="navbar-text">Analysis Date: 2025-04-29 12:29:52</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block sidebar">
+                <div class="position-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#overview">
+                                <i class="bi bi-house"></i> Overview
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#directory-insights">
+                                <i class="bi bi-folder"></i> Directory Insights
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#file-insights">
+                                <i class="bi bi-file-code"></i> File Insights
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#entity-insights">
+                                <i class="bi bi-code-square"></i> Entity Insights
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#relationship-insights">
+                                <i class="bi bi-diagram-3"></i> Relationship Insights
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#search">
+                                <i class="bi bi-search"></i> Search
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                
+        <section id="overview">
+            <h2 class="mt-4 mb-4">Overview</h2>
+
+            <div class="row">
+                <div class="col-md-6 col-lg-3">
+                    <div class="card text-white bg-primary">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Files</h5>
+                            <p class="card-text display-4">55</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="card text-white bg-success">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Directories</h5>
+                            <p class="card-text display-4">13</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="card text-white bg-info">
+                        <div class="card-body">
+                            <h5 class="card-title">File Types</h5>
+                            <p class="card-text display-4">3</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="card text-white bg-warning">
+                        <div class="card-body">
+                            <h5 class="card-title">Entity Types</h5>
+                            <p class="card-text display-4">2</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Project Summary</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>This report provides insights into the codebase of <strong>Backend Structure</strong>.</p>
+                            <p>The analysis was performed on <strong>2025-04-29 12:29:52</strong>.</p>
+                            <p>Use the navigation menu on the left to explore different types of insights.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Key Findings</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li>The project contains <strong>55</strong> files in <strong>13</strong> directories.</li>
+                                <li>There are <strong>3</strong> different file types in the project.</li>
+                                <li>The most common entity type is <strong>variable</strong>.</li>
+                                <li>The largest directory contains <strong>18</strong> files.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+                
+        <section id="directory-insights">
+            <h2 class="mt-4 mb-4">Directory Insights</h2>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Largest Directories</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Name</th>
+                                            <th>Path</th>
+                                            <th>Files</th>
+                                            <th>Subdirectories</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+            <tr>
+                <td>1</td>
+                <td>API_endpoints_and_controllers</td>
+                <td>backend\API_endpoints_and_controllers</td>
+                <td>18</td>
+                <td>1</td>
+            </tr>
+            
+            <tr>
+                <td>2</td>
+                <td>Configuration_management</td>
+                <td>backend\Configuration_management</td>
+                <td>8</td>
+                <td>0</td>
+            </tr>
+            
+            <tr>
+                <td>3</td>
+                <td>CFA_operations</td>
+                <td>backend\Core_calculation_engines\CFA_operations</td>
+                <td>7</td>
+                <td>0</td>
+            </tr>
+            
+            <tr>
+                <td>4</td>
+                <td>output</td>
+                <td>backend\file_associations\output</td>
+                <td>4</td>
+                <td>0</td>
+            </tr>
+            
+            <tr>
+                <td>5</td>
+                <td>backend</td>
+                <td>backend</td>
+                <td>3</td>
+                <td>9</td>
+            </tr>
+            
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Directory Structure</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>The project has a total of <strong>13</strong> directories and <strong>55</strong> files.</p>
+                            <p>The directory structure is organized hierarchically, with subdirectories nested under their parent directories.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+                
+        <section id="file-insights">
+            <h2 class="mt-4 mb-4">File Insights</h2>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">File Types Distribution</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="file-types-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Most Imported Files</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>File</th>
+                                            <th>Import Count</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+            <tr>
+                <td>1</td>
+                <td>Core_calculation_engines\CFA_operations\utility.py</td>
+                <td>3</td>
+            </tr>
+            
+            <tr>
+                <td>2</td>
+                <td>Sensitivity_File_Manager.py</td>
+                <td>1</td>
+            </tr>
+            
+            <tr>
+                <td>3</td>
+                <td>Utility_functions\common_utils.py</td>
+                <td>1</td>
+            </tr>
+            
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Most Importing Files</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>File</th>
+                                            <th>Import Count</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+            <tr>
+                <td>1</td>
+                <td>Core_calculation_engines\CFA_operations\revenue_operations.py</td>
+                <td>1</td>
+            </tr>
+            
+            <tr>
+                <td>2</td>
+                <td>Core_calculation_engines\CFA_operations\visualization_operations.py</td>
+                <td>1</td>
+            </tr>
+            
+            <tr>
+                <td>3</td>
+                <td>Visualization_generators\PNG_PLOT.py</td>
+                <td>1</td>
+            </tr>
+            
+            <tr>
+                <td>4</td>
+                <td>API_endpoints_and_controllers\process_sensitivity_results.py</td>
+                <td>1</td>
+            </tr>
+            
+            <tr>
+                <td>5</td>
+                <td>Core_calculation_engines\CFA_operations\expense_operations.py</td>
+                <td>1</td>
+            </tr>
+            
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+                
+        <section id="entity-insights">
+            <h2 class="mt-4 mb-4">Entity Insights</h2>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Entity Types Distribution</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="entity-types-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Most Used Entities</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Entity</th>
+                                            <th>Defined In</th>
+                                            <th>Used In</th>
+                                            <th>Total Usage</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+            <tr>
+                <td>1</td>
+                <td>variable:version</td>
+                <td>22</td>
+                <td>37</td>
+                <td>59</td>
+            </tr>
+            
+            <tr>
+                <td>2</td>
+                <td>variable:data</td>
+                <td>15</td>
+                <td>17</td>
+                <td>32</td>
+            </tr>
+            
+            <tr>
+                <td>3</td>
+                <td>variable:results_folder</td>
+                <td>13</td>
+                <td>17</td>
+                <td>30</td>
+            </tr>
+            
+            <tr>
+                <td>4</td>
+                <td>variable:file_path</td>
+                <td>11</td>
+                <td>19</td>
+                <td>30</td>
+            </tr>
+            
+            <tr>
+                <td>5</td>
+                <td>variable:code_files_path</td>
+                <td>13</td>
+                <td>13</td>
+                <td>26</td>
+            </tr>
+            
+            <tr>
+                <td>6</td>
+                <td>variable:value</td>
+                <td>8</td>
+                <td>16</td>
+                <td>24</td>
+            </tr>
+            
+            <tr>
+                <td>7</td>
+                <td>variable:config_file</td>
+                <td>11</td>
+                <td>12</td>
+                <td>23</td>
+            </tr>
+            
+            <tr>
+                <td>8</td>
+                <td>variable:error_msg</td>
+                <td>11</td>
+                <td>12</td>
+                <td>23</td>
+            </tr>
+            
+            <tr>
+                <td>9</td>
+                <td>variable:start_year</td>
+                <td>8</td>
+                <td>10</td>
+                <td>18</td>
+            </tr>
+            
+            <tr>
+                <td>10</td>
+                <td>variable:versions</td>
+                <td>9</td>
+                <td>9</td>
+                <td>18</td>
+            </tr>
+            
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+                
+        <section id="relationship-insights">
+            <h2 class="mt-4 mb-4">Relationship Insights</h2>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Central Files</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>File</th>
+                                            <th>Connection Count</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+            <tr>
+                <td>1</td>
+                <td>API_endpoints_and_controllers\Remove_batch.py</td>
+                <td>42</td>
+            </tr>
+            
+            <tr>
+                <td>2</td>
+                <td>cfa_list.py</td>
+                <td>42</td>
+            </tr>
+            
+            <tr>
+                <td>3</td>
+                <td>Configuration_management\module1-updated.py</td>
+                <td>42</td>
+            </tr>
+            
+            <tr>
+                <td>4</td>
+                <td>Configuration_management\module1.py</td>
+                <td>42</td>
+            </tr>
+            
+            <tr>
+                <td>5</td>
+                <td>Configuration_management\Table.py</td>
+                <td>42</td>
+            </tr>
+            
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">File Clusters</h5>
+                        </div>
+                        <div class="card-body">
+                            
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h6 class="card-title">Cluster 1 (47 files)</h6>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">Sensitivity_File_Manager.py</li> <li class="list-group-item">API_endpoints_and_controllers\Calculations_and_Sensitivity-LL.py</li> <li class="list-group-item">Utility_functions\property_mapping_service.py</li> <li class="list-group-item">Configuration_management\config_modules.py</li> <li class="list-group-item">Core_calculation_engines\CFA_operations\revenue_operations.py</li>
+                        <li class="list-group-item">... and 42 more</li>
+                    </ul>
+                </div>
+            </div>
+            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+                
+        <section id="search">
+            <h2 class="mt-4 mb-4">Search</h2>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Search Files and Entities</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="search-container">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                                    <input type="text" id="search-input" class="form-control" placeholder="Search for files or entities...">
+                                </div>
+                            </div>
+                            <div id="search-results">
+                                <p>Enter at least 3 characters to search</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+            </main>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                // Remove active class from all links
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+
+                // Add active class to clicked link
+                this.classList.add('active');
+
+                // Hide all sections
+                document.querySelectorAll('main > section').forEach(section => {
+                    section.classList.add('hidden');
+                });
+
+                // Show the target section
+                const targetId = this.getAttribute('href').substring(1);
+                document.getElementById(targetId).classList.remove('hidden');
+            });
+        });
+
+        // Initialize: show only the overview section
+        document.querySelectorAll('main > section').forEach(section => {
+            if (section.id !== 'overview') {
+                section.classList.add('hidden');
+            }
+        });
+
+        // Search functionality
+        document.getElementById('search-input').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const resultsContainer = document.getElementById('search-results');
+            resultsContainer.innerHTML = '';
+
+            if (searchTerm.length < 3) {
+                resultsContainer.innerHTML = '<p>Enter at least 3 characters to search</p>';
+                return;
+            }
+
+            // Search in files
+            const fileResults = searchInFiles(searchTerm);
+
+            // Search in entities
+            const entityResults = searchInEntities(searchTerm);
+
+            // Display results
+            if (fileResults.length === 0 && entityResults.length === 0) {
+                resultsContainer.innerHTML = '<p>No results found</p>';
+            } else {
+                // Display file results
+                if (fileResults.length > 0) {
+                    const fileResultsHtml = `
+                        <h5>Files (${fileResults.length} results)</h5>
+                        <ul class="list-group mb-3">
+                            ${fileResults.map(file => `
+                                <li class="list-group-item">
+                                    <i class="bi bi-file-code"></i> ${file}
+                                </li>
+                            `).join('')}
+                        </ul>
+                    `;
+                    resultsContainer.innerHTML += fileResultsHtml;
+                }
+
+                // Display entity results
+                if (entityResults.length > 0) {
+                    const entityResultsHtml = `
+                        <h5>Entities (${entityResults.length} results)</h5>
+                        <ul class="list-group">
+                            ${entityResults.map(entity => `
+                                <li class="list-group-item">
+                                    <i class="bi bi-code-square"></i> ${entity.entity}
+                                    <small class="text-muted">
+                                        (Defined in ${entity.defined_in_count} files, Used in ${entity.used_in_count} files)
+                                    </small>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    `;
+                    resultsContainer.innerHTML += entityResultsHtml;
+                }
+            }
+        });
+
+        // Search in files
+        function searchInFiles(searchTerm) {
+            const fileInsights = {"file_types": {".py": 50, ".json": 4, ".html": 1}, "most_imported_files": [{"file": "Core_calculation_engines\\CFA_operations\\utility.py", "import_count": 3}, {"file": "Sensitivity_File_Manager.py", "import_count": 1}, {"file": "Utility_functions\\common_utils.py", "import_count": 1}], "most_importing_files": [{"file": "Core_calculation_engines\\CFA_operations\\revenue_operations.py", "import_count": 1}, {"file": "Core_calculation_engines\\CFA_operations\\visualization_operations.py", "import_count": 1}, {"file": "Visualization_generators\\PNG_PLOT.py", "import_count": 1}, {"file": "API_endpoints_and_controllers\\process_sensitivity_results.py", "import_count": 1}, {"file": "Core_calculation_engines\\CFA_operations\\expense_operations.py", "import_count": 1}]};
+            const results = [];
+
+            // Search in most imported files
+            if (fileInsights.most_imported_files) {
+                fileInsights.most_imported_files.forEach(file => {
+                    if (file.file.toLowerCase().includes(searchTerm)) {
+                        results.push(file.file);
+                    }
+                });
+            }
+
+            // Search in most importing files
+            if (fileInsights.most_importing_files) {
+                fileInsights.most_importing_files.forEach(file => {
+                    if (file.file.toLowerCase().includes(searchTerm)) {
+                        if (!results.includes(file.file)) {
+                            results.push(file.file);
+                        }
+                    }
+                });
+            }
+
+            return results;
+        }
+
+        // Search in entities
+        function searchInEntities(searchTerm) {
+            const entityInsights = {"entity_types": {"variable": 573, "function": 85}, "most_used_entities": [{"entity": "variable:version", "defined_in_count": 22, "used_in_count": 37, "total_usage": 59}, {"entity": "variable:data", "defined_in_count": 15, "used_in_count": 17, "total_usage": 32}, {"entity": "variable:results_folder", "defined_in_count": 13, "used_in_count": 17, "total_usage": 30}, {"entity": "variable:file_path", "defined_in_count": 11, "used_in_count": 19, "total_usage": 30}, {"entity": "variable:code_files_path", "defined_in_count": 13, "used_in_count": 13, "total_usage": 26}, {"entity": "variable:value", "defined_in_count": 8, "used_in_count": 16, "total_usage": 24}, {"entity": "variable:config_file", "defined_in_count": 11, "used_in_count": 12, "total_usage": 23}, {"entity": "variable:error_msg", "defined_in_count": 11, "used_in_count": 12, "total_usage": 23}, {"entity": "variable:start_year", "defined_in_count": 8, "used_in_count": 10, "total_usage": 18}, {"entity": "variable:versions", "defined_in_count": 9, "used_in_count": 9, "total_usage": 18}, {"entity": "variable:mode", "defined_in_count": 8, "used_in_count": 9, "total_usage": 17}, {"entity": "variable:param_id", "defined_in_count": 6, "used_in_count": 9, "total_usage": 15}, {"entity": "variable:var_str", "defined_in_count": 6, "used_in_count": 8, "total_usage": 14}, {"entity": "variable:end_year", "defined_in_count": 6, "used_in_count": 8, "total_usage": 14}, {"entity": "variable:config_received", "defined_in_count": 6, "used_in_count": 8, "total_usage": 14}, {"entity": "variable:base_dir", "defined_in_count": 6, "used_in_count": 7, "total_usage": 13}, {"entity": "variable:SCRIPT_DIR", "defined_in_count": 6, "used_in_count": 7, "total_usage": 13}, {"entity": "variable:config_matrix_df", "defined_in_count": 6, "used_in_count": 7, "total_usage": 13}, {"entity": "variable:args", "defined_in_count": 5, "used_in_count": 8, "total_usage": 13}, {"entity": "variable:key", "defined_in_count": 3, "used_in_count": 9, "total_usage": 12}]};
+            const results = [];
+
+            // Search in most used entities
+            if (entityInsights.most_used_entities) {
+                entityInsights.most_used_entities.forEach(entity => {
+                    if (entity.entity.toLowerCase().includes(searchTerm)) {
+                        results.push(entity);
+                    }
+                });
+            }
+
+            return results;
+        }
+
+        // Initialize charts
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize file types chart
+            const fileTypesCtx = document.getElementById('file-types-chart').getContext('2d');
+            const fileTypesData = {".py": 50, ".json": 4, ".html": 1};
+
+            new Chart(fileTypesCtx, {
+                type: 'pie',
+                data: {
+                    labels: Object.keys(fileTypesData),
+                    datasets: [{
+                        data: Object.values(fileTypesData),
+                        backgroundColor: [
+                            '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
+                            '#FF9F40', '#C9CBCF', '#7CFC00', '#00FFFF', '#FF00FF'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                        },
+                        title: {
+                            display: true,
+                            text: 'File Types Distribution'
+                        }
+                    }
+                }
+            });
+
+            // Initialize entity types chart
+            const entityTypesCtx = document.getElementById('entity-types-chart').getContext('2d');
+            const entityTypesData = {"variable": 573, "function": 85};
+
+            new Chart(entityTypesCtx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(entityTypesData),
+                    datasets: [{
+                        label: 'Count',
+                        data: Object.values(entityTypesData),
+                        backgroundColor: '#36A2EB'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: 'Entity Types Distribution'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -780,7 +780,18 @@ def calculate_revenue_and_expenses_from_modules(config_received, config_matrix_d
 # ---------------- Main Function Block Start ----------------
 
 def main(version, selected_v, selected_f, target_row):
-    """Main function to load config matrix and run the update"""
+    """
+    Main function to calculate revenue and expenses from modules.
+
+    Args:
+        version: Version number
+        selected_v: Dictionary of selected variable costs
+        selected_f: Dictionary of selected fixed costs
+        target_row: Target row for calculations
+
+    Returns:
+        Dictionary with calculation results
+    """
 
     # Extract calculation_option and sensitivity parameters from command line args
     calculation_option = sys.argv[5] if len(sys.argv) > 5 else 'calculateForPrice'  # Default to calculateForPrice

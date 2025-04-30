@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import '../../styles/HomePage.CSS/HCSS.css';
-import useFormValues from '../../useFormValues';
+import { useMatrixFormValues } from '../../Consolidated2';
 
 /**
  * SensitivityMonitor component for configuring and managing sensitivity analysis parameters
@@ -16,7 +16,7 @@ const sensitivityActionRef = { current: null };
 
 const SensitivityMonitor = ({ S, setS, version, activeTab }) => {
   // Get form values
-  const { formValues } = useFormValues();
+  const { formMatrix: formValues } = useMatrixFormValues();
 
   // Component state
   const [isExpanded, setIsExpanded] = useState(true);

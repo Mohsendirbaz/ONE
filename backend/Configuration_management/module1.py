@@ -329,58 +329,66 @@ def test_list_building(version, config_received):
         config_received: Configuration object containing filtered values and settings
 
     Returns:
-        None: Results are saved to files
-
-    Processing Steps:
-        1. Extract filtered values from the configuration
-        2. Build configuration matrices using apply_filtered_values_and_build_matrix
-        3. Prepare the results folder
-        4. Save the matrices and related data to CSV files
-        5. Print summaries of the generated data
+        dict: A dictionary containing a success message and file paths, or an error message
     """
-    # Extract filtered values from the configuration
-    filtered_values_json = config_received.filtered_values_json
+    try:
+        # Extract filtered values from the configuration
+        filtered_values_json = config_received.filtered_values_json
 
-    # Build configuration matrices and related data
-    config_matrix, sorted_points, filtered_value_intervals, general_config_matrix = apply_filtered_values_and_build_matrix(config_received, filtered_values_json)
+        # Build configuration matrices and related data
+        config_matrix, sorted_points, filtered_value_intervals, general_config_matrix = apply_filtered_values_and_build_matrix(config_received, filtered_values_json)
 
-    # Prepare the results folder
-    results_folder = code_files_path / f"Batch({version})" / f"Results({version})"
-    results_folder.mkdir(parents=True, exist_ok=True)  # Create the folder if it doesn't exist
+        # Prepare the results folder
+        results_folder = code_files_path / f"Batch({version})" / f"Results({version})"
+        results_folder.mkdir(parents=True, exist_ok=True)  # Create the folder if it doesn't exist
 
-    # Empty the results folder to ensure clean output
-    empty_folder(results_folder)
+        # Empty the results folder to ensure clean output
+        empty_folder(results_folder)
 
-    # Define file paths for the output files
-    # Use Path for file paths to ensure cross-platform compatibility
-    config_matrix_file = results_folder / f"Configuration_Matrix({version}).csv"
-    sorted_points_file = results_folder / f"Sorted_Points({version}).csv"
-    filtered_value_intervals_file = results_folder / f"Filtered_Value_Intervals({version}).csv"
-    general_config_matrix_file = results_folder / f"General_Configuration_Matrix({version}).csv"
+        # Define file paths for the output files
+        # Use Path for file paths to ensure cross-platform compatibility
+        config_matrix_file = results_folder / f"Configuration_Matrix({version}).csv"
+        sorted_points_file = results_folder / f"Sorted_Points({version}).csv"
+        filtered_value_intervals_file = results_folder / f"Filtered_Value_Intervals({version}).csv"
+        general_config_matrix_file = results_folder / f"General_Configuration_Matrix({version}).csv"
 
-    # Convert the config_matrix to a DataFrame and save it to CSV
-    config_matrix_df = pd.DataFrame(config_matrix)
-    config_matrix_df.to_csv(config_matrix_file, index=False)
+        # Convert the config_matrix to a DataFrame and save it to CSV
+        config_matrix_df = pd.DataFrame(config_matrix)
+        config_matrix_df.to_csv(config_matrix_file, index=False)
 
-    # Convert the general_config_matrix to a DataFrame and save it to CSV
-    general_config_matrix_df = pd.DataFrame(general_config_matrix)
-    general_config_matrix_df.to_csv(general_config_matrix_file, index=False)
+        # Convert the general_config_matrix to a DataFrame and save it to CSV
+        general_config_matrix_df = pd.DataFrame(general_config_matrix)
+        general_config_matrix_df.to_csv(general_config_matrix_file, index=False)
 
-    # Convert the sorted_points to a DataFrame and save it to CSV
-    sorted_points_df = pd.DataFrame(sorted_points, columns=["Points"])
-    sorted_points_df.to_csv(sorted_points_file, index=False)
+        # Convert the sorted_points to a DataFrame and save it to CSV
+        sorted_points_df = pd.DataFrame(sorted_points, columns=["Points"])
+        sorted_points_df.to_csv(sorted_points_file, index=False)
 
-    # Convert the filtered_value_intervals to a DataFrame and save it to CSV
-    filtered_value_intervals_df = pd.DataFrame(filtered_value_intervals, columns=["ID", "Start", "End", "Value", "Remarks"])
-    filtered_value_intervals_df.to_csv(filtered_value_intervals_file, index=False)
+        # Convert the filtered_value_intervals to a DataFrame and save it to CSV
+        filtered_value_intervals_df = pd.DataFrame(filtered_value_intervals, columns=["ID", "Start", "End", "Value", "Remarks"])
+        filtered_value_intervals_df.to_csv(filtered_value_intervals_file, index=False)
 
-    # Print summaries of the generated data for debugging and verification
-    print("Config Matrix:")
-    print(config_matrix_df)
-    print("Sorted Points:")
-    print(sorted_points_df)
-    print("Filtered Value Intervals:")
-    print(filtered_value_intervals_df)
+        # Print summaries of the generated data for debugging and verification
+        print("Config Matrix:")
+        print(config_matrix_df)
+        print("Sorted Points:")
+        print(sorted_points_df)
+        print("Filtered Value Intervals:")
+        print(filtered_value_intervals_df)
+
+        return {
+            "message": f"Successfully built configuration matrices for version {version}",
+            "files": {
+                "config_matrix": str(config_matrix_file),
+                "sorted_points": str(sorted_points_file),
+                "filtered_value_intervals": str(filtered_value_intervals_file),
+                "general_config_matrix": str(general_config_matrix_file)
+            }
+        }
+    except Exception as e:
+        error_msg = f"Error building configuration matrices: {str(e)}"
+        logging.error(error_msg)
+        return {"error": error_msg}
 
 # Main Execution Block
 # This section is executed when the script is run directly (not imported)

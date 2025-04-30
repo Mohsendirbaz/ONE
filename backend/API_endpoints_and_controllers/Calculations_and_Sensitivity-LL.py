@@ -677,6 +677,7 @@ def generate_sensitivity_datapoints(version, sen_parameters):
     # Find a base configuration module to extract baseline values
     base_config = None
     base_config_path = None
+    param_key = None  # Initialize param_key to avoid unbound local variable error
 
     for module_num in range(1, 101):
         potential_path = os.path.join(source_dir, f"{version}_config_module_{module_num}.json")
@@ -1144,7 +1145,7 @@ def run_script(script_name, *args, script_type="python"):
             pass
 
 def process_version(version, calculation_script, selected_v, selected_f, target_row,
-                    calculation_option, SenParameters):
+                    calculation_option, sen_parameters):
     """Thread-safe version processing with proper locking"""
     # Create a unique lock for this version
     version_lock = threading.RLock()
@@ -1165,7 +1166,7 @@ def process_version(version, calculation_script, selected_v, selected_f, target_
                 json.dumps(selected_f),
                 json.dumps(target_row),
                 calculation_option,
-                json.dumps(SenParameters)
+                json.dumps(sen_parameters)
             )
             if not success:
                 return error
@@ -1174,7 +1175,7 @@ def process_version(version, calculation_script, selected_v, selected_f, target_
         except Exception as e:
             return f"Error processing version {version}: {str(e)}"
 
-def create_sensitivity_directories(version, SenParameters):
+def create_sensitivity_directories(version, sen_parameters):
     """Thread-safe directory creation with proper locking"""
     # Create a lock specific to this version and operation
     dir_lock_file = os.path.join(LOGS_DIR, f"dir_creation_{version}.lock")
@@ -1207,7 +1208,7 @@ def create_sensitivity_directories(version, SenParameters):
                 os.makedirs(plot_type_dir, exist_ok=True)
 
         # Process each parameter
-        enabled_params = [(param_id, config) for param_id, config in SenParameters.items()
+        enabled_params = [(param_id, config) for param_id, config in sen_parameters.items()
                           if config.get('enabled')]
 
         for param_id, param_config in enabled_params:
@@ -1267,7 +1268,7 @@ def create_sensitivity_directories(version, SenParameters):
 
         return sensitivity_dir, reports_dir
 
-def save_sensitivity_config_files(version, reports_dir, SenParameters):
+def save_sensitivity_config_files(version, reports_dir, sen_parameters):
     """Thread-safe configuration file saving with proper locking"""
     # Create a lock specific to this version and operation
     file_lock_file = os.path.join(LOGS_DIR, f"config_files_{version}.lock")
@@ -1286,12 +1287,12 @@ def save_sensitivity_config_files(version, reports_dir, SenParameters):
         atomic_write_json(config_file, {
             'version': version,
             'timestamp': time.strftime("%Y-%m-%d %H:%M:%S"),
-            'parameters': SenParameters
+            'parameters': sen_parameters
         })
         saved_files.append(config_file)
 
         # Save individual parameter configuration files in their respective directories
-        for param_id, param_config in SenParameters.items():
+        for param_id, param_config in sen_parameters.items():
             if not param_config.get('enabled'):
                 continue
 
@@ -2374,14 +2375,14 @@ def import_sensitivity_functions():
         sensitivity_logger.error(f"Failed to import sensitivity functions: {str(e)}")
         raise ImportError(f"Failed to import required functions: {str(e)}")
 
-def generate_sensitivity_datapoints_from_config(version, SenParameters):
+def generate_sensitivity_datapoints_from_config(version, sen_parameters):
     """
     Generate SensitivityPlotDatapoints_{version}.json file with baseline and variation points.
     Uses actual modified values from configuration modules.
 
     Args:
         version (int): Version number
-        SenParameters (dict): Dictionary containing sensitivity parameters
+        sen_parameters (dict): Dictionary containing sensitivity parameters
 
     Returns:
         str: Path to the generated file
@@ -2439,7 +2440,7 @@ def generate_sensitivity_datapoints_from_config(version, SenParameters):
     }
 
     # Process each enabled parameter
-    for param_id, param_config in SenParameters.items():
+    for param_id, param_config in sen_parameters.items():
         if not param_config.get('enabled'):
             continue
 
@@ -2609,14 +2610,14 @@ def generate_sensitivity_datapoints_from_config(version, SenParameters):
 
     return output_file
 
-def process_config_modules_for_sensitivity(version, SenParameters):
+def process_config_modules_for_sensitivity(version, sen_parameters):
     """
     Process all configuration modules (1-100) for all parameter variations.
     Apply sensitivity variations and save modified configurations.
 
     Args:
         version (int): Version number
-        SenParameters (dict): Dictionary containing sensitivity parameters
+        sen_parameters (dict): Dictionary containing sensitivity parameters
 
     Returns:
         dict: Summary of processed modules and their status
@@ -3025,7 +3026,7 @@ def configure_sensitivity():
         if not data:
             return jsonify({"error": "No data provided"}), 400
 
-        run_id = data.get('runId')
+        run_id = data.get('runId', time.strftime("%Y%m%d_%H%M%S"))
 
         # If no runtime data provided but runId is present, try to load from stored payload
         if run_id and (not data.get('selectedVersions') or not data.get('SenParameters')):
@@ -3921,7 +3922,7 @@ def run_add_axis_labels():
         script_path = os.path.join(BASE_DIR, 'backend', 'API_endpoints_and_controllers', 'add_axis_labels.py')
 
         # Execute add_axis_labels.py with the arguments
-        result = run_script(
+        success, error = run_script(
             script_path,
             '--version', version,
             '--param', param_id,
@@ -3929,12 +3930,16 @@ def run_add_axis_labels():
             script_type="python"
         )
 
-        return jsonify({
-            'status': 'success',
-            'message': 'add_axis_labels.py executed successfully',
-            'stdout': result.get('stdout', ''),
-            'stderr': result.get('stderr', '')
-        })
+        if success:
+            return jsonify({
+                'status': 'success',
+                'message': 'add_axis_labels.py executed successfully'
+            })
+        else:
+            return jsonify({
+                'status': 'error',
+                'message': error
+            }), 500
     except Exception as e:
         return jsonify({
             'status': 'error',

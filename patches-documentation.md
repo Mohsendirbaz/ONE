@@ -64,6 +64,7 @@ Integrated in `config-overrides.js` using webpack's `NormalModuleReplacementPlug
 
 **Update History:**  
 - Enhanced in 2025 to provide more comprehensive handling of edge cases and eliminate remaining webpack warnings
+- Updated in 2024 to improve debug module handling with a try-catch approach instead of conditional requires, further reducing webpack warnings
 
 ## Integration in Build Process
 
@@ -111,6 +112,28 @@ Fixes the webpack deprecation warnings:
 
 **Integration:**  
 Integrated directly in `config-overrides.js` by adding a devServer configuration object.
+
+### 5. Global Dynamic Require Warning Suppression
+
+**Purpose:**  
+Disables critical dependency warnings for dynamic requires throughout the entire build process.
+
+**Issue Resolved:**  
+Provides a more comprehensive solution for webpack warnings like "Critical dependency: the request of a dependency is an expression" that can occur in various modules, not just express/lib/view.js.
+
+**Implementation Details:**  
+- Sets `config.module.exprContextCritical = false` in the webpack configuration
+- Complements the express-view-patch.js approach by providing a global solution
+- Ensures that any dynamic requires that might be missed by specific patches are still handled
+
+**Integration:**  
+Integrated directly in `config-overrides.js` by adding the following configuration:
+
+```javascript
+// Disable critical dependency warnings for dynamic requires
+config.module = config.module || {};
+config.module.exprContextCritical = false;
+```
 
 ## Maintenance Considerations
 

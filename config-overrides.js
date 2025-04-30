@@ -1,4 +1,8 @@
 module.exports = function override(config, env) {
+  // Disable critical dependency warnings for dynamic requires
+  config.module = config.module || {};
+  config.module.exprContextCritical = false;
+
   // Add webpack-dev-server configuration to fix deprecation warnings
   // Always apply this configuration as the warnings only appear in development mode
   // Store references to the middleware functions if they exist
@@ -46,7 +50,11 @@ module.exports = function override(config, env) {
     "buffer": require.resolve("buffer/"),
     "process": require.resolve("process/browser.js"),
     "vm": false,
-    "async_hooks": false
+    "async_hooks": false,
+    "express": false,  // Tell webpack not to include express in the client bundle
+    "express/lib/view": false,  // Explicitly exclude express view module
+    "express/lib/router": false,  // Explicitly exclude express router module
+    "express/lib/application": false  // Explicitly exclude express application module
   };
 
   // Add buffer and process polyfills

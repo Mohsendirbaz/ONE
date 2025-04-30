@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file, Response
 from flask_cors import CORS
 import subprocess
 import os
@@ -7,6 +7,7 @@ import json
 from datetime import datetime
 import sys
 from pathlib import Path
+from typing import List, Dict, Union, Any, Optional, Tuple
 #
 # Initialize Flask application
 app = Flask(__name__)
@@ -340,7 +341,7 @@ def run_scripts():
         return jsonify({"error": "Internal server error"}), 500
 
 @app.route('/api/plots/<version>', methods=['GET'])
-def get_plots(version):
+def get_plots(version: str) -> Tuple[Response, int]:
     """
     Get all plots for a specific version.
 
@@ -348,35 +349,35 @@ def get_plots(version):
         version (str): The version number
 
     Returns:
-        JSON response with plot information
+        Tuple[Response, int]: JSON response with plot information and HTTP status code
     """
     try:
         logger.info(f"Fetching plots for version {version}")
 
         # Construct the path to the version's Results directory
-        version_folder = PUBLIC_DIR / f'Batch({version})' / f'Results({version})'
+        version_folder: Path = PUBLIC_DIR / f'Batch({version})' / f'Results({version})'
 
         if not version_folder.exists():
             logger.warning(f"Results folder does not exist: {version_folder}")
             return jsonify({"error": "Version folder not found"}), 404
 
         # Find all plot files in the version folder
-        plot_files = []
+        plot_files: List[Dict[str, Any]] = []
 
         # Look for plots in various subdirectories
         for root, dirs, files in os.walk(version_folder):
             for file in files:
                 if file.lower().endswith(('.png', '.jpg', '.jpeg')):
                     # Get relative path from version folder
-                    rel_path = os.path.relpath(os.path.join(root, file), version_folder)
+                    rel_path: str = os.path.relpath(os.path.join(root, file), version_folder)
 
                     # Extract category and group from path
-                    path_parts = rel_path.split(os.path.sep)
-                    category = path_parts[0] if len(path_parts) > 1 else "General"
-                    group = path_parts[1] if len(path_parts) > 2 else "Default"
+                    path_parts: List[str] = rel_path.split(os.path.sep)
+                    category: str = path_parts[0] if len(path_parts) > 1 else "General"
+                    group: str = path_parts[1] if len(path_parts) > 2 else "Default"
 
                     # Create plot info
-                    plot_info = {
+                    plot_info: Dict[str, Any] = {
                         "id": len(plot_files) + 1,
                         "name": file,
                         "path": f"Batch({version})/Results({version})/{rel_path}",
@@ -566,12 +567,18 @@ def get_sensitivity_plots_by_group(version, category, group):
         return jsonify({"error": f"Error fetching sensitivity plots: {str(e)}"}), 500
 
 @app.route('/images/<path:filename>')
-def serve_image(filename):
+def serve_image(filename: str) -> Union[Response, Tuple[Response, int]]:
     """
     Serve image files from the Original directory
+
+    Args:
+        filename (str): Path to the image file relative to PUBLIC_DIR
+
+    Returns:
+        Union[Response, Tuple[Response, int]]: The image file or an error response
     """
     try:
-        image_path = PUBLIC_DIR / filename
+        image_path: Path = PUBLIC_DIR / filename
         if not image_path.exists():
             return jsonify({"error": f"Image not found: {filename}"}), 404
         return send_file(str(image_path))

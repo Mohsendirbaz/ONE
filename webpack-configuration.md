@@ -68,7 +68,15 @@ config.resolve.fallback = {
   "https": require.resolve("https-browserify"),
   "path": require.resolve("path-browserify"),
   // Additional fallbacks...
+  "express": false  // Tell webpack not to include express in the client bundle
 };
+```
+
+Additionally, the package.json includes a "browser" field to explicitly tell bundlers not to include Express in client-side code:
+```
+"browser": {
+  "express": false
+}
 ```
 
 ### 3. Polyfills
@@ -96,6 +104,39 @@ config.plugins.push(
 );
 ```
 
+### 5. Handling Critical Dependency Warnings
+
+The project uses two approaches to handle critical dependency warnings:
+
+1. **Proper Module Exclusion (Recommended)**: 
+   Server-side modules like Express are properly excluded from the client bundle using fallbacks and browser field:
+   ```javascript
+   // In config-overrides.js
+   config.resolve.fallback = {
+     // ...
+     "express": false  // Tell webpack not to include express in the client bundle
+   };
+   ```
+
+   And in package.json:
+   ```
+   "browser": {
+     "express": false
+   }
+   ```
+
+   This is the preferred approach as it properly separates client and server code.
+
+2. **Warning Suppression (Fallback)**:
+   As a fallback, the configuration also disables critical dependency warnings for any remaining dynamic requires:
+   ```javascript
+   // Disable critical dependency warnings for dynamic requires
+   config.module = config.module || {};
+   config.module.exprContextCritical = false;
+   ```
+
+This two-pronged approach ensures that server-side modules are properly excluded from the client bundle while also suppressing any remaining warnings that might occur in third-party modules.
+
 ## Patch Files
 
 The project includes custom patch files in the `webpack-patches` directory that are used to fix compatibility issues with certain npm packages:
@@ -110,4 +151,12 @@ For detailed information about these patches, see the `patches-documentation.md`
 
 The project does have webpack configuration, but it uses the react-app-rewired approach rather than direct webpack.config.js files. This approach allows for customizing webpack configuration while still leveraging the benefits of Create React App.
 
-The current configuration includes several important customizations to fix compatibility issues, provide polyfills, and replace problematic modules with custom patches.
+The current configuration includes several important customizations:
+
+1. **Proper Server/Client Code Separation**: Server-side modules like Express are properly excluded from the client bundle using fallbacks and browser field configuration.
+
+2. **Compatibility Fixes**: The configuration provides polyfills for Node.js core modules and replaces problematic modules with custom patches.
+
+3. **Warning Handling**: A two-pronged approach is used to handle critical dependency warnings - proper module exclusion (recommended) and warning suppression (fallback).
+
+This approach ensures that the application builds correctly without warnings while maintaining a clean separation between client and server code.

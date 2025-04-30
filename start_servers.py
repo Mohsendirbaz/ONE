@@ -5,7 +5,9 @@ from pathlib import Path
 
 def check_file_exists(file_path):
     if not os.path.exists(file_path):
-        print(f"Error: File not found: {file_path}")
+        # Convert to absolute path for clearer error message
+        abs_path = os.path.abspath(file_path)
+        print(f"Error: File not found: {abs_path}")
         return False
     return True
 

@@ -163,13 +163,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Mohsendirbaz/SF.git"
+    "url": "git+https://github.com/Mohsendirbaz/ONE1.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Mohsendirbaz/SF/issues"
+    "url": "https://github.com/Mohsendirbaz/ONE1/issues"
   },
   "homepage": "/",
-  "description": ""
+  "description": "",
+  "browser": {
+    "express": false,
+    "express/lib/view": false,
+    "express/lib/router": false,
+    "express/lib/application": false
+  }
 }

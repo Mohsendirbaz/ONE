@@ -15,7 +15,6 @@ import './styles/Themes/creative-theme.css';
 // Import PropertySelector and VersionSelector from Consolidated3.js instead of separate files
 import { PropertySelector, VersionSelector } from './Consolidated3';
 import SpatialTransformComponent from './Naturalmotion.js'
-import useFormValues from './useFormValues.js';
 import TestingZone from './components/modules/TestingZone';
 import CalculationMonitor from './components/modules/CalculationMonitor';
 import SensitivityMonitor from './components/modules/SensitivityMonitor';
@@ -27,6 +26,7 @@ import CentralScalingTab from 'src/components/truly_extended_scaling/CentralScal
 import StickerHeader from './components/modules/HeaderBackground';
 import ProcessEconomicsLibrary from './components/process_economics_pilot/integration-module';
 import CFAConsolidationUI from './components/cfa/CFAConsolidationUI';
+import CodeEntityAnalysisTab from '../code-entity-analyzer/integration/tab_integration';
 
 // Import from Consolidated.js
 import { MatrixSubmissionService, ExtendedScaling as ConsolidatedExtendedScaling, GeneralFormConfig as ConsolidatedGeneralFormConfig, MatrixApp } from './Consolidated';
@@ -132,10 +132,10 @@ const HomePageContent = () => {
     }, [season]);
 
     const {
-        formValues,
+        formMatrix: formValues,
+        setFormMatrix: setFormValues,
         handleInputChange,
         handleReset,
-        setFormValues,
         S,
         setS,
         F,
@@ -178,7 +178,7 @@ const HomePageContent = () => {
         handleRunOptionChange,
         handleRunConfirm,
         handleRunCancel
-    } = useFormValues();
+    } = useMatrixFormValues();
 
     const [batchRunning, setBatchRunning] = useState(false);
     const [analysisRunning, setAnalysisRunning] = useState(false);

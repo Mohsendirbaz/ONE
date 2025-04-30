@@ -1,0 +1,843 @@
+{
+  "project_name": "src",
+  "analysis_date": "2025-04-29 12:17:51",
+  "version": 9,
+  "analysis_mode": "sorted_by_file_count",
+  "src": {
+    "subdirectories": {
+      "components": {
+        "subdirectories": {
+          "process_economics": {
+            "subdirectories": {
+              "components": {
+                "subdirectories": {},
+                "files": [
+                  "CategorySelector.js",
+                  "CiloExplorer.js",
+                  "CiloSection.js",
+                  "CopyLinkModal.js",
+                  "EditItemForm.js",
+                  "GeneralLibrary.js",
+                  "ImportExportPanel.js",
+                  "ItemCard.js",
+                  "ItemDetailsModal.js",
+                  "LibraryHeader.js",
+                  "PersonalLibrary.js",
+                  "PopularItemsCarousel.js",
+                  "SaveToLibraryModal.js",
+                  "ScalingGroupsPreview.js",
+                  "SearchPanel.js",
+                  "ShelfSelector.js",
+                  "UsageIndicator.js",
+                  "UsageStatsOverview.js",
+                  "UsageStatsPanel.js"
+                ]
+              },
+              "services": {
+                "subdirectories": {},
+                "files": [
+                  "libraryService.js",
+                  "mockDataService.js",
+                  "usageTrackingService.js"
+                ]
+              },
+              "data": {
+                "subdirectories": {},
+                "files": [
+                  "categoryData.js",
+                  "ciloData.js"
+                ]
+              },
+              "utils": {
+                "subdirectories": {},
+                "files": [
+                  "authUtils.js",
+                  "blockchainUtils.js"
+                ]
+              },
+              "styles": {
+                "subdirectories": {},
+                "files": [
+                  "LibrarySystem.css"
+                ]
+              }
+            },
+            "files": [
+              "LibrarySystem.js"
+            ]
+          },
+          "modules": {
+            "subdirectories": {},
+            "files": [
+              "CalculationMonitor.js",
+              "ConfigurationMonitor.js",
+              "CustomizableImage.js",
+              "CustomizableTable.js",
+              "Efficacy.js",
+              "FactEngine.js",
+              "FactEngineAdmin.js",
+              "HeaderBackground.js",
+              "PendulumClock.js",
+              "PlotsTabs.js",
+              "SensitivityMonitor.js",
+              "SensitivityPlotsTabs.js",
+              "TestingZone.js",
+              "ThemeButton.js",
+              "ThemeConfigurator.js",
+              "ThemeGenerator.js",
+              "TicTacToe.js",
+              "WhakAMole.js"
+            ]
+          },
+          "find_factual_precedence": {
+            "subdirectories": {
+              "components": {
+                "subdirectories": {
+                  "modules": {
+                    "subdirectories": {
+                      "FactualPrecedence": {
+                        "subdirectories": {},
+                        "files": [
+                          "APIFactualPrecedence.js",
+                          "FactualPrecedenceBase.js",
+                          "FilteredFactualPrecedence.js",
+                          "index.js",
+                          "LocalFactualPrecedence.js"
+                        ]
+                      }
+                    },
+                    "files": []
+                  }
+                },
+                "files": []
+              },
+              "server": {
+                "subdirectories": {
+                  "routes": {
+                    "subdirectories": {},
+                    "files": [
+                      "factualPrecedence.js"
+                    ]
+                  },
+                  "services": {
+                    "subdirectories": {},
+                    "files": [
+                      "llmService.js"
+                    ]
+                  },
+                  "utils": {
+                    "subdirectories": {},
+                    "files": [
+                      "promptGenerator.js"
+                    ]
+                  }
+                },
+                "files": []
+              },
+              "data": {
+                "subdirectories": {},
+                "files": [
+                  "factualPrecedenceData.js",
+                  "keyPointsMapping.js"
+                ]
+              },
+              "styles": {
+                "subdirectories": {},
+                "files": [
+                  "FactualPrecedence.css"
+                ]
+              }
+            },
+            "files": []
+          },
+          "build": {
+            "subdirectories": {},
+            "files": [
+              "BuildWorkflowIntegrationExample.css",
+              "BuildWorkflowIntegrationExample.js",
+              "BuildWorkflowPanel.css",
+              "BuildWorkflowPanel.js",
+              "BuildWorkflowSuggestions.md",
+              "index.js"
+            ]
+          },
+          "cfa": {
+            "subdirectories": {},
+            "files": [
+              "CFAConsolidationUI.js",
+              "IndividualResultsPanel.js",
+              "ProcessingPanel.js",
+              "ResultsPanel.js",
+              "SelectionPanel.js"
+            ]
+          },
+          "truly_extended_scaling": {
+            "subdirectories": {},
+            "files": [
+              "Card.js",
+              "CentralScalingTab.js",
+              "ExtendedScaling.js",
+              "ScalingSummary.js"
+            ]
+          },
+          "process_economics_pilot": {
+            "subdirectories": {},
+            "files": [
+              "integration-module.js",
+              "process-economics-library.js",
+              "scaling-reference-data.js"
+            ]
+          }
+        },
+        "files": []
+      },
+      "styles": {
+        "subdirectories": {
+          "Themes": {
+            "subdirectories": {},
+            "files": [
+              "creative-theme.css",
+              "dark-theme.css",
+              "light-theme.css"
+            ]
+          },
+          "HomePage.CSS": {
+            "subdirectories": {},
+            "files": [
+              "Consolidated.css",
+              "HCSS.css"
+            ]
+          }
+        },
+        "files": []
+      },
+      "utils": {
+        "subdirectories": {},
+        "files": [
+          "ErrorBoundary.js",
+          "labelReferences.js",
+          "serverUtils.js"
+        ]
+      },
+      "contexts": {
+        "subdirectories": {},
+        "files": [
+          "VersionStateContext.js",
+          "VersionStateContext.md"
+        ]
+      }
+    },
+    "files": [
+      "App.js",
+      "Consolidated.js",
+      "Consolidated2.js",
+      "Consolidated3.js",
+      "GeneralFormConfig.js",
+      "HomePage.js",
+      "index.js",
+      "Naturalmotion.js",
+      "ValueTooltip.js"
+    ]
+  },
+  "files_by_extension": {
+    "js": {
+      "subdirectories": {
+        "components": {
+          "subdirectories": {
+            "build": {
+              "files": [
+                {
+                  "name": "BuildWorkflowIntegrationExample.js",
+                  "path": "components\\build\\BuildWorkflowIntegrationExample.js",
+                  "size": 2487
+                },
+                {
+                  "name": "BuildWorkflowPanel.js",
+                  "path": "components\\build\\BuildWorkflowPanel.js",
+                  "size": 11365
+                },
+                {
+                  "name": "index.js",
+                  "path": "components\\build\\index.js",
+                  "size": 472
+                }
+              ]
+            },
+            "cfa": {
+              "files": [
+                {
+                  "name": "CFAConsolidationUI.js",
+                  "path": "components\\cfa\\CFAConsolidationUI.js",
+                  "size": 13017
+                },
+                {
+                  "name": "IndividualResultsPanel.js",
+                  "path": "components\\cfa\\IndividualResultsPanel.js",
+                  "size": 11717
+                },
+                {
+                  "name": "ProcessingPanel.js",
+                  "path": "components\\cfa\\ProcessingPanel.js",
+                  "size": 4508
+                },
+                {
+                  "name": "ResultsPanel.js",
+                  "path": "components\\cfa\\ResultsPanel.js",
+                  "size": 7432
+                },
+                {
+                  "name": "SelectionPanel.js",
+                  "path": "components\\cfa\\SelectionPanel.js",
+                  "size": 2631
+                }
+              ]
+            },
+            "find_factual_precedence": {
+              "subdirectories": {
+                "components": {
+                  "subdirectories": {
+                    "modules": {
+                      "subdirectories": {
+                        "FactualPrecedence": {
+                          "files": [
+                            {
+                              "name": "APIFactualPrecedence.js",
+                              "path": "components\\find_factual_precedence\\components\\modules\\FactualPrecedence\\APIFactualPrecedence.js",
+                              "size": 8375
+                            },
+                            {
+                              "name": "FactualPrecedenceBase.js",
+                              "path": "components\\find_factual_precedence\\components\\modules\\FactualPrecedence\\FactualPrecedenceBase.js",
+                              "size": 20153
+                            },
+                            {
+                              "name": "FilteredFactualPrecedence.js",
+                              "path": "components\\find_factual_precedence\\components\\modules\\FactualPrecedence\\FilteredFactualPrecedence.js",
+                              "size": 13255
+                            },
+                            {
+                              "name": "index.js",
+                              "path": "components\\find_factual_precedence\\components\\modules\\FactualPrecedence\\index.js",
+                              "size": 697
+                            },
+                            {
+                              "name": "LocalFactualPrecedence.js",
+                              "path": "components\\find_factual_precedence\\components\\modules\\FactualPrecedence\\LocalFactualPrecedence.js",
+                              "size": 398
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                "data": {
+                  "files": [
+                    {
+                      "name": "factualPrecedenceData.js",
+                      "path": "components\\find_factual_precedence\\data\\factualPrecedenceData.js",
+                      "size": 21528
+                    },
+                    {
+                      "name": "keyPointsMapping.js",
+                      "path": "components\\find_factual_precedence\\data\\keyPointsMapping.js",
+                      "size": 1906
+                    }
+                  ]
+                },
+                "server": {
+                  "subdirectories": {
+                    "routes": {
+                      "files": [
+                        {
+                          "name": "factualPrecedence.js",
+                          "path": "components\\find_factual_precedence\\server\\routes\\factualPrecedence.js",
+                          "size": 3504
+                        }
+                      ]
+                    },
+                    "services": {
+                      "files": [
+                        {
+                          "name": "llmService.js",
+                          "path": "components\\find_factual_precedence\\server\\services\\llmService.js",
+                          "size": 6361
+                        }
+                      ]
+                    },
+                    "utils": {
+                      "files": [
+                        {
+                          "name": "promptGenerator.js",
+                          "path": "components\\find_factual_precedence\\server\\utils\\promptGenerator.js",
+                          "size": 1648
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "modules": {
+              "files": [
+                {
+                  "name": "CalculationMonitor.js",
+                  "path": "components\\modules\\CalculationMonitor.js",
+                  "size": 12384
+                },
+                {
+                  "name": "ConfigurationMonitor.js",
+                  "path": "components\\modules\\ConfigurationMonitor.js",
+                  "size": 28818
+                },
+                {
+                  "name": "CustomizableImage.js",
+                  "path": "components\\modules\\CustomizableImage.js",
+                  "size": 2571
+                },
+                {
+                  "name": "CustomizableTable.js",
+                  "path": "components\\modules\\CustomizableTable.js",
+                  "size": 7128
+                },
+                {
+                  "name": "Efficacy.js",
+                  "path": "components\\modules\\Efficacy.js",
+                  "size": 9266
+                },
+                {
+                  "name": "FactEngine.js",
+                  "path": "components\\modules\\FactEngine.js",
+                  "size": 7035
+                },
+                {
+                  "name": "FactEngineAdmin.js",
+                  "path": "components\\modules\\FactEngineAdmin.js",
+                  "size": 9245
+                },
+                {
+                  "name": "HeaderBackground.js",
+                  "path": "components\\modules\\HeaderBackground.js",
+                  "size": 23154
+                },
+                {
+                  "name": "PendulumClock.js",
+                  "path": "components\\modules\\PendulumClock.js",
+                  "size": 3200
+                },
+                {
+                  "name": "PlotsTabs.js",
+                  "path": "components\\modules\\PlotsTabs.js",
+                  "size": 9347
+                },
+                {
+                  "name": "SensitivityMonitor.js",
+                  "path": "components\\modules\\SensitivityMonitor.js",
+                  "size": 30969
+                },
+                {
+                  "name": "SensitivityPlotsTabs.js",
+                  "path": "components\\modules\\SensitivityPlotsTabs.js",
+                  "size": 7928
+                },
+                {
+                  "name": "TestingZone.js",
+                  "path": "components\\modules\\TestingZone.js",
+                  "size": 3334
+                },
+                {
+                  "name": "ThemeButton.js",
+                  "path": "components\\modules\\ThemeButton.js",
+                  "size": 1337
+                },
+                {
+                  "name": "ThemeConfigurator.js",
+                  "path": "components\\modules\\ThemeConfigurator.js",
+                  "size": 35056
+                },
+                {
+                  "name": "ThemeGenerator.js",
+                  "path": "components\\modules\\ThemeGenerator.js",
+                  "size": 8666
+                },
+                {
+                  "name": "TicTacToe.js",
+                  "path": "components\\modules\\TicTacToe.js",
+                  "size": 3820
+                },
+                {
+                  "name": "WhakAMole.js",
+                  "path": "components\\modules\\WhakAMole.js",
+                  "size": 5736
+                }
+              ]
+            },
+            "process_economics": {
+              "files": [
+                {
+                  "name": "LibrarySystem.js",
+                  "path": "components\\process_economics\\LibrarySystem.js",
+                  "size": 8998
+                }
+              ],
+              "subdirectories": {
+                "components": {
+                  "files": [
+                    {
+                      "name": "CategorySelector.js",
+                      "path": "components\\process_economics\\components\\CategorySelector.js",
+                      "size": 2978
+                    },
+                    {
+                      "name": "CiloExplorer.js",
+                      "path": "components\\process_economics\\components\\CiloExplorer.js",
+                      "size": 5994
+                    },
+                    {
+                      "name": "CiloSection.js",
+                      "path": "components\\process_economics\\components\\CiloSection.js",
+                      "size": 3709
+                    },
+                    {
+                      "name": "CopyLinkModal.js",
+                      "path": "components\\process_economics\\components\\CopyLinkModal.js",
+                      "size": 4029
+                    },
+                    {
+                      "name": "EditItemForm.js",
+                      "path": "components\\process_economics\\components\\EditItemForm.js",
+                      "size": 7696
+                    },
+                    {
+                      "name": "GeneralLibrary.js",
+                      "path": "components\\process_economics\\components\\GeneralLibrary.js",
+                      "size": 8329
+                    },
+                    {
+                      "name": "ImportExportPanel.js",
+                      "path": "components\\process_economics\\components\\ImportExportPanel.js",
+                      "size": 5295
+                    },
+                    {
+                      "name": "ItemCard.js",
+                      "path": "components\\process_economics\\components\\ItemCard.js",
+                      "size": 15544
+                    },
+                    {
+                      "name": "ItemDetailsModal.js",
+                      "path": "components\\process_economics\\components\\ItemDetailsModal.js",
+                      "size": 15629
+                    },
+                    {
+                      "name": "LibraryHeader.js",
+                      "path": "components\\process_economics\\components\\LibraryHeader.js",
+                      "size": 2105
+                    },
+                    {
+                      "name": "PersonalLibrary.js",
+                      "path": "components\\process_economics\\components\\PersonalLibrary.js",
+                      "size": 9159
+                    },
+                    {
+                      "name": "PopularItemsCarousel.js",
+                      "path": "components\\process_economics\\components\\PopularItemsCarousel.js",
+                      "size": 3948
+                    },
+                    {
+                      "name": "SaveToLibraryModal.js",
+                      "path": "components\\process_economics\\components\\SaveToLibraryModal.js",
+                      "size": 9553
+                    },
+                    {
+                      "name": "ScalingGroupsPreview.js",
+                      "path": "components\\process_economics\\components\\ScalingGroupsPreview.js",
+                      "size": 0
+                    },
+                    {
+                      "name": "SearchPanel.js",
+                      "path": "components\\process_economics\\components\\SearchPanel.js",
+                      "size": 6053
+                    },
+                    {
+                      "name": "ShelfSelector.js",
+                      "path": "components\\process_economics\\components\\ShelfSelector.js",
+                      "size": 5345
+                    },
+                    {
+                      "name": "UsageIndicator.js",
+                      "path": "components\\process_economics\\components\\UsageIndicator.js",
+                      "size": 2054
+                    },
+                    {
+                      "name": "UsageStatsOverview.js",
+                      "path": "components\\process_economics\\components\\UsageStatsOverview.js",
+                      "size": 9179
+                    },
+                    {
+                      "name": "UsageStatsPanel.js",
+                      "path": "components\\process_economics\\components\\UsageStatsPanel.js",
+                      "size": 7780
+                    }
+                  ]
+                },
+                "data": {
+                  "files": [
+                    {
+                      "name": "categoryData.js",
+                      "path": "components\\process_economics\\data\\categoryData.js",
+                      "size": 5925
+                    },
+                    {
+                      "name": "ciloData.js",
+                      "path": "components\\process_economics\\data\\ciloData.js",
+                      "size": 2350
+                    }
+                  ]
+                },
+                "services": {
+                  "files": [
+                    {
+                      "name": "libraryService.js",
+                      "path": "components\\process_economics\\services\\libraryService.js",
+                      "size": 11380
+                    },
+                    {
+                      "name": "mockDataService.js",
+                      "path": "components\\process_economics\\services\\mockDataService.js",
+                      "size": 28232
+                    },
+                    {
+                      "name": "usageTrackingService.js",
+                      "path": "components\\process_economics\\services\\usageTrackingService.js",
+                      "size": 7428
+                    }
+                  ]
+                },
+                "utils": {
+                  "files": [
+                    {
+                      "name": "authUtils.js",
+                      "path": "components\\process_economics\\utils\\authUtils.js",
+                      "size": 4572
+                    },
+                    {
+                      "name": "blockchainUtils.js",
+                      "path": "components\\process_economics\\utils\\blockchainUtils.js",
+                      "size": 2842
+                    }
+                  ]
+                }
+              }
+            },
+            "process_economics_pilot": {
+              "files": [
+                {
+                  "name": "integration-module.js",
+                  "path": "components\\process_economics_pilot\\integration-module.js",
+                  "size": 5873
+                },
+                {
+                  "name": "process-economics-library.js",
+                  "path": "components\\process_economics_pilot\\process-economics-library.js",
+                  "size": 37023
+                },
+                {
+                  "name": "scaling-reference-data.js",
+                  "path": "components\\process_economics_pilot\\scaling-reference-data.js",
+                  "size": 14732
+                }
+              ]
+            },
+            "truly_extended_scaling": {
+              "files": [
+                {
+                  "name": "Card.js",
+                  "path": "components\\truly_extended_scaling\\Card.js",
+                  "size": 577
+                },
+                {
+                  "name": "CentralScalingTab.js",
+                  "path": "components\\truly_extended_scaling\\CentralScalingTab.js",
+                  "size": 9295
+                },
+                {
+                  "name": "ExtendedScaling.js",
+                  "path": "components\\truly_extended_scaling\\ExtendedScaling.js",
+                  "size": 59680
+                },
+                {
+                  "name": "ScalingSummary.js",
+                  "path": "components\\truly_extended_scaling\\ScalingSummary.js",
+                  "size": 17337
+                }
+              ]
+            }
+          }
+        },
+        "contexts": {
+          "files": [
+            {
+              "name": "VersionStateContext.js",
+              "path": "contexts\\VersionStateContext.js",
+              "size": 1101
+            }
+          ]
+        },
+        "utils": {
+          "files": [
+            {
+              "name": "ErrorBoundary.js",
+              "path": "utils\\ErrorBoundary.js",
+              "size": 2463
+            },
+            {
+              "name": "labelReferences.js",
+              "path": "utils\\labelReferences.js",
+              "size": 6204
+            },
+            {
+              "name": "serverUtils.js",
+              "path": "utils\\serverUtils.js",
+              "size": 1514
+            }
+          ]
+        }
+      },
+      "files": [
+        {
+          "name": "App.js",
+          "path": ".\\App.js",
+          "size": 3095
+        },
+        {
+          "name": "Consolidated.js",
+          "path": ".\\Consolidated.js",
+          "size": 151821
+        },
+        {
+          "name": "Consolidated2.js",
+          "path": ".\\Consolidated2.js",
+          "size": 102609
+        },
+        {
+          "name": "Consolidated3.js",
+          "path": ".\\Consolidated3.js",
+          "size": 52055
+        },
+        {
+          "name": "GeneralFormConfig.js",
+          "path": ".\\GeneralFormConfig.js",
+          "size": 31118
+        },
+        {
+          "name": "HomePage.js",
+          "path": ".\\HomePage.js",
+          "size": 115758
+        },
+        {
+          "name": "index.js",
+          "path": ".\\index.js",
+          "size": 271
+        },
+        {
+          "name": "Naturalmotion.js",
+          "path": ".\\Naturalmotion.js",
+          "size": 2453
+        },
+        {
+          "name": "ValueTooltip.js",
+          "path": ".\\ValueTooltip.js",
+          "size": 10391
+        }
+      ]
+    },
+    "css": {
+      "subdirectories": {
+        "components": {
+          "subdirectories": {
+            "build": {
+              "files": [
+                {
+                  "name": "BuildWorkflowIntegrationExample.css",
+                  "path": "components\\build\\BuildWorkflowIntegrationExample.css",
+                  "size": 2504
+                },
+                {
+                  "name": "BuildWorkflowPanel.css",
+                  "path": "components\\build\\BuildWorkflowPanel.css",
+                  "size": 4744
+                }
+              ]
+            },
+            "find_factual_precedence": {
+              "subdirectories": {
+                "styles": {
+                  "files": [
+                    {
+                      "name": "FactualPrecedence.css",
+                      "path": "components\\find_factual_precedence\\styles\\FactualPrecedence.css",
+                      "size": 8287
+                    }
+                  ]
+                }
+              }
+            },
+            "process_economics": {
+              "subdirectories": {
+                "styles": {
+                  "files": [
+                    {
+                      "name": "LibrarySystem.css",
+                      "path": "components\\process_economics\\styles\\LibrarySystem.css",
+                      "size": 49360
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "styles": {
+          "subdirectories": {
+            "HomePage.CSS": {
+              "files": [
+                {
+                  "name": "Consolidated.css",
+                  "path": "styles\\HomePage.CSS\\Consolidated.css",
+                  "size": 54158
+                },
+                {
+                  "name": "HCSS.css",
+                  "path": "styles\\HomePage.CSS\\HCSS.css",
+                  "size": 124034
+                }
+              ]
+            },
+            "Themes": {
+              "files": [
+                {
+                  "name": "creative-theme.css",
+                  "path": "styles\\Themes\\creative-theme.css",
+                  "size": 5773
+                },
+                {
+                  "name": "dark-theme.css",
+                  "path": "styles\\Themes\\dark-theme.css",
+                  "size": 5957
+                },
+                {
+                  "name": "light-theme.css",
+                  "path": "styles\\Themes\\light-theme.css",
+                  "size": 5691
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "jsx": {
+      "subdirectories": {}
+    }
+  }
+}

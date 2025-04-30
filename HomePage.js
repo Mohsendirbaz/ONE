@@ -1,32 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
-import { VersionStateProvider, useVersionState } from './contexts/VersionStateContext';
 import CustomizableImage from './components/modules/CustomizableImage';
 import CustomizableTable from './components/modules/CustomizableTable';
 import ExtendedScaling from 'src/components/truly_extended_scaling/ExtendedScaling';
 import FactEngine from './components/modules/FactEngine';
 import FactEngineAdmin from './components/modules/FactEngineAdmin';
 import GeneralFormConfig from './GeneralFormConfig.js';
-import './styles/HomePage.CSS/HCSS.css';
-import './styles/Themes/dark-theme.css';
-import './styles/Themes/light-theme.css';
-import './styles/Themes/creative-theme.css';
-// Import PropertySelector and VersionSelector from Consolidated3.js instead of separate files
-import { PropertySelector, VersionSelector } from './Consolidated3';
-import SpatialTransformComponent from './Naturalmotion.js'
-import TestingZone from './components/modules/TestingZone';
-import CalculationMonitor from './components/modules/CalculationMonitor';
-import SensitivityMonitor from './components/modules/SensitivityMonitor';
-import ConfigurationMonitor from './components/modules/ConfigurationMonitor';
-import ThemeButton from './components/modules/ThemeButton';
-import PlotsTabs from './components/modules/PlotsTabs';
-import SensitivityPlotsTabs from './components/modules/SensitivityPlotsTabs';
-import CentralScalingTab from 'src/components/truly_extended_scaling/CentralScalingTab';
-import StickerHeader from './components/modules/HeaderBackground';
-import ProcessEconomicsLibrary from './components/process_economics_pilot/integration-module';
-import CFAConsolidationUI from './components/cfa/CFAConsolidationUI';
-import CodeEntityAnalysisTab from './code-entity-analyzer/integration/tab_integration';
 import './styles/HomePage.CSS/HomePage1.css';
 import './styles/HomePage.CSS/HomePage2.css';
 import './styles/HomePage.CSS/HomePage3.css';
@@ -39,50 +19,43 @@ import './styles/HomePage.CSS/HomePage_monitoring.css';
 import './styles/HomePage.CSS/HomePage_FactEngine.css';
 import './styles/HomePage.CSS/HomePage_FactAdmin.css';
 import './styles/HomePage.CSS/HomePage_neumorphic-tabs.css';
+import './styles/Themes/dark-theme.css';
+import './styles/Themes/light-theme.css';
+import './styles/Themes/creative-theme.css';
+import PropertySelector from './PropertySelector.js';
+import VersionSelector from './VersionSelector.js';
+import SpatialTransformComponent from './Naturalmotion.js'
+import useFormValues from './useFormValues.js';
 import './styles/HomePage.CSS/ResetOptionsPopup.css';
 import './styles/HomePage.CSS/RunOptionsPopup.css';
-
-// Import from Consolidated.js
-import { MatrixSubmissionService, ExtendedScaling as ConsolidatedExtendedScaling, GeneralFormConfig as ConsolidatedGeneralFormConfig, MatrixApp } from './Consolidated';
-
-// Import from Consolidated2.js
-import { 
-    useMatrixFormValues,
-    EfficacyManager,
-    VersionZoneManager,
-    MatrixValueEditor,
-    EfficacyPeriodEditor,
-    MatrixConfigExporter,
-    MatrixHistoryManager,
-    MatrixInheritanceManager,
-    MatrixValidator,
-    MatrixSummaryGenerator,
-    SensitivityConfigGenerator,
-    MatrixSyncService,
-    MatrixScalingManager
-} from './Consolidated2';
-
-// Import Consolidated3.js
-import MatrixApp3 from './Consolidated3';
+import versionEventEmitter from './state/EventEmitter';
+import TestingZone from './components/modules/TestingZone';
+import CalculationMonitor from './components/modules/CalculationMonitor';
+import SensitivityMonitor from './components/modules/SensitivityMonitor';
+import ConfigurationMonitor from './components/modules/ConfigurationMonitor';
+import ThemeButton from './components/modules/ThemeButton';
+import PlotsTabs from './components/modules/PlotsTabs';
+import SensitivityPlotsTabs from './components/modules/SensitivityPlotsTabs';
+import CentralScalingTab from 'src/components/truly_extended_scaling/CentralScalingTab';
+import StickerHeader from './components/modules/HeaderBackground';
+import ProcessEconomicsLibrary from './components/process_economics_pilot/integration-module';
 
 
 const HomePageContent = () => {
-    const { selectedVersions, version, setVersion } = useVersionState();
+    const [selectedVersions, setSelectedVersions] = useState([1]);
     const [activeTab, setActiveTab] = useState('Input');
+    useEffect(() => {
+        const handleVersionChange = (version) => {
+            setSelectedVersions(Array.isArray(version) ? version : [version]);
+        };
+
+        versionEventEmitter.on('versionChange', handleVersionChange);
+        return () => {
+            versionEventEmitter.off('versionChange', handleVersionChange);
+        };
+    }, []);
     const [activeSubTab, setActiveSubTab] = useState('ProjectConfig');
     const [selectedProperties, setSelectedProperties] = useState([]);
-
-
-
-    // Diagnostic logging for selectedProperties
-    useEffect(() => {
-        console.log('selectedProperties changed:', selectedProperties);
-    }, [selectedProperties]);
-
-    // Diagnostic logging for selectedVersions
-    useEffect(() => {
-        console.log('selectedVersions changed:', selectedVersions);
-    }, [selectedVersions]);
     const [season, setSeason] = useState('dark');
     const [loadingStates, setLoadingStates] = useState({
         html: false,
@@ -146,10 +119,10 @@ const HomePageContent = () => {
     }, [season]);
 
     const {
-        formMatrix: formValues,
-        setFormMatrix: setFormValues,
+        formValues,
         handleInputChange,
         handleReset,
+        setFormValues,
         S,
         setS,
         F,
@@ -192,8 +165,9 @@ const HomePageContent = () => {
         handleRunOptionChange,
         handleRunConfirm,
         handleRunCancel
-    } = useMatrixFormValues();
+    } = useFormValues();
 
+    const [version, setVersion] = useState('1');
     const [batchRunning, setBatchRunning] = useState(false);
     const [analysisRunning, setAnalysisRunning] = useState(false);
     const [runMode, setRunMode] = useState('cfa'); // 'cfa' or 'sensitivity'
@@ -208,49 +182,43 @@ const HomePageContent = () => {
             borderBottom: '1px solid var(--border-color)',
             marginBottom: '20px'
         }}>
-            <div className="version-selector-wrapper" style={{
+            <div className="version-input-container" style={{
                 display: 'flex',
-                justifyContent: 'space-between',
+                gap: '10px',
                 alignItems: 'center',
+                justifyContent: 'flex-end',
                 maxWidth: '1200px',
                 margin: '0 auto',
                 padding: '0 20px'
             }}>
-                <VersionSelector maxVersions={20} />
-                <div className="version-input-container" style={{
-                    display: 'flex',
-                    gap: '10px',
-                    alignItems: 'center'
-                }}>
-                    <input
-                        id="versionNumber"
-                        type="number"
-                        className="version-input"
-                        placeholder="1"
-                        value={version}
-                        onChange={handleVersionChange}
-                        style={{
-                            width: '80px',
-                            padding: '5px',
-                            border: '1px solid var(--border-color)',
-                            borderRadius: '4px'
-                        }}
-                    />
-                    <button
-                        className="refresh-button"
-                        onClick={handleRefresh}
-                        title="Refresh visualization"
-                        style={{
-                            padding: '5px 10px',
-                            border: '1px solid var(--border-color)',
-                            borderRadius: '4px',
-                            background: 'var(--button-background)',
-                            cursor: 'pointer'
-                        }}
-                    >
-                        ↻
-                    </button>
-                </div>
+                <input
+                    id="versionNumber"
+                    type="number"
+                    className="version-input"
+                    placeholder="1"
+                    value={version}
+                    onChange={handleVersionChange}
+                    style={{
+                        width: '80px',
+                        padding: '5px',
+                        border: '1px solid var(--border-color)',
+                        borderRadius: '4px'
+                    }}
+                />
+                <button
+                    className="refresh-button"
+                    onClick={handleRefresh}
+                    title="Refresh visualization"
+                    style={{
+                        padding: '5px 10px',
+                        border: '1px solid var(--border-color)',
+                        borderRadius: '4px',
+                        background: 'var(--button-background)',
+                        cursor: 'pointer'
+                    }}
+                >
+                    ↻
+                </button>
             </div>
         </div>
     );
@@ -405,6 +373,7 @@ const HomePageContent = () => {
         // Force a re-fetch by setting a different version temporarily
         // Using '0' instead of empty string to ensure it's a valid version number
         // Update selectedVersions first as it's what user selects in version selector
+        setSelectedVersions(['0']);
         // Then update version as a simple state
         setVersion('0');
 
@@ -1310,34 +1279,6 @@ const HomePageContent = () => {
         }
     };
 
-    // Function to generate dynamic plots based on selected options in the popup
-    const executeDynamicPlotsGeneration = async () => {
-        setAnalysisRunning(true);
-        try {
-            const response = await fetch('http://127.0.0.1:5009/runSub', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    selectedVersions,
-                    selectedProperties,
-                    remarks,
-                    customizedFeatures,
-                    subplotSelection: subDynamicPlots,
-                }),
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-        } catch (error) {
-            console.error('Error during dynamic plots generation:', error);
-        } finally {
-            setAnalysisRunning(false);
-        }
-    };
-
     const handleSubmitCompleteSet = async () => {
         const formItems = Object.keys(formValues)
             .filter((key) =>
@@ -1379,24 +1320,13 @@ const HomePageContent = () => {
         }
     };
 
-    // Track if HTML fetch is in progress to prevent multiple simultaneous calls
-    const [isHtmlFetchInProgress, setIsHtmlFetchInProgress] = useState(false);
-
     useEffect(() => {
         const fetchHtmlFiles = async () => {
-            // Skip API call if version is empty (during refresh) or if a fetch is already in progress
+            // Skip API call if version is empty (during refresh)
             if (!version) {
                 console.log('Skipping HTML fetch - version is empty (refresh in progress)');
                 return;
             }
-
-            // Prevent multiple simultaneous calls for the same version
-            if (isHtmlFetchInProgress) {
-                console.log(`Skipping HTML fetch - already in progress for version: ${version}`);
-                return;
-            }
-
-            setIsHtmlFetchInProgress(true);
 
             try {
                 console.log(`Fetching HTML files for version: ${version}`);
@@ -1409,12 +1339,6 @@ const HomePageContent = () => {
 
                 const data = await response.json();
                 console.log(`API response data:`, data);
-
-                // Log the first HTML file's path and transformed URL
-                if (data && data.length > 0 && data[0].path) {
-                    console.log(`Example HTML path:`, data[0].path);
-                    console.log(`Transformed URL:`, transformPathToUrlh(data[0].path));
-                }
 
                 if (!data || data.length === 0) {
                     console.log(`No HTML files returned from API for version ${version}`);
@@ -1436,7 +1360,7 @@ const HomePageContent = () => {
                 console.log(`First HTML file:`, data[0]);
 
                 // Check if the data has the expected structure
-                if (!data[0].album || !data[0].path) {
+                if (!data[0].album || !data[0].content) {
                     console.log(`HTML data does not have the expected structure:`, data[0]);
                     setAlbumHtmls({});
                     return;
@@ -1461,25 +1385,21 @@ const HomePageContent = () => {
                 if (firstAlbumWithHtml) {
                     setSelectedHtml(firstAlbumWithHtml);
 
-                    // Log the HTML path and transformed URL of the first file in the first album
+                    // Log the HTML content of the first file in the first album
                     if (albumGroupedHtmls[firstAlbumWithHtml] && albumGroupedHtmls[firstAlbumWithHtml][0]) {
-                        const firstHtml = albumGroupedHtmls[firstAlbumWithHtml][0];
-                        console.log(`First HTML path:`, firstHtml.path);
-                        console.log(`First HTML transformed URL:`, transformPathToUrlh(firstHtml.path));
+                        console.log(`HTML content of first file:`, albumGroupedHtmls[firstAlbumWithHtml][0].content);
+                        console.log(`HTML content length:`, albumGroupedHtmls[firstAlbumWithHtml][0].content.length);
                     }
                 }
             } catch (error) {
                 console.error('Error fetching HTML files:', error);
                 console.error('Error details:', error.message);
                 setAlbumHtmls({});
-            } finally {
-                // Reset the fetch in progress flag
-                setIsHtmlFetchInProgress(false);
             }
         };
 
         fetchHtmlFiles();
-    }, [version, isHtmlFetchInProgress]);
+    }, [version]);
 
     const transformPathToUrlh = (filePath) => {
         // Normalize the file path to replace backslashes with forward slashes
@@ -1500,7 +1420,8 @@ const HomePageContent = () => {
         // The album should be the second-to-last directory
         const album = pathParts[pathParts.length - 2];
 
-        // Use the same URL construction pattern as the working version
+        // Construct the URL using the extracted parts
+        // Use the Flask server that's serving the HTML files (port 8009)
         return `http://localhost:8009/static/html/${version}/${album}/${fileName}`;
     };
 
@@ -1547,19 +1468,19 @@ const HomePageContent = () => {
         if (!selectedHtml || !albumHtmls[selectedHtml]) return null;
 
         return albumHtmls[selectedHtml].map((html, index) => {
-            const htmlUrl = transformPathToUrlh(html.path);
             return (
                 <div key={index} className={`html-content ${iframesLoaded[index] ? 'loaded' : ''}`}>
                     <iframe
-                        src={htmlUrl}  // Critical change: use src instead of srcDoc
-                        title={html.name}
-                        width="100%" 
-                        height="600px"
-                        style={{ margin: '10px' }}
+                        srcDoc={html.content}
+                        style={{ margin: '10px', width: '100%', height: '600px', border: 'none' }}
                         onLoad={() => {
                             setIframesLoaded((prev) => ({ ...prev, [index]: true }));
+                            console.log(`Iframe ${index} loaded successfully`);
                         }}
                         className={iframesLoaded[index] ? 'loaded' : ''}
+                        title={`HTML Content ${index}`}
+                        allowFullScreen={true}
+                        allow="fullscreen"
                     />
                 </div>
             );
@@ -1592,24 +1513,13 @@ const HomePageContent = () => {
         );
     };
 
-    // Track if image fetch is in progress to prevent multiple simultaneous calls
-    const [isImageFetchInProgress, setIsImageFetchInProgress] = useState(false);
-
     useEffect(() => {
         const fetchImages = async () => {
-            // Skip API call if version is empty (during refresh) or if a fetch is already in progress
+            // Skip API call if version is empty (during refresh)
             if (!version) {
                 console.log('Skipping image fetch - version is empty (refresh in progress)');
                 return;
             }
-
-            // Prevent multiple simultaneous calls for the same version
-            if (isImageFetchInProgress) {
-                console.log(`Skipping image fetch - already in progress for version: ${version}`);
-                return;
-            }
-
-            setIsImageFetchInProgress(true);
 
             try {
                 console.log(`Fetching images for version: ${version}`);
@@ -1638,14 +1548,11 @@ const HomePageContent = () => {
                 }
             } catch (error) {
                 console.error('Error fetching images:', error);
-            } finally {
-                // Reset the fetch in progress flag
-                setIsImageFetchInProgress(false);
             }
         };
 
         fetchImages();
-    }, [version, isImageFetchInProgress]);
+    }, [version]);
 
     const transformPathToUrl = (filePath) => {
         // Normalize the file path to replace backslashes with forward slashes
@@ -1738,24 +1645,13 @@ const HomePageContent = () => {
         );
     };
 
-    // Track if CSV fetch is in progress to prevent multiple simultaneous calls
-    const [isCsvFetchInProgress, setIsCsvFetchInProgress] = useState(false);
-
     useEffect(() => {
         const fetchCsvFiles = async () => {
-            // Skip API call if version is empty (during refresh) or if a fetch is already in progress
+            // Skip API call if version is empty (during refresh)
             if (!version) {
                 console.log('Skipping CSV fetch - version is empty (refresh in progress)');
                 return;
             }
-
-            // Prevent multiple simultaneous calls for the same version
-            if (isCsvFetchInProgress) {
-                console.log(`Skipping CSV fetch - already in progress for version: ${version}`);
-                return;
-            }
-
-            setIsCsvFetchInProgress(true);
 
             try {
                 console.log(`Fetching CSV files for version: ${version}`);
@@ -1768,14 +1664,11 @@ const HomePageContent = () => {
                 setSubTab(data.length > 0 ? data[0].name : ''); // Set the first file as the default subtab if none is active
             } catch (error) {
                 console.error('Error fetching CSV files:', error);
-            } finally {
-                // Reset the fetch in progress flag
-                setIsCsvFetchInProgress(false);
             }
         };
 
         fetchCsvFiles();
-    }, [version, isCsvFetchInProgress]);
+    }, [version]);
 
     useEffect(() => {
         if (csvFiles.length > 0) {
@@ -2299,7 +2192,6 @@ const HomePageContent = () => {
                             onOptionChange={handleRunOptionChange}
                             onConfirm={handleRunConfirm}
                             onCancel={handleRunCancel}
-                            customConfirmHandler={customHandleRunConfirm}
                         />
 
                         {/* Dynamic Plots Options Popup */}
@@ -2358,7 +2250,6 @@ const HomePageContent = () => {
                             <PropertySelector
                                 selectedProperties={selectedProperties}
                                 setSelectedProperties={setSelectedProperties}
-                                formValues={formValues}
                             />
                         </div>
                         <div className="version-selector-container">
@@ -2440,9 +2331,6 @@ const HomePageContent = () => {
                     />
                 );
 
-            case 'CFAConsolidation':
-                return <CFAConsolidationUI />;
-
             case 'TestingZone':
                 return <TestingZone />;
 
@@ -2469,29 +2357,6 @@ const HomePageContent = () => {
                         S={S}
                     />
                 );
-
-            case 'Consolidated1':
-                return <MatrixApp />;
-
-            case 'Consolidated2':
-                return (
-                    <div className="consolidated2-container">
-                        <h2>Consolidated2 Components</h2>
-                        <div className="consolidated2-content">
-                            <VersionZoneManager 
-                                versions={{}} 
-                                zones={{}} 
-                                createVersion={() => {}} 
-                                setActiveVersion={() => {}} 
-                                createZone={() => {}} 
-                                setActiveZone={() => {}}
-                            />
-                        </div>
-                    </div>
-                );
-
-            case 'Consolidated3':
-                return <MatrixApp3 />;
 
             default:
                 return null;
@@ -2568,8 +2433,8 @@ const HomePageContent = () => {
                             Scaling
                         </button>
                         <button
-                            className={`tab-button ${activeTab === 'CFAConsolidation' ? 'active' : ''}`}
-                            onClick={() => setActiveTab('CFAConsolidation')}
+                            className={`tab-button ${activeTab === 'TestingZone' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('TestingZone')}
                         >
                             CFA Consolidation
                         </button>
@@ -2597,29 +2462,10 @@ const HomePageContent = () => {
                         >
                             Sensitivity Analysis
                         </button>
-                        <button
-                            className={`tab-button ${activeTab === 'Consolidated1' ? 'active' : ''}`}
-                            onClick={() => setActiveTab('Consolidated1')}
-                        >
-                            Consolidated1
-                        </button>
-                        <button
-                            className={`tab-button ${activeTab === 'Consolidated2' ? 'active' : ''}`}
-                            onClick={() => setActiveTab('Consolidated2')}
-                        >
-                            Consolidated2
-                        </button>
-                        <button
-                            className={`tab-button ${activeTab === 'Consolidated3' ? 'active' : ''}`}
-                            onClick={() => setActiveTab('Consolidated3')}
-                        >
-                            Consolidated3
-                        </button>
                     </div>
                 </nav>
                 <div className="content-container">
-                    {activeTab !== 'AboutUs' && activeTab !== 'TestingZone' && 
-                     activeTab !== 'Consolidated1' && activeTab !== 'Consolidated2' && activeTab !== 'Consolidated3' &&
+                    {activeTab !== 'AboutUs' && activeTab !== 'TestingZone' &&
                         (
                         <>
                             <SensitivityMonitor
@@ -2643,11 +2489,7 @@ const HomePageContent = () => {
 };
 
 const HomePage = () => {
-
-   return( <VersionStateProvider>
-        <HomePageContent />
-    </VersionStateProvider>
-    );
+    return <HomePageContent />;
 };
 
 export default HomePage;

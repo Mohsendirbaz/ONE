@@ -573,8 +573,8 @@ const MatrixApp = () => {
 
                 // Handle matrix-based values
                 if (versions && zones) {
-                    const activeVersion = versions.active;
-                    const activeZone = zones.active;
+                    const activeVersion = versions?.active || 'v1';
+                    const activeZone = zones?.active || 'z1';
                     paramValue = value.matrix?.[activeVersion]?.[activeZone] || 0;
                 } else {
                     // Handle regular values
@@ -655,9 +655,9 @@ const MatrixApp = () => {
     const handleUpdatePrice = useCallback((version, price) => {
         // Find the initialSellingPriceAmount13 parameter
         if (formMatrix && formMatrix.initialSellingPriceAmount13) {
-            updateParameterValue('initialSellingPriceAmount13', price, versions.active, zones.active);
+            updateParameterValue('initialSellingPriceAmount13', price, versions?.active || 'v1', zones?.active || 'z1');
         }
-    }, [formMatrix, updateParameterValue, versions.active, zones.active]);
+    }, [formMatrix, updateParameterValue, versions?.active, zones?.active]);
 
     // Update version number for efficacy popup
     const handleVersionChange = (newVersion) => {
@@ -678,8 +678,8 @@ const MatrixApp = () => {
                         {/* Version and Zone Management */}
                         {formMatrix && versions && zones && (
                             <VersionZoneManager
-                                versions={versions}
-                                zones={zones}
+                                versions={versions || {}}
+                                zones={zones || {}}
                                 createVersion={createVersion}
                                 setActiveVersion={setActiveVersion}
                                 createZone={createZone}

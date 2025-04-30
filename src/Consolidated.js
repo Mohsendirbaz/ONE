@@ -77,60 +77,61 @@ class MatrixSubmissionService {
      */
     prepareFilteredValues(matrixFormValues, versionId) {
         const filteredValues = { filteredValues: [] };
-        const activeVersion = versionId || matrixFormValues.versions.active;
-        const activeZone = matrixFormValues.zones.active;
+        const activeVersion = versionId || matrixFormValues?.versions?.active || 'v1';
+        const activeZone = matrixFormValues?.zones?.active || 'z1';
 
         // Extract the numeric version from the versionId (e.g., 'v1' -> '1')
         const numericVersion = activeVersion.replace(/\D/g, '');
 
         // Process each parameter in the matrix
-        Object.keys(matrixFormValues.formMatrix).forEach(paramId => {
-            const param = matrixFormValues.formMatrix[paramId];
+        Object.keys(matrixFormValues?.formMatrix || {}).forEach(paramId => {
+            const param = matrixFormValues?.formMatrix?.[paramId];
+            if (!param) return;
 
             // Skip parameters that don't have matrix values for the active version/zone
-            if (!param.matrix[activeVersion] || !param.matrix[activeVersion][activeZone]) {
+            if (!param?.matrix?.[activeVersion] || !param?.matrix?.[activeVersion]?.[activeZone]) {
                 return;
             }
 
             // Get the parameter value for the active version and zone
-            const value = param.matrix[activeVersion][activeZone];
+            const value = param?.matrix?.[activeVersion]?.[activeZone];
 
             // Add the parameter to the filtered values array
             filteredValues.filteredValues.push({
                 id: paramId,
                 value: value,
-                start: param.efficacyPeriod.start.value,
-                end: param.efficacyPeriod.end.value,
-                remarks: param.remarks || ""
+                start: param?.efficacyPeriod?.start?.value || 0,
+                end: param?.efficacyPeriod?.end?.value || 40,
+                remarks: param?.remarks || ""
             });
 
             // Special handling for vector values (Amount4, Amount5, Amount6, Amount7)
             // For vector quantities (vAmountX) and prices (rAmountY)
-            if (param.dynamicAppendix && param.dynamicAppendix.itemState) {
-                const itemState = param.dynamicAppendix.itemState;
+            if (param?.dynamicAppendix && param?.dynamicAppendix?.itemState) {
+                const itemState = param?.dynamicAppendix?.itemState;
 
                 // Only include items that are turned on (status = 'on')
-                if (itemState.status === 'on') {
+                if (itemState?.status === 'on') {
                     // Handle vKey vector items
-                    if (itemState.vKey && paramId.includes('vAmount')) {
+                    if (itemState?.vKey && paramId?.includes('vAmount')) {
                         const vIndex = parseInt(paramId.replace('vAmount', ''));
                         filteredValues.filteredValues.push({
                             id: `variableCostsAmount4_${vIndex - 39}`,
                             value: value,
-                            start: param.efficacyPeriod.start.value,
-                            end: param.efficacyPeriod.end.value,
+                            start: param?.efficacyPeriod?.start?.value || 0,
+                            end: param?.efficacyPeriod?.end?.value || 40,
                             remarks: `Vector Quantity Item ${vIndex - 39}`
                         });
                     }
 
                     // Handle rKey vector items
-                    if (itemState.rKey && paramId.includes('rAmount')) {
+                    if (itemState?.rKey && paramId?.includes('rAmount')) {
                         const rIndex = parseInt(paramId.replace('rAmount', ''));
                         filteredValues.filteredValues.push({
                             id: `amounts_per_unitAmount5_${rIndex - 59}`,
                             value: value,
-                            start: param.efficacyPeriod.start.value,
-                            end: param.efficacyPeriod.end.value,
+                            start: param?.efficacyPeriod?.start?.value || 0,
+                            end: param?.efficacyPeriod?.end?.value || 40,
                             remarks: `Vector Price Item ${rIndex - 59}`
                         });
                     }
@@ -2151,11 +2152,11 @@ const GeneralFormConfig = ({
     // Get plant lifetime value for efficacy calculations
     const getLatestPlantLifetime = (formValues) => {
         // Extract the active version & zone
-        const activeVersion = formValues.versions ? formValues.versions.active : 'v1';
-        const activeZone = formValues.zones ? formValues.zones.active : 'z1';
+        const activeVersion = formValues?.versions?.active || 'v1';
+        const activeZone = formValues?.zones?.active || 'z1';
 
         // Find plant lifetime in matrix
-        const lifetimeParam = Object.values(formValues.formMatrix || formValues)
+        const lifetimeParam = Object.values(formValues?.formMatrix || formValues || {})
             .find(item => item.id === 'plantLifetimeAmount10');
 
         if (lifetimeParam) {
@@ -2224,10 +2225,10 @@ const GeneralFormConfig = ({
     };
 
     // Transform form values into displayable items with appropriate metadata
-    const formItems = Object.keys(formValues.formMatrix || formValues)
+    const formItems = Object.keys(formValues?.formMatrix || formValues || {})
         .filter((key) => key.includes(filterKeyword))
         .map((key) => {
-            const param = formValues.formMatrix ? formValues.formMatrix[key] : formValues[key];
+            const param = formValues?.formMatrix ? formValues?.formMatrix[key] : formValues?.[key];
 
             // For matrix-based form values, extract dynamic appendix information
             let vKey = null, rKey = null, fKey = null, rfKey = null, sKey = null;
@@ -2251,10 +2252,10 @@ const GeneralFormConfig = ({
             // Handle matrix-based form values
             let value, step, remarks, efficacyPeriod, placeholder, type, options;
 
-            if (formValues.versions && formValues.zones) {
+            if (formValues?.versions && formValues?.zones) {
                 // Get active version and zone
-                const activeVersion = formValues.versions.active;
-                const activeZone = formValues.zones.active;
+                const activeVersion = formValues?.versions?.active || 'v1';
+                const activeZone = formValues?.zones?.active || 'z1';
 
                 // Extract value from matrix
                 value = param.matrix && param.matrix[activeVersion] && param.matrix[activeVersion][activeZone] !== undefined
@@ -2302,8 +2303,8 @@ const GeneralFormConfig = ({
         if (Object.keys(originalLabels).length === 0) {
             const labels = {};
             // Check if we're using the matrix structure
-            if (formValues.formMatrix) {
-                Object.entries(formValues.formMatrix).forEach(([key, value]) => {
+            if (formValues?.formMatrix) {
+                Object.entries(formValues?.formMatrix).forEach(([key, value]) => {
                     labels[key] = value.label;
                 });
             } else {
@@ -2319,9 +2320,9 @@ const GeneralFormConfig = ({
     const handleLabelEdit = (itemId) => {
         setEditingLabel(itemId);
         // Get the current label from matrix or regular structure
-        const currentLabel = formValues.formMatrix
-            ? formValues.formMatrix[itemId].label
-            : formValues[itemId].label;
+        const currentLabel = formValues?.formMatrix
+            ? formValues?.formMatrix[itemId]?.label
+            : formValues?.[itemId]?.label;
         setTempLabel(currentLabel);
     };
 
@@ -2349,10 +2350,10 @@ const GeneralFormConfig = ({
             const updates = {};
             Object.keys(editedLabels).forEach(key => {
                 // Handle matrix-based form values
-                if (formValues.formMatrix && formValues.formMatrix[key]) {
-                    const param = formValues.formMatrix[key];
-                    const activeVersion = formValues.versions.active;
-                    const activeZone = formValues.zones.active;
+                if (formValues?.formMatrix && formValues?.formMatrix[key]) {
+                    const param = formValues?.formMatrix[key];
+                    const activeVersion = formValues?.versions?.active || 'v1';
+                    const activeZone = formValues?.zones?.active || 'z1';
 
                     updates[key] = {
                         label: param.label,
@@ -2403,14 +2404,14 @@ const GeneralFormConfig = ({
             const updatedLabels = {};
             Object.entries(labelReferences.propertyMapping).forEach(([key, label]) => {
                 // Handle matrix-based form values
-                if (formValues.formMatrix && formValues.formMatrix[key]) {
+                if (formValues?.formMatrix && formValues?.formMatrix[key]) {
                     handleInputChange({ target: { value: label } }, key, 'label');
 
                     // Also reset default values if available
                     if (labelReferences.defaultValues && labelReferences.defaultValues[key] !== undefined) {
                         // For matrix-based values, update in the active version and zone
-                        const activeVersion = formValues.versions.active;
-                        const activeZone = formValues.zones.active;
+                        const activeVersion = formValues?.versions?.active || 'v1';
+                        const activeZone = formValues?.zones?.active || 'z1';
 
                         // Use updateParameterValue if it exists in the form values object
                         if (formValues.updateParameterValue) {
@@ -2446,10 +2447,10 @@ const GeneralFormConfig = ({
                 const updates = {};
                 Object.keys(updatedLabels).forEach(key => {
                     // Handle matrix-based form values
-                    if (formValues.formMatrix && formValues.formMatrix[key]) {
-                        const param = formValues.formMatrix[key];
-                        const activeVersion = formValues.versions.active;
-                        const activeZone = formValues.zones.active;
+                    if (formValues?.formMatrix && formValues?.formMatrix[key]) {
+                        const param = formValues?.formMatrix[key];
+                        const activeVersion = formValues?.versions?.active || 'v1';
+                        const activeZone = formValues?.zones?.active || 'z1';
 
                         updates[key] = {
                             label: param.label,
@@ -2492,10 +2493,10 @@ const GeneralFormConfig = ({
     // Handle increment button click
     const handleIncrement = (itemId) => {
         // Handle matrix-based form values
-        if (formValues.formMatrix) {
-            const item = formValues.formMatrix[itemId];
-            const activeVersion = formValues.versions.active;
-            const activeZone = formValues.zones.active;
+        if (formValues?.formMatrix) {
+            const item = formValues?.formMatrix[itemId];
+            const activeVersion = formValues?.versions?.active || 'v1';
+            const activeZone = formValues?.zones?.active || 'z1';
 
             // Get current value from matrix
             const currentValue = item.matrix[activeVersion]?.[activeZone] || 0;
@@ -2520,10 +2521,10 @@ const GeneralFormConfig = ({
     // Handle decrement button click
     const handleDecrement = (itemId) => {
         // Handle matrix-based form values
-        if (formValues.formMatrix) {
-            const item = formValues.formMatrix[itemId];
-            const activeVersion = formValues.versions.active;
-            const activeZone = formValues.zones.active;
+        if (formValues?.formMatrix) {
+            const item = formValues?.formMatrix[itemId];
+            const activeVersion = formValues?.versions?.active || 'v1';
+            const activeZone = formValues?.zones?.active || 'z1';
 
             // Get current value from matrix
             const currentValue = item.matrix[activeVersion]?.[activeZone] || 0;
@@ -2557,14 +2558,14 @@ const GeneralFormConfig = ({
         const latestPlantLifetime = getLatestPlantLifetime(formValues);
 
         // Handle efficacy period updates
-        if (formValues.formMatrix) {
+        if (formValues?.formMatrix) {
             // For matrix-based form values, use the efficacyPeriod directly
-            const efficacyPeriod = formValues.formMatrix[itemId].efficacyPeriod || {};
+            const efficacyPeriod = formValues?.formMatrix?.[itemId]?.efficacyPeriod || {};
             // Update the efficacy period end value
             handleInputChange({ target: { value: latestPlantLifetime } }, itemId, 'efficacyPeriod', 'end');
         } else {
             // For regular form values
-            const efficacyPeriod = formValues[itemId].efficacyPeriod || {};
+            const efficacyPeriod = formValues?.[itemId]?.efficacyPeriod || {};
             handleInputChange({ target: { value: latestPlantLifetime } }, itemId, 'efficacyPeriod', 'end');
         }
 
@@ -2914,7 +2915,7 @@ const GeneralFormConfig = ({
                             <input
                                 type="number"
                                 min="0"
-                                value={formValues.formMatrix[selectedItemId]?.efficacyPeriod?.start?.value || 0}
+                                value={formValues?.formMatrix?.[selectedItemId]?.efficacyPeriod?.start?.value || 0}
                                 onChange={(e) => handleInputChange({ target: { value: parseInt(e.target.value) || 0 } }, selectedItemId, 'efficacyPeriod', 'start')}
                             />
                         </div>
@@ -2923,7 +2924,7 @@ const GeneralFormConfig = ({
                             <input
                                 type="number"
                                 min="0"
-                                value={formValues.formMatrix[selectedItemId]?.efficacyPeriod?.end?.value || 20}
+                                value={formValues?.formMatrix?.[selectedItemId]?.efficacyPeriod?.end?.value || 20}
                                 onChange={(e) => handleInputChange({ target: { value: parseInt(e.target.value) || 20 } }, selectedItemId, 'efficacyPeriod', 'end')}
                             />
                         </div>
@@ -2994,7 +2995,7 @@ const MatrixApp = ({
         // Generate scalingBaseCosts with the same structure for all categories
         const updatedScalingBaseCosts = amountCategories.reduce((result, category) => {
             // Extract entries for this category
-            const categoryEntries = Object.entries(formValues.formMatrix || formValues)
+            const categoryEntries = Object.entries(formValues?.formMatrix || formValues || {})
                 .filter(([key]) => key.includes(category));
 
             // Sort entries based on their numeric suffix
@@ -3010,9 +3011,9 @@ const MatrixApp = ({
                 let paramValue;
 
                 // Handle matrix-based values
-                if (formValues.versions && formValues.zones) {
-                    const activeVersion = formValues.versions.active;
-                    const activeZone = formValues.zones.active;
+                if (formValues?.versions?.active && formValues?.zones?.active) {
+                    const activeVersion = formValues?.versions?.active;
+                    const activeZone = formValues?.zones?.active;
                     paramValue = value.matrix?.[activeVersion]?.[activeZone] || 0;
                 } else {
                     // Handle regular values
@@ -3056,7 +3057,7 @@ const MatrixApp = ({
     const handleSubmitCompleteSet = async () => {
         try {
             // Get the active version from matrix state
-            const activeVersion = formValues.versions?.active || "v1";
+            const activeVersion = formValues?.versions?.active || "v1";
             const numericVersion = activeVersion.replace(/\D/g, '');
 
             // Use MatrixSubmissionService to submit form values
@@ -3150,40 +3151,40 @@ const MatrixApp = ({
                         {/* Sub-tab content */}
                         <div className="sub-tab-content">
                             {/* Version and Zone Management - Only show with matrix-based form values */}
-                            {formValues.versions && formValues.zones && (
+                            {formValues?.versions && formValues?.zones && (
                                 <div className="matrix-selectors">
                                     <div className="version-selector">
                                         <h3>Version</h3>
                                         <select
-                                            value={formValues.versions.active}
-                                            onChange={e => formValues.setActiveVersion(e.target.value)}
+                                            value={formValues?.versions?.active || 'v1'}
+                                            onChange={e => formValues?.setActiveVersion?.(e.target.value)}
                                         >
-                                            {formValues.versions.list.map(version => (
+                                            {formValues?.versions?.list?.map(version => (
                                                 <option key={version} value={version}>
-                                                    {formValues.versions.metadata[version].label}
+                                                    {formValues?.versions?.metadata?.[version]?.label || version}
                                                 </option>
                                             ))}
                                         </select>
                                         <button onClick={() => {
-                                            const label = prompt("Enter name for new version:", `Version ${formValues.versions.list.length + 1}`);
-                                            if (label) formValues.createVersion(label);
+                                            const label = prompt("Enter name for new version:", `Version ${(formValues?.versions?.list?.length || 0) + 1}`);
+                                            if (label) formValues?.createVersion?.(label);
                                         }}>+ New Version</button>
                                     </div>
                                     <div className="zone-selector">
                                         <h3>Zone</h3>
                                         <select
-                                            value={formValues.zones.active}
-                                            onChange={e => formValues.setActiveZone(e.target.value)}
+                                            value={formValues?.zones?.active || 'z1'}
+                                            onChange={e => formValues?.setActiveZone?.(e.target.value)}
                                         >
-                                            {formValues.zones.list.map(zone => (
+                                            {formValues?.zones?.list?.map(zone => (
                                                 <option key={zone} value={zone}>
-                                                    {formValues.zones.metadata[zone].label}
+                                                    {formValues?.zones?.metadata?.[zone]?.label || zone}
                                                 </option>
                                             ))}
                                         </select>
                                         <button onClick={() => {
-                                            const label = prompt("Enter name for new zone:", `Zone ${formValues.zones.list.length + 1}`);
-                                            if (label) formValues.createZone(label);
+                                            const label = prompt("Enter name for new zone:", `Zone ${(formValues?.zones?.list?.length || 0) + 1}`);
+                                            if (label) formValues?.createZone?.(label);
                                         }}>+ New Zone</button>
                                     </div>
                                 </div>

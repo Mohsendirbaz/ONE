@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../../styles/HomePage.CSS/HCSS.css';
-import './CalculationMonitor.css'; // New CSS file for enhanced styling
 
 /**
  * Enhanced CalculationMonitor component that displays real-time updates during price optimization

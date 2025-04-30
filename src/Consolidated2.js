@@ -1326,9 +1326,9 @@ export class EfficacyManager {
    * @param {Object} matrixFormValues - Matrix form values object
    */
   constructor(matrixFormValues) {
-    this.formMatrix = matrixFormValues.formMatrix || {};
-    this.versions = matrixFormValues.versions || { active: 'v1' };
-    this.zones = matrixFormValues.zones || { active: 'z1' };
+    this.formMatrix = matrixFormValues?.formMatrix || {};
+    this.versions = matrixFormValues?.versions || { active: 'v1' };
+    this.zones = matrixFormValues?.zones || { active: 'z1' };
     this.efficacyPeriods = {};
     this.simulationTime = 0;
 
@@ -1372,11 +1372,11 @@ export class EfficacyManager {
    * @returns {number} Plant lifetime value
    */
   getPlantLifetime() {
-    const activeVersion = this.versions.active;
-    const activeZone = this.zones.active;
+    const activeVersion = this.versions?.active || 'v1';
+    const activeZone = this.zones?.active || 'z1';
 
     if (this.formMatrix['plantLifetimeAmount10']) {
-      return this.formMatrix['plantLifetimeAmount10'].matrix[activeVersion]?.[activeZone] || 20;
+      return this.formMatrix['plantLifetimeAmount10'].matrix?.[activeVersion]?.[activeZone] || 20;
     }
 
     return 20; // Default plant lifetime
@@ -1527,23 +1527,32 @@ export class EfficacyManager {
  * Version & Zone Management Component
  * Provides UI for managing versions and zones in matrix form values
  */
-export function VersionZoneManager({ versions, zones, createVersion, setActiveVersion, createZone, setActiveZone }) {
+export function VersionZoneManager({ versions = {}, zones = {}, createVersion, setActiveVersion, createZone, setActiveZone }) {
+  // Ensure versions and zones have the required properties with default values
+  const versionsList = versions.list || [];
+  const versionsActive = versions.active || '';
+  const versionsMetadata = versions.metadata || {};
+
+  const zonesList = zones.list || [];
+  const zonesActive = zones.active || '';
+  const zonesMetadata = zones.metadata || {};
+
   return (
     <div className="matrix-selectors">
       <div className="version-selector">
         <h3>Version</h3>
         <select
-          value={versions.active}
+          value={versionsActive}
           onChange={e => setActiveVersion(e.target.value)}
         >
-          {versions.list.map(version => (
+          {versionsList.map(version => (
             <option key={version} value={version}>
-              {versions.metadata[version]?.label || version}
+              {versionsMetadata[version]?.label || version}
             </option>
           ))}
         </select>
         <button onClick={() => {
-          const label = prompt("Enter name for new version:", `Version ${versions.list.length + 1}`);
+          const label = prompt("Enter name for new version:", `Version ${versionsList.length + 1}`);
           if (label) createVersion(label);
         }}>+ New Version</button>
       </div>
@@ -1551,17 +1560,17 @@ export function VersionZoneManager({ versions, zones, createVersion, setActiveVe
       <div className="zone-selector">
         <h3>Zone</h3>
         <select
-          value={zones.active}
+          value={zonesActive}
           onChange={e => setActiveZone(e.target.value)}
         >
-          {zones.list.map(zone => (
+          {zonesList.map(zone => (
             <option key={zone} value={zone}>
-              {zones.metadata[zone]?.label || zone}
+              {zonesMetadata[zone]?.label || zone}
             </option>
           ))}
         </select>
         <button onClick={() => {
-          const label = prompt("Enter name for new zone:", `Zone ${zones.list.length + 1}`);
+          const label = prompt("Enter name for new zone:", `Zone ${zonesList.length + 1}`);
           if (label) createZone(label);
         }}>+ New Zone</button>
       </div>
@@ -2472,8 +2481,8 @@ export class MatrixSummaryGenerator {
     const summaryItems = [];
 
     // Get active version and zone
-    const activeVersion = this.versions.active;
-    const activeZone = this.zones.active;
+    const activeVersion = this.versions?.active || 'v1';
+    const activeZone = this.zones?.active || 'z1';
 
     // Filter parameters by category
     const categoryParams = Object.entries(this.formMatrix)
@@ -2481,7 +2490,7 @@ export class MatrixSummaryGenerator {
       .map(([paramId, param]) => ({
         id: paramId,
         label: param.label,
-        value: param.matrix[activeVersion]?.[activeZone],
+        value: param.matrix?.[activeVersion]?.[activeZone],
         vKey: param.dynamicAppendix?.itemState?.vKey,
         rKey: param.dynamicAppendix?.itemState?.rKey,
         fKey: param.dynamicAppendix?.itemState?.fKey,
@@ -2980,15 +2989,15 @@ export class MatrixScalingManager {
    * @returns {Array} Base costs for scaling
    */
   getScalingBaseCosts(category) {
-    const activeVersion = this.versions.active;
-    const activeZone = this.zones.active;
+    const activeVersion = this.versions?.active || 'v1';
+    const activeZone = this.zones?.active || 'z1';
 
     // Filter parameters by category
     const baseCosts = Object.entries(this.formMatrix)
       .filter(([paramId]) => paramId.includes(category))
       .map(([paramId, param]) => {
         // Get current value from matrix
-        const paramValue = param.matrix[activeVersion]?.[activeZone] || 0;
+        const paramValue = param.matrix?.[activeVersion]?.[activeZone] || 0;
 
         return {
           id: paramId,

@@ -5,9 +5,7 @@ from pathlib import Path
 
 def check_file_exists(file_path):
     if not os.path.exists(file_path):
-        # Convert to absolute path for clearer error message
-        abs_path = os.path.abspath(file_path)
-        print(f"Error: File not found: {abs_path}")
+        print(f"Error: File not found: {file_path}")
         return False
     return True
 
@@ -43,9 +41,24 @@ flask_base_dir = os.path.join(os.path.dirname(__file__))
 
 # List of Flask apps with their subdirectories and ports
 flask_apps = [
-
+    (r"backend\Data_processors_and_transformers\Front_Subtab_Table.py", 8007),
+    (r"backend\Data_processors_and_transformers\Front_Subtab_Plot.py", 8008),
+    (r"backend\Data_processors_and_transformers\Front_Subtab_HTML.py", 8009),
     (r"backend\API_endpoints_and_controllers\Create_new_batch.py", 8001),
-
+    (r"backend\API_endpoints_and_controllers\Remove_batch.py", 7001),
+    (r"backend\API_endpoints_and_controllers\Calculations.py", 5007),
+    (r"backend\API_endpoints_and_controllers\Calculations_and_Sensitivity-LL.py", 2500),
+    (r"backend\API_endpoints_and_controllers\sense_config_base.py", 2600),
+    (r"backend\API_endpoints_and_controllers\PNG.py", 5008),
+    (r"backend\API_endpoints_and_controllers\Sub.py", 5009),
+    (r"backend\Utility_functions\property_mapping_service.py", 5010),
+    (r"backend\API_endpoints_and_controllers\Load.py", 5000),
+    (r"backend\API_endpoints_and_controllers\ConfigurationAPI.py", 5002),
+    (r"backend\API_endpoints_and_controllers\CalSen.py", 2750),
+    (r"backend\cfa_list.py", 4560),
+    (r"backend\API_endpoints_and_controllers\Version_service.py", 8002),
+    (r"backend\flask_api\routes\theme_routes.py", 8010),
+    (r"backend\API_endpoints_and_controllers\subplot_metadata.py", 5011),
 ]
 
 # Base directory where your Node.js scripts are located
@@ -53,7 +66,9 @@ node_base_dir = os.path.dirname(os.path.abspath(__file__))
 
 # List of Node.js scripts to run with their respective ports
 node_scripts = [
-
+    ("submit_parameter_append-updated.js", 3040),
+    ("submitCompleteSet-updated.js", 3052),
+    (r"labelUpdate-updated.js", 3060)
 ]
 
 def verify_python_installation():

@@ -3,7 +3,41 @@ import { Tab } from '@headlessui/react';
 import { ArrowPathIcon, PlusIcon, TrashIcon, LockClosedIcon, LockOpenIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/outline';
 import * as math from 'mathjs';
 import ScalingSummary from './ScalingSummary';
+import DeleteConfirmationModal from './DeleteConfirmationModal';
+import ScalingGroupsPreview from '../process_economics/components/ScalingGroupsPreview';
+import '../process_economics/styles/ScalingGroupsPreview.css';
+// Additional styles for the scaling groups preview section
+const scalingPreviewStyles = `
+  .scaling-groups-preview-section {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+  }
+
+  .scaling-preview-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 1rem;
+  }
+
+  .scaling-preview-container {
+    background-color: #ffffff;
+    border-radius: 0.375rem;
+    overflow: hidden;
+  }
+`;
+
+// Add the styles to the document
+if (typeof document !== 'undefined') {
+  const styleElement = document.createElement('style');
+  styleElement.textContent = scalingPreviewStyles;
+  document.head.appendChild(styleElement);
+}
 import '../../styles/HomePage.CSS/HCSS.css';
+import './styles/DeleteConfirmationModal.css';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -202,6 +236,11 @@ const ExtendedScaling = ({
   const [isExporting, setIsExporting] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
   const [showDocumentation, setShowDocumentation] = useState(false);
+
+  // State for delete confirmation modal
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [groupToDelete, setGroupToDelete] = useState(null);
+  const [groupIndexToDelete, setGroupIndexToDelete] = useState(null);
 
   // Enhanced operations with descriptions
   const operations = [
@@ -932,7 +971,7 @@ const ExtendedScaling = ({
     onActiveGroupChange
   ]);
 
-  // Enhanced remove group with cumulative recalculation and tab config maintenance
+  // Show delete confirmation modal before removing a group
   const removeScalingGroup = useCallback((index) => {
     const groupToRemove = scalingGroups[index];
     if (protectedTabs.has(groupToRemove.id)) {
@@ -943,32 +982,94 @@ const ExtendedScaling = ({
       return;
     }
 
+    // Get affected groups (all groups after the one being deleted)
+    const affectedGroups = scalingGroups.slice(index + 1);
+
+    // Store the group and index to delete
+    setGroupToDelete(groupToRemove);
+    setGroupIndexToDelete(index);
+
+    // Show the confirmation modal
+    setShowDeleteModal(true);
+  }, [scalingGroups, protectedTabs]);
+
+  // Handle the actual deletion with the selected option
+  const handleDeleteConfirm = useCallback((option) => {
+    const index = groupIndexToDelete;
+    const groupToRemove = groupToDelete;
+
+    if (!groupToRemove) return;
+
     // Remove the group
     let newGroups = scalingGroups.filter((_, idx) => idx !== index);
 
-    // Propagate changes if we're removing a group that's not the last one
-    if (index < newGroups.length) {
-      // If we're removing a group that's not the first one, use the previous group's results
-      // Otherwise, reset to original base values
-      if (index > 0) {
-        // Propagate changes starting from the group before the one we just removed
-        newGroups = propagateChanges(newGroups, index - 1);
-      } else {
-        // If we removed the first group, the new first group should use original base values
-        const firstGroup = {...newGroups[0]};
-        firstGroup.items = firstGroup.items.map(item => ({
-          ...item,
-          baseValue: item.originalBaseValue || item.baseValue,
-          scaledValue: calculateScaledValue(
-              item.originalBaseValue || item.baseValue,
-              item.operation,
-              item.scalingFactor
-          )
-        }));
-        newGroups[0] = firstGroup;
+    // Handle different deletion options
+    if (newGroups.length > 0 && index < scalingGroups.length - 1) {
+      switch (option) {
+        case 'adjust':
+          // Default behavior: propagate changes to maintain mathematical relationships
+          if (index > 0) {
+            // Propagate changes starting from the group before the one we just removed
+            newGroups = propagateChanges(newGroups, index - 1);
+          } else {
+            // If we removed the first group, the new first group should use original base values
+            const firstGroup = {...newGroups[0]};
+            firstGroup.items = firstGroup.items.map(item => ({
+              ...item,
+              baseValue: item.originalBaseValue || item.baseValue,
+              scaledValue: calculateScaledValue(
+                  item.originalBaseValue || item.baseValue,
+                  item.operation,
+                  item.scalingFactor
+              )
+            }));
+            newGroups[0] = firstGroup;
 
-        // Then propagate changes from this group onward
-        newGroups = propagateChanges(newGroups, 0);
+            // Then propagate changes from this group onward
+            newGroups = propagateChanges(newGroups, 0);
+          }
+          break;
+
+        case 'preserve':
+          // Keep current values but break the chain
+          // No propagation needed, just keep the current values
+          break;
+
+        case 'reset':
+          // Reset all subsequent groups to use their original base values
+          for (let i = index; i < newGroups.length; i++) {
+            const group = {...newGroups[i]};
+            group.items = group.items.map(item => ({
+              ...item,
+              baseValue: item.originalBaseValue || item.baseValue,
+              scaledValue: calculateScaledValue(
+                  item.originalBaseValue || item.baseValue,
+                  item.operation,
+                  item.scalingFactor
+              )
+            }));
+            newGroups[i] = group;
+          }
+          break;
+
+        default:
+          // Default to adjust if option is not recognized
+          if (index > 0) {
+            newGroups = propagateChanges(newGroups, index - 1);
+          } else {
+            const firstGroup = {...newGroups[0]};
+            firstGroup.items = firstGroup.items.map(item => ({
+              ...item,
+              baseValue: item.originalBaseValue || item.baseValue,
+              scaledValue: calculateScaledValue(
+                  item.originalBaseValue || item.baseValue,
+                  item.operation,
+                  item.scalingFactor
+              )
+            }));
+            newGroups[0] = firstGroup;
+            newGroups = propagateChanges(newGroups, 0);
+          }
       }
     }
 
@@ -990,15 +1091,16 @@ const ExtendedScaling = ({
     }));
     setTabConfigs(newTabConfigs);
 
-    // Add to history
+    // Add to history with the option used
     addToHistory(
         newGroups,
         'remove_group',
-        `Removed scaling group "${groupToRemove.name}" and updated cumulative values`,
+        `Removed scaling group "${groupToRemove.name}" with option "${option}"`,
         {
           groupId: groupToRemove.id,
           groupIndex: index,
           removedGroup: groupToRemove,
+          deletionOption: option,
           tabConfigs: newTabConfigs
         }
     );
@@ -1006,7 +1108,13 @@ const ExtendedScaling = ({
     if (onScalingGroupsChange) {
       onScalingGroupsChange(newGroups);
     }
+
+    // Reset state
+    setGroupToDelete(null);
+    setGroupIndexToDelete(null);
   }, [
+    groupToDelete,
+    groupIndexToDelete,
     scalingGroups,
     selectedGroup,
     addToHistory,
@@ -1547,11 +1655,29 @@ const ExtendedScaling = ({
               toggleR={toggleR}
           />
 
+          <div className="scaling-groups-preview-section">
+            <h3 className="scaling-preview-title">Scaling Groups Preview</h3>
+            <div className="scaling-preview-container">
+              <ScalingGroupsPreview 
+                scalingGroups={scalingGroups}
+              />
+            </div>
+          </div>
+
           {showDocumentation && (
               <div className="scaling-documentation-overlay">
                 <CumulativeDocumentation onClose={() => setShowDocumentation(false)} />
               </div>
           )}
+
+          {/* Delete Confirmation Modal */}
+          <DeleteConfirmationModal
+            isOpen={showDeleteModal}
+            onClose={() => setShowDeleteModal(false)}
+            groupToDelete={groupToDelete}
+            affectedGroups={groupIndexToDelete !== null ? scalingGroups.slice(groupIndexToDelete + 1) : []}
+            onConfirm={handleDeleteConfirm}
+          />
         </div>
       </DndProvider>
   );

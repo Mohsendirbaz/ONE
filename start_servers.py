@@ -68,7 +68,7 @@ node_base_dir = os.path.dirname(os.path.abspath(__file__))
 node_scripts = [
     ("submit_parameter_append-updated.js", 3040),
     ("submitCompleteSet-updated.js", 3052),
-    (r"labelUpdate-updated.js", 3061),
+    (r"labelUpdate-updated.js", 3092),
     (r"master-server.js", 3060),
 ]
 

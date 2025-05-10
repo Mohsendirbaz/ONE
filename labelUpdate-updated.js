@@ -291,7 +291,7 @@ app.use((err, req, res, next) => {
 // Get port from command line arguments or use default
 const PORT = process.argv.includes('--port')
     ? parseInt(process.argv[process.argv.indexOf('--port') + 1], 10)
-    : 3060;
+    : 3092;
 
 app.listen(PORT, () => {
   console.log(`Label Update server running on port ${PORT}`);

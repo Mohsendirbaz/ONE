@@ -5,10 +5,11 @@ import '../../styles/HomePage.CSS/ConflictResolutionPanel.css';
  * ConflictResolutionPanel component
  * 
  * Helps users resolve conflicts where the degree of freedom constraint is violated
- * (multiple values for the same parameter in the same year)
+ * (multiple values for the same parameter-scaling group combination in the same year)
  * 
  * @param {Object} props
  * @param {string} props.paramId - The parameter ID with a conflict
+ * @param {number} props.scalingGroupId - The scaling group ID with a conflict
  * @param {number} props.year - The year with a conflict
  * @param {Array} props.conflictingPeriods - Array of efficacy periods that conflict
  * @param {Function} props.onResolve - Function to call when conflict is resolved
@@ -16,6 +17,7 @@ import '../../styles/HomePage.CSS/ConflictResolutionPanel.css';
  */
 const ConflictResolutionPanel = ({ 
   paramId, 
+  scalingGroupId, 
   year, 
   conflictingPeriods = [], 
   onResolve, 
@@ -37,14 +39,14 @@ const ConflictResolutionPanel = ({
   // Get the maximum year from all periods
   const getMaxYear = () => {
     if (!conflictingPeriods || conflictingPeriods.length === 0) return year;
-    
+
     return Math.max(...conflictingPeriods.map(period => period.end || 0));
   };
 
   // Handle resolution method change
   const handleMethodChange = (method) => {
     setResolutionMethod(method);
-    
+
     // Reset custom years when switching to 'adjust'
     if (method === 'adjust') {
       setCustomStartYear(year);
@@ -55,18 +57,19 @@ const ConflictResolutionPanel = ({
   // Handle resolution submission
   const handleSubmit = () => {
     if (!onResolve) return;
-    
+
     setIsSubmitting(true);
-    
+
     try {
       let resolution;
-      
+
       if (resolutionMethod === 'select') {
         // Keep one period, remove others
         resolution = {
           type: 'select',
           keepPeriodIndex: selectedResolution,
           paramId,
+          scalingGroupId,
           year
         };
       } else if (resolutionMethod === 'adjust') {
@@ -98,6 +101,7 @@ const ConflictResolutionPanel = ({
             }
           }),
           paramId,
+          scalingGroupId,
           year
         };
       } else if (resolutionMethod === 'custom') {
@@ -107,10 +111,11 @@ const ConflictResolutionPanel = ({
           customStart: customStartYear,
           customEnd: customEndYear,
           paramId,
+          scalingGroupId,
           year
         };
       }
-      
+
       onResolve(resolution);
     } catch (error) {
       console.error('Error resolving conflict:', error);
@@ -124,7 +129,7 @@ const ConflictResolutionPanel = ({
     return (
       <div className="conflict-resolution-panel">
         <h3>No Conflicts Found</h3>
-        <p>There are no conflicting efficacy periods for {paramId} in year {year}.</p>
+        <p>There are no conflicting efficacy periods for {paramId} (Scaling Group {scalingGroupId}) in year {year}.</p>
         <div className="resolution-actions">
           <button className="cancel-button" onClick={onCancel}>Close</button>
         </div>
@@ -140,10 +145,13 @@ const ConflictResolutionPanel = ({
           <strong>Parameter:</strong> {paramId}
         </p>
         <p>
+          <strong>Scaling Group:</strong> {scalingGroupId}
+        </p>
+        <p>
           <strong>Year:</strong> {year}
         </p>
         <p>
-          <strong>Conflict:</strong> {conflictingPeriods.length} efficacy periods overlap for this year
+          <strong>Conflict:</strong> {conflictingPeriods.length} efficacy periods overlap for this parameter-scaling group-year combination
         </p>
       </div>
 
@@ -159,7 +167,7 @@ const ConflictResolutionPanel = ({
             />
             Select one period to keep
           </label>
-          
+
           <label>
             <input
               type="radio"
@@ -170,7 +178,7 @@ const ConflictResolutionPanel = ({
             />
             Automatically adjust boundaries
           </label>
-          
+
           <label>
             <input
               type="radio"
@@ -228,7 +236,7 @@ const ConflictResolutionPanel = ({
               <ul>
                 {conflictingPeriods.map((period, index) => {
                   let adjustmentText = '';
-                  
+
                   // If this is the first period and year is at the start, adjust the end
                   if (index === 0 && period.start === year) {
                     adjustmentText = `End year will change from ${period.end} to ${year - 1}`;
@@ -241,7 +249,7 @@ const ConflictResolutionPanel = ({
                   else {
                     adjustmentText = `Period will be split at year ${year}`;
                   }
-                  
+
                   return (
                     <li key={`adjustment-${index}`}>
                       Period {index + 1} (Years {period.start}-{period.end}): {adjustmentText}

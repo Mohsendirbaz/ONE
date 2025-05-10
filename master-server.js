@@ -50,17 +50,17 @@ const services = [
 // Function to start a service
 function startService(service) {
   console.log(`Starting ${service.name} on port ${service.port}...`);
-  
+
   const process = spawn(service.command, service.args);
-  
+
   process.stdout.on('data', (data) => {
     console.log(`[${service.name}] ${data}`);
   });
-  
+
   process.stderr.on('data', (data) => {
     console.error(`[${service.name}] Error: ${data}`);
   });
-  
+
   process.on('close', (code) => {
     console.log(`${service.name} process exited with code ${code}`);
     // Restart the service if it crashes
@@ -69,7 +69,7 @@ function startService(service) {
       startService(service);
     }, 5000);
   });
-  
+
   return process;
 }
 
@@ -102,11 +102,11 @@ app.get('/status', async (req, res) => {
         };
       }
     }));
-    
+
     res.json({
       masterServer: {
         status: 'UP',
-        port: process.env.PORT || 3060
+        port: process.env.PORT || 3061
       },
       services: statuses
     });
@@ -121,12 +121,12 @@ app.get('/status', async (req, res) => {
 // Handle graceful shutdown
 function shutdown() {
   console.log('Shutting down all services...');
-  
+
   serviceProcesses.forEach((process, index) => {
     console.log(`Stopping ${services[index].name}...`);
     process.kill();
   });
-  
+
   console.log('All services stopped. Exiting...');
   process.exit(0);
 }

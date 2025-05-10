@@ -1,116 +1,181 @@
 /**
- * CapacityTrackingService.js
+ * Capacity Tracking Service
  * 
- * Service for tracking capacity utilization across different components of the application.
- * This service allows setting capacity limits for various features and calculating
- * what percentage of the theoretical capacity is being utilized.
+ * Service to track and calculate capacity usage across the application
+ * Handles tracking for parameters, scaling groups, sensitivity variations,
+ * configurable versions, and plant lifetime
  */
-
 class CapacityTrackingService {
   constructor() {
-    // Default capacity limits for different components
+    // Default capacity limits
     this.capacityLimits = {
-      // SensitivityMonitor: Maximum number of sensitivity variables that can be configured
-      sensitivityVariables: 6,
-
-      // ScalingGroups: Maximum number of scaling groups
-      scalingGroups: 5,
-
-      // ConfigurableVersions: Maximum number of configurable versions
+      parameters: 75,                // S10-S84
+      maxScalingGroups: 5,           // Per parameter
+      maxSensitivityVariations: 6,   // Per parameter-scaling group combination
       configurableVersions: 20,
-
-      // PlantLifetime: Maximum number of years in plant lifetime
-      plantLifetime: 20,
-
-      // Other components can be added here as needed
+      plantLifetime: 20              // Years
     };
 
-    // Store for current usage counts
-    this.currentUsage = {
-      sensitivityVariables: 0,
-      scalingGroups: 0,
-      configurableVersions: 0,
-      plantLifetime: 0,
+    // Current usage
+    this.usage = {
+      parameters: 0,                 // Number of parameters in use
+      scalingGroups: 0,              // Total scaling groups in use
+      sensitivityVariations: 0,      // Total sensitivity variations in use
+      configurableVersions: 0,       // Number of versions configured
+      plantLifetime: 0               // Years configured
     };
   }
 
   /**
-   * Set a capacity limit for a specific component
-   * @param {string} componentKey - The component identifier
-   * @param {number} limit - The maximum capacity value
+   * Set a capacity limit
+   * @param {string} key - The capacity limit key
+   * @param {number} value - The capacity limit value
    */
-  setCapacityLimit(componentKey, limit) {
-    if (typeof limit !== 'number' || limit <= 0) {
-      throw new Error('Capacity limit must be a positive number');
+  setCapacityLimit(key, value) {
+    if (key in this.capacityLimits) {
+      this.capacityLimits[key] = value;
     }
-
-    this.capacityLimits[componentKey] = limit;
-    return this.capacityLimits[componentKey];
   }
 
   /**
-   * Get the current capacity limit for a component
-   * @param {string} componentKey - The component identifier
-   * @returns {number} The current capacity limit
+   * Get a capacity limit
+   * @param {string} key - The capacity limit key
+   * @returns {number} The capacity limit value
    */
-  getCapacityLimit(componentKey) {
-    return this.capacityLimits[componentKey] || 0;
+  getCapacityLimit(key) {
+    return this.capacityLimits[key];
   }
 
   /**
-   * Update the current usage count for a component
-   * @param {string} componentKey - The component identifier
-   * @param {number} count - The current usage count
+   * Update parameters usage
+   * @param {number} count - Number of parameters in use
    */
-  updateUsageCount(componentKey, count) {
-    if (typeof count !== 'number' || count < 0) {
-      throw new Error('Usage count must be a non-negative number');
-    }
-
-    this.currentUsage[componentKey] = count;
-    return this.currentUsage[componentKey];
+  updateParametersUsage(count) {
+    this.usage.parameters = count;
   }
 
   /**
-   * Get the current usage count for a component
-   * @param {string} componentKey - The component identifier
-   * @returns {number} The current usage count
+   * Update scaling groups usage
+   * @param {number} count - Total scaling groups in use
    */
-  getUsageCount(componentKey) {
-    return this.currentUsage[componentKey] || 0;
+  updateScalingGroupsUsage(count) {
+    this.usage.scalingGroups = count;
   }
 
   /**
-   * Calculate the usage percentage for a component
-   * @param {string} componentKey - The component identifier
-   * @returns {number} The usage percentage (0-100)
+   * Update sensitivity variations usage
+   * @param {number} count - Total sensitivity variations in use
    */
-  getUsagePercentage(componentKey) {
-    const limit = this.getCapacityLimit(componentKey);
-    const usage = this.getUsageCount(componentKey);
-
-    if (limit <= 0) return 0;
-
-    const percentage = (usage / limit) * 100;
-    return Math.min(Math.round(percentage * 10) / 10, 100); // Round to 1 decimal place, cap at 100%
+  updateSensitivityVariationsUsage(count) {
+    this.usage.sensitivityVariations = count;
   }
 
   /**
-   * Get usage statistics for all tracked components
-   * @returns {Object} Object containing usage statistics for all components
+   * Update configurable versions usage
+   * @param {number} count - Number of versions configured
+   */
+  updateConfigurableVersionsUsage(count) {
+    this.usage.configurableVersions = count;
+  }
+
+  /**
+   * Update plant lifetime usage
+   * @param {number} count - Years configured
+   */
+  updatePlantLifetimeUsage(count) {
+    this.usage.plantLifetime = count;
+  }
+
+  /**
+   * Get usage stats for all capacity types
+   * @returns {Object} Usage stats
    */
   getAllUsageStats() {
-    const stats = {};
+    return {
+      parameters: {
+        used: this.usage.parameters,
+        limit: this.capacityLimits.parameters,
+        percentage: Math.round((this.usage.parameters / this.capacityLimits.parameters) * 100)
+      },
+      maxScalingGroups: {
+        used: this.usage.scalingGroups,
+        // Maximum possible scaling groups is parameters * maxScalingGroups
+        limit: this.usage.parameters * this.capacityLimits.maxScalingGroups,
+        percentage: Math.round((this.usage.scalingGroups / 
+          (this.usage.parameters * this.capacityLimits.maxScalingGroups)) * 100)
+      },
+      maxSensitivityVariations: {
+        used: this.usage.sensitivityVariations,
+        // Maximum possible sensitivity variations is total scaling groups * maxSensitivityVariations
+        limit: this.usage.scalingGroups * this.capacityLimits.maxSensitivityVariations,
+        percentage: Math.round((this.usage.sensitivityVariations / 
+          (this.usage.scalingGroups * this.capacityLimits.maxSensitivityVariations)) * 100)
+      },
+      configurableVersions: {
+        used: this.usage.configurableVersions,
+        limit: this.capacityLimits.configurableVersions,
+        percentage: Math.round((this.usage.configurableVersions / this.capacityLimits.configurableVersions) * 100)
+      },
+      plantLifetime: {
+        used: this.usage.plantLifetime,
+        limit: this.capacityLimits.plantLifetime,
+        percentage: Math.round((this.usage.plantLifetime / this.capacityLimits.plantLifetime) * 100)
+      },
+      // Total capacity usage calculation
+      totalCapacity: {
+        // Theoretical maximum: parameters * maxScalingGroups * maxSensitivityVariations * plantLifetime * configurableVersions
+        theoretical: this.capacityLimits.parameters * 
+                    this.capacityLimits.maxScalingGroups * 
+                    this.capacityLimits.maxSensitivityVariations * 
+                    this.capacityLimits.plantLifetime * 
+                    this.capacityLimits.configurableVersions,
+        // Actual usage: parameters * scalingGroups * sensitivityVariations * plantLifetime * configurableVersions
+        used: this.usage.parameters * 
+              this.usage.scalingGroups * 
+              this.usage.sensitivityVariations * 
+              this.usage.plantLifetime * 
+              this.usage.configurableVersions,
+        // Usage percentage
+        percentage: Math.round(((this.usage.parameters * 
+                              this.usage.scalingGroups * 
+                              this.usage.sensitivityVariations * 
+                              this.usage.plantLifetime * 
+                              this.usage.configurableVersions) / 
+                            (this.capacityLimits.parameters * 
+                            this.capacityLimits.maxScalingGroups * 
+                            this.capacityLimits.maxSensitivityVariations * 
+                            this.capacityLimits.plantLifetime * 
+                            this.capacityLimits.configurableVersions)) * 100)
+      }
+    };
+  }
 
-    for (const componentKey in this.capacityLimits) {
-      stats[componentKey] = {
-        limit: this.getCapacityLimit(componentKey),
-        usage: this.getUsageCount(componentKey),
-        percentage: this.getUsagePercentage(componentKey)
-      };
+  /**
+   * Find degree of freedom conflicts for a parameter
+   * @param {string} paramId - Parameter ID
+   * @param {Array} efficacyPeriods - Array of efficacy periods
+   * @param {number} maxYears - Maximum number of years to check
+   * @returns {Array} Array of years with conflicts
+   */
+  findDegreeOfFreedomConflicts(paramId, efficacyPeriods, maxYears) {
+    if (!efficacyPeriods || !Array.isArray(efficacyPeriods)) return [];
+
+    const conflicts = [];
+
+    // Check each year
+    for (let year = 1; year <= maxYears; year++) {
+      // Count how many periods include this year
+      const periodsForYear = efficacyPeriods.filter(period => 
+        year >= period.start && year <= period.end
+      );
+
+      // If more than one period includes this year, it's a conflict
+      if (periodsForYear.length > 1) {
+        conflicts.push(year);
+      }
     }
 
-    return stats;
+    return conflicts;
   }
 
   /**
@@ -127,87 +192,17 @@ class CapacityTrackingService {
       .filter(value => value.enabled)
       .length;
 
-    this.updateUsageCount('sensitivityVariables', enabledCount);
-    return this.getUsagePercentage('sensitivityVariables');
+    this.updateParametersUsage(enabledCount);
+    return Math.round((enabledCount / this.capacityLimits.parameters) * 100);
   }
 
   /**
-   * Calculate the usage percentage for scaling groups
-   * @param {Array} scalingGroups - The scaling groups array
-   * @returns {number} The usage percentage
+   * Get the current usage count for a component
+   * @param {string} componentKey - The component identifier
+   * @returns {number} The current usage count
    */
-  updateScalingGroupsUsage(scalingGroups) {
-    if (!Array.isArray(scalingGroups)) return 0;
-
-    this.updateUsageCount('scalingGroups', scalingGroups.length);
-    return this.getUsagePercentage('scalingGroups');
-  }
-
-  /**
-   * Calculate the usage percentage for configurable versions
-   * @param {number} versionsCount - The number of configurable versions in use
-   * @returns {number} The usage percentage
-   */
-  updateConfigurableVersionsUsage(versionsCount) {
-    if (typeof versionsCount !== 'number' || versionsCount < 0) return 0;
-
-    this.updateUsageCount('configurableVersions', versionsCount);
-    return this.getUsagePercentage('configurableVersions');
-  }
-
-  /**
-   * Calculate the usage percentage for plant lifetime
-   * @param {number} lifetime - The current plant lifetime in years
-   * @returns {number} The usage percentage
-   */
-  updatePlantLifetimeUsage(lifetime) {
-    if (typeof lifetime !== 'number' || lifetime < 0) return 0;
-
-    this.updateUsageCount('plantLifetime', lifetime);
-    return this.getUsagePercentage('plantLifetime');
-  }
-
-  /**
-   * Check if a parameter has multiple values for the same time unit
-   * This enforces the degree of freedom constraint: one value per parameter per time unit
-   * 
-   * @param {string} paramId - The parameter identifier
-   * @param {number} year - The year to check
-   * @param {Array} efficacyPeriods - Array of efficacy periods for the parameter
-   * @returns {boolean} True if there's a conflict, false otherwise
-   */
-  checkDegreeOfFreedomConflict(paramId, year, efficacyPeriods) {
-    if (!efficacyPeriods || !Array.isArray(efficacyPeriods)) return false;
-
-    // Count how many efficacy periods include this year
-    const periodsForYear = efficacyPeriods.filter(period => {
-      return year >= period.start && year <= period.end;
-    });
-
-    // If more than one period includes this year, there's a conflict
-    return periodsForYear.length > 1;
-  }
-
-  /**
-   * Find all degree of freedom conflicts for a parameter across all years
-   * 
-   * @param {string} paramId - The parameter identifier
-   * @param {Array} efficacyPeriods - Array of efficacy periods for the parameter
-   * @param {number} maxYear - The maximum year to check (typically plant lifetime)
-   * @returns {Array} Array of years with conflicts
-   */
-  findDegreeOfFreedomConflicts(paramId, efficacyPeriods, maxYear = 20) {
-    if (!efficacyPeriods || !Array.isArray(efficacyPeriods)) return [];
-
-    const conflicts = [];
-
-    for (let year = 1; year <= maxYear; year++) {
-      if (this.checkDegreeOfFreedomConflict(paramId, year, efficacyPeriods)) {
-        conflicts.push(year);
-      }
-    }
-
-    return conflicts;
+  getUsageCount(componentKey) {
+    return this.usage[componentKey] || 0;
   }
 }
 

@@ -54,6 +54,7 @@ import CustomizableTable from './components/modules/CustomizableTable';
 import Popup from './components/modules/Efficacy';
 import SensitivityMonitor, { sensitivityActionRef } from './components/modules/SensitivityMonitor';
 import SensitivityPlotsTabs from './components/modules/SensitivityPlotsTabs';
+import EfficacyMapContainer from './components/modules/EfficacyMapContainer';
 
 // Import styling
 import './styles/HomePage.CSS/HCSS.css';
@@ -960,6 +961,25 @@ const MatrixApp = () => {
                                         onFinalResultsGenerated={handleFinalResultsGenerated}
                                         activeGroupIndex={activeScalingGroups.Amount7 || 0}
                                         onActiveGroupChange={handleActiveGroupChange}
+                                    />
+                                </>
+                            )}
+
+                            {/* Scaling Tab */}
+                            {activeSubTab === 'Scaling' && (
+                                <>
+                                    {/* Integrate EfficacyMapContainer */}
+                                    <EfficacyMapContainer
+                                        parameters={formMatrix}
+                                        plantLifetime={formMatrix?.plantLifetimeAmount10?.value || 20}
+                                        configurableVersions={20}
+                                        scalingGroups={scalingGroups.length || 5}
+                                        onParameterUpdate={(paramId, updatedParam) => {
+                                            handleInputChange(
+                                                { target: { value: updatedParam.value } },
+                                                paramId
+                                            );
+                                        }}
                                     />
                                 </>
                             )}

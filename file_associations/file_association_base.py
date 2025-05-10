@@ -10,6 +10,12 @@ import json
 from typing import Dict, List, Set, Any, Union, Optional
 from os import PathLike
 
+from .path_utils import (
+    get_absolute_path, get_relative_path, join_paths, 
+    get_basename, get_file_extension, is_binary_file,
+    extract_timestamp_from_filename
+)
+
 
 class FileAssociationBase:
     """Base class for file association analysis."""
@@ -21,7 +27,7 @@ class FileAssociationBase:
         Args:
             project_path: Path to the project directory
         """
-        self.project_path = os.path.abspath(project_path)
+        self.project_path = get_absolute_path(project_path)
         self.associations: Dict[str, Dict[str, List[str]]] = {}
 
     def analyze_file(self, file_path: Union[str, PathLike]) -> Dict[str, List[str]]:
@@ -36,23 +42,31 @@ class FileAssociationBase:
         """
         raise NotImplementedError("Subclasses must implement analyze_file")
 
-    def analyze_project(self) -> Dict[str, Dict[str, List[str]]]:
+    def analyze_project(self, max_files=None) -> Dict[str, Dict[str, List[str]]]:
         """
         Analyze all files in the project for associations.
+
+        Args:
+            max_files: Maximum number of files to analyze (None for all)
 
         Returns:
             A dictionary of associations for all files in the project
         """
+        files_analyzed = 0
         for root, dirs, files in os.walk(self.project_path):
             # Skip .git and other hidden directories
             dirs[:] = [d for d in dirs if not d.startswith('.')]
 
             for file in files:
                 if self._should_analyze_file(file):
-                    file_path = os.path.join(root, file)
-                    rel_path = os.path.relpath(file_path, self.project_path)
+                    file_path = join_paths(root, file)
+                    rel_path = get_relative_path(file_path, self.project_path)
                     try:
                         self.associations[rel_path] = self.analyze_file(file_path)
+                        files_analyzed += 1
+                        if max_files is not None and files_analyzed >= max_files:
+                            print(f"Reached maximum number of files to analyze ({max_files})")
+                            return self.associations
                     except UnicodeDecodeError as e:
                         print(f"Error analyzing associations in {file_path}: {str(e)}")
                     except Exception as e:
@@ -81,7 +95,7 @@ class FileAssociationBase:
             '.pdf', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx',
             '.zip', '.tar', '.gz', '.rar', '.7z'
         }
-        _, ext = os.path.splitext(file_name)
+        ext = get_file_extension(file_name)
         if ext.lower() in extensions_to_skip:
             return False
 
@@ -99,8 +113,8 @@ class FileAssociationBase:
         """
         with open(output_path, 'w') as f:
             json.dump({
-                "project_name": os.path.basename(self.project_path),
-                "analysis_date": os.path.basename(output_path).split('_')[-1].split('.')[0],
+                "project_name": get_basename(self.project_path),
+                "analysis_date": extract_timestamp_from_filename(output_path),
                 "associations": self.associations
             }, f, indent=2)
 

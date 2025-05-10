@@ -13,6 +13,10 @@ from typing import Dict, List, Set, Any, Union, Optional
 from os import PathLike
 
 from .file_association_base import FileAssociationBase
+from .path_utils import (
+    get_absolute_path, get_relative_path, join_paths, 
+    get_basename, get_file_extension, extract_timestamp_from_filename, is_binary_file
+)
 
 
 class CommonPortAnalyzer(FileAssociationBase):
@@ -39,23 +43,7 @@ class CommonPortAnalyzer(FileAssociationBase):
         Returns:
             True if the file is likely to be binary, False otherwise
         """
-        # Try to read a small portion of the file to check for binary content
-        try:
-            with open(file_path, 'rb') as f:
-                chunk = f.read(1024)
-                # Check for null bytes which are common in binary files
-                if b'\x00' in chunk:
-                    return True
-
-                # Try to decode as text
-                try:
-                    chunk.decode('utf-8')
-                    return False  # Successfully decoded as UTF-8
-                except UnicodeDecodeError:
-                    return True  # Failed to decode as UTF-8, likely binary
-        except Exception:
-            # If we can't read the file, assume it's not binary
-            return False
+        return is_binary_file(file_path)
 
     def analyze_file(self, file_path: Union[str, PathLike]) -> Dict[str, List[str]]:
         """
@@ -118,8 +106,8 @@ class CommonPortAnalyzer(FileAssociationBase):
             except SyntaxError:
                 # Fall back to regex for files with syntax errors
                 # This is a simplified approach and won't catch all ports
-                function_pattern = r'def\s+([a-zA-Z0-9_]+)'
-                class_pattern = r'class\s+([a-zA-Z0-9_]+)'
+                function_pattern = r'def\\s+([a-zA-Z0-9_]+)'
+                class_pattern = r'class\\s+([a-zA-Z0-9_]+)'
 
                 for line in file_content.split('\n'):
                     # Look for function definitions
@@ -149,8 +137,8 @@ class CommonPortAnalyzer(FileAssociationBase):
         for root, _, files in os.walk(self.project_path):
             for file in files:
                 if self._should_analyze_file(file):
-                    file_path = os.path.join(root, file)
-                    rel_path = os.path.relpath(file_path, self.project_path)
+                    file_path = join_paths(root, file)
+                    rel_path = get_relative_path(file_path, self.project_path)
 
                     ports = self.analyze_file(file_path)
                     self.associations[rel_path] = ports
@@ -206,8 +194,8 @@ class CommonPortAnalyzer(FileAssociationBase):
 
         with open(output_path, 'w') as f:
             json.dump({
-                "project_name": os.path.basename(self.project_path),
-                "analysis_date": os.path.basename(output_path).split('_')[-1].split('.')[0],
+                "project_name": get_basename(self.project_path),
+                "analysis_date": extract_timestamp_from_filename(output_path),
                 "common_ports": common_ports
             }, f, indent=2)
 

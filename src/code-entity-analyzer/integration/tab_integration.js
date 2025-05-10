@@ -21,13 +21,13 @@ function createTabIntegration(tabSystem, options = {}) {
     persistTabs: true,
     maxTabs: 10
   };
-  
+
   // Merge default options with provided options
   const mergedOptions = { ...defaultOptions, ...options };
-  
+
   // Create the integration
   const integration = new TabIntegration(tabSystem, mergedOptions);
-  
+
   return integration;
 }
 
@@ -45,11 +45,11 @@ class TabIntegration {
     this.options = options;
     this.tabs = new Map(); // Maps tab IDs to tab info
     this.activeTabId = null;
-    
+
     // Initialize
     this.init();
   }
-  
+
   /**
    * Initialize the tab integration
    */
@@ -58,11 +58,11 @@ class TabIntegration {
     if (this.options.persistTabs) {
       this.loadPersistedTabs();
     }
-    
+
     // Listen for tab system events
     this.setupEventListeners();
   }
-  
+
   /**
    * Set up event listeners for tab system events
    */
@@ -74,7 +74,7 @@ class TabIntegration {
           this.handleTabClose(tabId);
         }
       });
-      
+
       this.tabSystem.on('tabActivate', (tabId) => {
         if (this.tabs.has(tabId)) {
           this.activeTabId = tabId;
@@ -82,10 +82,10 @@ class TabIntegration {
       });
     }
   }
-  
+
   /**
    * Create a new tab for a visualization
-   * @param {string} visualizationType - The type of visualization ('component-graph', 'state-flow', 'dependency-heatmap')
+   * @param {string} visualizationType - The type of visualization ('component-graph', 'state-flow', 'dependency-heatmap', 'code-entity-analysis')
    * @param {Object} visualizationData - The data for the visualization
    * @param {Object} visualizationOptions - Options for the visualization
    * @param {string} title - Optional title for the tab
@@ -97,20 +97,20 @@ class TabIntegration {
       console.warn(`Maximum number of tabs (${this.options.maxTabs}) reached. Close some tabs before creating new ones.`);
       return null;
     }
-    
+
     // Generate a unique ID for the tab
     const tabId = `${this.options.tabPrefix}${visualizationType}-${Date.now()}`;
-    
+
     // Determine the tab title
     const tabTitle = title || this.getDefaultTitleForVisualization(visualizationType);
-    
+
     // Create the tab content container
     const contentContainer = document.createElement('div');
     contentContainer.id = `${tabId}-content`;
     contentContainer.className = 'code-analyzer-visualization-container';
     contentContainer.style.width = '100%';
     contentContainer.style.height = '100%';
-    
+
     // Create the tab
     const tab = this.tabSystem.createTab({
       id: tabId,
@@ -119,7 +119,7 @@ class TabIntegration {
       content: contentContainer,
       closable: this.options.showCloseButton
     });
-    
+
     // Store tab information
     this.tabs.set(tabId, {
       id: tabId,
@@ -129,22 +129,22 @@ class TabIntegration {
       options: visualizationOptions,
       visualization: null // Will be set after rendering
     });
-    
+
     // Activate the tab
     this.tabSystem.activateTab(tabId);
     this.activeTabId = tabId;
-    
+
     // Render the visualization
     this.renderVisualization(tabId);
-    
+
     // Persist tabs if enabled
     if (this.options.persistTabs) {
       this.persistTabs();
     }
-    
+
     return tabId;
   }
-  
+
   /**
    * Render a visualization in a tab
    * @param {string} tabId - The ID of the tab
@@ -155,16 +155,16 @@ class TabIntegration {
       console.error(`Tab with ID ${tabId} not found`);
       return;
     }
-    
+
     const contentContainer = document.getElementById(`${tabId}-content`);
     if (!contentContainer) {
       console.error(`Content container for tab ${tabId} not found`);
       return;
     }
-    
+
     // Clear any existing content
     contentContainer.innerHTML = '';
-    
+
     // Create the visualization based on type
     switch (tabInfo.type) {
       case 'component-graph':
@@ -176,11 +176,14 @@ class TabIntegration {
       case 'dependency-heatmap':
         this.renderDependencyHeatmap(tabInfo, contentContainer);
         break;
+      case 'code-entity-analysis':
+        this.renderCodeEntityAnalysis(tabInfo, contentContainer);
+        break;
       default:
         console.error(`Unknown visualization type: ${tabInfo.type}`);
     }
   }
-  
+
   /**
    * Render a component graph visualization
    * @param {Object} tabInfo - Information about the tab
@@ -194,10 +197,10 @@ class TabIntegration {
         <p>This is a placeholder for the component graph visualization.</p>
         <p>In a real implementation, this would render a graph of components and their relationships.</p>
       </div>`;
-      
+
       // Store the visualization instance
       tabInfo.visualization = { type: 'component-graph' };
-      
+
       // Add resize handler
       this.setupResizeHandler(tabInfo, container);
     } catch (error) {
@@ -205,7 +208,7 @@ class TabIntegration {
       container.innerHTML = `<div class="error-message">Error rendering component graph: ${error.message}</div>`;
     }
   }
-  
+
   /**
    * Render a state flow diagram visualization
    * @param {Object} tabInfo - Information about the tab
@@ -219,10 +222,10 @@ class TabIntegration {
         <p>This is a placeholder for the state flow diagram visualization.</p>
         <p>In a real implementation, this would render a diagram of state transitions.</p>
       </div>`;
-      
+
       // Store the visualization instance
       tabInfo.visualization = { type: 'state-flow' };
-      
+
       // Add resize handler
       this.setupResizeHandler(tabInfo, container);
     } catch (error) {
@@ -230,7 +233,7 @@ class TabIntegration {
       container.innerHTML = `<div class="error-message">Error rendering state flow diagram: ${error.message}</div>`;
     }
   }
-  
+
   /**
    * Render a dependency heatmap visualization
    * @param {Object} tabInfo - Information about the tab
@@ -244,10 +247,10 @@ class TabIntegration {
         <p>This is a placeholder for the dependency heatmap visualization.</p>
         <p>In a real implementation, this would render a heatmap of dependencies between components.</p>
       </div>`;
-      
+
       // Store the visualization instance
       tabInfo.visualization = { type: 'dependency-heatmap' };
-      
+
       // Add resize handler
       this.setupResizeHandler(tabInfo, container);
     } catch (error) {
@@ -255,7 +258,32 @@ class TabIntegration {
       container.innerHTML = `<div class="error-message">Error rendering dependency heatmap: ${error.message}</div>`;
     }
   }
-  
+
+  /**
+   * Render a code entity analysis visualization
+   * @param {Object} tabInfo - Information about the tab
+   * @param {HTMLElement} container - The container element
+   */
+  renderCodeEntityAnalysis(tabInfo, container) {
+    try {
+      // Placeholder for code entity analysis visualization
+      container.innerHTML = `<div class="visualization-placeholder">
+        <h3>Code Entity Analysis</h3>
+        <p>This is a placeholder for the code entity analysis visualization.</p>
+        <p>In a real implementation, this would render an analysis of code entities and their relationships.</p>
+      </div>`;
+
+      // Store the visualization instance
+      tabInfo.visualization = { type: 'code-entity-analysis' };
+
+      // Add resize handler
+      this.setupResizeHandler(tabInfo, container);
+    } catch (error) {
+      console.error('Error rendering code entity analysis:', error);
+      container.innerHTML = `<div class="error-message">Error rendering code entity analysis: ${error.message}</div>`;
+    }
+  }
+
   /**
    * Set up a resize handler for a visualization
    * @param {Object} tabInfo - Information about the tab
@@ -266,21 +294,21 @@ class TabIntegration {
     const resizeObserver = new ResizeObserver(entries => {
       for (const entry of entries) {
         const { width, height } = entry.contentRect;
-        
+
         // Resize the visualization if it has a resize method
         if (tabInfo.visualization && typeof tabInfo.visualization.resize === 'function') {
           tabInfo.visualization.resize(width, height);
         }
       }
     });
-    
+
     // Start observing the container
     resizeObserver.observe(container);
-    
+
     // Store the observer for cleanup
     tabInfo.resizeObserver = resizeObserver;
   }
-  
+
   /**
    * Handle tab close event
    * @param {string} tabId - The ID of the tab being closed
@@ -288,21 +316,21 @@ class TabIntegration {
   handleTabClose(tabId) {
     const tabInfo = this.tabs.get(tabId);
     if (!tabInfo) return;
-    
+
     // Clean up resources
     if (tabInfo.resizeObserver) {
       tabInfo.resizeObserver.disconnect();
     }
-    
+
     // Remove the tab from our map
     this.tabs.delete(tabId);
-    
+
     // Persist tabs if enabled
     if (this.options.persistTabs) {
       this.persistTabs();
     }
   }
-  
+
   /**
    * Get the default title for a visualization type
    * @param {string} visualizationType - The type of visualization
@@ -316,11 +344,13 @@ class TabIntegration {
         return 'State Flow Diagram';
       case 'dependency-heatmap':
         return 'Dependency Heatmap';
+      case 'code-entity-analysis':
+        return 'Code Entity Analysis';
       default:
         return this.options.defaultTabTitle;
     }
   }
-  
+
   /**
    * Persist tabs to localStorage
    */
@@ -334,7 +364,7 @@ class TabIntegration {
         data: tabInfo.data,
         options: tabInfo.options
       }));
-      
+
       // Store in localStorage
       localStorage.setItem('codeAnalyzerTabs', JSON.stringify(tabsArray));
       localStorage.setItem('codeAnalyzerActiveTab', this.activeTabId);
@@ -342,7 +372,7 @@ class TabIntegration {
       console.error('Error persisting tabs:', error);
     }
   }
-  
+
   /**
    * Load persisted tabs from localStorage
    */
@@ -351,10 +381,10 @@ class TabIntegration {
       // Get tabs from localStorage
       const tabsJson = localStorage.getItem('codeAnalyzerTabs');
       if (!tabsJson) return;
-      
+
       const tabsArray = JSON.parse(tabsJson);
       const activeTabId = localStorage.getItem('codeAnalyzerActiveTab');
-      
+
       // Recreate tabs
       tabsArray.forEach(tabInfo => {
         this.createVisualizationTab(
@@ -364,7 +394,7 @@ class TabIntegration {
           tabInfo.title
         );
       });
-      
+
       // Activate the previously active tab
       if (activeTabId && this.tabs.has(activeTabId)) {
         this.tabSystem.activateTab(activeTabId);
@@ -374,7 +404,7 @@ class TabIntegration {
       console.error('Error loading persisted tabs:', error);
     }
   }
-  
+
   /**
    * Update the data for a visualization in a tab
    * @param {string} tabId - The ID of the tab
@@ -386,10 +416,10 @@ class TabIntegration {
       console.error(`Tab with ID ${tabId} not found`);
       return;
     }
-    
+
     // Update the data
     tabInfo.data = newData;
-    
+
     // Update the visualization if it has an updateData method
     if (tabInfo.visualization && typeof tabInfo.visualization.updateData === 'function') {
       tabInfo.visualization.updateData(newData);
@@ -397,13 +427,13 @@ class TabIntegration {
       // Re-render the visualization
       this.renderVisualization(tabId);
     }
-    
+
     // Persist tabs if enabled
     if (this.options.persistTabs) {
       this.persistTabs();
     }
   }
-  
+
   /**
    * Get all tabs
    * @returns {Array} - Array of tab information objects
@@ -411,7 +441,7 @@ class TabIntegration {
   getAllTabs() {
     return Array.from(this.tabs.values());
   }
-  
+
   /**
    * Get the active tab
    * @returns {Object|null} - The active tab information or null if no active tab
@@ -420,23 +450,23 @@ class TabIntegration {
     if (!this.activeTabId) return null;
     return this.tabs.get(this.activeTabId) || null;
   }
-  
+
   /**
    * Close all tabs
    */
   closeAllTabs() {
     // Get all tab IDs
     const tabIds = Array.from(this.tabs.keys());
-    
+
     // Close each tab
     tabIds.forEach(tabId => {
       this.tabSystem.closeTab(tabId);
     });
-    
+
     // Clear our internal state
     this.tabs.clear();
     this.activeTabId = null;
-    
+
     // Clear persisted tabs
     if (this.options.persistTabs) {
       localStorage.removeItem('codeAnalyzerTabs');

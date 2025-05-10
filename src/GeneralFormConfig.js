@@ -29,16 +29,16 @@ const GeneralFormConfig = ({
   const matrixFormValues = useMatrixFormValues();
 
   // Use matrix-based state management or props
-  const formValues = propFormValues || matrixFormValues.formMatrix;
-  const handleInputChange = propHandleInputChange || matrixFormValues.handleInputChange;
-  const V = propV || matrixFormValues.V;
-  const R = propR || matrixFormValues.R;
-  const F = propF || matrixFormValues.F;
-  const RF = propRF || matrixFormValues.RF;
-  const toggleV = propToggleV || matrixFormValues.toggleV;
-  const toggleR = propToggleR || matrixFormValues.toggleR;
-  const toggleF = propToggleF || matrixFormValues.toggleF;
-  const toggleRF = propToggleRF || matrixFormValues.toggleRF;
+  const formValues = propFormValues || (matrixFormValues && matrixFormValues.formMatrix) || {};
+  const handleInputChange = propHandleInputChange || (matrixFormValues && matrixFormValues.handleInputChange);
+  const V = propV || (matrixFormValues && matrixFormValues.V) || {};
+  const R = propR || (matrixFormValues && matrixFormValues.R) || {};
+  const F = propF || (matrixFormValues && matrixFormValues.F) || {};
+  const RF = propRF || (matrixFormValues && matrixFormValues.RF) || {};
+  const toggleV = propToggleV || (matrixFormValues && matrixFormValues.toggleV);
+  const toggleR = propToggleR || (matrixFormValues && matrixFormValues.toggleR);
+  const toggleF = propToggleF || (matrixFormValues && matrixFormValues.toggleF);
+  const toggleRF = propToggleRF || (matrixFormValues && matrixFormValues.toggleRF);
 
   //--------------------------------------------------------------------------
   // STATE MANAGEMENT
@@ -65,7 +65,8 @@ const GeneralFormConfig = ({
   //--------------------------------------------------------------------------
   // Get plant lifetime value for efficacy calculations
   const getLatestPlantLifetime = (formValues) => {
-    const filteredValues = Object.values(formValues).filter(item => item.id === 'plantLifetimeAmount10');
+    if (!formValues) return 40;
+    const filteredValues = Object.values(formValues).filter(item => item && item.id === 'plantLifetimeAmount10');
     return filteredValues.length > 0 ? filteredValues[0].value : 40;
   };
 
@@ -130,7 +131,7 @@ const GeneralFormConfig = ({
   // FORM ITEM PROCESSING
   //--------------------------------------------------------------------------
   // Transform form values into displayable items with appropriate metadata
-  const formItems = Object.keys(formValues)
+  const formItems = formValues ? Object.keys(formValues)
       .filter((key) => key.includes(filterKeyword))
       .map((key) => {
         const vKey = key.includes('vAmount') ? getVNumber(key.replace('vAmount', '')) : null;
@@ -147,17 +148,19 @@ const GeneralFormConfig = ({
           sKey,
           ...formValues[key]
         };
-      });
+      }) : [];
 
   //--------------------------------------------------------------------------
   // LABEL MANAGEMENT FUNCTIONS
   //--------------------------------------------------------------------------
   // Store original labels when component mounts
   useEffect(() => {
-    if (Object.keys(originalLabels).length === 0) {
+    if (Object.keys(originalLabels).length === 0 && formValues) {
       const labels = {};
-      Object.entries(formValues).forEach(([key, value]) => {
-        labels[key] = value.label;
+      Object.entries(formValues || {}).forEach(([key, value]) => {
+        if (value && value.label) {
+          labels[key] = value.label;
+        }
       });
       setOriginalLabels(labels);
     }
@@ -166,7 +169,7 @@ const GeneralFormConfig = ({
   // Begin editing a label
   const handleLabelEdit = (itemId) => {
     setEditingLabel(itemId);
-    setTempLabel(formValues[itemId].label);
+    setTempLabel(formValues && formValues[itemId] ? formValues[itemId].label : '');
   };
 
   // Cancel label editing
@@ -202,15 +205,17 @@ const GeneralFormConfig = ({
       setUpdateStatus('Updating form labels...');
 
       const updates = {};
-      Object.keys(editedLabels).forEach(key => {
-        if (formValues[key]) {
-          updates[key] = {
-            label: formValues[key].label,
-            value: formValues[key].value,
-            labelEdited: true // Flag to indicate the label was edited
-          };
-        }
-      });
+      if (formValues) {
+        Object.keys(editedLabels).forEach(key => {
+          if (formValues[key]) {
+            updates[key] = {
+              label: formValues[key].label,
+              value: formValues[key].value,
+              labelEdited: true // Flag to indicate the label was edited
+            };
+          }
+        });
+      }
 
       if (Object.keys(updates).length === 0) {
         setUpdateStatus('No edited labels to update');
@@ -220,7 +225,7 @@ const GeneralFormConfig = ({
       }
 
       // Use matrix API if available, otherwise use direct axios call
-      if (matrixFormValues.syncWithBackend) {
+      if (matrixFormValues && matrixFormValues.syncWithBackend) {
         const success = await matrixFormValues.syncWithBackend({ updates });
         if (success) {
           setEditedLabels({});
@@ -254,7 +259,7 @@ const GeneralFormConfig = ({
   const handleResetLabels = async () => {
     if (window.confirm('Reset all labels and default values to original values?')) {
       // Check if matrix-based reset is available
-      if (matrixFormValues.handleReset) {
+      if (matrixFormValues && matrixFormValues.handleReset) {
         try {
           setIsUpdating(true);
           setUpdateStatus('Resetting form values using matrix state management...');
@@ -278,19 +283,21 @@ const GeneralFormConfig = ({
       // Fallback to original reset method
       // First, reset labels locally
       const updatedLabels = {};
-      Object.entries(labelReferences.propertyMapping).forEach(([key, label]) => {
-        if (formValues[key]) {
-          handleInputChange({ target: { value: label } }, key, 'label');
+      if (formValues) {
+        Object.entries(labelReferences.propertyMapping || {}).forEach(([key, label]) => {
+          if (formValues[key]) {
+            handleInputChange({ target: { value: label } }, key, 'label');
 
-          // Also reset default values if available
-          if (labelReferences.defaultValues && labelReferences.defaultValues[key] !== undefined) {
-            handleInputChange({ target: { value: labelReferences.defaultValues[key] } }, key, 'value');
+            // Also reset default values if available
+            if (labelReferences.defaultValues && labelReferences.defaultValues[key] !== undefined) {
+              handleInputChange({ target: { value: labelReferences.defaultValues[key] } }, key, 'value');
+            }
+
+            // Mark this label as edited so we can update the server
+            updatedLabels[key] = true;
           }
-
-          // Mark this label as edited so we can update the server
-          updatedLabels[key] = true;
-        }
-      });
+        });
+      }
 
       // Update the server with all reset values
       try {
@@ -298,19 +305,21 @@ const GeneralFormConfig = ({
         setUpdateStatus('Updating form with original values...');
 
         const updates = {};
-        Object.keys(updatedLabels).forEach(key => {
-          if (formValues[key]) {
-            updates[key] = {
-              label: formValues[key].label,
-              value: formValues[key].value,
-              labelEdited: true // Flag to indicate the label was reset
-            };
-          }
-        });
+        if (formValues) {
+          Object.keys(updatedLabels).forEach(key => {
+            if (formValues[key]) {
+              updates[key] = {
+                label: formValues[key].label,
+                value: formValues[key].value,
+                labelEdited: true // Flag to indicate the label was reset
+              };
+            }
+          });
+        }
 
         if (Object.keys(updates).length > 0) {
           // Use matrix API if available, otherwise use direct axios call
-          if (matrixFormValues.syncWithBackend) {
+          if (matrixFormValues && matrixFormValues.syncWithBackend) {
             const success = await matrixFormValues.syncWithBackend({ updates });
             if (success) {
               setUpdateStatus(`Reset complete: ${Object.keys(updates).length} items restored to original values`);
@@ -345,20 +354,24 @@ const GeneralFormConfig = ({
   //--------------------------------------------------------------------------
   // Handle increment button click
   const handleIncrement = (itemId) => {
+    if (!formValues || !formValues[itemId]) return;
     const item = formValues[itemId];
-    const newValue = parseFloat(item.value) + parseFloat(item.step);
+    const newValue = parseFloat(item.value) + parseFloat(item.step || 1);
     handleInputChange({ target: { value: newValue } }, itemId, 'value');
   };
 
   // Handle decrement button click
   const handleDecrement = (itemId) => {
+    if (!formValues || !formValues[itemId]) return;
     const item = formValues[itemId];
-    const newValue = parseFloat(item.value) - parseFloat(item.step);
+    const newValue = parseFloat(item.value) - parseFloat(item.step || 1);
     handleInputChange({ target: { value: newValue } }, itemId, 'value');
   };
 
   // Handle schedule/efficacy button click
   const handleScheduleClick = (e, itemId) => {
+    if (!formValues || !formValues[itemId]) return;
+
     const rect = e.target.getBoundingClientRect();
     setPopupPosition({
       top: rect.top + window.scrollY + 61.8,
@@ -494,7 +507,7 @@ const GeneralFormConfig = ({
               <div className="main-input-section">
                 {/* Label and Icon */}
                 <div className="label-container">
-                  {matrixFormValues.iconMapping[item.id] && (
+                  {matrixFormValues && matrixFormValues.iconMapping && matrixFormValues.iconMapping[item.id] && (
                       <FontAwesomeIcon icon={matrixFormValues.iconMapping[item.id]} className="input-icon" />
                   )}
                   {editingLabel === item.id ? (

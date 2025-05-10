@@ -308,7 +308,7 @@ def generate_html_table(files_by_date):
     }
 
     function updateFileCount() {
-        const visibleRows = document.querySelectorAll('tbody tr:not([style*="display: none"])');
+        const visibleRows = document.querySelectorAll('tbody tr:not([style\\*="display: none"])');
         document.getElementById('file-count').textContent = `Total files: ${visibleRows.length}`;
     }
 
@@ -351,7 +351,8 @@ def generate_html_table(files_by_date):
         const moduleCell = row.cells[1].textContent.toLowerCase();
 
         // Extract filename from path
-        const pathParts = pathCell.split(/[\\\\\\/]/);
+        // Use a function to split by both / and \\ without using regex with escape sequences
+        const pathParts = pathCell.split('\\').join('/').split('/');
         const filename = pathParts[pathParts.length - 1];
 
         // Check if any enabled search field matches
@@ -387,7 +388,7 @@ def generate_html_table(files_by_date):
         // Hide empty tables
         const tables = document.querySelectorAll('table');
         tables.forEach(table => {
-            const visibleRows = table.querySelectorAll('tbody tr:not([style*="display: none"])');
+            const visibleRows = table.querySelectorAll('tbody tr:not([style\\*="display: none"])');
             if (visibleRows.length === 0) {
                 table.style.display = 'none';
                 const dateHeader = table.previousElementSibling;

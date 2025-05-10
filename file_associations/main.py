@@ -15,6 +15,10 @@ from .file_association_base import FileAssociationBase
 from .direct_imports import DirectImportAnalyzer
 from .common_ports import CommonPortAnalyzer
 from .file_associations import FileAssociationAnalyzer
+from .path_utils import (
+    get_absolute_path, get_relative_path, join_paths, 
+    get_basename, get_dirname, extract_timestamp_from_filename
+)
 
 
 class FileAssociationTracker:
@@ -27,10 +31,10 @@ class FileAssociationTracker:
         Args:
             project_path: Path to the project directory
         """
-        self.project_path = os.path.abspath(project_path)
+        self.project_path = get_absolute_path(project_path)
         # Use the script directory for output, not the project directory
-        script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        self.output_dir = os.path.join(script_dir, "file_associations", "output")
+        script_dir = get_dirname(get_dirname(get_absolute_path(__file__)))
+        self.output_dir = join_paths(script_dir, "file_associations", "output")
         os.makedirs(self.output_dir, exist_ok=True)
 
         # Initialize analyzers
@@ -38,33 +42,36 @@ class FileAssociationTracker:
         self.common_port_analyzer = CommonPortAnalyzer(project_path)
         self.file_association_analyzer = FileAssociationAnalyzer(project_path)
 
-    def analyze_project(self):
+    def analyze_project(self, max_files=None):
         """
         Analyze the project for file associations.
 
         This method runs all the analyzers and saves the results to JSON files.
+
+        Args:
+            max_files: Maximum number of files to analyze (None for all)
         """
         # Generate timestamp for output files
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
         # Analyze direct imports
         print("Analyzing direct imports...")
-        self.direct_import_analyzer.analyze_project()
-        direct_imports_output = os.path.join(self.output_dir, f"direct_imports_{timestamp}.json")
+        self.direct_import_analyzer.analyze_project(max_files=max_files)
+        direct_imports_output = join_paths(self.output_dir, f"direct_imports_{timestamp}.json")
         self.direct_import_analyzer.save_import_relationships(direct_imports_output)
         print(f"Direct imports analysis complete. Output saved to {direct_imports_output}")
 
         # Analyze common ports
         print("Analyzing common ports...")
-        self.common_port_analyzer.analyze_project()
-        common_ports_output = os.path.join(self.output_dir, f"common_ports_{timestamp}.json")
+        self.common_port_analyzer.analyze_project(max_files=max_files)
+        common_ports_output = join_paths(self.output_dir, f"common_ports_{timestamp}.json")
         self.common_port_analyzer.save_common_ports(common_ports_output)
         print(f"Common ports analysis complete. Output saved to {common_ports_output}")
 
         # Analyze other file associations
         print("Analyzing other file associations...")
-        self.file_association_analyzer.analyze_project()
-        file_associations_output = os.path.join(self.output_dir, f"file_associations_{timestamp}.json")
+        self.file_association_analyzer.analyze_project(max_files=max_files)
+        file_associations_output = join_paths(self.output_dir, f"file_associations_{timestamp}.json")
         self.file_association_analyzer.save_file_associations(file_associations_output)
         print(f"File associations analysis complete. Output saved to {file_associations_output}")
 
@@ -78,7 +85,7 @@ class FileAssociationTracker:
         Args:
             timestamp: Timestamp for the output file
         """
-        summary_output = os.path.join(self.output_dir, f"file_associations_summary_{timestamp}.json")
+        summary_output = join_paths(self.output_dir, f"file_associations_summary_{timestamp}.json")
 
         # Get all associations
         direct_imports = self.direct_import_analyzer.get_import_relationships()
@@ -115,18 +122,19 @@ class FileAssociationTracker:
         return summary_output
 
 
-def analyze_project_associations(project_path: Union[str, PathLike]) -> str:
+def analyze_project_associations(project_path: Union[str, PathLike], max_files=None) -> str:
     """
     Analyze a project for file associations.
 
     Args:
         project_path: Path to the project directory
+        max_files: Maximum number of files to analyze (None for all)
 
     Returns:
         Path to the output directory
     """
     tracker = FileAssociationTracker(project_path)
-    tracker.analyze_project()
+    tracker.analyze_project(max_files=max_files)
 
     # After analysis, generate insights
     try:

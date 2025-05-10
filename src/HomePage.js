@@ -26,7 +26,8 @@ import CentralScalingTab from 'src/components/truly_extended_scaling/CentralScal
 import StickerHeader from './components/modules/HeaderBackground';
 import ProcessEconomicsLibrary from './components/process_economics_pilot/integration-module';
 import CFAConsolidationUI from './components/cfa/CFAConsolidationUI';
-import CodeEntityAnalysisTab from './code-entity-analyzer/integration/tab_integration';
+import tabIntegrationModule from './code-entity-analyzer/integration/tab_integration';
+import EfficacyMapContainer from './components/modules/EfficacyMapContainer';
 import './styles/HomePage.CSS/HomePage1.css';
 import './styles/HomePage.CSS/HomePage2.css';
 import './styles/HomePage.CSS/HomePage3.css';
@@ -41,7 +42,7 @@ import './styles/HomePage.CSS/HomePage_FactAdmin.css';
 import './styles/HomePage.CSS/HomePage_neumorphic-tabs.css';
 import './styles/HomePage.CSS/ResetOptionsPopup.css';
 import './styles/HomePage.CSS/RunOptionsPopup.css';
-
+import './styles/HomePage.CSS/HomePage_scaling_t.css';
 // Import from Consolidated.js
 import { MatrixSubmissionService, ExtendedScaling as ConsolidatedExtendedScaling, GeneralFormConfig as ConsolidatedGeneralFormConfig, MatrixApp } from './Consolidated';
 
@@ -71,6 +72,24 @@ const HomePageContent = () => {
     const [activeTab, setActiveTab] = useState('Input');
     const [activeSubTab, setActiveSubTab] = useState('ProjectConfig');
     const [selectedProperties, setSelectedProperties] = useState([]);
+
+    // Initialize the tab integration module when the CodeEntityAnalysis tab is selected
+    useEffect(() => {
+        if (activeTab === 'CodeEntityAnalysis') {
+            // Initialize the tab integration, but don't render it directly
+            const tabIntegration = tabIntegrationModule.createTabIntegration(window.tabSystem || {}, {
+                tabPrefix: 'code-entity-',
+                defaultTabTitle: 'Code Analysis',
+                tabIcon: 'code',
+                showCloseButton: true,
+                persistTabs: true,
+                maxTabs: 10
+            });
+
+            // Store the tab integration in a global variable if needed for later access
+            window.codeEntityAnalysisTabIntegration = tabIntegration;
+        }
+    }, [activeTab]);
 
 
 
@@ -280,7 +299,7 @@ const HomePageContent = () => {
         // Generate scalingBaseCosts with the same structure for all categories
         const updatedScalingBaseCosts = amountCategories.reduce((result, category) => {
             // Extract entries for this category - correctly match without underscore
-            const categoryEntries = Object.entries(formValues)
+            const categoryEntries = Object.entries(formValues || {})
                 .filter(([key]) => key.includes(category));
 
             // Sort entries based on their numeric suffix
@@ -2424,20 +2443,36 @@ const HomePageContent = () => {
 
             case 'Scaling':
                 return (
-                    <CentralScalingTab
-                        formValues={formValues}
-                        V={V}
-                        R={R}
-                        toggleV={toggleV}
-                        toggleR={toggleR}
+                    <>
+                        <CentralScalingTab
+                            formValues={formValues}
+                            V={V}
+                            R={R}
+                            toggleV={toggleV}
+                            toggleR={toggleR}
 
-                        scalingBaseCosts={scalingBaseCosts}
-                        setScalingBaseCosts={setScalingBaseCosts}
-                        scalingGroups={scalingGroups}
+                            scalingBaseCosts={scalingBaseCosts}
+                            setScalingBaseCosts={setScalingBaseCosts}
+                            scalingGroups={scalingGroups}
 
-                        onScalingGroupsChange={handleScalingGroupsChange}
-                        onScaledValuesChange={handleScaledValuesChange}
-                    />
+                            onScalingGroupsChange={handleScalingGroupsChange}
+                            onScaledValuesChange={handleScaledValuesChange}
+                        />
+
+                        {/* Integrate EfficacyMapContainer */}
+                        <EfficacyMapContainer
+                            parameters={formValues}
+                            plantLifetime={formValues.plantLifetimeAmount10?.value || 20}
+                            configurableVersions={20}
+                            scalingGroups={scalingGroups.length || 5}
+                            onParameterUpdate={(paramId, updatedParam) => {
+                                handleInputChange(
+                                    { target: { value: updatedParam.value } },
+                                    paramId
+                                );
+                            }}
+                        />
+                    </>
                 );
 
             case 'CFAConsolidation':
@@ -2492,6 +2527,17 @@ const HomePageContent = () => {
 
             case 'Consolidated3':
                 return <MatrixApp3 />;
+
+            case 'CodeEntityAnalysis':
+                return <div className="code-entity-analysis-container">
+                    <h2>Code Entity Analysis</h2>
+                    <div className="code-entity-analysis-content">
+                        {/* The tab integration is initialized in useEffect, not rendered directly */}
+                        <div id="code-entity-analysis-container">
+                            <p>Code Entity Analysis visualization will appear here.</p>
+                        </div>
+                    </div>
+                </div>;
 
             default:
                 return null;
@@ -2615,11 +2661,18 @@ const HomePageContent = () => {
                         >
                             Consolidated3
                         </button>
+                        <button
+                            className={`tab-button ${activeTab === 'CodeEntityAnalysis' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('CodeEntityAnalysis')}
+                        >
+                            Code Entity Analysis
+                        </button>
                     </div>
                 </nav>
                 <div className="content-container">
                     {activeTab !== 'AboutUs' && activeTab !== 'TestingZone' && 
-                     activeTab !== 'Consolidated1' && activeTab !== 'Consolidated2' && activeTab !== 'Consolidated3' &&
+                     activeTab !== 'Consolidated1' && activeTab !== 'Consolidated2' && activeTab !== 'Consolidated3' && 
+                     activeTab !== 'CodeEntityAnalysis' &&
                         (
                         <>
                             <SensitivityMonitor

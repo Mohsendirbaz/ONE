@@ -15,6 +15,11 @@ from typing import Dict, List, Set, Any, Union, Optional
 from os import PathLike
 
 from .file_association_base import FileAssociationBase
+from .path_utils import (
+    get_absolute_path, get_relative_path, join_paths, 
+    get_basename, get_dirname, get_file_extension, 
+    normalize_path, extract_timestamp_from_filename, is_binary_file
+)
 
 
 class FileAssociationAnalyzer(FileAssociationBase):
@@ -42,45 +47,63 @@ class FileAssociationAnalyzer(FileAssociationBase):
                 "dependency_references": []
             }
 
-        try:
-            with open(file_path, 'r', encoding='utf-8') as f:
-                file_content = f.read()
+        # Try different encodings to read the file
+        encodings_to_try = ['utf-8', 'latin-1', 'cp1252', 'iso-8859-1']
+        file_content = None
 
-            # Look for string references to file paths
-            # This regex looks for strings that might be file paths
-            file_path_pattern = r'[\'"]([a-zA-Z0-9_\-./\\]+\.(py|json|txt|md|csv|xml|html|js|css))[\'"]'
-            for match in re.finditer(file_path_pattern, file_content):
-                potential_path = match.group(1)
-                # Normalize path separators
-                potential_path = potential_path.replace('/', os.sep).replace('\\', os.sep)
-                string_references.append(potential_path)
+        for encoding in encodings_to_try:
+            try:
+                with open(file_path, 'r', encoding=encoding) as f:
+                    file_content = f.read()
+                break  # If successful, break out of the loop
+            except UnicodeDecodeError:
+                continue  # Try the next encoding
+            except Exception as e:
+                # For other exceptions (like permission errors), log and return empty results
+                print(f"Unexpected error reading {file_path}: {str(e)}")
+                return {
+                    "string_references": [],
+                    "config_references": [],
+                    "dependency_references": []
+                }
 
-            # Look for configuration references
-            # This regex looks for patterns like "config_file = 'config.json'" or "CONFIG_PATH = 'path/to/config'"
-            config_pattern = r'(config|conf|settings|cfg)[\w_]*\s*=\s*[\'"]([a-zA-Z0-9_\-./\\]+)[\'"]'
-            for match in re.finditer(config_pattern, file_content, re.IGNORECASE):
-                config_path = match.group(2)
-                # Normalize path separators
-                config_path = config_path.replace('/', os.sep).replace('\\', os.sep)
-                config_references.append(config_path)
-
-            # Look for dependency references
-            # This regex looks for patterns like "requires = ['module1', 'module2']" or "dependencies = ['lib1', 'lib2']"
-            dependency_pattern = r'(requires|dependencies|deps|packages)[\w_]*\s*=\s*\[(.*?)\]'
-            for match in re.finditer(dependency_pattern, file_content, re.IGNORECASE):
-                deps_str = match.group(2)
-                # Extract individual dependencies from the list
-                deps = re.findall(r'[\'"]([a-zA-Z0-9_\-]+)[\'"]', deps_str)
-                dependency_references.extend(deps)
-
-        except UnicodeDecodeError as e:
-            print(f"Error analyzing associations in {file_path}: {str(e)}")
-            # Return empty results for files that can't be decoded
+        # If we couldn't read the file with any encoding, silently skip it
+        if file_content is None:
+            # Log the issue without showing an error message to the user
+            # print(f"Skipping file with encoding issues: {file_path}")
             return {
                 "string_references": [],
                 "config_references": [],
                 "dependency_references": []
             }
+
+        try:
+            # Look for string references to file paths
+            # This regex looks for strings that might be file paths
+            file_path_pattern = r'[\'"]([a-zA-Z0-9_\-./\\]+\\.(py|json|txt|md|csv|xml|html|js|css))[\'"]'
+            for match in re.finditer(file_path_pattern, file_content):
+                potential_path = match.group(1)
+                # Normalize path separators
+                potential_path = normalize_path(potential_path)
+                string_references.append(potential_path)
+
+            # Look for configuration references
+            # This regex looks for patterns like "config_file = 'config.json'" or "CONFIG_PATH = 'path/to/config'"
+            config_pattern = r'(config|conf|settings|cfg)[\w_]*\\s*=\\s*[\'"]([a-zA-Z0-9_\-./\\]+)[\'"]'
+            for match in re.finditer(config_pattern, file_content, re.IGNORECASE):
+                config_path = match.group(2)
+                # Normalize path separators
+                config_path = normalize_path(config_path)
+                config_references.append(config_path)
+
+            # Look for dependency references
+            # This regex looks for patterns like "requires = ['module1', 'module2']" or "dependencies = ['lib1', 'lib2']"
+            dependency_pattern = r'(requires|dependencies|deps|packages)[\w_]*\\s*=\\s*\[(.*?)\]'
+            for match in re.finditer(dependency_pattern, file_content, re.IGNORECASE):
+                deps_str = match.group(2)
+                # Extract individual dependencies from the list
+                deps = re.findall(r'[\'"]([a-zA-Z0-9_\-]+)[\'"]', deps_str)
+                dependency_references.extend(deps)
         except Exception as e:
             print(f"Unexpected error analyzing {file_path}: {str(e)}")
 
@@ -120,7 +143,7 @@ class FileAssociationAnalyzer(FileAssociationBase):
             List of resolved references
         """
         resolved_references = []
-        source_dir = os.path.dirname(os.path.join(self.project_path, source_file))
+        source_dir = get_dirname(join_paths(self.project_path, source_file))
 
         for ref in references:
             # Skip references that are clearly not file paths
@@ -128,12 +151,12 @@ class FileAssociationAnalyzer(FileAssociationBase):
                 continue
 
             # Try to resolve the reference as a relative path
-            potential_path = os.path.normpath(os.path.join(source_dir, ref))
+            potential_path = normalize_path(join_paths(source_dir, ref))
 
             # Check if the resolved path exists in the project
             if os.path.exists(potential_path) and potential_path.startswith(self.project_path):
                 # Convert to a path relative to the project root
-                rel_path = os.path.relpath(potential_path, self.project_path)
+                rel_path = get_relative_path(potential_path, self.project_path)
                 resolved_references.append(rel_path)
 
         return resolved_references
@@ -148,36 +171,7 @@ class FileAssociationAnalyzer(FileAssociationBase):
         Returns:
             True if the file is likely to be binary, False otherwise
         """
-        # Check file extension first
-        _, ext = os.path.splitext(file_path)
-        binary_extensions = {
-            '.pyc', '.pyo', '.pyd', '.so', '.dll', '.exe', '.bin',
-            '.jpg', '.jpeg', '.png', '.gif', '.bmp', '.ico', '.tiff', '.webp', '.avif',
-            '.pdf', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx',
-            '.zip', '.tar', '.gz', '.rar', '.7z', '.jar', '.war',
-            '.mp3', '.mp4', '.avi', '.mov', '.flv', '.wmv',
-            '.o', '.a', '.lib', '.obj', '.class', '.woff', '.woff2', '.ttf', '.eot'
-        }
-        if ext.lower() in binary_extensions:
-            return True
-
-        # Try to read a small portion of the file to check for binary content
-        try:
-            with open(file_path, 'rb') as f:
-                chunk = f.read(1024)
-                # Check for null bytes which are common in binary files
-                if b'\x00' in chunk:
-                    return True
-
-                # Try to decode as text
-                try:
-                    chunk.decode('utf-8')
-                    return False  # Successfully decoded as UTF-8
-                except UnicodeDecodeError:
-                    return True  # Failed to decode as UTF-8, likely binary
-        except Exception:
-            # If we can't read the file, assume it's not binary
-            return False
+        return is_binary_file(file_path)
 
     def save_file_associations(self, output_path: Union[str, PathLike]) -> str:
         """
@@ -193,8 +187,8 @@ class FileAssociationAnalyzer(FileAssociationBase):
 
         with open(output_path, 'w') as f:
             json.dump({
-                "project_name": os.path.basename(self.project_path),
-                "analysis_date": os.path.basename(output_path).split('_')[-1].split('.')[0],
+                "project_name": get_basename(self.project_path),
+                "analysis_date": extract_timestamp_from_filename(output_path),
                 "file_associations": file_associations
             }, f, indent=2)
 

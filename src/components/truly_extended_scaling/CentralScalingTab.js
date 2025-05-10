@@ -120,7 +120,7 @@ const CentralScalingTab = ({
 
         // Process each scaling type
         scalingTypes.forEach(type => {
-            const filteredCosts = Object.entries(formValues)
+            const filteredCosts = Object.entries(formValues || {})
                 .filter(([key]) => key.includes(type.filterKeyword))
                 .map(([key, value]) => {
                     // Determine if this is a V or R item

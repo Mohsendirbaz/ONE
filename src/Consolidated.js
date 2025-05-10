@@ -1706,7 +1706,7 @@ const ExtendedScaling = ({
 
             // For each item, calculate its final result (from the last group where it appears)
             const summaryItems = Object.values(allItemsById).map(item => {
-                const scaledValueEntries = Object.entries(item.scaledValues);
+                const scaledValueEntries = Object.entries(item.scaledValues || {});
                 // Get the last group's scaled value as the final result
                 const finalResult = scaledValueEntries.length > 0
                     ? scaledValueEntries[scaledValueEntries.length - 1][1]
@@ -2127,7 +2127,7 @@ const GeneralFormConfig = ({
                                summaryItems,
                            }) => {
     // Get icon mapping from formValues which now contains matrix structure
-    const { iconMapping } = formValues;
+    const iconMapping = formValues ? formValues.iconMapping : {};
 
     //--------------------------------------------------------------------------
     // STATE MANAGEMENT
@@ -2308,8 +2308,10 @@ const GeneralFormConfig = ({
                     labels[key] = value.label;
                 });
             } else {
-                Object.entries(formValues).forEach(([key, value]) => {
-                    labels[key] = value.label;
+                Object.entries(formValues || {}).forEach(([key, value]) => {
+                    if (value && value.label) {
+                        labels[key] = value.label;
+                    }
                 });
             }
             setOriginalLabels(labels);
@@ -2402,7 +2404,7 @@ const GeneralFormConfig = ({
         if (window.confirm('Reset all labels and default values to original values?')) {
             // First, reset labels locally
             const updatedLabels = {};
-            Object.entries(labelReferences.propertyMapping).forEach(([key, label]) => {
+            Object.entries(labelReferences.propertyMapping || {}).forEach(([key, label]) => {
                 // Handle matrix-based form values
                 if (formValues?.formMatrix && formValues?.formMatrix[key]) {
                     handleInputChange({ target: { value: label } }, key, 'label');

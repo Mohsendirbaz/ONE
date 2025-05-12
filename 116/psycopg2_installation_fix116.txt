@@ -1,0 +1,41 @@
+# psycopg2_installation_fix.txt
+
+**Purpose**: Config
+
+## File Info
+
+- **Size**: 2.1 KB
+- **Lines**: 53
+- **Complexity**: Low
+
+## Additional Details
+
+### Line Statistics
+
+- Average line length: 37.7 characters
+- Longest line: 269 characters
+- Number of blank lines: 12
+
+### Content Samples
+
+Beginning:
+```
+# ModEcon Matrix System - psycopg2 Installation Fix
+
+## Problem Description
+When running the `instal
+```
+
+Middle:
+```
+ackages.bat` to explicitly install psycopg2-binary before installing other packages:
+   ```batch
+   
+```
+
+End:
+```
+lity
+- If PostgreSQL version changes, you may need to update the psycopg2-binary version accordingly
+```
+

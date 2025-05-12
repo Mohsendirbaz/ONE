@@ -1,0 +1,21 @@
+# CommonSelector.css
+
+**Purpose**: Styling
+
+## Key Code Sections
+
+### CSS Selectors
+
+```css
+/* Common selectors container */
+.selectors-container { ... }
+.selectors-container::before { ... }
+.selectors-container h3 { ... }
+/* Responsive adjustments */
+@media (min-width: 768px) { ... }
+}
+
+/* Transition state for dynamic appearance */
+.selectors-cont
+
+... (truncated to meet size target) ...

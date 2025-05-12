@@ -18,7 +18,10 @@ from .file_association_base import FileAssociationBase
 from .path_utils import (
     get_absolute_path, get_relative_path, join_paths, 
     get_basename, get_dirname, get_file_extension, 
-    normalize_path, extract_timestamp_from_filename, is_binary_file
+    normalize_path
+)
+from .utils import (
+    is_likely_binary_file, extract_timestamp_from_filename, load_json, FileAssociationError
 )
 
 
@@ -171,7 +174,7 @@ class FileAssociationAnalyzer(FileAssociationBase):
         Returns:
             True if the file is likely to be binary, False otherwise
         """
-        return is_binary_file(file_path)
+        return is_likely_binary_file(file_path)
 
     def save_file_associations(self, output_path: Union[str, PathLike]) -> str:
         """

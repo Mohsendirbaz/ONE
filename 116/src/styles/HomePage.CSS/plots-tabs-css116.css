@@ -1,0 +1,23 @@
+# plots-tabs-css.css
+
+**Purpose**: Styling
+
+## Key Code Sections
+
+### CSS Selectors
+
+```css
+.plots-tabs-container { ... }
+/* Category tabs styling */
+.plots-category-tabs { ... }
+.category-tab { ... }
+.category-tab.active { ... }
+.category-tab:hover:not(.active) { ... }
+/* ...and 21 more selectors... */
+```
+
+## File Info
+
+- **Size**: 4.8 KB
+- **Lines**: 216
+- **Complexity**: Low

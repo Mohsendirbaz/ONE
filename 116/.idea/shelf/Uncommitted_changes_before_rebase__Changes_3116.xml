@@ -1,0 +1,37 @@
+# Uncommitted_changes_before_rebase__Changes_3.xml
+
+**Purpose**: Config
+
+## File Info
+
+- **Size**: 334 bytes
+- **Lines**: 4
+
+## Additional Details
+
+### Line Statistics
+
+- Average line length: 82.8 characters
+- Longest line: 118 characters
+- Number of blank lines: 0
+
+### Content Samples
+
+Beginning:
+```
+<changelist name="Uncommitted_changes_before_rebase_[Changes]3" date="1745846068777" recycled="false
+```
+
+Middle:
+```
+>
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase_[Changes]
+```
+
+End:
+```
+/>
+  <option name="DESCRIPTION" value="Uncommitted changes before rebase [Changes]" />
+</changelist>
+```
+

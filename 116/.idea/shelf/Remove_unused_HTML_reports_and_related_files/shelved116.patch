@@ -1,0 +1,45 @@
+# shelved.patch
+
+**Purpose**: Data Processing
+
+**Keywords**: button, remove, class, data, this, extension, btn
+
+## File Info
+
+- **Size**: 206.9 KB
+- **Lines**: 4891
+- **Complexity**: Low
+
+## Additional Details
+
+### Line Statistics
+
+- Average line length: 42.3 characters
+- Longest line: 2755 characters
+- Number of blank lines: 1
+
+### Content Samples
+
+Beginning:
+```
+Index: code_insights_20250429_131138.html
+==========================================================
+```
+
+Middle:
+```
+nactive-Marking\install-active-files-plugin.js</td>
+-      <td>Active-Inactive-Marking</td>
+-      <
+```
+
+End:
+```
+onfigured correctly - Logs going to: C:\Users\Mohse\IdeaProjects3\ONE1\backend\Logs\SENSITIVITY.log
+
+```
+
+
+================================================================================
+End of file summary
+================================================================================

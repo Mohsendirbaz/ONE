@@ -1,0 +1,62 @@
+# StickerHeader.css
+
+**Purpose**: Styling
+
+**Keywords**: var, color, border, neu, shadow, rgba, model
+
+## Key Code Sections
+
+### CSS Selectors
+
+```css
+/* StickerHeader.css */
+
+.sticker-header { ... }
+.sticker-container { ... }
+.sticker { ... }
+.sticker:hover { ... }
+.sticker-floating { ... }
+/* ...and 55 more selectors... */
+```
+
+## File Info
+
+- **Size**: 11.6 KB
+- **Lines**: 447
+- **Complexity**: Low
+
+## Additional Details
+
+### Line Statistics
+
+- Average line length: 24.7 characters
+- Longest line: 124 characters
+- Number of blank lines: 50
+
+### Content Samples
+
+Beginning:
+```
+/* StickerHeader.css */
+
+.sticker-header {
+    position: relative;
+    width: 100%;
+    overflow: hi
+```
+
+Middle:
+```
+, var(--model-color-success)); }
+.sticker:nth-of-type(4) { background: linear-gradient(135deg, var(-
+```
+
+End:
+```
+primary-color-rgb), 0.5);
+    backdrop-filter: blur(10px);
+    margin: 0 auto;
+    z-index: 10001;
+}
+```
+

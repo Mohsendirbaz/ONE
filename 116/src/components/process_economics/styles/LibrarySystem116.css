@@ -1,0 +1,80 @@
+# LibrarySystem.css
+
+**Purpose**: Styling
+
+**Keywords**: color, var, gray, border, flex, background, radius
+
+## Key Code Sections
+
+### CSS Selectors
+
+```css
+/* src/modules/processEconomics/styles/LibrarySystem.css */
+
+/* ===== Base Styles ===== */
+:root { ... }
+/* Reset and base styles */
+  .process-economics-library-system { ... }
+.process-economics-library-system *,
+  .process-economics-library-system *::before,
+  .process-economics-library-system *::after { ... }
+.process-economics-library-system h1,
+  .process-economics-library-system h2,
+  .process-economics-library-system h3,
+  .process-economics-library-system h4,
+  .process-economics-library-system h5,
+  .process-economics-library-system h6 { ... }
+.process-economics-library-system p { ... }
+/* ...and 373 more selectors... */
+```
+
+## File Info
+
+- **Size**: 48.2 KB
+- **Lines**: 2329
+- **Complexity**: Low
+
+## Additional Details
+
+### Line Statistics
+
+- Average line length: 19.2 characters
+- Longest line: 101 characters
+- Number of blank lines: 347
+
+### Content Samples
+
+Beginning:
+```
+/* src/modules/processEconomics/styles/LibrarySystem.css */
+
+/* ===== Base Styles ===== */
+:root {
+ 
+```
+
+Middle:
+```
+
+  .tag-input-with-button {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .add-tag-button {
+    displ
+```
+
+End:
+```
+    font-size: 0.875rem;
+    color: var(--gray-700);
+    transition: all var(--transition-speed);
+}
+
+```
+
+
+================================================================================
+End of file summary
+================================================================================

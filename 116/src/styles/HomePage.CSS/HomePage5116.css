@@ -1,0 +1,22 @@
+# HomePage5.css
+
+**Purpose**: Styling
+
+## Key Code Sections
+
+### CSS Selectors
+
+```css
+/* Table Styles */
+.customizable-table { ... }
+.customizable-table th,
+.customizable-table td { ... }
+.customizable-table th { ... }
+.customizable-table tr:nth-child(even) { ... }
+.customizable-table tr:hover { ... }
+/* ...and 14 more selectors... */
+```
+
+## File
+
+... (truncated to meet size target) ...

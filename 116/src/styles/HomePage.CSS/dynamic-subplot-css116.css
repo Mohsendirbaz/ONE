@@ -1,0 +1,29 @@
+# dynamic-subplot-css.css
+
+**Purpose**: Styling
+
+**Keywords**: color, var, button, border, text, background, primary
+
+## Key Code Sections
+
+### CSS Selectors
+
+```css
+/* DynamicSubplotComponent.css */
+
+.dynamic-subplot-container { ... }
+@media (max-width: 1024px) { ... }
+}
+
+/* Selection Panel Styles */
+.subplot-selection-panel { ... }
+.subplot-selection-panel h3 { ... }
+.error-message { ... }
+/* ...and 37 more selectors... */
+```
+
+## File Info
+
+- **Size**: 8.1 KB
+- **Lines**: 362
+- **Complexity**: Low

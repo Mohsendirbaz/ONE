@@ -1,0 +1,59 @@
+# HomePage_FactAdmin.css
+
+**Purpose**: Styling
+
+**Keywords**: var, color, fact, neu, shadow, btn, admin
+
+## Key Code Sections
+
+### CSS Selectors
+
+```css
+.fact-admin-container { ... }
+.fact-admin-header { ... }
+.fact-admin-title { ... }
+.add-fact-section h3 { ... }
+.facts-summary { ... }
+/* ...and 69 more selectors... */
+```
+
+## File Info
+
+- **Size**: 9.0 KB
+- **Lines**: 423
+- **Complexity**: Low
+
+## Additional Details
+
+### Content Samples
+
+Beginning:
+```
+.fact-admin-container {
+  padding: var(--spacing-md);
+  background-color: var(--neu-background);
+  b
+```
+
+Middle:
+```
+ list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.fact-admin-item {
+  display: flex;
+  justify-conte
+```
+
+End:
+```
+on: highlight 2s ease;
+}
+
+.dark-theme .fact-admin-item.highlight {
+  animation: highlight 2s ease;
+}
+```
+

@@ -13,6 +13,9 @@ from typing import Dict, List, Set, Any, Union, Optional
 from os import PathLike
 
 from .file_association_base import FileAssociationBase
+from .utils import (
+    is_likely_binary_file, extract_timestamp_from_filename, load_json, FileAssociationError
+)
 
 
 class DirectImportAnalyzer(FileAssociationBase):
@@ -28,23 +31,7 @@ class DirectImportAnalyzer(FileAssociationBase):
         Returns:
             True if the file is likely to be binary, False otherwise
         """
-        # Try to read a small portion of the file to check for binary content
-        try:
-            with open(file_path, 'rb') as f:
-                chunk = f.read(1024)
-                # Check for null bytes which are common in binary files
-                if b'\x00' in chunk:
-                    return True
-
-                # Try to decode as text
-                try:
-                    chunk.decode('utf-8')
-                    return False  # Successfully decoded as UTF-8
-                except UnicodeDecodeError:
-                    return True  # Failed to decode as UTF-8, likely binary
-        except Exception:
-            # If we can't read the file, assume it's not binary
-            return False
+        return is_likely_binary_file(file_path)
 
     def analyze_file(self, file_path: Union[str, PathLike]) -> Dict[str, List[str]]:
         """
@@ -172,23 +159,8 @@ class DirectImportAnalyzer(FileAssociationBase):
         relationships = self.get_import_relationships()
 
         with open(output_path, 'w') as f:
-            # Extract the full timestamp (format: YYYYMMDD_HHMMSS) from the filename
-            output_filename = os.path.basename(output_path)
-            timestamp_parts = output_filename.split('_')
-            if len(timestamp_parts) >= 3:  # Ensure we have enough parts
-                # Get the date and time parts (last two parts before .json)
-                date_part = timestamp_parts[-2]
-                time_part = timestamp_parts[-1].split('.')[0]
-                timestamp = f"{date_part}_{time_part}"
-            else:
-                # Fallback - extract using regex
-                import re
-                match = re.search(r'(\d{8}_\d{6})', output_filename)
-                if match:
-                    timestamp = match.group(1)
-                else:
-                    # Last resort fallback
-                    timestamp = output_filename.split('_')[-1].split('.')[0]
+            # Extract the timestamp from the filename
+            timestamp = extract_timestamp_from_filename(output_path)
 
             json.dump({
                 "project_name": os.path.basename(self.project_path),

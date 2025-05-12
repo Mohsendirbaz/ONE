@@ -1,0 +1,61 @@
+# direct_imports_20250510_090930.json
+
+**Purpose**: Configuration
+
+**Functions**: project_name, analysis_date, import_relationships
+
+**Keywords**: project_name, analysis_date, import_relationships
+
+## Key Code Sections
+
+### JSON Structure
+
+```json
+{
+  "project_name": "ONE1",
+  "analysis_date": "20250510_090930",
+  "import_relationships": dict with 153 items
+}
+```
+
+## File Info
+
+- **Size**: 13.4 KB
+- **Lines**: 267
+- **Complexity**: Low
+
+## Additional Details
+
+### Line Statistics
+
+- Average line length: 49.3 characters
+- Longest line: 87 characters
+- Number of blank lines: 0
+
+### Content Samples
+
+Beginning:
+```
+{
+  "project_name": "ONE1",
+  "analysis_date": "20250510_090930",
+  "import_relationships": {
+    "c
+```
+
+Middle:
+```
+ls.py"
+    ],
+    "file_associations\\file_associations.py": [
+      "file_associations\\file_associ
+```
+
+End:
+```
+ools\\pretty_vcproj.py": [],
+    "node_modules\\node-gyp\\test\\fixtures\\test-charmap.py": []
+  }
+}
+```
+

@@ -2118,21 +2118,36 @@ const HomePageContent = () => {
                 )}
 
                 {activeSubTab === 'Scaling' && (
-                    <CentralScalingTab
-                        formValues={formValues}
-                        V={V}
-                        R={R}
-                        toggleV={toggleV}
-                        toggleR={toggleR}
+                    <>
+                        <CentralScalingTab
+                            formValues={formValues}
+                            V={V}
+                            R={R}
+                            toggleV={toggleV}
+                            toggleR={toggleR}
 
-                        scalingBaseCosts={scalingBaseCosts}
-                        setScalingBaseCosts={setScalingBaseCosts}
-                        scalingGroups={scalingGroups}
+                            scalingBaseCosts={scalingBaseCosts}
+                            setScalingBaseCosts={setScalingBaseCosts}
+                            scalingGroups={scalingGroups}
 
-                        onScalingGroupsChange={handleScalingGroupsChange}
-                        onScaledValuesChange={handleScaledValuesChange}
+                            onScalingGroupsChange={handleScalingGroupsChange}
+                            onScaledValuesChange={handleScaledValuesChange}
+                        />
 
-                    />
+                        {/* Integrate EfficacyMapContainer */}
+                        <EfficacyMapContainer
+                            parameters={formValues}
+                            plantLifetime={formValues.plantLifetimeAmount10?.value || 20}
+                            configurableVersions={20}
+                            scalingGroups={scalingGroups.length || 5}
+                            onParameterUpdate={(paramId, updatedParam) => {
+                                handleInputChange(
+                                    { target: { value: updatedParam.value } },
+                                    paramId
+                                );
+                            }}
+                        />
+                    </>
                 )}
                 { activeSubTab === 'FixedRevenueConfig' && (
                     <GeneralFormConfig

@@ -1,0 +1,35 @@
+# Add_common_ports_JSON_file_for_function_and_variable_mapping.xml
+
+**Purpose**: Utility
+
+## File Info
+
+- **Size**: 367 bytes
+- **Lines**: 4
+
+## Additional Details
+
+### Line Statistics
+
+- Average line length: 91.0 characters
+- Longest line: 133 characters
+- Number of blank lines: 0
+
+### Content Samples
+
+Beginning:
+```
+<changelist name="Add_common_ports_JSON_file_for_function_and_variable_mapping" date="1745978693715"
+```
+
+Middle:
+```
+="PATH" value="$PROJECT_DIR$/.idea/shelf/Add_common_ports_JSON_file_for_function_and_variable_mappin
+```
+
+End:
+```
+="DESCRIPTION" value="Add common_ports JSON file for function and variable mapping" />
+</changelist>
+```
+

@@ -15,7 +15,10 @@ from os import PathLike
 from .file_association_base import FileAssociationBase
 from .path_utils import (
     get_absolute_path, get_relative_path, join_paths, 
-    get_basename, get_file_extension, extract_timestamp_from_filename, is_binary_file
+    get_basename, get_file_extension
+)
+from .utils import (
+    is_likely_binary_file, extract_timestamp_from_filename, load_json
 )
 
 
@@ -43,7 +46,7 @@ class CommonPortAnalyzer(FileAssociationBase):
         Returns:
             True if the file is likely to be binary, False otherwise
         """
-        return is_binary_file(file_path)
+        return is_likely_binary_file(file_path)
 
     def analyze_file(self, file_path: Union[str, PathLike]) -> Dict[str, List[str]]:
         """
@@ -126,14 +129,18 @@ class CommonPortAnalyzer(FileAssociationBase):
 
         return {"defined_ports": defined_ports, "used_ports": used_ports}
 
-    def analyze_project(self) -> Dict[str, Dict[str, List[str]]]:
+    def analyze_project(self, max_files: Optional[int] = None) -> Dict[str, Dict[str, List[str]]]:
         """
         Analyze all files in the project for common ports.
+
+        Args:
+            max_files: Maximum number of files to analyze (None for all)
 
         Returns:
             A dictionary of port associations for all files in the project
         """
         # First pass: collect all defined ports
+        file_count = 0
         for root, _, files in os.walk(self.project_path):
             for file in files:
                 if self._should_analyze_file(file):
@@ -154,6 +161,16 @@ class CommonPortAnalyzer(FileAssociationBase):
                         if port not in self.used_ports:
                             self.used_ports[port] = []
                         self.used_ports[port].append(rel_path)
+
+                    # Increment file count and check if we've reached the limit
+                    file_count += 1
+                    if max_files is not None and file_count >= max_files:
+                        print(f"Reached maximum file limit ({max_files}). Stopping analysis.")
+                        break
+
+            # Also break the outer loop if we've reached the limit
+            if max_files is not None and file_count >= max_files:
+                break
 
         return self.associations
 

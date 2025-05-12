@@ -31,7 +31,7 @@ insights_generator_dir = os.path.join(current_dir, "insights_generator")
 # Define paths to visualization outputs
 file_associations_output_dir = os.path.join(file_associations_dir, "output")
 visualization_outputs = []
-
+1
 def ensure_directory_exists(directory):
     """Ensure that a directory exists."""
     os.makedirs(directory, exist_ok=True)
@@ -599,6 +599,30 @@ def create_financial_entity_visualizations_html():
         print(f"Error creating financial entity visualizations: {str(e)}")
         return False
 
+def create_tensor_capacity_visualization():
+    """Create the tensor-based 3D capacity space visualization."""
+    print("\n=== Creating Tensor-Based 3D Capacity Space Visualization ===")
+
+    try:
+        # Create a directory for the output
+        output_dir = os.path.join(current_dir, "capacity_visualizations")
+        ensure_directory_exists(output_dir)
+
+        # The HTML file was already created separately
+        html_path = os.path.join(output_dir, "tensor_capacity_visualization.html")
+
+        # Check if the file exists
+        if os.path.exists(html_path):
+            print(f"Using existing tensor capacity visualization: {html_path}")
+            visualization_outputs.append(html_path)
+            return True
+        else:
+            print(f"Error: Tensor capacity visualization file not found at {html_path}")
+            return False
+    except Exception as e:
+        print(f"Error creating tensor capacity visualization: {str(e)}")
+        return False
+
 def create_visualization_index():
     """Create an index HTML file that links to all visualizations."""
     print("\n=== Creating Visualization Index ===")
@@ -830,6 +854,10 @@ def main():
     else:
         print("\nSkipping financial-entity-analyzer module.")
 
+    # Run tensor capacity visualization
+    print("\n=== Tensor Capacity Visualization Configuration ===")
+    tensor_capacity_success = create_tensor_capacity_visualization()
+
     # Create visualization index if any visualizations were generated
     if visualization_outputs:
         index_path = create_visualization_index()
@@ -842,6 +870,7 @@ def main():
             print(f"Insights Generator: {'Success' if insights_generator_success else 'Failed'}")
         if run_financial:
             print(f"Financial Entity Analyzer: {'Success' if financial_entity_success else 'Failed'}")
+        print(f"Tensor Capacity Visualization: {'Success' if tensor_capacity_success else 'Failed'}")
 
         # Open the index in a browser
         if index_path:

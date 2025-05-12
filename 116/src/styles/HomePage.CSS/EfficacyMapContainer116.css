@@ -1,0 +1,24 @@
+# EfficacyMapContainer.css
+
+**Purpose**: Styling
+
+## Key Code Sections
+
+### CSS Selectors
+
+```css
+/* EfficacyMapContainer.css */
+
+.efficacy-map-container { ... }
+/* Map header styles */
+.map-header { ... }
+.map-header h2 { ... }
+.map-description { ... }
+/* Capacity summary styles */
+.capacity-summary { ... }
+/* ...and 27 more selectors... */
+```
+
+#
+
+... (truncated to meet size target) ...

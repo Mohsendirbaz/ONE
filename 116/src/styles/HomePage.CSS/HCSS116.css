@@ -1,0 +1,78 @@
+# HCSS.css
+
+**Purpose**: Styling
+
+**Keywords**: var, color, border, model, background, font, spacing
+
+## Key Code Sections
+
+### CSS Selectors
+
+```css
+/**
+ * CONSOLIDATED CSS FILE
+ * This file contains all selectors from the HomePage.CSS directory
+ * All hardcoded styles are replaced with root variables where applicable
+ */
+
+/* ========================================================= */
+/* src/styles/HomePage.CSS/CFAConsolidationUI.css */
+/* ========================================================= */
+
+/* Component Layout */
+.cfa-consolidation { ... }
+.cfa-consolidation__left { ... }
+.cfa-consolidation__right { ... }
+.results-section { ... }
+.processing-panel { ... }
+/* ...and 824 more selectors... */
+```
+
+## File Info
+
+- **Size**: 121.1 KB
+- **Lines**: 5248
+- **Complexity**: Low
+
+## Additional Details
+
+### Line Statistics
+
+- Average line length: 21.6 characters
+- Longest line: 126 characters
+- Number of blank lines: 779
+
+### Content Samples
+
+Beginning:
+```
+/**
+ * CONSOLIDATED CSS FILE
+ * This file contains all selectors from the HomePage.CSS directory
+ * 
+```
+
+Middle:
+```
+color: rgba(var(--primary-color-rgb), 0.9);
+}
+
+.sync-button {
+    background-color: var(--light-colo
+```
+
+End:
+```
+; opacity: 0; }
+}
+
+.score-animation.bonus {
+    color: var(--success-color);
+    font-size: 1.2em;
+}
+```
+
+
+================================================================================
+End of file summary
+================================================================================

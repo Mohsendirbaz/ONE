@@ -1,0 +1,20 @@
+# ProcessingPanel.css
+
+**Purpose**: Styling
+
+**Keywords**: var, model, color, background, border, font, spacing
+
+## Key Code Sections
+
+### CSS Selectors
+
+```css
+.processing-panel { ... }
+/* Header Styles */
+.processing-panel__header { ... }
+.processing-panel__title { ... }
+/* Status Indicator */
+.status-indicator { ... }
+.status-indicator--idle { .
+
+... (truncated to meet size target) ...

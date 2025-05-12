@@ -12,8 +12,10 @@ from os import PathLike
 
 from .path_utils import (
     get_absolute_path, get_relative_path, join_paths, 
-    get_basename, get_file_extension, is_binary_file,
-    extract_timestamp_from_filename
+    get_basename, get_file_extension
+)
+from .utils import (
+    is_likely_binary_file, extract_timestamp_from_filename, should_analyze_file
 )
 
 
@@ -84,22 +86,7 @@ class FileAssociationBase:
         Returns:
             True if the file should be analyzed, False otherwise
         """
-        # Skip hidden files and directories
-        if file_name.startswith('.'):
-            return False
-
-        # Skip common binary and non-code files
-        extensions_to_skip = {
-            '.pyc', '.pyo', '.pyd', '.so', '.dll', '.exe',
-            '.jpg', '.jpeg', '.png', '.gif', '.bmp', '.ico',
-            '.pdf', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx',
-            '.zip', '.tar', '.gz', '.rar', '.7z'
-        }
-        ext = get_file_extension(file_name)
-        if ext.lower() in extensions_to_skip:
-            return False
-
-        return True
+        return should_analyze_file(file_name)
 
     def save_associations(self, output_path: Union[str, PathLike]) -> str:
         """

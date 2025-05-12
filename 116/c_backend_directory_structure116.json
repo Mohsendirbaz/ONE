@@ -1,0 +1,68 @@
+# c_backend_directory_structure.json
+
+**Purpose**: Configuration
+
+**Functions**: project_name, analysis_date, version, root, api_endpoints
+
+**Keywords**: project_name, analysis_date, version, root, api_endpoints
+
+## Key Code Sections
+
+### JSON Structure
+
+```json
+{
+  "project_name": "Backend Structure",
+  "analysis_date": "2025-04-29 18:00:44",
+  "version": 4,
+  "root": dict with 4 items,
+  "api_endpoints": list with 68 items
+}
+```
+
+## File Info
+
+- **Size**: 46.4 KB
+- **Lines**: 1176
+- **Complexity**: Low
+
+## Additional Details
+
+### Line Statistics
+
+- Average line length: 38.4 characters
+- Longest line: 683 characters
+- Number of blank lines: 0
+
+### Content Samples
+
+Beginning:
+```
+{
+  "project_name": "Backend Structure",
+  "analysis_date": "2025-04-29 18:00:44",
+  "version": 4,
+ 
+```
+
+Middle:
+```
+NE1\\src\\styles\\Themes",
+                "subdirectories": {},
+                "files": [
+        
+```
+
+End:
+```
+ckend\\Data_processors_and_transformers\\Front_Subtab_Table.py",
+      "description": ""
+    }
+  ]
+}
+```
+
+
+================================================================================
+End of file summary
+================================================================================

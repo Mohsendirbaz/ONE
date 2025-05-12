@@ -1,0 +1,51 @@
+# WhakAMole.css
+
+**Purpose**: Styling
+
+## Key Code Sections
+
+### CSS Selectors
+
+```css
+.whakamole-container { ... }
+.whakamole-header { ... }
+.whakamole-header h2 { ... }
+.close-button { ... }
+.game-info { ... }
+/* ...and 16 more selectors... */
+```
+
+## File Info
+
+- **Size**: 3.5 KB
+- **Lines**: 150
+- **Complexity**: Low
+
+## Additional Details
+
+### Content Samples
+
+Beginning:
+```
+.whakamole-container {
+    position: relative; /* Changed from absolute to relative */
+    width: 34
+```
+
+Middle:
+```
+lid rgba(var(--border-color-rgb), 0.3);
+    border-radius: var(--neu-border-radius-md);
+    color: v
+```
+
+End:
+```
+3c2a0e);
+}
+
+:root.dark-theme .mole {
+    background: linear-gradient(to bottom, #8a5c36, #724c2c);
+}
+```
+

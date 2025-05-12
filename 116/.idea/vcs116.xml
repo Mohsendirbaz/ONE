@@ -1,0 +1,27 @@
+# vcs.xml
+
+**Purpose**: Ui Component
+
+## File Info
+
+- **Size**: 172 bytes
+- **Lines**: 6
+
+## Additional Details
+
+### Line Statistics
+
+- Average line length: 27.0 characters
+- Longest line: 41 characters
+- Number of blank lines: 0
+
+### Content Samples
+
+Sample:
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="" v
+```
+

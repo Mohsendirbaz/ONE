@@ -1,0 +1,21 @@
+# CustomizableTable.css
+
+**Purpose**: Styling
+
+## Key Code Sections
+
+### CSS Selectors
+
+```css
+/* Enhanced Table Styling with Theme Variable Support */
+
+/* Base Table Structure */
+.custom-table { ... }
+/* Table Header */
+.custom-table th { ... }
+.custom-table th:first-child { ... }
+.custom-table th:last-child { ... }
+/* Table Header on Hover */
+.cu
+
+... (truncated to meet size target) ...

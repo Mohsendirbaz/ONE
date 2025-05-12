@@ -1,0 +1,69 @@
+# package-lock.json
+
+**Purpose**: Configuration
+
+**Functions**: name, version, lockfileVersion, requires, packages
+
+**Keywords**: name, version, lockfileversion, requires, packages
+
+## Key Code Sections
+
+### JSON Structure
+
+```json
+{
+  "name": "my-dashboard",
+  "version": "1.0.0",
+  "lockfileVersion": 3,
+  "requires": true,
+  "packages": dict with 2504 items
+}
+```
+
+## File Info
+
+- **Size**: 1.2 MB
+- **Lines**: 33049
+- **Complexity**: Low
+
+## Additional Details
+
+### Line Statistics
+
+- Average line length: 36.3 characters
+- Longest line: 411 characters
+- Number of blank lines: 1
+
+### Content Samples
+
+Beginning:
+```
+{
+  "name": "my-dashboard",
+  "version": "1.0.0",
+  "lockfileVersion": 3,
+  "requires": true,
+  "pac
+```
+
+Middle:
+```
+y": "sha512-otgSPpUmdWJ43VXyiNgEYE4luzHCL2pz4wQ0OnDluC6Eg4Ko3Vexy/SrSynglw/eR+OhkzmqFCZa/OFa/RgAOQ==
+```
+
+End:
+```
+IT",
+      "funding": {
+        "url": "https://github.com/sponsors/colinhacks"
+      }
+    }
+  }
+}
+
+```
+
+
+================================================================================
+End of file summary
+================================================================================

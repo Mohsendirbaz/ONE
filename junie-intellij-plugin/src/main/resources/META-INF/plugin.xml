@@ -1,0 +1,17 @@
+<idea-plugin>
+    <id>com.junie.plugin</id>
+    <name>Junie Plugin Directory Access</name>
+    <vendor>Junie</vendor>
+    <description>Provides access to plugin installation directories in IntelliJ IDEA</description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <projectService serviceImplementation="com.junie.plugin.PluginDirectoryService"/>
+        <httpRequestHandler implementation="com.junie.plugin.PluginDirectoryController"/>
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
+</idea-plugin>

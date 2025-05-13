@@ -38,3 +38,19 @@
 2025-05-12 02:31:13,612 INFO Logging configured correctly - Config copy logs going to: C:\Users\Mohse\IdeaProjects3\ONE1\backend\Logs\CONFIG_COPY.log
 2025-05-12 02:31:13,662 WARNING  * Debugger is active!
 2025-05-12 02:31:13,671 INFO  * Debugger PIN: 119-059-632
+2025-05-12 17:04:42,944 INFO Logging configured correctly - Config copy logs going to: C:\Users\Mohse\IdeaProjects3\ONE1\backend\Logs\CONFIG_COPY.log
+2025-05-12 17:04:43,006 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:2600
+2025-05-12 17:04:43,006 INFO [33mPress CTRL+C to quit[0m
+2025-05-12 17:04:43,006 INFO  * Restarting with stat
+2025-05-12 17:04:43,902 INFO Logging configured correctly - Config copy logs going to: C:\Users\Mohse\IdeaProjects3\ONE1\backend\Logs\CONFIG_COPY.log
+2025-05-12 17:04:43,980 WARNING  * Debugger is active!
+2025-05-12 17:04:43,995 INFO  * Debugger PIN: 119-059-632
+2025-05-13 07:33:35,886 INFO Logging configured correctly - Config copy logs going to: C:\Users\Mohse\IdeaProjects3\ONE1\backend\Logs\CONFIG_COPY.log
+2025-05-13 07:33:35,948 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:2600
+2025-05-13 07:33:35,948 INFO [33mPress CTRL+C to quit[0m
+2025-05-13 07:33:35,948 INFO  * Restarting with stat
+2025-05-13 07:33:36,537 INFO Logging configured correctly - Config copy logs going to: C:\Users\Mohse\IdeaProjects3\ONE1\backend\Logs\CONFIG_COPY.log
+2025-05-13 07:33:36,584 WARNING  * Debugger is active!
+2025-05-13 07:33:36,584 INFO  * Debugger PIN: 119-059-632

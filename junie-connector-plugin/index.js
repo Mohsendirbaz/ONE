@@ -47,25 +47,50 @@ class JunieConnector {
    */
   async validateJunieInstallation() {
     try {
-      // First try to find Junie plugin using the plugin directory API
-      const juniePluginPath = await this.getJuniePluginPath();
+      // First try to initialize the JVM Interop Layer
+      const jvmInitialized = await this.initializeJvmInteropLayer();
+      if (jvmInitialized) {
+        console.log('JVM Interop Layer initialized successfully');
 
-      if (juniePluginPath) {
-        console.log(`Junie plugin found at ${juniePluginPath}`);
+        // Check if the ActionManager and DataContext are available
+        const actionManagerAvailable = await this.isActionManagerAvailable();
+        const dataContextAvailable = await this.isDataContextAvailable();
 
-        // If we found the plugin but the .junie directory doesn't exist,
-        // we'll create it to store our session data
-        if (!fs.existsSync(this.options.juniePath)) {
-          fs.ensureDirSync(this.options.juniePath);
-
-          // Create a basic guidelines.md file if it doesn't exist
-          const guidelinesPath = path.join(this.options.juniePath, 'guidelines.md');
-          if (!fs.existsSync(guidelinesPath)) {
-            fs.writeFileSync(guidelinesPath, '# Project Guidelines\n\nThis is a placeholder of the project guidelines for Junie.');
-          }
+        if (actionManagerAvailable && dataContextAvailable) {
+          console.log('ActionManager and DataContext are available');
+        } else {
+          console.warn('ActionManager or DataContext not available');
         }
 
-        return true;
+        // Get the IDE version
+        const ideVersion = await this.getIdeVersion();
+        if (ideVersion) {
+          console.log(`IDE version: ${ideVersion}`);
+        } else {
+          console.warn('IDE version not available');
+        }
+
+        // Try to find Junie plugin using the JVM Interop Layer
+        const juniePluginPath = await this.getJuniePluginPath();
+        if (juniePluginPath) {
+          console.log(`Junie plugin found at ${juniePluginPath}`);
+
+          // If we found the plugin but the .junie directory doesn't exist,
+          // we'll create it to store our session data
+          if (!fs.existsSync(this.options.juniePath)) {
+            fs.ensureDirSync(this.options.juniePath);
+
+            // Create a basic guidelines.md file if it doesn't exist
+            const guidelinesPath = path.join(this.options.juniePath, 'guidelines.md');
+            if (!fs.existsSync(guidelinesPath)) {
+              fs.writeFileSync(guidelinesPath, '# Project Guidelines\n\nThis is a placeholder of the project guidelines for Junie.');
+            }
+          }
+
+          return true;
+        }
+      } else {
+        console.warn('JVM Interop Layer initialization failed, falling back to directory check');
       }
 
       // Fall back to checking for the .junie directory
@@ -127,6 +152,70 @@ class JunieConnector {
   }
 
   /**
+   * Gets the IDE version
+   * @returns {Promise<string|null>} - The IDE version, or null if not available
+   */
+  async getIdeVersion() {
+    try {
+      return await pluginDirectory.getIdeVersion();
+    } catch (error) {
+      console.error(`Error getting IDE version: ${error.message}`);
+      return null;
+    }
+  }
+
+  /**
+   * Checks if the ActionManager is available
+   * @returns {Promise<boolean>} - True if the ActionManager is available
+   */
+  async isActionManagerAvailable() {
+    try {
+      return await pluginDirectory.isActionManagerAvailable();
+    } catch (error) {
+      console.error(`Error checking ActionManager availability: ${error.message}`);
+      return false;
+    }
+  }
+
+  /**
+   * Checks if the DataContext is available
+   * @returns {Promise<boolean>} - True if the DataContext is available
+   */
+  async isDataContextAvailable() {
+    try {
+      return await pluginDirectory.isDataContextAvailable();
+    } catch (error) {
+      console.error(`Error checking DataContext availability: ${error.message}`);
+      return false;
+    }
+  }
+
+  /**
+   * Initializes the JVM Interop Layer
+   * @returns {Promise<boolean>} - True if initialization was successful
+   */
+  async initializeJvmInteropLayer() {
+    try {
+      return await pluginDirectory.initializeJvmInteropLayer();
+    } catch (error) {
+      console.error(`Error initializing JVM Interop Layer: ${error.message}`);
+      return false;
+    }
+  }
+
+  /**
+   * Terminates the JVM process
+   * @returns {Promise<void>}
+   */
+  async terminateJvmProcess() {
+    try {
+      await pluginDirectory.terminateJvmProcess();
+    } catch (error) {
+      console.error(`Error terminating JVM process: ${error.message}`);
+    }
+  }
+
+  /**
    * Initializes a new session with Junie
    * @param {Object} sessionConfig - Configuration for the session
    * @returns {Promise<String>} - Session ID if successful, null otherwise
@@ -147,8 +236,29 @@ class JunieConnector {
         await this.terminateSession();
       }
 
+      // Initialize the JVM Interop Layer if not already initialized
+      await this.initializeJvmInteropLayer();
+
       // Try to get the Junie plugin path to include in the session data
       const juniePluginPath = await this.getJuniePluginPath();
+
+      // Try to get the IDE version to include in the session data
+      let ideVersion = null;
+      try {
+        ideVersion = await this.getIdeVersion();
+      } catch (versionError) {
+        console.warn(`Could not get IDE version for session initialization: ${versionError.message}`);
+      }
+
+      // Check if the ActionManager and DataContext are available
+      let actionManagerAvailable = false;
+      let dataContextAvailable = false;
+      try {
+        actionManagerAvailable = await this.isActionManagerAvailable();
+        dataContextAvailable = await this.isDataContextAvailable();
+      } catch (error) {
+        console.warn(`Could not check ActionManager and DataContext availability: ${error.message}`);
+      }
 
       // Generate a unique session ID
       this.sessionId = `junie-session-${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
@@ -164,7 +274,11 @@ class JunieConnector {
         createdAt: new Date().toISOString(),
         config: sessionConfig,
         status: 'active',
-        juniePluginPath: juniePluginPath || 'unknown'
+        juniePluginPath: juniePluginPath || 'unknown',
+        ideVersion: ideVersion || 'unknown',
+        actionManagerAvailable,
+        dataContextAvailable,
+        jvmInteropLayerInitialized: true
       };
 
       fs.writeJsonSync(sessionFile, sessionData, { spaces: 2 });
@@ -208,12 +322,25 @@ class JunieConnector {
           console.warn(`Could not get Junie plugin path for session termination: ${pathError.message}`);
         }
 
+        // Try to get the IDE version to include in the session data
+        try {
+          const ideVersion = await this.getIdeVersion();
+          if (ideVersion) {
+            sessionData.ideVersion = ideVersion;
+          }
+        } catch (versionError) {
+          console.warn(`Could not get IDE version for session termination: ${versionError.message}`);
+        }
+
         fs.writeJsonSync(sessionFile, sessionData, { spaces: 2 });
       }
 
       this.sessionActive = false;
       console.log(`Session ${this.sessionId} terminated`);
       this.sessionId = null;
+
+      // Terminate the JVM process when the session is terminated
+      await this.terminateJvmProcess();
 
       return true;
     } catch (error) {
@@ -256,6 +383,26 @@ class JunieConnector {
           }
         } catch (pathError) {
           console.warn(`Could not get plugins path: ${pathError.message}`);
+        }
+
+        // Try to get the IDE version
+        try {
+          const ideVersion = await this.getIdeVersion();
+          if (ideVersion) {
+            sessionData.ideVersion = ideVersion;
+          }
+        } catch (versionError) {
+          console.warn(`Could not get IDE version: ${versionError.message}`);
+        }
+
+        // Check if the ActionManager and DataContext are available
+        try {
+          const actionManagerAvailable = await this.isActionManagerAvailable();
+          const dataContextAvailable = await this.isDataContextAvailable();
+          sessionData.actionManagerAvailable = actionManagerAvailable;
+          sessionData.dataContextAvailable = dataContextAvailable;
+        } catch (error) {
+          console.warn(`Could not check ActionManager and DataContext availability: ${error.message}`);
         }
 
         return {

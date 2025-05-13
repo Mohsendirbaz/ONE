@@ -1,14 +1,29 @@
 <idea-plugin>
     <id>com.junie.plugin</id>
-    <name>Junie Plugin Directory Access</name>
+    <name>Junie Plugin with AI Assistant</name>
     <vendor>Junie</vendor>
-    <description>Provides access to plugin installation directories in IntelliJ IDEA</description>
+    <description>Provides access to plugin installation directories in IntelliJ IDEA and AI-powered code suggestions</description>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.lang</depends>
 
     <extensions defaultExtensionNs="com.intellij">
+        <!-- Plugin Directory Access -->
         <projectService serviceImplementation="com.junie.plugin.PluginDirectoryService"/>
         <httpRequestHandler implementation="com.junie.plugin.PluginDirectoryController"/>
+
+        <!-- AI Assistant -->
+        <applicationService serviceImplementation="com.junie.plugin.ai.AIAssistantService"/>
+        <applicationService serviceImplementation="com.junie.plugin.ai.InlineSuggestionManager"/>
+        <applicationService serviceImplementation="com.junie.plugin.ai.JunieAIIntegration"/>
+        <editorFactoryListener implementation="com.junie.plugin.ai.EditorFactoryListenerImpl"/>
+
+        <!-- Multi-Agent System -->
+        <projectService serviceImplementation="com.junie.plugin.ai.multiagent.services.AgentCoordinatorService"/>
+        <projectService serviceImplementation="com.junie.plugin.ai.multiagent.services.AgentSchedulerService"/>
+        <projectService serviceImplementation="com.junie.plugin.ai.multiagent.services.AgentContextService"/>
+        <toolWindow id="AI Agents" secondary="true" icon="AllIcons.General.Modified" anchor="right" 
+                    factoryClass="com.junie.plugin.ai.multiagent.ui.AgentToolWindowFactory"/>
     </extensions>
 
     <actions>

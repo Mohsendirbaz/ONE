@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
-import { DndProvider, useDrag, useDrop } from 'react-dnd';
+import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
@@ -20,206 +20,20 @@ import * as labelReferences from './utils/labelReferences';
 import { MatrixSubmissionService } from './services';
 import { MatrixApp } from './components/matrix';
 import { GeneralFormConfig } from './components/forms';
+import { Card, CardHeader, CardContent, Tooltip } from './components/ui';
+import { CumulativeDocumentation } from './components/documentation';
+import { DraggableScalingItem } from './components/scaling';
 
 /**
  * UI Components
  * The following components are used to build the UI for the scaling system
+ * 
+ * Note: The following components have been moved to their own files:
+ * - Card, CardHeader, CardContent: src/components/ui/Card.js
+ * - Tooltip: src/components/ui/Tooltip.js
+ * - CumulativeDocumentation: src/components/documentation/CumulativeDocumentation.js
+ * - DraggableScalingItem: src/components/scaling/DraggableScalingItem.js
  */
-
-/**
- * Card Component for Scaling UI
- */
-const Card = ({ children, className = '', ...props }) => (
-    <div className={`card ${className}`} {...props}>
-        {children}
-    </div>
-);
-
-/**
- * CardHeader Component for Scaling UI
- */
-const CardHeader = ({ children, className = '', ...props }) => (
-    <div className={`card-header ${className}`} {...props}>
-        {children}
-    </div>
-);
-
-/**
- * CardContent Component for Scaling UI
- */
-const CardContent = ({ children, className = '', ...props }) => (
-    <div className={`card-content ${className}`} {...props}>
-        {children}
-    </div>
-);
-
-/**
- * Tooltip Component
- */
-const Tooltip = ({ content, children }) => {
-    const [isVisible, setIsVisible] = useState(false);
-    const tooltipRef = useRef(null);
-
-    return (
-        <div
-            className="tooltip-container"
-            onMouseEnter={() => setIsVisible(true)}
-            onMouseLeave={() => setIsVisible(false)}
-        >
-            {children}
-            <AnimatePresence>
-                {isVisible && (
-                    <motion.div
-                        ref={tooltipRef}
-                        className="tooltip"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 10 }}
-                        transition={{ duration: 0.2 }}
-                    >
-                        {content}
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </div>
-    );
-};
-
-/**
- * CumulativeDocumentation Component
- */
-const CumulativeDocumentation = ({ onClose }) => (
-    <div className="scaling-documentation">
-        <h4>Understanding Cumulative Calculations</h4>
-        <p>In this scaling system, each tab (after the Default Scaling) builds upon the results of previous tabs:</p>
-
-        <ol>
-            <li><strong>Default Scaling</strong> - Uses original base values from your cost data</li>
-            <li><strong>Subsequent Tabs</strong> - Each uses the results from the previous tab as its base values</li>
-        </ol>
-
-        <p>When you add, remove, or modify tabs, all subsequent tabs automatically update to maintain the mathematical flow.</p>
-
-        <div className="scaling-documentation-example">
-            <div className="example-flow">
-                <div className="example-tab">
-                    <div>Default Tab</div>
-                    <div className="example-value">Base: 100</div>
-                    <div className="example-op">× 2</div>
-                    <div className="example-result">Result: 200</div>
-                </div>
-                <div className="example-arrow">→</div>
-                <div className="example-tab">
-                    <div>Second Tab</div>
-                    <div className="example-value">Base: 200</div>
-                    <div className="example-op">+ 50</div>
-                    <div className="example-result">Result: 250</div>
-                </div>
-                <div className="example-arrow">→</div>
-                <div className="example-tab">
-                    <div>Third Tab</div>
-                    <div className="example-value">Base: 250</div>
-                    <div className="example-op">× 1.2</div>
-                    <div className="example-result">Result: 300</div>
-                </div>
-            </div>
-        </div>
-
-        <button className="scaling-documentation-button" onClick={onClose}>
-            Got it
-        </button>
-    </div>
-);
-
-/**
- * DraggableScalingItem Component
- */
-const DraggableScalingItem = ({ item, index, moveItem, V, R, toggleV, toggleR, ...props }) => {
-    const ref = useRef(null);
-
-    const [{ handlerId }, drop] = useDrop({
-        accept: 'scaling-item',
-        collect(monitor) {
-            return {
-                handlerId: monitor.getHandlerId(),
-            };
-        },
-        hover(item, monitor) {
-            if (!ref.current) return;
-            const dragIndex = item.index;
-            const hoverIndex = index;
-            if (dragIndex === hoverIndex) return;
-
-            const hoverBoundingRect = ref.current?.getBoundingClientRect();
-            const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-            const clientOffset = monitor.getClientOffset();
-            const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-
-            if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) return;
-            if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) return;
-
-            moveItem(dragIndex, hoverIndex);
-            item.index = hoverIndex;
-        },
-    });
-
-    const [{ isDragging }, drag] = useDrag({
-        type: 'scaling-item',
-        item: () => ({ id: item.id, index }),
-        collect: (monitor) => ({
-            isDragging: monitor.isDragging(),
-        }),
-    });
-
-    drag(drop(ref));
-
-    // Render V and R checkboxes if applicable
-    const renderVRCheckboxes = () => {
-        return (
-            <div className="checkbox-section">
-                {item.vKey && (
-                    <div className="checkbox-group">
-                        <span className="checkbox-label">{item.vKey}</span>
-                        <input
-                            type="checkbox"
-                            className="custom-checkbox"
-                            checked={V && V[item.vKey] === 'on'}
-                            onChange={() => toggleV && toggleV(item.vKey)}
-                        />
-                    </div>
-                )}
-                {item.rKey && (
-                    <div className="checkbox-group">
-                        <span className="checkbox-label">{item.rKey}</span>
-                        <input
-                            type="checkbox"
-                            className="custom-checkbox"
-                            checked={R && R[item.rKey] === 'on'}
-                            onChange={() => toggleR && toggleR(item.rKey)}
-                        />
-                    </div>
-                )}
-            </div>
-        );
-    };
-
-    return (
-        <motion.div
-            ref={ref}
-            layout
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.2 }}
-            style={{ opacity: isDragging ? 0.5 : 1 }}
-            data-handler-id={handlerId}
-            {...props}
-        >
-            {(item.vKey || item.rKey) && renderVRCheckboxes()}
-            {props.children}
-        </motion.div>
-    );
-};
 
 /**
  * ScalingSummary Component
@@ -3106,5 +2920,7 @@ export {
     MatrixSubmissionService,
     ExtendedScaling,
     GeneralFormConfig,
-    MatrixApp
+    MatrixApp,
+    Tooltip,
+    CumulativeDocumentation
 };

@@ -21,7 +21,19 @@ export const ListView = ({
   return (
     <div>
       <h2 className="font-semibold text-gray-700 mb-4">Tasks</h2>
-      
+
+      {/* Bundle creation action row */}
+      {!isCreatingBundle && !isCreatingTask && filteredTasks.filter(t => t.status === 'pending').length > 0 && (
+        <div className="mb-4 flex justify-end">
+          <button
+            onClick={() => setIsCreatingBundle(true)}
+            className="px-3 py-1 bg-purple-600 text-white text-sm rounded hover:bg-purple-500 mr-2"
+          >
+            Create Bundle
+          </button>
+        </div>
+      )}
+
       {/* Task List */}
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
@@ -54,7 +66,10 @@ export const ListView = ({
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {filteredTasks.map((task) => (
-              <tr key={task.id} className="hover:bg-gray-50">
+              <tr 
+                key={task.id} 
+                className={`hover:bg-gray-50 ${task.highlighted ? 'bg-indigo-50' : ''}`}
+              >
                 {isCreatingBundle && (
                   <td className="px-3 py-4 whitespace-nowrap">
                     <input 
@@ -109,7 +124,7 @@ export const ListView = ({
           </tbody>
         </table>
       </div>
-      
+
       {filteredTasks.length === 0 && (
         <div className="text-center py-4 text-gray-500">
           No tasks match the current filter
@@ -134,7 +149,7 @@ export const CalendarView = ({ tasks, bundles }) => {
             ▲
           </button>
         </div>
-        
+
         <div className="grid grid-cols-7 gap-px bg-gray-200">
           {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
             <div key={day} className="bg-gray-50 py-2 text-center text-sm font-medium text-gray-500">
@@ -165,7 +180,7 @@ export const KanbanView = ({ tasks, deployTask }) => {
             </h3>
           </div>
         </div>
-        
+
         {/* In Progress Column */}
         <div className="border rounded-md bg-gray-50">
           <div className="p-3 border-b bg-blue-50">
@@ -178,7 +193,7 @@ export const KanbanView = ({ tasks, deployTask }) => {
             </h3>
           </div>
         </div>
-        
+
         {/* Completed Column */}
         <div className="border rounded-md bg-gray-50">
           <div className="p-3 border-b bg-green-50">
@@ -201,7 +216,7 @@ export const BundlesView = ({ bundles, tasks, deployBundle, acceptBundle, setIsC
   return (
     <div>
       <h2 className="font-semibold text-gray-700 mb-4">Task Bundles</h2>
-      
+
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {bundles.map(bundle => (
           <div 
@@ -214,20 +229,20 @@ export const BundlesView = ({ bundles, tasks, deployBundle, acceptBundle, setIsC
                 {bundle.status}
               </span>
             </div>
-            
+
             <div className="p-3">
               <p className="text-sm text-gray-600 mb-2">{bundle.description}</p>
-              
+
               {bundle.scheduledTime && (
                 <div className="flex items-center text-sm text-gray-600 mb-3">
                   Scheduled: {new Date(bundle.scheduledTime).toLocaleString()}
                 </div>
               )}
-              
+
               <div className="mb-3">
                 <div className="text-sm font-medium text-gray-700 mb-1">Tasks in bundle: {bundle.tasks.length}</div>
               </div>
-              
+
               <div className="flex justify-end space-x-2">
                 {bundle.status === 'suggested' && (
                   <button 
@@ -237,7 +252,7 @@ export const BundlesView = ({ bundles, tasks, deployBundle, acceptBundle, setIsC
                     Accept
                   </button>
                 )}
-                
+
                 {bundle.status === 'scheduled' && (
                   <button 
                     onClick={() => deployBundle(bundle.id)}
@@ -251,13 +266,13 @@ export const BundlesView = ({ bundles, tasks, deployBundle, acceptBundle, setIsC
           </div>
         ))}
       </div>
-      
+
       {bundles.length === 0 && (
         <div className="text-center py-4 text-gray-500">
           No task bundles yet
         </div>
       )}
-      
+
       {/* Create bundle action */}
       <div className="mt-6 flex justify-end">
         <button

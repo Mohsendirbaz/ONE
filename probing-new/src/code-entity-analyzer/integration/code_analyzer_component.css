@@ -1,0 +1,317 @@
+/* Code Analyzer Component Styles */
+
+/* Main container */
+.code-analyzer-component {
+  font-family: 'Roboto', Arial, sans-serif;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .code-analyzer-component {
+    padding: 15px;
+  }
+}
+
+/* Loading state */
+.analysis-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  backdrop-filter: blur(2px);
+  transition: all 0.3s ease;
+}
+
+.analysis-loading p {
+  margin-top: 15px;
+  color: #4a5568;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Spinner animation */
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(66, 153, 225, 0.2);
+  border-radius: 50%;
+  border-top-color: #4299e1;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Error state */
+.analysis-error {
+  padding: 15px;
+  background-color: #fff5f5;
+  border-left: 4px solid #f56565;
+  color: #c53030;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.analysis-error p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Analysis result container */
+.analysis-result-container {
+  background-color: #f7fafc;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.analysis-result-container:hover {
+  border-color: #cbd5e0;
+}
+
+/* Analysis summary */
+.analysis-summary {
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.analysis-summary h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 10px;
+}
+
+.analysis-summary p {
+  margin: 5px 0;
+  color: #4a5568;
+  font-size: 14px;
+}
+
+/* Entities section */
+.entities-section, .dependencies-section {
+  margin-bottom: 20px;
+}
+
+.entities-section h4, .dependencies-section h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 10px;
+}
+
+/* Entity and dependency lists */
+.entity-list, .dependency-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.entity-item, .dependency-item {
+  margin-bottom: 10px;
+  padding: 12px;
+  border-radius: 6px;
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.entity-item:hover, .dependency-item:hover {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Entity type specific styles */
+.entity-type-class {
+  border-left: 4px solid #3f51b5;
+}
+
+.entity-type-function {
+  border-left: 4px solid #4caf50;
+}
+
+.entity-type-variable {
+  border-left: 4px solid #ff9800;
+}
+
+.entity-type-state_variable {
+  border-left: 4px solid #ff9800;
+}
+
+/* Dependency type specific styles */
+.dependency-type-import {
+  border-left: 4px solid #2196f3;
+}
+
+.dependency-type-require {
+  border-left: 4px solid #9c27b0;
+}
+
+.dependency-type-state_condition {
+  border-left: 4px solid #ff5722;
+}
+
+/* Entity and dependency headers */
+.entity-header, .dependency-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.entity-type, .dependency-type {
+  font-weight: 600;
+  color: #3f51b5;
+  font-size: 14px;
+}
+
+.entity-name {
+  font-weight: 500;
+  color: #2d3748;
+  font-size: 14px;
+}
+
+.entity-line, .dependency-line, .dependency-source, .dependency-imported {
+  color: #718096;
+  font-size: 13px;
+}
+
+/* Entity properties */
+.entity-properties {
+  list-style-type: none;
+  padding-left: 15px;
+  margin: 8px 0 0 0;
+  border-left: 2px solid #e2e8f0;
+}
+
+.entity-properties li {
+  font-size: 13px;
+  color: #4a5568;
+  margin-bottom: 4px;
+}
+
+/* Code analyzer selector */
+.code-analyzer-selector {
+  margin-bottom: 20px;
+}
+
+.code-analyzer-selector h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 15px;
+}
+
+.error {
+  color: #c53030;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+/* Selector controls */
+.selector-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.selector-controls select {
+  padding: 8px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 14px;
+  color: #4a5568;
+  min-width: 200px;
+  transition: all 0.2s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234a5568' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+  padding-right: 30px;
+}
+
+.selector-controls select:hover {
+  border-color: #cbd5e0;
+}
+
+.selector-controls select:focus {
+  outline: none;
+  border-color: #4299e1;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+}
+
+.selector-controls select:disabled {
+  background-color: #edf2f7;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Code editor */
+.code-editor {
+  margin-bottom: 20px;
+}
+
+.code-textarea {
+  width: 100%;
+  font-family: 'Fira Code', 'Consolas', monospace;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #2d3748;
+  background-color: #f7fafc;
+  resize: vertical;
+  min-height: 200px;
+  transition: all 0.2s ease;
+}
+
+.code-textarea:hover {
+  border-color: #cbd5e0;
+}
+
+.code-textarea:focus {
+  outline: none;
+  border-color: #4299e1;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .entity-header, .dependency-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+  
+  .selector-controls select {
+    width: 100%;
+  }
+  
+  .code-textarea {
+    font-size: 13px;
+  }
+}

@@ -7,6 +7,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import './code_analyzer_component.css';
 
 /**
  * CodeAnalyzerComponent - A React component for analyzing and visualizing code entities
@@ -66,7 +67,7 @@ const CodeAnalyzerComponent = ({
       } catch (err) {
         console.error('Error analyzing code:', err);
         setError(err.message);
-        
+
         if (onAnalysisError) {
           onAnalysisError(err);
         }
@@ -86,13 +87,13 @@ const CodeAnalyzerComponent = ({
           <p>Analyzing code...</p>
         </div>
       )}
-      
+
       {error && (
         <div className="analysis-error">
           <p>Error: {error}</p>
         </div>
       )}
-      
+
       {analysisResult && !loading && !error && (
         <div 
           ref={containerRef} 
@@ -104,7 +105,7 @@ const CodeAnalyzerComponent = ({
             <p>Entities found: {analysisResult.entities?.length || 0}</p>
             <p>Dependencies found: {analysisResult.dependencies?.length || 0}</p>
           </div>
-          
+
           {analysisResult.entities && analysisResult.entities.length > 0 && (
             <div className="entities-section">
               <h4>Entities</h4>
@@ -128,7 +129,7 @@ const CodeAnalyzerComponent = ({
               </ul>
             </div>
           )}
-          
+
           {analysisResult.dependencies && analysisResult.dependencies.length > 0 && (
             <div className="dependencies-section">
               <h4>Dependencies</h4>
@@ -180,14 +181,14 @@ const CodeAnalyzerSelector = ({ onAnalyzerSelected }) => {
         setError(null);
 
         const response = await fetch('/api/probing/code-analyzers');
-        
+
         if (!response.ok) {
           throw new Error(`Failed to fetch analyzers: ${response.statusText}`);
         }
 
         const result = await response.json();
         setAvailableAnalyzers(result.available_types || []);
-        
+
         if (result.available_types && result.available_types.length > 0) {
           setSelectedType(result.available_types[0]);
         }
@@ -205,7 +206,7 @@ const CodeAnalyzerSelector = ({ onAnalyzerSelected }) => {
   const handleAnalyzerSelect = (e) => {
     const type = e.target.value;
     setSelectedType(type);
-    
+
     if (onAnalyzerSelected) {
       onAnalyzerSelected(type);
     }
@@ -214,11 +215,11 @@ const CodeAnalyzerSelector = ({ onAnalyzerSelected }) => {
   return (
     <div className="code-analyzer-selector">
       <h3>Select Code Analyzer</h3>
-      
+
       {loading && <p>Loading available analyzers...</p>}
-      
+
       {error && <p className="error">Error: {error}</p>}
-      
+
       {!loading && !error && (
         <div className="selector-controls">
           <select 
@@ -229,7 +230,7 @@ const CodeAnalyzerSelector = ({ onAnalyzerSelected }) => {
             {availableAnalyzers.length === 0 && (
               <option value="">No analyzers available</option>
             )}
-            
+
             {availableAnalyzers.map(type => (
               <option key={type} value={type}>
                 {type.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}

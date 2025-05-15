@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { AgentStatusSidebar, ViewToggle, DeploymentStatus, TaskCreationForm, BundleCreationForm } from './TaskSchedulerViews';
 import { ListView, CalendarView, KanbanView, BundlesView } from './TaskSchedulerViewComponents';
+import * as taskSchedulerApi from './taskSchedulerApi';
 
 const TaskSchedulerApp = () => {
   // State management
@@ -92,22 +93,50 @@ const TaskSchedulerApp = () => {
   };
 
   // Create a new task
-  const handleCreateTask = () => {
-    const taskId = tasks.length + 1;
+  const handleCreateTask = async () => {
+    try {
+      // Validate required fields
+      if (!newTask.title) {
+        throw new Error('Task title is required');
+      }
 
-    // Calculate estimated time based on size
-    let estimatedTime = 60; // Default to 1 hour
-    if (newTask.size === 'small') estimatedTime = 30;
-    if (newTask.size === 'large') estimatedTime = 180;
+      // Calculate estimated time based on size
+      let estimatedTime = 60; // Default to 1 hour
+      if (newTask.size === 'small') estimatedTime = 30;
+      if (newTask.size === 'large') estimatedTime = 180;
 
-    setTasks([...tasks, { 
-      ...newTask, 
-      id: taskId,
-      estimatedTime,
-      assignee: getRandomAssignee()
-    }]);
-    setNewTask({ title: '', size: 'medium', priority: 'medium', dueDate: '', status: 'pending', agent: 'architect' });
-    setIsCreatingTask(false);
+      // Prepare task data for API
+      const taskData = {
+        title: newTask.title,
+        size: newTask.size, 
+        priority: newTask.priority,
+        dueDate: newTask.dueDate,
+        status: 'pending',
+        agent: newTask.agent,
+        estimatedTime,
+        // Additional metadata needed by backend
+        projectId: taskSchedulerApi.getCurrentProjectId(),
+        filePaths: taskSchedulerApi.getSelectedFilePaths(),
+        assignee: getRandomAssignee() // For demo purposes
+      };
+
+      // API call to create task
+      const createdTask = await taskSchedulerApi.createTask(taskData);
+
+      // Update local state with new task
+      setTasks(prevTasks => [...prevTasks, createdTask]);
+
+      // Reset form
+      setNewTask({ title: '', size: 'medium', priority: 'medium', dueDate: '', status: 'pending', agent: 'architect' });
+
+      // Hide form
+      setIsCreatingTask(false);
+
+      return createdTask;
+    } catch (error) {
+      console.error('Failed to create task:', error);
+      throw error;
+    }
   };
 
   // Helper for demo purposes
@@ -117,104 +146,222 @@ const TaskSchedulerApp = () => {
   };
 
   // Create a new bundle
-  const handleCreateBundle = () => {
-    setBundles([...bundles, { 
-      ...newBundle, 
-      id: bundles.length + 1,
-      status: 'pending'
-    }]);
-    setNewBundle({ title: '', description: '', tasks: [], scheduledTime: '' });
-    setIsCreatingBundle(false);
-    setSelectedTasks([]);
+  const handleCreateBundle = async () => {
+    try {
+      // Validate required fields
+      if (!newBundle.title || newBundle.tasks.length === 0) {
+        throw new Error('Bundle title and at least one task are required');
+      }
+
+      // Prepare bundle data for API
+      const bundleData = {
+        title: newBundle.title,
+        description: newBundle.description,
+        tasks: newBundle.tasks,
+        scheduledTime: newBundle.scheduledTime,
+        status: 'pending',
+        projectId: taskSchedulerApi.getCurrentProjectId()
+      };
+
+      // API call to create bundle
+      const createdBundle = await taskSchedulerApi.createBundle(bundleData);
+
+      // Update local state with new bundle
+      setBundles(prevBundles => [...prevBundles, createdBundle]);
+
+      // Reset form and selections
+      setNewBundle({ title: '', description: '', tasks: [], scheduledTime: '' });
+      setSelectedTasks([]);
+      setIsCreatingBundle(false);
+
+      return createdBundle;
+    } catch (error) {
+      console.error('Failed to create bundle:', error);
+      throw error;
+    }
   };
 
   // Toggle task selection for bundling
   const toggleTaskSelection = (taskId) => {
-    if (selectedTasks.includes(taskId)) {
-      setSelectedTasks(selectedTasks.filter(id => id !== taskId));
-    } else {
-      setSelectedTasks([...selectedTasks, taskId]);
-    }
-
-    // Update new bundle tasks
-    setNewBundle({
-      ...newBundle,
-      tasks: selectedTasks.includes(taskId) 
-        ? newBundle.tasks.filter(id => id !== taskId)
-        : [...newBundle.tasks, taskId]
+    // Update the selected tasks array
+    setSelectedTasks(prevSelected => {
+      if (prevSelected.includes(taskId)) {
+        return prevSelected.filter(id => id !== taskId);
+      } else {
+        return [...prevSelected, taskId];
+      }
     });
+
+    // Update the bundle tasks
+    setNewBundle(prevBundle => {
+      const updatedTasks = prevBundle.tasks.includes(taskId)
+        ? prevBundle.tasks.filter(id => id !== taskId)
+        : [...prevBundle.tasks, taskId];
+
+      return {
+        ...prevBundle,
+        tasks: updatedTasks
+      };
+    });
+
+    // If creating a new bundle, highlight compatible tasks
+    if (isCreatingBundle) {
+      highlightCompatibleTasks(taskId);
+    }
+  };
+
+  // Add a new function to highlight compatible tasks
+  const highlightCompatibleTasks = (selectedTaskId) => {
+    // Get the selected task
+    const selectedTask = tasks.find(task => task.id === selectedTaskId);
+
+    // If no task found, return
+    if (!selectedTask) return;
+
+    // Highlight tasks that are compatible with the selected task
+    // For example, highlight tasks with the same agent or dependent tasks
+    setTasks(prevTasks => prevTasks.map(task => ({
+      ...task,
+      highlighted: task.agent === selectedTask.agent && task.status === 'pending'
+    })));
   };
 
   // Deploy a single task
-  const deployTask = (taskId) => {
-    // Simulate deployment process
-    setDeploymentStatus({ type: 'task', id: taskId, status: 'deploying' });
+  const deployTask = async (taskId) => {
+    try {
+      // Set deployment status to deploying
+      setDeploymentStatus({ type: 'task', id: taskId, status: 'deploying' });
 
-    // Update agent status
-    const task = tasks.find(t => t.id === taskId);
-    setAgentStatus({ ...agentStatus, [task.agent]: 'active' });
+      // Get the task
+      const task = tasks.find(t => t.id === taskId);
+      if (!task) {
+        throw new Error('Task not found');
+      }
 
-    // Simulate agent processing
-    setTimeout(() => {
-      setTasks(tasks.map(task => 
-        task.id === taskId ? { ...task, status: 'in-progress' } : task
+      // Update agent status
+      setAgentStatus(prevStatus => ({ ...prevStatus, [task.agent]: 'active' }));
+
+      // Call API to deploy task
+      const updatedTask = await taskSchedulerApi.deployTask(taskId);
+
+      // Update task status in local state
+      setTasks(prevTasks => prevTasks.map(t => 
+        t.id === taskId ? { ...t, status: 'in-progress' } : t
       ));
 
+      // Set deployment status to deployed
       setDeploymentStatus({ type: 'task', id: taskId, status: 'deployed' });
 
-      // Reset after 2 seconds
+      // Reset deployment status after 2 seconds
       setTimeout(() => {
         setDeploymentStatus(null);
-        setAgentStatus({ ...agentStatus, [task.agent]: 'idle' });
       }, 2000);
-    }, 1500);
+
+      // Return agent to idle after task is processed
+      setTimeout(() => {
+        setAgentStatus(prevStatus => ({ ...prevStatus, [task.agent]: 'idle' }));
+      }, 3000);
+
+      return updatedTask;
+    } catch (error) {
+      console.error('Failed to deploy task:', error);
+      setDeploymentStatus({ type: 'task', id: taskId, status: 'failed', error: error.message });
+
+      // Reset deployment status after 3 seconds
+      setTimeout(() => {
+        setDeploymentStatus(null);
+      }, 3000);
+
+      // Reset agent status
+      const task = tasks.find(t => t.id === taskId);
+      if (task) {
+        setAgentStatus(prevStatus => ({ ...prevStatus, [task.agent]: 'idle' }));
+      }
+
+      throw error;
+    }
   };
 
   // Deploy a bundle of tasks
-  const deployBundle = (bundleId) => {
-    // Simulate deployment process
-    setDeploymentStatus({ type: 'bundle', id: bundleId, status: 'deploying' });
+  const deployBundle = async (bundleId) => {
+    try {
+      // Set deployment status to deploying
+      setDeploymentStatus({ type: 'bundle', id: bundleId, status: 'deploying' });
 
-    const bundle = bundles.find(b => b.id === bundleId);
+      // Get the bundle
+      const bundle = bundles.find(b => b.id === bundleId);
+      if (!bundle) {
+        throw new Error('Bundle not found');
+      }
 
-    // Activate all relevant agents
-    const bundleTasks = tasks.filter(t => bundle.tasks.includes(t.id));
-    const agentsInvolved = [...new Set(bundleTasks.map(t => t.agent))];
+      // Get tasks in the bundle
+      const bundleTasks = tasks.filter(t => bundle.tasks.includes(t.id));
 
-    const newAgentStatus = { ...agentStatus };
-    agentsInvolved.forEach(agent => {
-      newAgentStatus[agent] = 'active';
-    });
-    setAgentStatus(newAgentStatus);
+      // Get unique agents involved
+      const agentsInvolved = [...new Set(bundleTasks.map(t => t.agent))];
 
-    // Simulate bundle deployment process
-    setTimeout(() => {
-      // Update bundle status
-      setBundles(bundles.map(b => 
+      // Update agent statuses to active
+      const newAgentStatus = { ...agentStatus };
+      agentsInvolved.forEach(agent => {
+        newAgentStatus[agent] = 'active';
+      });
+      setAgentStatus(newAgentStatus);
+
+      // Call API to deploy bundle
+      const updatedBundle = await taskSchedulerApi.deployBundle(bundleId);
+
+      // Update bundle status in local state
+      setBundles(prevBundles => prevBundles.map(b => 
         b.id === bundleId ? { ...b, status: 'in-progress' } : b
       ));
 
       // Update all tasks in the bundle
-      setTasks(tasks.map(task => 
+      setTasks(prevTasks => prevTasks.map(task => 
         bundle.tasks.includes(task.id) ? { ...task, status: 'in-progress' } : task
       ));
 
+      // Set deployment status to deployed
       setDeploymentStatus({ type: 'bundle', id: bundleId, status: 'deployed' });
 
-      // Reset after 2 seconds
+      // Reset deployment status after 2 seconds
       setTimeout(() => {
         setDeploymentStatus(null);
-
-        // Return agents to idle
-        setTimeout(() => {
-          const resetAgentStatus = { ...newAgentStatus };
-          agentsInvolved.forEach(agent => {
-            resetAgentStatus[agent] = 'idle';
-          });
-          setAgentStatus(resetAgentStatus);
-        }, 1000);
       }, 2000);
-    }, 2000);
+
+      // Return agents to idle after bundle is processed
+      setTimeout(() => {
+        const resetAgentStatus = { ...newAgentStatus };
+        agentsInvolved.forEach(agent => {
+          resetAgentStatus[agent] = 'idle';
+        });
+        setAgentStatus(resetAgentStatus);
+      }, 3000);
+
+      return updatedBundle;
+    } catch (error) {
+      console.error('Failed to deploy bundle:', error);
+      setDeploymentStatus({ type: 'bundle', id: bundleId, status: 'failed', error: error.message });
+
+      // Reset deployment status after 3 seconds
+      setTimeout(() => {
+        setDeploymentStatus(null);
+      }, 3000);
+
+      // Reset agent statuses
+      const bundle = bundles.find(b => b.id === bundleId);
+      if (bundle) {
+        const bundleTasks = tasks.filter(t => bundle.tasks.includes(t.id));
+        const agentsInvolved = [...new Set(bundleTasks.map(t => t.agent))];
+
+        const resetAgentStatus = { ...agentStatus };
+        agentsInvolved.forEach(agent => {
+          resetAgentStatus[agent] = 'idle';
+        });
+        setAgentStatus(resetAgentStatus);
+      }
+
+      throw error;
+    }
   };
 
   // Accept a suggested bundle

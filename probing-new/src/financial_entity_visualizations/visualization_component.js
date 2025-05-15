@@ -7,6 +7,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import './visualization_component.css';
 
 /**
  * VisualizationComponent - A React component for rendering financial entity visualizations
@@ -64,7 +65,7 @@ const VisualizationComponent = ({
         // Render the visualization in the container
         if (containerRef.current && result.html) {
           containerRef.current.innerHTML = result.html;
-          
+
           // Execute any scripts that were returned
           if (result.scripts) {
             result.scripts.forEach(script => {
@@ -85,7 +86,7 @@ const VisualizationComponent = ({
       } catch (err) {
         console.error('Error rendering visualization:', err);
         setError(err.message);
-        
+
         if (onVisualizationError) {
           onVisualizationError(err);
         }
@@ -143,13 +144,13 @@ const VisualizationComponent = ({
           <p>Loading visualization...</p>
         </div>
       )}
-      
+
       {error && (
         <div className="visualization-error">
           <p>Error: {error}</p>
         </div>
       )}
-      
+
       <div 
         ref={containerRef} 
         className="visualization-container"
@@ -192,14 +193,14 @@ const VisualizationSelector = ({ onVisualizationSelected }) => {
         setError(null);
 
         const response = await fetch('/api/probing/visualizations');
-        
+
         if (!response.ok) {
           throw new Error(`Failed to fetch visualizations: ${response.statusText}`);
         }
 
         const result = await response.json();
         setAvailableVisualizations(result.available_types || []);
-        
+
         if (result.available_types && result.available_types.length > 0) {
           setSelectedType(result.available_types[0]);
         }
@@ -217,7 +218,7 @@ const VisualizationSelector = ({ onVisualizationSelected }) => {
   const handleVisualizationSelect = (e) => {
     const type = e.target.value;
     setSelectedType(type);
-    
+
     if (onVisualizationSelected) {
       onVisualizationSelected(type);
     }
@@ -226,11 +227,11 @@ const VisualizationSelector = ({ onVisualizationSelected }) => {
   return (
     <div className="visualization-selector">
       <h3>Select Visualization</h3>
-      
+
       {loading && <p>Loading available visualizations...</p>}
-      
+
       {error && <p className="error">Error: {error}</p>}
-      
+
       {!loading && !error && (
         <div className="selector-controls">
           <select 
@@ -241,7 +242,7 @@ const VisualizationSelector = ({ onVisualizationSelected }) => {
             {availableVisualizations.length === 0 && (
               <option value="">No visualizations available</option>
             )}
-            
+
             {availableVisualizations.map(type => (
               <option key={type} value={type}>
                 {type.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}

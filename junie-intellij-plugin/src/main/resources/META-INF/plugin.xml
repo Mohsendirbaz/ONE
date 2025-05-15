@@ -12,6 +12,9 @@
         <projectService serviceImplementation="com.junie.plugin.PluginDirectoryService"/>
         <httpRequestHandler implementation="com.junie.plugin.PluginDirectoryController"/>
 
+        <!-- Task Scheduler API -->
+        <httpRequestHandler implementation="com.junie.plugin.ai.multiagent.services.TaskSchedulerApiController"/>
+
         <!-- AI Assistant -->
         <applicationService serviceImplementation="com.junie.plugin.ai.AIAssistantService"/>
         <applicationService serviceImplementation="com.junie.plugin.ai.InlineSuggestionManager"/>

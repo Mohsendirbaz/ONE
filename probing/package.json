@@ -1,0 +1,14 @@
+{
+  "name": "probing-root",
+  "version": "1.0.0",
+  "description": "Root package for probing module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "cd src && npm start",
+    "build": "cd src && npm run build",
+    "test": "cd src && npm test",
+    "eject": "cd src && npm run eject"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

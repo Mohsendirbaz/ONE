@@ -1,0 +1,412 @@
+/* ClimateModuleEnhanced.css */
+
+.climate-module-enhanced {
+  background-color: #fff;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+/* Enhanced panels for zone generation and cluster analysis */
+.climate-module-enhanced-panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Zone Generation Panel */
+.climate-module-zone-panel,
+.climate-module-cluster-panel {
+  background-color: #fff;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  overflow: hidden;
+}
+
+.zone-panel-header,
+.cluster-panel-header {
+  padding: 12px 16px;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.zone-panel-header h3,
+.cluster-panel-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.zone-panel-modes,
+.cluster-toggle {
+  display: flex;
+  align-items: center;
+}
+
+.zone-panel-mode {
+  padding: 6px 12px;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: 8px;
+}
+
+.zone-panel-mode.active {
+  background-color: #4caf50;
+  color: white;
+  border-color: #4caf50;
+}
+
+.zone-panel-content,
+.cluster-panel-content {
+  padding: 16px;
+}
+
+/* Zone Grid Options */
+.zone-grid-options {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.zone-grid-options-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.zone-grid-options-group label {
+  font-weight: 500;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #333;
+}
+
+.grid-size-inputs,
+.zone-size-inputs {
+  display: flex;
+  gap: 12px;
+}
+
+.grid-size-input,
+.zone-size-input {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.grid-size-input label,
+.zone-size-input label {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.grid-size-input input,
+.zone-size-input input,
+.zone-size-input select,
+.zone-grid-options-group input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.zone-shape-options {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.zone-shape-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  flex: 1;
+}
+
+.zone-shape-option:hover {
+  background-color: #f5f5f5;
+}
+
+.zone-shape-option input {
+  margin: 0 0 6px 0;
+}
+
+.shape-icon {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.shape-icon.square {
+  background-color: #4caf50;
+  border-radius: 2px;
+}
+
+.shape-icon.hexagon {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  background-color: #2196f3;
+}
+
+.shape-icon.circle {
+  background-color: #ff9800;
+  border-radius: 50%;
+}
+
+.naming-info {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+}
+
+.zone-grid-action {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.generate-zones-btn {
+  padding: 10px 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.generate-zones-btn:hover {
+  background-color: #388e3c;
+}
+
+/* Custom Zone Options */
+.zone-custom-options {
+  text-align: center;
+  padding: 16px;
+}
+
+.zone-custom-options p {
+  margin: 0 0 12px 0;
+  color: #666;
+}
+
+.zone-custom-link {
+  margin-top: 16px;
+}
+
+.go-to-multi-zone-btn {
+  padding: 10px 16px;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.go-to-multi-zone-btn:hover {
+  background-color: #1976d2;
+}
+
+/* Cluster Analysis Panel */
+.cluster-toggle-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.cluster-toggle-slider {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+  background-color: #ccc;
+  border-radius: 10px;
+  margin: 0 10px 0 0;
+  transition: .4s;
+}
+
+.cluster-toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  border-radius: 50%;
+  transition: .4s;
+}
+
+.cluster-toggle-label input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.cluster-toggle-label input:checked + .cluster-toggle-slider {
+  background-color: #4caf50;
+}
+
+.cluster-toggle-label input:checked + .cluster-toggle-slider:before {
+  transform: translateX(20px);
+}
+
+.cluster-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.cluster-option-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.cluster-option-group label {
+  font-weight: 500;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #333;
+}
+
+.cluster-option-group select,
+.cluster-option-group input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.cluster-action {
+  grid-column: span 2;
+  display: flex;
+  justify-content: center;
+}
+
+.run-analysis-btn {
+  padding: 10px 16px;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.run-analysis-btn:hover {
+  background-color: #1976d2;
+}
+
+.cluster-results {
+  background-color: #f5f5f5;
+  border-radius: 6px;
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.cluster-results p {
+  margin: 0 0 12px 0;
+  color: #666;
+}
+
+.cluster-visualization {
+  background-color: white;
+  border-radius: 4px;
+  padding: 12px;
+  border: 1px solid #eee;
+}
+
+.cluster-visualization h4 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.no-clusters {
+  text-align: center;
+  padding: 16px;
+  color: #666;
+}
+
+.cluster-disabled {
+  text-align: center;
+  padding: 16px;
+}
+
+.cluster-disabled p {
+  margin: 0 0 12px 0;
+  color: #666;
+}
+
+.cluster-disabled ul {
+  text-align: left;
+  padding-left: 20px;
+  margin-bottom: 16px;
+}
+
+.cluster-disabled li {
+  margin-bottom: 6px;
+  color: #666;
+}
+
+.enable-cluster-btn {
+  padding: 8px 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.enable-cluster-btn:hover {
+  background-color: #388e3c;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .climate-module-enhanced-panels {
+    grid-template-columns: 1fr;
+  }
+  
+  .cluster-options {
+    grid-template-columns: 1fr;
+  }
+  
+  .cluster-action {
+    grid-column: span 1;
+  }
+  
+  .zone-shape-options {
+    flex-direction: column;
+  }
+}

@@ -1,43 +1,18 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Tab } from '@headlessui/react';
-import { ArrowPathIcon, PlusIcon, TrashIcon, LockClosedIcon, LockOpenIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/outline';
+import { ArrowPathIcon, PlusIcon, TrashIcon, LockClosedIcon, LockOpenIcon, QuestionMarkCircleIcon, MapIcon, ChartBarIcon } from '@heroicons/react/24/outline';
 import * as math from 'mathjs';
 import ScalingSummary from './ScalingSummary';
 import DeleteConfirmationModal from './DeleteConfirmationModal';
 import ScalingGroupsPreview from '../process_economics/components/ScalingGroupsPreview';
+import ClimateModule from './ClimateModule';
+import CoordinateContainer from './CoordinateContainer';
+import CoordinateComponent from './CoordinateComponent';
+import CoordinateFactFinder from './CoordinateFactFinder';
 import '../process_economics/styles/ScalingGroupsPreview.css';
-// Additional styles for the scaling groups preview section
-const scalingPreviewStyles = `
-  .scaling-groups-preview-section {
-    margin-top: 2rem;
-    padding: 1.5rem;
-    background-color: #f9fafb;
-    border: 1px solid #e5e7eb;
-    border-radius: 0.5rem;
-  }
-
-  .scaling-preview-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #1f2937;
-    margin-bottom: 1rem;
-  }
-
-  .scaling-preview-container {
-    background-color: #ffffff;
-    border-radius: 0.375rem;
-    overflow: hidden;
-  }
-`;
-
-// Add the styles to the document
-if (typeof document !== 'undefined') {
-  const styleElement = document.createElement('style');
-  styleElement.textContent = scalingPreviewStyles;
-  document.head.appendChild(styleElement);
-}
 import '../../styles/HomePage.CSS/HCSS.css';
 import './styles/DeleteConfirmationModal.css';
+import './styles/ExtendedScaling.css';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -205,6 +180,7 @@ const DraggableScalingItem = ({ item, index, moveItem, V, R, toggleV, toggleR, .
   );
 };
 
+// Main ExtendedScaling Component
 const ExtendedScaling = ({
                            baseCosts = [],
                            onScaledValuesChange,
@@ -237,10 +213,24 @@ const ExtendedScaling = ({
   const [isImporting, setIsImporting] = useState(false);
   const [showDocumentation, setShowDocumentation] = useState(false);
 
+  // State for carbon footprint tracking
+  const [carbonFootprints, setCarbonFootprints] = useState({});
+
   // State for delete confirmation modal
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [groupToDelete, setGroupToDelete] = useState(null);
   const [groupIndexToDelete, setGroupIndexToDelete] = useState(null);
+
+  // State for coordinate component
+  const [showCoordinates, setShowCoordinates] = useState(false);
+  const [selectedZone, setSelectedZone] = useState(null);
+  const [zoneAssets, setZoneAssets] = useState([]);
+  const [showFactFinder, setShowFactFinder] = useState(false);
+  const [factFinderData, setFactFinderData] = useState({});
+
+  // State for visualization panel
+  const [showVisualization, setShowVisualization] = useState(false);
+  const [visualizationType, setVisualizationType] = useState('summary');
 
   // Enhanced operations with descriptions
   const operations = [
@@ -670,7 +660,12 @@ const ExtendedScaling = ({
           })),
           protectedTabs: Array.from(protectedTabs),
           itemExpressions: itemExpressions || {},
-          tabConfigs: tabConfigs // Include tabConfigs in export
+          tabConfigs: tabConfigs, // Include tabConfigs in export
+          zoneData: {
+            selectedZone,
+            zoneAssets
+          },
+          carbonFootprints
         },
         history: historyEntries
       };
@@ -703,7 +698,10 @@ const ExtendedScaling = ({
     itemExpressions,
     filterKeyword,
     tabConfigs,
-    syncTabConfigs
+    syncTabConfigs,
+    selectedZone,
+    zoneAssets,
+    carbonFootprints
   ]);
 
   // Enhanced import with backward compatibility and tabConfigs support
@@ -727,7 +725,7 @@ const ExtendedScaling = ({
           const isV12Format = importedData.version === "1.2.0";
 
           // Extract scaling groups and protected tabs based on format
-          let importedGroups, importedProtectedTabs, importedTabConfigs;
+          let importedGroups, importedProtectedTabs, importedTabConfigs, importedZoneData, importedCarbonFootprints;
 
           if (isLegacyFormat) {
             // Handle legacy format
@@ -739,6 +737,12 @@ const ExtendedScaling = ({
             importedGroups = importedData.currentState.scalingGroups;
             importedProtectedTabs = new Set(importedData.currentState.protectedTabs || []);
             importedTabConfigs = importedData.currentState.tabConfigs || null;
+
+            // Extract additional data in 1.2 format
+            if (isV12Format) {
+              importedZoneData = importedData.currentState.zoneData;
+              importedCarbonFootprints = importedData.currentState.carbonFootprints;
+            }
           } else {
             throw new Error("Invalid configuration format");
           }
@@ -792,6 +796,21 @@ const ExtendedScaling = ({
           } else {
             // Generate new tabConfigs
             syncTabConfigs();
+          }
+
+          // Import zone data if available
+          if (importedZoneData) {
+            if (importedZoneData.selectedZone) {
+              setSelectedZone(importedZoneData.selectedZone);
+            }
+            if (importedZoneData.zoneAssets) {
+              setZoneAssets(importedZoneData.zoneAssets);
+            }
+          }
+
+          // Import carbon footprints if available
+          if (importedCarbonFootprints) {
+            setCarbonFootprints(importedCarbonFootprints);
           }
 
           // Create new history
@@ -1112,6 +1131,7 @@ const ExtendedScaling = ({
     // Reset state
     setGroupToDelete(null);
     setGroupIndexToDelete(null);
+    setShowDeleteModal(false);
   }, [
     groupToDelete,
     groupIndexToDelete,
@@ -1268,8 +1288,62 @@ const ExtendedScaling = ({
     });
   }, [scalingGroups]);
 
+  // Handle coordinate/zone updates
+  const handleCoordinateChange = useCallback((newCoordinates) => {
+    if (selectedZone) {
+      // Update the selected zone with new coordinates
+      const updatedZone = {
+        ...selectedZone,
+        coordinates: newCoordinates
+      };
+      setSelectedZone(updatedZone);
+    }
+  }, [selectedZone]);
+
+  // Handle asset changes for the zone
+  const handleAssetChange = useCallback((updatedAssets) => {
+    setZoneAssets(updatedAssets);
+
+    // If we have a selected zone, update it with the new assets
+    if (selectedZone) {
+      const updatedZone = {
+        ...selectedZone,
+        assets: updatedAssets
+      };
+      setSelectedZone(updatedZone);
+    }
+  }, [selectedZone]);
+
+  // Handle fact finder data
+  const handleFactFound = useCallback((type, data) => {
+    setFactFinderData(prev => ({
+      ...prev,
+      [type]: data
+    }));
+  }, []);
+
+  // Toggle fact finder visibility
+  const toggleFactFinder = useCallback(() => {
+    setShowFactFinder(prev => !prev);
+  }, []);
+
+  // Handle map view action
+  const handleMapView = useCallback((coordinates) => {
+    // This would typically open a map with the specified coordinates
+    // For this implementation, we'll just log the coordinates
+    console.log('Map view requested for coordinates:', coordinates);
+
+    // You could open a modal with a map here
+    alert(`Map view requested for coordinates: ${coordinates.longitude}, ${coordinates.latitude}`);
+  }, []);
+
+  // Toggle visualization panel
+  const toggleVisualization = useCallback(() => {
+    setShowVisualization(prev => !prev);
+  }, []);
+
+  // Ensure selectedGroup stays within bounds
   useEffect(() => {
-    // Ensure selectedGroup stays within bounds
     if (selectedGroup >= scalingGroups.length) {
       setSelectedGroup(Math.max(0, scalingGroups.length - 1));
       onActiveGroupChange(Math.max(0, scalingGroups.length - 1), filterKeyword);
@@ -1326,15 +1400,13 @@ const ExtendedScaling = ({
     }
   }, [activeGroupIndex, scalingGroups.length, selectedGroup]);
 
-
-// Notify parent component about final results when they change
+  // Notify parent component about final results when they change
   useEffect(() => {
     if (onFinalResultsGenerated) {
       const summaryItems = generateSummaryItems();
       onFinalResultsGenerated(summaryItems, filterKeyword);
     }
   }, [generateSummaryItems, onFinalResultsGenerated, filterKeyword]);
-
 
   return (
       <DndProvider backend={HTML5Backend}>
@@ -1432,6 +1504,24 @@ const ExtendedScaling = ({
                     title="How cumulative scaling works"
                 >
                   <QuestionMarkCircleIcon className="scaling-action-icon" />
+                </button>
+
+                {/* Toggle coordinates button */}
+                <button
+                    onClick={() => setShowCoordinates(prev => !prev)}
+                    className="scaling-action-button"
+                    title={showCoordinates ? "Hide Coordinates" : "Show Coordinates"}
+                >
+                  <MapIcon className="scaling-action-icon" />
+                </button>
+
+                {/* Toggle visualization button */}
+                <button
+                    onClick={toggleVisualization}
+                    className="scaling-action-button"
+                    title={showVisualization ? "Hide Visualization" : "Show Visualization"}
+                >
+                  <ChartBarIcon className="scaling-action-icon" />
                 </button>
 
                 {/* Undo/Redo buttons */}
@@ -1655,14 +1745,111 @@ const ExtendedScaling = ({
               toggleR={toggleR}
           />
 
-          <div className="scaling-groups-preview-section">
-            <h3 className="scaling-preview-title">Scaling Groups Preview</h3>
-            <div className="scaling-preview-container">
-              <ScalingGroupsPreview 
-                scalingGroups={scalingGroups}
-              />
-            </div>
-          </div>
+          {/* Visualization panel (conditionally rendered) */}
+          {showVisualization && (
+              <div className="scaling-visualization-panel">
+                <div className="visualization-header">
+                  <h3>Scaling Visualization</h3>
+                  <div className="visualization-controls">
+                    <button
+                        className={`viz-control-button ${visualizationType === 'summary' ? 'active' : ''}`}
+                        onClick={() => setVisualizationType('summary')}
+                    >
+                      Summary
+                    </button>
+                    <button
+                        className={`viz-control-button ${visualizationType === 'comparison' ? 'active' : ''}`}
+                        onClick={() => setVisualizationType('comparison')}
+                    >
+                      Comparison
+                    </button>
+                    <button
+                        className={`viz-control-button ${visualizationType === 'impact' ? 'active' : ''}`}
+                        onClick={() => setVisualizationType('impact')}
+                    >
+                      Impact
+                    </button>
+                    <button
+                        className="viz-close-button"
+                        onClick={toggleVisualization}
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+
+                <div className="visualization-content">
+                  <div className="scaling-groups-preview-section">
+                    <h4 className="scaling-preview-title">Scaling Groups Preview</h4>
+                    <div className="scaling-preview-container">
+                      <ScalingGroupsPreview
+                          scalingGroups={scalingGroups}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Additional visualization content would go here based on visualizationType */}
+                  <div className="climate-module-container">
+                    <ClimateModule
+                        scalingGroups={scalingGroups}
+                        versions={{ active: 'v1', list: ['v1'] }}
+                        zones={{ active: 'z1', list: ['z1'] }}
+                        onCarbonFootprintChange={setCarbonFootprints}
+                        showCoordinateComponent={false}
+                    />
+                  </div>
+                </div>
+              </div>
+          )}
+
+          {/* Coordinates panel (conditionally rendered) */}
+          {showCoordinates && (
+              <div className="scaling-coordinates-panel">
+                <div className="coordinates-header">
+                  <h3>Geographic Coordinates</h3>
+                  <div className="coordinates-actions">
+                    <button
+                        className={`coordinates-action-button ${showFactFinder ? 'active' : ''}`}
+                        onClick={toggleFactFinder}
+                    >
+                      {showFactFinder ? 'Hide Fact Finder' : 'Show Fact Finder'}
+                    </button>
+                    <button
+                        className="coordinates-close-button"
+                        onClick={() => setShowCoordinates(false)}
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+
+                <div className="coordinates-content">
+                  <div className="coordinate-component-container">
+                    <CoordinateComponent
+                        zone={selectedZone || {
+                          id: 'default-zone',
+                          metadata: { label: 'Default Zone' },
+                          coordinates: { longitude: 0, latitude: 0 },
+                          assets: zoneAssets
+                        }}
+                        onCoordinateChange={handleCoordinateChange}
+                        onAssetChange={handleAssetChange}
+                        onMapView={handleMapView}
+                    />
+                  </div>
+
+                  {showFactFinder && (
+                      <div className="fact-finder-container">
+                        <CoordinateFactFinder
+                            coordinates={selectedZone?.coordinates || { longitude: 0, latitude: 0 }}
+                            assets={zoneAssets}
+                            onFactFound={handleFactFound}
+                        />
+                      </div>
+                  )}
+                </div>
+              </div>
+          )}
 
           {showDocumentation && (
               <div className="scaling-documentation-overlay">
@@ -1672,11 +1859,11 @@ const ExtendedScaling = ({
 
           {/* Delete Confirmation Modal */}
           <DeleteConfirmationModal
-            isOpen={showDeleteModal}
-            onClose={() => setShowDeleteModal(false)}
-            groupToDelete={groupToDelete}
-            affectedGroups={groupIndexToDelete !== null ? scalingGroups.slice(groupIndexToDelete + 1) : []}
-            onConfirm={handleDeleteConfirm}
+              isOpen={showDeleteModal}
+              onClose={() => setShowDeleteModal(false)}
+              groupToDelete={groupToDelete}
+              affectedGroups={groupIndexToDelete !== null ? scalingGroups.slice(groupIndexToDelete + 1) : []}
+              onConfirm={handleDeleteConfirm}
           />
         </div>
       </DndProvider>
@@ -1727,7 +1914,9 @@ ExtendedScaling.propTypes = {
   toggleR: PropTypes.func,
   // Tab persistence props:
   activeGroupIndex: PropTypes.number,
-  onActiveGroupChange: PropTypes.func
+  onActiveGroupChange: PropTypes.func,
+  // Results callback
+  onFinalResultsGenerated: PropTypes.func
 };
 
 ExtendedScaling.defaultProps = {
@@ -1740,7 +1929,8 @@ ExtendedScaling.defaultProps = {
   toggleV: () => {},
   toggleR: () => {},
   activeGroupIndex: 0,
-  onActiveGroupChange: () => {}
+  onActiveGroupChange: () => {},
+  onFinalResultsGenerated: () => {}
 };
 
 export default ExtendedScaling;

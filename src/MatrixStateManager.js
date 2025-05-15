@@ -126,6 +126,21 @@ function matrixReducer(state, action) {
                 }
             };
 
+        case 'UPDATE_VERSION_METADATA':
+            return {
+                ...state,
+                versions: {
+                    ...state.versions,
+                    metadata: {
+                        ...state.versions.metadata,
+                        [action.payload.versionId]: {
+                            ...state.versions.metadata[action.payload.versionId],
+                            ...action.payload.metadata
+                        }
+                    }
+                }
+            };
+
         case 'CREATE_ZONE':
             const newZoneId = `z${state.zones.list.length + 1}`;
             return {
@@ -139,8 +154,34 @@ function matrixReducer(state, action) {
                         [newZoneId]: {
                             label: action.payload?.label || `Zone ${state.zones.list.length + 1}`,
                             description: action.payload?.description || '',
-                            createdAt: new Date().toISOString()
+                            createdAt: new Date().toISOString(),
+                            coordinates: action.payload?.coordinates || { longitude: 0, latitude: 0 },
+                            assets: action.payload?.assets || []
                         }
+                    }
+                }
+            };
+
+        case 'ADD_ZONES':
+            const newZones = {};
+            const newZoneList = [...state.zones.list];
+
+            // Process each new zone
+            Object.entries(action.payload).forEach(([zoneId, metadata]) => {
+                if (!state.zones.list.includes(zoneId)) {
+                    newZoneList.push(zoneId);
+                    newZones[zoneId] = metadata;
+                }
+            });
+
+            return {
+                ...state,
+                zones: {
+                    ...state.zones,
+                    list: newZoneList,
+                    metadata: {
+                        ...state.zones.metadata,
+                        ...newZones
                     }
                 }
             };
@@ -151,6 +192,225 @@ function matrixReducer(state, action) {
                 zones: {
                     ...state.zones,
                     active: action.payload
+                }
+            };
+
+        case 'UPDATE_ZONE_METADATA':
+            return {
+                ...state,
+                zones: {
+                    ...state.zones,
+                    metadata: {
+                        ...state.zones.metadata,
+                        [action.payload.zoneId]: {
+                            ...state.zones.metadata[action.payload.zoneId],
+                            ...action.payload.metadata
+                        }
+                    }
+                }
+            };
+
+        case 'UPDATE_ZONE_COORDINATES':
+            return {
+                ...state,
+                zones: {
+                    ...state.zones,
+                    metadata: {
+                        ...state.zones.metadata,
+                        [action.payload.zoneId]: {
+                            ...state.zones.metadata[action.payload.zoneId],
+                            coordinates: action.payload.coordinates
+                        }
+                    }
+                }
+            };
+
+        case 'UPDATE_ZONE_ASSETS':
+            return {
+                ...state,
+                zones: {
+                    ...state.zones,
+                    metadata: {
+                        ...state.zones.metadata,
+                        [action.payload.zoneId]: {
+                            ...state.zones.metadata[action.payload.zoneId],
+                            assets: action.payload.assets
+                        }
+                    }
+                }
+            };
+
+        case 'DELETE_ZONE':
+            if (!state.zones.list.includes(action.payload)) {
+                return state;
+            }
+
+            const filteredList = state.zones.list.filter(id => id !== action.payload);
+            const filteredMetadata = { ...state.zones.metadata };
+            delete filteredMetadata[action.payload];
+
+            // If the active zone is deleted, set a new active zone
+            const newActive = action.payload === state.zones.active && filteredList.length > 0
+                ? filteredList[0]
+                : state.zones.active;
+
+            return {
+                ...state,
+                zones: {
+                    ...state.zones,
+                    list: filteredList,
+                    metadata: filteredMetadata,
+                    active: newActive
+                }
+            };
+
+        case 'COMBINE_ZONES':
+            // Check if all zoneIds exist
+            const validZoneIds = action.payload.zoneIds.filter(id => state.zones.list.includes(id));
+            if (validZoneIds.length === 0) {
+                return state;
+            }
+
+            // Calculate the centroid of all zones
+            const totalZones = validZoneIds.length;
+            let sumLon = 0;
+            let sumLat = 0;
+
+            validZoneIds.forEach(id => {
+                const coords = state.zones.metadata[id].coordinates;
+                sumLon += coords.longitude;
+                sumLat += coords.latitude;
+            });
+
+            const avgCoordinates = {
+                longitude: sumLon / totalZones,
+                latitude: sumLat / totalZones
+            };
+
+            // Combine assets from all zones
+            const combinedAssets = [];
+            validZoneIds.forEach(id => {
+                const zoneAssets = state.zones.metadata[id].assets || [];
+                zoneAssets.forEach(asset => {
+                    combinedAssets.push({
+                        ...asset,
+                        id: `${asset.id}-from-${id}` // Create unique IDs
+                    });
+                });
+            });
+
+            // Create new zone metadata
+            const newZoneMetadata = {
+                label: action.payload.newZoneMetadata?.label || `Combined Zone (${validZoneIds.join(', ')})`,
+                description: action.payload.newZoneMetadata?.description || `Combined from zones: ${validZoneIds.join(', ')}`,
+                coordinates: avgCoordinates,
+                assets: combinedAssets,
+                createdAt: new Date().toISOString()
+            };
+
+            // Remove old zones and add new combined zone
+            const newCombinedList = [...state.zones.list.filter(id => !validZoneIds.includes(id)), action.payload.newZoneId];
+            const newCombinedMetadata = {
+                ...Object.fromEntries(
+                    Object.entries(state.zones.metadata).filter(([id]) => !validZoneIds.includes(id))
+                ),
+                [action.payload.newZoneId]: newZoneMetadata
+            };
+
+            return {
+                ...state,
+                zones: {
+                    ...state.zones,
+                    list: newCombinedList,
+                    metadata: newCombinedMetadata,
+                    active: action.payload.newZoneId
+                }
+            };
+
+        case 'SPLIT_ZONE':
+            if (!state.zones.list.includes(action.payload.zoneId)) {
+                return state;
+            }
+
+            const zoneToSplit = state.zones.metadata[action.payload.zoneId];
+            const { coordinates, assets } = zoneToSplit;
+
+            // Split assets among new zones
+            const splitZones = {};
+            const assetCount = assets.length;
+            const zoneCount = action.payload.newZoneIds.length;
+
+            if (action.payload.splitType === 'equal') {
+                // Split assets equally
+                action.payload.newZoneIds.forEach((newId, index) => {
+                    const startIdx = Math.floor(index * assetCount / zoneCount);
+                    const endIdx = Math.floor((index + 1) * assetCount / zoneCount);
+                    const zoneAssets = assets.slice(startIdx, endIdx);
+
+                    // Create slight offset for coordinates to separate the zones visually
+                    const offsetLon = (Math.random() - 0.5) * 0.01;
+                    const offsetLat = (Math.random() - 0.5) * 0.01;
+
+                    splitZones[newId] = {
+                        label: `${zoneToSplit.label} - Split ${index + 1}`,
+                        description: `Split from zone ${action.payload.zoneId}`,
+                        coordinates: {
+                            longitude: coordinates.longitude + offsetLon,
+                            latitude: coordinates.latitude + offsetLat
+                        },
+                        assets: zoneAssets,
+                        createdAt: new Date().toISOString()
+                    };
+                });
+            } else if (action.payload.splitType === 'byType') {
+                // Group assets by type
+                const assetsByType = {};
+                assets.forEach(asset => {
+                    if (!assetsByType[asset.type]) {
+                        assetsByType[asset.type] = [];
+                    }
+                    assetsByType[asset.type].push(asset);
+                });
+
+                // Distribute asset types among zones
+                const types = Object.keys(assetsByType);
+                action.payload.newZoneIds.forEach((newId, index) => {
+                    const zoneTypes = types.filter((_, i) => i % zoneCount === index);
+                    const zoneAssets = zoneTypes.flatMap(type => assetsByType[type] || []);
+
+                    // Create slight offset for coordinates
+                    const offsetLon = (Math.random() - 0.5) * 0.01;
+                    const offsetLat = (Math.random() - 0.5) * 0.01;
+
+                    splitZones[newId] = {
+                        label: `${zoneToSplit.label} - ${zoneTypes.join('/')}`,
+                        description: `Split from zone ${action.payload.zoneId} (${zoneTypes.join('/')})`,
+                        coordinates: {
+                            longitude: coordinates.longitude + offsetLon,
+                            latitude: coordinates.latitude + offsetLat
+                        },
+                        assets: zoneAssets,
+                        createdAt: new Date().toISOString()
+                    };
+                });
+            }
+
+            // Create new zone list and metadata
+            const newSplitList = [...state.zones.list.filter(id => id !== action.payload.zoneId), ...action.payload.newZoneIds];
+            const newSplitMetadata = {
+                ...Object.fromEntries(
+                    Object.entries(state.zones.metadata).filter(([id]) => id !== action.payload.zoneId)
+                ),
+                ...splitZones
+            };
+
+            return {
+                ...state,
+                zones: {
+                    ...state.zones,
+                    list: newSplitList,
+                    metadata: newSplitMetadata,
+                    active: action.payload.newZoneIds[0] // Set first new zone as active
                 }
             };
 
@@ -226,7 +486,13 @@ export function MatrixProvider({ children, initialData = {} }) {
             active: 'z1',
             list: ['z1'],
             metadata: {
-                z1: { label: 'Zone 1', description: '', createdAt: new Date().toISOString() }
+                z1: {
+                    label: 'Zone 1',
+                    description: '',
+                    createdAt: new Date().toISOString(),
+                    coordinates: { longitude: 0, latitude: 0 },
+                    assets: []
+                }
             }
         },
         S: {},                     // Sensitivity analysis parameters
@@ -453,12 +719,39 @@ export function MatrixProvider({ children, initialData = {} }) {
     }, [state.versions.list]);
 
     /**
+     * Update version metadata
+     */
+    const updateVersionMetadata = useCallback((versionId, metadata) => {
+        if (state.versions.list.includes(versionId)) {
+            dispatch({
+                type: 'UPDATE_VERSION_METADATA',
+                payload: {
+                    versionId,
+                    metadata
+                }
+            });
+        } else {
+            console.error(`Version ${versionId} does not exist`);
+        }
+    }, [state.versions.list]);
+
+    /**
      * Create new zone
      */
     const createZone = useCallback((metadata = {}) => {
         dispatch({
             type: 'CREATE_ZONE',
             payload: metadata
+        });
+    }, []);
+
+    /**
+     * Add multiple zones at once
+     */
+    const addZones = useCallback((zonesData) => {
+        dispatch({
+            type: 'ADD_ZONES',
+            payload: zonesData
         });
     }, []);
 
@@ -475,6 +768,159 @@ export function MatrixProvider({ children, initialData = {} }) {
             console.error(`Zone ${zoneId} does not exist`);
         }
     }, [state.zones.list]);
+
+    /**
+     * Update zone metadata
+     */
+    const updateZoneMetadata = useCallback((zoneId, metadata) => {
+        if (state.zones.list.includes(zoneId)) {
+            dispatch({
+                type: 'UPDATE_ZONE_METADATA',
+                payload: {
+                    zoneId,
+                    metadata
+                }
+            });
+        } else {
+            console.error(`Zone ${zoneId} does not exist`);
+        }
+    }, [state.zones.list]);
+
+    /**
+     * Update zone coordinates
+     */
+    const updateZoneCoordinates = useCallback((zoneId, coordinates) => {
+        if (state.zones.list.includes(zoneId)) {
+            dispatch({
+                type: 'UPDATE_ZONE_COORDINATES',
+                payload: {
+                    zoneId,
+                    coordinates
+                }
+            });
+        } else {
+            console.error(`Zone ${zoneId} does not exist`);
+        }
+    }, [state.zones.list]);
+
+    /**
+     * Update zone assets
+     */
+    const updateZoneAssets = useCallback((zoneId, assets) => {
+        if (state.zones.list.includes(zoneId)) {
+            dispatch({
+                type: 'UPDATE_ZONE_ASSETS',
+                payload: {
+                    zoneId,
+                    assets
+                }
+            });
+        } else {
+            console.error(`Zone ${zoneId} does not exist`);
+        }
+    }, [state.zones.list]);
+
+    /**
+     * Delete a zone
+     */
+    const deleteZone = useCallback((zoneId) => {
+        if (state.zones.list.includes(zoneId)) {
+            dispatch({
+                type: 'DELETE_ZONE',
+                payload: zoneId
+            });
+        } else {
+            console.error(`Zone ${zoneId} does not exist`);
+        }
+    }, [state.zones.list]);
+
+    /**
+     * Group zones by proximity
+     */
+    const groupZonesByProximity = useCallback((distanceThreshold = 10000) => {
+        // Implementation would use turf.js to calculate distances between zones
+        // and group them based on the distance threshold
+        console.log(`Grouping zones with distance threshold: ${distanceThreshold}m`);
+
+        // This is a placeholder implementation
+        // In a real implementation, you would use turf.js to calculate distances
+        return [
+            { name: 'Group 1', zones: state.zones.list.slice(0, Math.floor(state.zones.list.length / 2)) },
+            { name: 'Group 2', zones: state.zones.list.slice(Math.floor(state.zones.list.length / 2)) }
+        ];
+    }, [state.zones.list]);
+
+    /**
+     * Cluster zones by attribute
+     */
+    const clusterZonesByAttribute = useCallback((attribute, clusterCount = 3) => {
+        // Implementation would use a clustering algorithm to group zones
+        // based on the specified attribute
+        console.log(`Clustering zones by ${attribute} into ${clusterCount} clusters`);
+
+        // This is a placeholder implementation
+        // In a real implementation, you would use a clustering algorithm
+        const zoneIds = state.zones.list;
+        const clusters = [];
+
+        for (let i = 0; i < Math.min(clusterCount, zoneIds.length); i++) {
+            clusters.push({
+                name: `Cluster ${i+1}`,
+                zones: zoneIds.filter((_, index) => index % clusterCount === i)
+            });
+        }
+
+        return clusters;
+    }, [state.zones.list]);
+
+    /**
+     * Combine multiple zones into a single zone
+     */
+    const combineZones = useCallback((zoneIds, newZoneId, newZoneMetadata) => {
+        dispatch({
+            type: 'COMBINE_ZONES',
+            payload: {
+                zoneIds,
+                newZoneId,
+                newZoneMetadata
+            }
+        });
+    }, []);
+
+    /**
+     * Split a zone into multiple zones
+     */
+    const splitZone = useCallback((zoneId, newZoneIds, splitType = 'equal') => {
+        dispatch({
+            type: 'SPLIT_ZONE',
+            payload: {
+                zoneId,
+                newZoneIds,
+                splitType
+            }
+        });
+    }, []);
+
+    /**
+     * Calculate zone statistics
+     */
+    const calculateZoneStatistics = useCallback(() => {
+        return {
+            totalZones: state.zones.list.length,
+            zonesWithAssets: state.zones.list.filter(zoneId =>
+                (state.zones.metadata[zoneId].assets || []).length > 0
+            ).length,
+            averageAssetsPerZone: state.zones.list.reduce((total, zoneId) =>
+                total + (state.zones.metadata[zoneId].assets || []).length, 0
+            ) / state.zones.list.length,
+            largestZone: state.zones.list.reduce((largest, zoneId) => {
+                const currentAssets = (state.zones.metadata[zoneId].assets || []).length;
+                return currentAssets > largest.assetCount
+                    ? { id: zoneId, assetCount: currentAssets }
+                    : largest;
+            }, { id: null, assetCount: -1 }).id
+        };
+    }, [state.zones.list, state.zones.metadata]);
 
     /**
      * Update scaling groups
@@ -775,8 +1221,19 @@ export function MatrixProvider({ children, initialData = {} }) {
         handleInputChange,
         createVersion,
         setActiveVersion,
+        updateVersionMetadata,
         createZone,
         setActiveZone,
+        addZones,
+        updateZoneMetadata,
+        updateZoneCoordinates,
+        updateZoneAssets,
+        deleteZone,
+        groupZonesByProximity,
+        clusterZonesByAttribute,
+        combineZones,
+        splitZone,
+        calculateZoneStatistics,
         updateScalingGroups,
         handleFinalResultsGenerated,
         toggleF,
@@ -841,8 +1298,19 @@ export function useVersionZone() {
         zones,
         createVersion,
         setActiveVersion,
+        updateVersionMetadata,
         createZone,
-        setActiveZone
+        setActiveZone,
+        addZones,
+        updateZoneMetadata,
+        updateZoneCoordinates,
+        updateZoneAssets,
+        deleteZone,
+        groupZonesByProximity,
+        clusterZonesByAttribute,
+        combineZones,
+        splitZone,
+        calculateZoneStatistics
     } = useMatrixState();
 
     return {
@@ -850,8 +1318,19 @@ export function useVersionZone() {
         zones,
         createVersion,
         setActiveVersion,
+        updateVersionMetadata,
         createZone,
-        setActiveZone
+        setActiveZone,
+        addZones,
+        updateZoneMetadata,
+        updateZoneCoordinates,
+        updateZoneAssets,
+        deleteZone,
+        groupZonesByProximity,
+        clusterZonesByAttribute,
+        combineZones,
+        splitZone,
+        calculateZoneStatistics
     };
 }
 

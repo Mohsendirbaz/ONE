@@ -1,0 +1,348 @@
+/* ClimateMapOverlay Styles */
+
+.climate-map-overlay {
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.overlay-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.overlay-toggles {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.overlay-toggles label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #4b5563;
+  cursor: pointer;
+}
+
+.overlay-toggles input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+}
+
+.visualization-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+.visualization-selector select {
+  padding: 0.375rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  background-color: white;
+}
+
+.overlay-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Climate Impact Overlay */
+.climate-impact-overlay {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  padding: 1rem;
+  overflow: hidden;
+}
+
+.climate-impact-overlay.impact-low {
+  border-left: 4px solid #10b981;
+}
+
+.climate-impact-overlay.impact-medium {
+  border-left: 4px solid #f59e0b;
+}
+
+.climate-impact-overlay.impact-high {
+  border-left: 4px solid #ef4444;
+}
+
+.climate-impact-overlay.impact-critical {
+  border-left: 4px solid #7f1d1d;
+}
+
+.impact-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.impact-header h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.impact-level {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  text-transform: uppercase;
+}
+
+.impact-level.low {
+  background-color: #ecfdf5;
+  color: #047857;
+}
+
+.impact-level.medium {
+  background-color: #fffbeb;
+  color: #b45309;
+}
+
+.impact-level.high {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.impact-level.critical {
+  background-color: #fef2f2;
+  color: #7f1d1d;
+}
+
+.impact-visualization {
+  margin-top: 0.5rem;
+}
+
+/* Heatmap Visualization */
+.impact-heatmap {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.heatmap-indicator {
+  width: 100%;
+  height: 2rem;
+  border-radius: 0.25rem;
+}
+
+.heatmap-value {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1f2937;
+  white-space: nowrap;
+}
+
+/* Bubble Chart Visualization */
+.impact-bubbles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.impact-bubble {
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.bubble-label {
+  position: absolute;
+  bottom: -1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.75rem;
+  color: #4b5563;
+  white-space: nowrap;
+}
+
+/* Gradient Visualization */
+.impact-gradient {
+  padding: 0.5rem 0;
+}
+
+.gradient-bar {
+  height: 1.5rem;
+  background: linear-gradient(to right, #10b981, #f59e0b, #ef4444, #7f1d1d);
+  border-radius: 0.25rem;
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+
+.gradient-indicator {
+  position: absolute;
+  top: -0.5rem;
+  width: 0.5rem;
+  height: 2.5rem;
+  background-color: #1f2937;
+  border-radius: 0.25rem;
+}
+
+.gradient-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+/* Regulatory Zones Overlay */
+.regulatory-zones-overlay {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  padding: 1rem;
+  overflow: hidden;
+}
+
+.regulatory-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.regulatory-header h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.compliance-status {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  text-transform: uppercase;
+}
+
+.compliance-status.compliant {
+  background-color: #ecfdf5;
+  color: #047857;
+}
+
+.compliance-status.warning {
+  background-color: #fffbeb;
+  color: #b45309;
+}
+
+.compliance-status.non-compliant {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.regulatory-zones {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.regulatory-zone {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  border-radius: 0.25rem;
+  background-color: #f9fafb;
+}
+
+.regulatory-zone.compliant {
+  border-left: 3px solid #10b981;
+}
+
+.regulatory-zone.warning {
+  border-left: 3px solid #f59e0b;
+}
+
+.regulatory-zone.non-compliant {
+  border-left: 3px solid #ef4444;
+}
+
+.zone-name {
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.zone-threshold {
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+.zone-status {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.zone-status.compliant {
+  color: #10b981;
+}
+
+.zone-status.warning {
+  color: #f59e0b;
+}
+
+.zone-status.non-compliant {
+  color: #ef4444;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .overlay-controls {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .overlay-toggles {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .visualization-selector {
+    width: 100%;
+  }
+  
+  .visualization-selector select {
+    flex: 1;
+  }
+  
+  .impact-heatmap {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .heatmap-value {
+    align-self: flex-end;
+  }
+  
+  .regulatory-zone {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .zone-status {
+    align-self: flex-end;
+  }
+}

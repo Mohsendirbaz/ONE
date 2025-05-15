@@ -1,6 +1,6 @@
 {
   "project_name": "src",
-  "analysis_date": "2025-04-29 12:17:51",
+  "analysis_date": "2025-05-15 09:48:59",
   "version": 9,
   "analysis_mode": "sorted_by_file_count",
   "src": {
@@ -16,12 +16,17 @@
                   "CiloExplorer.js",
                   "CiloSection.js",
                   "CopyLinkModal.js",
+                  "DecarbonizationLibrary.js",
+                  "DecarbonizationPathwayCard.js",
+                  "DecarbonizationPathwayPanel.js",
+                  "DecarbonizationTargetTimeline.js",
                   "EditItemForm.js",
                   "GeneralLibrary.js",
                   "ImportExportPanel.js",
                   "ItemCard.js",
                   "ItemDetailsModal.js",
                   "LibraryHeader.js",
+                  "PathwayComparisonChart.js",
                   "PersonalLibrary.js",
                   "PopularItemsCarousel.js",
                   "SaveToLibraryModal.js",
@@ -36,9 +41,18 @@
               "services": {
                 "subdirectories": {},
                 "files": [
+                  "decarbonizationService.js",
                   "libraryService.js",
                   "mockDataService.js",
                   "usageTrackingService.js"
+                ]
+              },
+              "styles": {
+                "subdirectories": {},
+                "files": [
+                  "DecarbonizationComponents.css",
+                  "LibrarySystem.css",
+                  "ScalingGroupsPreview.css"
                 ]
               },
               "data": {
@@ -54,26 +68,67 @@
                   "authUtils.js",
                   "blockchainUtils.js"
                 ]
-              },
-              "styles": {
-                "subdirectories": {},
-                "files": [
-                  "LibrarySystem.css"
-                ]
               }
             },
             "files": [
               "LibrarySystem.js"
             ]
           },
+          "truly_extended_scaling": {
+            "subdirectories": {
+              "styles": {
+                "subdirectories": {},
+                "files": [
+                  "ClimateMapOverlay.css",
+                  "ClimateModule.css",
+                  "CoordinateComponent.css",
+                  "CoordinateFactFinder.css",
+                  "DeleteConfirmationModal.css",
+                  "ProcessEconomicsTest.css"
+                ]
+              },
+              "tests": {
+                "subdirectories": {},
+                "files": [
+                  "ProcessEconomicsTest.js"
+                ]
+              }
+            },
+            "files": [
+              "boundary-downloader.js",
+              "Card.js",
+              "CentralScalingTab.js",
+              "climate-module-enhanced.js",
+              "ClimateMapOverlay.js",
+              "coordinate-container-enhanced.js",
+              "CoordinateComponent.js",
+              "CoordinateFactFinder.js",
+              "DecarbonizationPathwayCard.js",
+              "DecarbonizationPathwayPanel.js",
+              "DecarbonizationPathwaysFactory.js",
+              "DecarbonizationTargetTimeline.js",
+              "DeleteConfirmationModal.js",
+              "ExtendedScaling.js",
+              "multi-zone-selector.js",
+              "PathwayComparisonChart.js",
+              "ProcessEconomics.js",
+              "scaling-active-natural-motion.js",
+              "ScalingSummary.js",
+              "StateManagementIntegration.js",
+              "zone-utils.js"
+            ]
+          },
           "modules": {
             "subdirectories": {},
             "files": [
               "CalculationMonitor.js",
+              "CapacityMapPanel.js",
               "ConfigurationMonitor.js",
+              "ConflictResolutionPanel.js",
               "CustomizableImage.js",
               "CustomizableTable.js",
               "Efficacy.js",
+              "EfficacyMapContainer.js",
               "FactEngine.js",
               "FactEngineAdmin.js",
               "HeaderBackground.js",
@@ -81,11 +136,13 @@
               "PlotsTabs.js",
               "SensitivityMonitor.js",
               "SensitivityPlotsTabs.js",
+              "TensorCapacityVisualization.js",
               "TestingZone.js",
               "ThemeButton.js",
               "ThemeConfigurator.js",
               "ThemeGenerator.js",
               "TicTacToe.js",
+              "TimeParameterMatrix.js",
               "WhakAMole.js"
             ]
           },
@@ -171,15 +228,6 @@
               "SelectionPanel.js"
             ]
           },
-          "truly_extended_scaling": {
-            "subdirectories": {},
-            "files": [
-              "Card.js",
-              "CentralScalingTab.js",
-              "ExtendedScaling.js",
-              "ScalingSummary.js"
-            ]
-          },
           "process_economics_pilot": {
             "subdirectories": {},
             "files": [
@@ -187,25 +235,94 @@
               "process-economics-library.js",
               "scaling-reference-data.js"
             ]
+          },
+          "matrix": {
+            "subdirectories": {},
+            "files": [
+              "MatrixApp.js"
+            ]
+          },
+          "common": {
+            "subdirectories": {},
+            "files": []
+          },
+          "forms": {
+            "subdirectories": {},
+            "files": []
           }
         },
         "files": []
       },
       "styles": {
         "subdirectories": {
+          "HomePage.CSS": {
+            "subdirectories": {},
+            "files": [
+              "boundary-downloader-css.css",
+              "buttons.css",
+              "CalculationMonitor.css",
+              "CalculationMonitorRun.css",
+              "CalculationMonitorRuns.css",
+              "CapacityMapPanel.css",
+              "CentralScalingTab.css",
+              "CFAConsolidationUI.css",
+              "climate-module-enhanced-css.css",
+              "CommonSelector.css",
+              "ConfigurationMonitor.css",
+              "ConflictResolutionPanel.css",
+              "Consolidated.css",
+              "coordinate-container-enhanced-css.css",
+              "CustomizableTable.css",
+              "dynamic-subplot-css.css",
+              "Efficacy.css",
+              "EfficacyMapContainer.css",
+              "HCSS.css",
+              "HomePage1.css",
+              "HomePage2.css",
+              "HomePage3.css",
+              "HomePage5.css",
+              "HomePage6.css",
+              "HomePage_AboutUs.css",
+              "HomePage_buttons.css",
+              "HomePage_FactAdmin.css",
+              "HomePage_FactEngine.css",
+              "HomePage_monitoring.css",
+              "HomePage_neumorphic-tabs.css",
+              "HomePage_scaling.css",
+              "HomePage_scaling_t.css",
+              "integration-point.css",
+              "Label.css",
+              "multi-zone-selector-css.css",
+              "Naturalmotion.css",
+              "PendulumClock.css",
+              "plots-tabs-css.css",
+              "ProcessingPanel.css",
+              "PropertySelector.css",
+              "ResetOptionsPopup.css",
+              "ResultsPanel.css",
+              "RunOptionsPopup.css",
+              "ScalingSummary.css",
+              "SelectionPanel.css",
+              "sensitivity-plots-css.css",
+              "SensitivityMonitor.css",
+              "SensitivitySelector.css",
+              "StickerHeader.css",
+              "TestingZone.css",
+              "ThemeButton.css",
+              "ThemeConfigurator.css",
+              "TicTacToe.css",
+              "TimeParameterMatrix.css",
+              "unified-tooltip-css.css",
+              "VersionSelector.css",
+              "WhakAMole.css"
+            ]
+          },
           "Themes": {
             "subdirectories": {},
             "files": [
               "creative-theme.css",
               "dark-theme.css",
               "light-theme.css"
-            ]
-          },
-          "HomePage.CSS": {
-            "subdirectories": {},
-            "files": [
-              "Consolidated.css",
-              "HCSS.css"
             ]
           }
         },
@@ -214,9 +331,31 @@
       "utils": {
         "subdirectories": {},
         "files": [
+          "component_graph.js",
+          "context_analyzer.js",
+          "dependency_mapper.js",
+          "entity_analyzer.js",
           "ErrorBoundary.js",
+          "hook_analyzer.js",
+          "insight_generator.js",
           "labelReferences.js",
+          "prop_flow_analyzer.js",
+          "react_parser.js",
           "serverUtils.js"
+        ]
+      },
+      "docs": {
+        "subdirectories": {},
+        "files": [
+          "AntdDependencyFix.md",
+          "CapacityMapPanelImplementation.md",
+          "CapacityTrackingImplementation.md",
+          "EfficacyMapConsolidated3Integration.md",
+          "EfficacyMapIntegration.md",
+          "EfficacyMapIntegrationInInputTab.md",
+          "EfficacyTimeAndDegreeOfFreedom.md",
+          "EfficacyTimeImplementationSummary.md",
+          "TrueConfigurationSpaceImplementation.md"
         ]
       },
       "contexts": {
@@ -225,23 +364,66 @@
           "VersionStateContext.js",
           "VersionStateContext.md"
         ]
+      },
+      "services": {
+        "subdirectories": {},
+        "files": [
+          "CapacityTrackingService.js",
+          "MatrixSubmissionService.js"
+        ]
+      },
+      "code-entity-analyzer": {
+        "subdirectories": {
+          "integration": {
+            "subdirectories": {},
+            "files": [
+              "tab_integration.js"
+            ]
+          },
+          "visualizations": {
+            "subdirectories": {},
+            "files": []
+          }
+        },
+        "files": []
+      },
+      "state": {
+        "subdirectories": {},
+        "files": [
+          "MatrixStateAtoms.js"
+        ]
       }
     },
     "files": [
       "App.js",
+      "centered-perspective-demo.js",
       "Consolidated.js",
       "Consolidated2.js",
       "Consolidated3.js",
       "GeneralFormConfig.js",
       "HomePage.js",
       "index.js",
+      "MatrixStateManager.js",
       "Naturalmotion.js",
-      "ValueTooltip.js"
+      "unified-tooltip-js.js"
     ]
   },
   "files_by_extension": {
     "js": {
       "subdirectories": {
+        "code-entity-analyzer": {
+          "subdirectories": {
+            "integration": {
+              "files": [
+                {
+                  "name": "tab_integration.js",
+                  "path": "code-entity-analyzer\\integration\\tab_integration.js",
+                  "size": 14920
+                }
+              ]
+            }
+          }
+        },
         "components": {
           "subdirectories": {
             "build": {
@@ -378,17 +560,36 @@
                 }
               }
             },
+            "matrix": {
+              "files": [
+                {
+                  "name": "MatrixApp.js",
+                  "path": "components\\matrix\\MatrixApp.js",
+                  "size": 21364
+                }
+              ]
+            },
             "modules": {
               "files": [
                 {
                   "name": "CalculationMonitor.js",
                   "path": "components\\modules\\CalculationMonitor.js",
-                  "size": 12384
+                  "size": 18487
+                },
+                {
+                  "name": "CapacityMapPanel.js",
+                  "path": "components\\modules\\CapacityMapPanel.js",
+                  "size": 22929
                 },
                 {
                   "name": "ConfigurationMonitor.js",
                   "path": "components\\modules\\ConfigurationMonitor.js",
                   "size": 28818
+                },
+                {
+                  "name": "ConflictResolutionPanel.js",
+                  "path": "components\\modules\\ConflictResolutionPanel.js",
+                  "size": 10855
                 },
                 {
                   "name": "CustomizableImage.js",
@@ -403,7 +604,12 @@
                 {
                   "name": "Efficacy.js",
                   "path": "components\\modules\\Efficacy.js",
-                  "size": 9266
+                  "size": 9204
+                },
+                {
+                  "name": "EfficacyMapContainer.js",
+                  "path": "components\\modules\\EfficacyMapContainer.js",
+                  "size": 14882
                 },
                 {
                   "name": "FactEngine.js",
@@ -428,17 +634,22 @@
                 {
                   "name": "PlotsTabs.js",
                   "path": "components\\modules\\PlotsTabs.js",
-                  "size": 9347
+                  "size": 8979
                 },
                 {
                   "name": "SensitivityMonitor.js",
                   "path": "components\\modules\\SensitivityMonitor.js",
-                  "size": 30969
+                  "size": 32403
                 },
                 {
                   "name": "SensitivityPlotsTabs.js",
                   "path": "components\\modules\\SensitivityPlotsTabs.js",
                   "size": 7928
+                },
+                {
+                  "name": "TensorCapacityVisualization.js",
+                  "path": "components\\modules\\TensorCapacityVisualization.js",
+                  "size": 12966
                 },
                 {
                   "name": "TestingZone.js",
@@ -466,6 +677,11 @@
                   "size": 3820
                 },
                 {
+                  "name": "TimeParameterMatrix.js",
+                  "path": "components\\modules\\TimeParameterMatrix.js",
+                  "size": 12624
+                },
+                {
                   "name": "WhakAMole.js",
                   "path": "components\\modules\\WhakAMole.js",
                   "size": 5736
@@ -477,7 +693,7 @@
                 {
                   "name": "LibrarySystem.js",
                   "path": "components\\process_economics\\LibrarySystem.js",
-                  "size": 8998
+                  "size": 9503
                 }
               ],
               "subdirectories": {
@@ -504,6 +720,26 @@
                       "size": 4029
                     },
                     {
+                      "name": "DecarbonizationLibrary.js",
+                      "path": "components\\process_economics\\components\\DecarbonizationLibrary.js",
+                      "size": 16381
+                    },
+                    {
+                      "name": "DecarbonizationPathwayCard.js",
+                      "path": "components\\process_economics\\components\\DecarbonizationPathwayCard.js",
+                      "size": 9518
+                    },
+                    {
+                      "name": "DecarbonizationPathwayPanel.js",
+                      "path": "components\\process_economics\\components\\DecarbonizationPathwayPanel.js",
+                      "size": 20415
+                    },
+                    {
+                      "name": "DecarbonizationTargetTimeline.js",
+                      "path": "components\\process_economics\\components\\DecarbonizationTargetTimeline.js",
+                      "size": 3630
+                    },
+                    {
                       "name": "EditItemForm.js",
                       "path": "components\\process_economics\\components\\EditItemForm.js",
                       "size": 7696
@@ -526,12 +762,17 @@
                     {
                       "name": "ItemDetailsModal.js",
                       "path": "components\\process_economics\\components\\ItemDetailsModal.js",
-                      "size": 15629
+                      "size": 15349
                     },
                     {
                       "name": "LibraryHeader.js",
                       "path": "components\\process_economics\\components\\LibraryHeader.js",
                       "size": 2105
+                    },
+                    {
+                      "name": "PathwayComparisonChart.js",
+                      "path": "components\\process_economics\\components\\PathwayComparisonChart.js",
+                      "size": 2775
                     },
                     {
                       "name": "PersonalLibrary.js",
@@ -551,7 +792,7 @@
                     {
                       "name": "ScalingGroupsPreview.js",
                       "path": "components\\process_economics\\components\\ScalingGroupsPreview.js",
-                      "size": 0
+                      "size": 4234
                     },
                     {
                       "name": "SearchPanel.js",
@@ -585,7 +826,7 @@
                     {
                       "name": "categoryData.js",
                       "path": "components\\process_economics\\data\\categoryData.js",
-                      "size": 5925
+                      "size": 7754
                     },
                     {
                       "name": "ciloData.js",
@@ -596,6 +837,11 @@
                 },
                 "services": {
                   "files": [
+                    {
+                      "name": "decarbonizationService.js",
+                      "path": "components\\process_economics\\services\\decarbonizationService.js",
+                      "size": 12170
+                    },
                     {
                       "name": "libraryService.js",
                       "path": "components\\process_economics\\services\\libraryService.js",
@@ -609,7 +855,7 @@
                     {
                       "name": "usageTrackingService.js",
                       "path": "components\\process_economics\\services\\usageTrackingService.js",
-                      "size": 7428
+                      "size": 9519
                     }
                   ]
                 },
@@ -651,6 +897,11 @@
             "truly_extended_scaling": {
               "files": [
                 {
+                  "name": "boundary-downloader.js",
+                  "path": "components\\truly_extended_scaling\\boundary-downloader.js",
+                  "size": 16633
+                },
+                {
                   "name": "Card.js",
                   "path": "components\\truly_extended_scaling\\Card.js",
                   "size": 577
@@ -658,19 +909,110 @@
                 {
                   "name": "CentralScalingTab.js",
                   "path": "components\\truly_extended_scaling\\CentralScalingTab.js",
-                  "size": 9295
+                  "size": 9301
+                },
+                {
+                  "name": "climate-module-enhanced.js",
+                  "path": "components\\truly_extended_scaling\\climate-module-enhanced.js",
+                  "size": 71854
+                },
+                {
+                  "name": "ClimateMapOverlay.js",
+                  "path": "components\\truly_extended_scaling\\ClimateMapOverlay.js",
+                  "size": 25004
+                },
+                {
+                  "name": "coordinate-container-enhanced.js",
+                  "path": "components\\truly_extended_scaling\\coordinate-container-enhanced.js",
+                  "size": 13383
+                },
+                {
+                  "name": "CoordinateComponent.js",
+                  "path": "components\\truly_extended_scaling\\CoordinateComponent.js",
+                  "size": 24133
+                },
+                {
+                  "name": "CoordinateFactFinder.js",
+                  "path": "components\\truly_extended_scaling\\CoordinateFactFinder.js",
+                  "size": 32253
+                },
+                {
+                  "name": "DecarbonizationPathwayCard.js",
+                  "path": "components\\truly_extended_scaling\\DecarbonizationPathwayCard.js",
+                  "size": 8580
+                },
+                {
+                  "name": "DecarbonizationPathwayPanel.js",
+                  "path": "components\\truly_extended_scaling\\DecarbonizationPathwayPanel.js",
+                  "size": 20014
+                },
+                {
+                  "name": "DecarbonizationPathwaysFactory.js",
+                  "path": "components\\truly_extended_scaling\\DecarbonizationPathwaysFactory.js",
+                  "size": 19341
+                },
+                {
+                  "name": "DecarbonizationTargetTimeline.js",
+                  "path": "components\\truly_extended_scaling\\DecarbonizationTargetTimeline.js",
+                  "size": 4036
+                },
+                {
+                  "name": "DeleteConfirmationModal.js",
+                  "path": "components\\truly_extended_scaling\\DeleteConfirmationModal.js",
+                  "size": 5932
                 },
                 {
                   "name": "ExtendedScaling.js",
                   "path": "components\\truly_extended_scaling\\ExtendedScaling.js",
-                  "size": 59680
+                  "size": 72199
+                },
+                {
+                  "name": "multi-zone-selector.js",
+                  "path": "components\\truly_extended_scaling\\multi-zone-selector.js",
+                  "size": 41327
+                },
+                {
+                  "name": "PathwayComparisonChart.js",
+                  "path": "components\\truly_extended_scaling\\PathwayComparisonChart.js",
+                  "size": 3462
+                },
+                {
+                  "name": "ProcessEconomics.js",
+                  "path": "components\\truly_extended_scaling\\ProcessEconomics.js",
+                  "size": 22279
+                },
+                {
+                  "name": "scaling-active-natural-motion.js",
+                  "path": "components\\truly_extended_scaling\\scaling-active-natural-motion.js",
+                  "size": 10802
                 },
                 {
                   "name": "ScalingSummary.js",
                   "path": "components\\truly_extended_scaling\\ScalingSummary.js",
-                  "size": 17337
+                  "size": 17339
+                },
+                {
+                  "name": "StateManagementIntegration.js",
+                  "path": "components\\truly_extended_scaling\\StateManagementIntegration.js",
+                  "size": 3043
+                },
+                {
+                  "name": "zone-utils.js",
+                  "path": "components\\truly_extended_scaling\\zone-utils.js",
+                  "size": 20049
                 }
-              ]
+              ],
+              "subdirectories": {
+                "tests": {
+                  "files": [
+                    {
+                      "name": "ProcessEconomicsTest.js",
+                      "path": "components\\truly_extended_scaling\\tests\\ProcessEconomicsTest.js",
+                      "size": 7668
+                    }
+                  ]
+                }
+              }
             }
           }
         },
@@ -683,17 +1025,80 @@
             }
           ]
         },
+        "services": {
+          "files": [
+            {
+              "name": "CapacityTrackingService.js",
+              "path": "services\\CapacityTrackingService.js",
+              "size": 7670
+            },
+            {
+              "name": "MatrixSubmissionService.js",
+              "path": "services\\MatrixSubmissionService.js",
+              "size": 10358
+            }
+          ]
+        },
+        "state": {
+          "files": [
+            {
+              "name": "MatrixStateAtoms.js",
+              "path": "state\\MatrixStateAtoms.js",
+              "size": 9101
+            }
+          ]
+        },
         "utils": {
           "files": [
+            {
+              "name": "component_graph.js",
+              "path": "utils\\component_graph.js",
+              "size": 18791
+            },
+            {
+              "name": "context_analyzer.js",
+              "path": "utils\\context_analyzer.js",
+              "size": 16036
+            },
+            {
+              "name": "dependency_mapper.js",
+              "path": "utils\\dependency_mapper.js",
+              "size": 10229
+            },
+            {
+              "name": "entity_analyzer.js",
+              "path": "utils\\entity_analyzer.js",
+              "size": 6021
+            },
             {
               "name": "ErrorBoundary.js",
               "path": "utils\\ErrorBoundary.js",
               "size": 2463
             },
             {
+              "name": "hook_analyzer.js",
+              "path": "utils\\hook_analyzer.js",
+              "size": 12505
+            },
+            {
+              "name": "insight_generator.js",
+              "path": "utils\\insight_generator.js",
+              "size": 27338
+            },
+            {
               "name": "labelReferences.js",
               "path": "utils\\labelReferences.js",
               "size": 6204
+            },
+            {
+              "name": "prop_flow_analyzer.js",
+              "path": "utils\\prop_flow_analyzer.js",
+              "size": 3393
+            },
+            {
+              "name": "react_parser.js",
+              "path": "utils\\react_parser.js",
+              "size": 19379
             },
             {
               "name": "serverUtils.js",
@@ -710,29 +1115,34 @@
           "size": 3095
         },
         {
+          "name": "centered-perspective-demo.js",
+          "path": ".\\centered-perspective-demo.js",
+          "size": 4803
+        },
+        {
           "name": "Consolidated.js",
           "path": ".\\Consolidated.js",
-          "size": 151821
+          "size": 152337
         },
         {
           "name": "Consolidated2.js",
           "path": ".\\Consolidated2.js",
-          "size": 102609
+          "size": 103026
         },
         {
           "name": "Consolidated3.js",
           "path": ".\\Consolidated3.js",
-          "size": 52055
+          "size": 53290
         },
         {
           "name": "GeneralFormConfig.js",
           "path": ".\\GeneralFormConfig.js",
-          "size": 31118
+          "size": 31990
         },
         {
           "name": "HomePage.js",
           "path": ".\\HomePage.js",
-          "size": 115758
+          "size": 120205
         },
         {
           "name": "index.js",
@@ -740,14 +1150,19 @@
           "size": 271
         },
         {
+          "name": "MatrixStateManager.js",
+          "path": ".\\MatrixStateManager.js",
+          "size": 49234
+        },
+        {
           "name": "Naturalmotion.js",
           "path": ".\\Naturalmotion.js",
           "size": 2453
         },
         {
-          "name": "ValueTooltip.js",
-          "path": ".\\ValueTooltip.js",
-          "size": 10391
+          "name": "unified-tooltip-js.js",
+          "path": ".\\unified-tooltip-js.js",
+          "size": 36487
         }
       ]
     },
@@ -787,9 +1202,57 @@
                 "styles": {
                   "files": [
                     {
+                      "name": "DecarbonizationComponents.css",
+                      "path": "components\\process_economics\\styles\\DecarbonizationComponents.css",
+                      "size": 6024
+                    },
+                    {
                       "name": "LibrarySystem.css",
                       "path": "components\\process_economics\\styles\\LibrarySystem.css",
                       "size": 49360
+                    },
+                    {
+                      "name": "ScalingGroupsPreview.css",
+                      "path": "components\\process_economics\\styles\\ScalingGroupsPreview.css",
+                      "size": 3051
+                    }
+                  ]
+                }
+              }
+            },
+            "truly_extended_scaling": {
+              "subdirectories": {
+                "styles": {
+                  "files": [
+                    {
+                      "name": "ClimateMapOverlay.css",
+                      "path": "components\\truly_extended_scaling\\styles\\ClimateMapOverlay.css",
+                      "size": 6009
+                    },
+                    {
+                      "name": "ClimateModule.css",
+                      "path": "components\\truly_extended_scaling\\styles\\ClimateModule.css",
+                      "size": 19730
+                    },
+                    {
+                      "name": "CoordinateComponent.css",
+                      "path": "components\\truly_extended_scaling\\styles\\CoordinateComponent.css",
+                      "size": 7516
+                    },
+                    {
+                      "name": "CoordinateFactFinder.css",
+                      "path": "components\\truly_extended_scaling\\styles\\CoordinateFactFinder.css",
+                      "size": 3205
+                    },
+                    {
+                      "name": "DeleteConfirmationModal.css",
+                      "path": "components\\truly_extended_scaling\\styles\\DeleteConfirmationModal.css",
+                      "size": 4204
+                    },
+                    {
+                      "name": "ProcessEconomicsTest.css",
+                      "path": "components\\truly_extended_scaling\\styles\\ProcessEconomicsTest.css",
+                      "size": 3086
                     }
                   ]
                 }
@@ -802,14 +1265,289 @@
             "HomePage.CSS": {
               "files": [
                 {
+                  "name": "boundary-downloader-css.css",
+                  "path": "styles\\HomePage.CSS\\boundary-downloader-css.css",
+                  "size": 5510
+                },
+                {
+                  "name": "buttons.css",
+                  "path": "styles\\HomePage.CSS\\buttons.css",
+                  "size": 1344
+                },
+                {
+                  "name": "CalculationMonitor.css",
+                  "path": "styles\\HomePage.CSS\\CalculationMonitor.css",
+                  "size": 4883
+                },
+                {
+                  "name": "CalculationMonitorRun.css",
+                  "path": "styles\\HomePage.CSS\\CalculationMonitorRun.css",
+                  "size": 1705
+                },
+                {
+                  "name": "CalculationMonitorRuns.css",
+                  "path": "styles\\HomePage.CSS\\CalculationMonitorRuns.css",
+                  "size": 2206
+                },
+                {
+                  "name": "CapacityMapPanel.css",
+                  "path": "styles\\HomePage.CSS\\CapacityMapPanel.css",
+                  "size": 492
+                },
+                {
+                  "name": "CentralScalingTab.css",
+                  "path": "styles\\HomePage.CSS\\CentralScalingTab.css",
+                  "size": 3843
+                },
+                {
+                  "name": "CFAConsolidationUI.css",
+                  "path": "styles\\HomePage.CSS\\CFAConsolidationUI.css",
+                  "size": 8876
+                },
+                {
+                  "name": "climate-module-enhanced-css.css",
+                  "path": "styles\\HomePage.CSS\\climate-module-enhanced-css.css",
+                  "size": 6823
+                },
+                {
+                  "name": "CommonSelector.css",
+                  "path": "styles\\HomePage.CSS\\CommonSelector.css",
+                  "size": 1485
+                },
+                {
+                  "name": "ConfigurationMonitor.css",
+                  "path": "styles\\HomePage.CSS\\ConfigurationMonitor.css",
+                  "size": 19803
+                },
+                {
+                  "name": "ConflictResolutionPanel.css",
+                  "path": "styles\\HomePage.CSS\\ConflictResolutionPanel.css",
+                  "size": 5477
+                },
+                {
                   "name": "Consolidated.css",
                   "path": "styles\\HomePage.CSS\\Consolidated.css",
                   "size": 54158
                 },
                 {
+                  "name": "coordinate-container-enhanced-css.css",
+                  "path": "styles\\HomePage.CSS\\coordinate-container-enhanced-css.css",
+                  "size": 2701
+                },
+                {
+                  "name": "CustomizableTable.css",
+                  "path": "styles\\HomePage.CSS\\CustomizableTable.css",
+                  "size": 5089
+                },
+                {
+                  "name": "dynamic-subplot-css.css",
+                  "path": "styles\\HomePage.CSS\\dynamic-subplot-css.css",
+                  "size": 8321
+                },
+                {
+                  "name": "Efficacy.css",
+                  "path": "styles\\HomePage.CSS\\Efficacy.css",
+                  "size": 3739
+                },
+                {
+                  "name": "EfficacyMapContainer.css",
+                  "path": "styles\\HomePage.CSS\\EfficacyMapContainer.css",
+                  "size": 4127
+                },
+                {
                   "name": "HCSS.css",
                   "path": "styles\\HomePage.CSS\\HCSS.css",
                   "size": 124034
+                },
+                {
+                  "name": "HomePage1.css",
+                  "path": "styles\\HomePage.CSS\\HomePage1.css",
+                  "size": 8039
+                },
+                {
+                  "name": "HomePage2.css",
+                  "path": "styles\\HomePage.CSS\\HomePage2.css",
+                  "size": 1951
+                },
+                {
+                  "name": "HomePage3.css",
+                  "path": "styles\\HomePage.CSS\\HomePage3.css",
+                  "size": 2605
+                },
+                {
+                  "name": "HomePage5.css",
+                  "path": "styles\\HomePage.CSS\\HomePage5.css",
+                  "size": 2620
+                },
+                {
+                  "name": "HomePage6.css",
+                  "path": "styles\\HomePage.CSS\\HomePage6.css",
+                  "size": 7785
+                },
+                {
+                  "name": "HomePage_AboutUs.css",
+                  "path": "styles\\HomePage.CSS\\HomePage_AboutUs.css",
+                  "size": 3873
+                },
+                {
+                  "name": "HomePage_buttons.css",
+                  "path": "styles\\HomePage.CSS\\HomePage_buttons.css",
+                  "size": 12395
+                },
+                {
+                  "name": "HomePage_FactAdmin.css",
+                  "path": "styles\\HomePage.CSS\\HomePage_FactAdmin.css",
+                  "size": 9201
+                },
+                {
+                  "name": "HomePage_FactEngine.css",
+                  "path": "styles\\HomePage.CSS\\HomePage_FactEngine.css",
+                  "size": 5975
+                },
+                {
+                  "name": "HomePage_monitoring.css",
+                  "path": "styles\\HomePage.CSS\\HomePage_monitoring.css",
+                  "size": 2749
+                },
+                {
+                  "name": "HomePage_neumorphic-tabs.css",
+                  "path": "styles\\HomePage.CSS\\HomePage_neumorphic-tabs.css",
+                  "size": 3658
+                },
+                {
+                  "name": "HomePage_scaling.css",
+                  "path": "styles\\HomePage.CSS\\HomePage_scaling.css",
+                  "size": 32915
+                },
+                {
+                  "name": "HomePage_scaling_t.css",
+                  "path": "styles\\HomePage.CSS\\HomePage_scaling_t.css",
+                  "size": 25779
+                },
+                {
+                  "name": "integration-point.css",
+                  "path": "styles\\HomePage.CSS\\integration-point.css",
+                  "size": 872
+                },
+                {
+                  "name": "Label.css",
+                  "path": "styles\\HomePage.CSS\\Label.css",
+                  "size": 1559
+                },
+                {
+                  "name": "multi-zone-selector-css.css",
+                  "path": "styles\\HomePage.CSS\\multi-zone-selector-css.css",
+                  "size": 8743
+                },
+                {
+                  "name": "Naturalmotion.css",
+                  "path": "styles\\HomePage.CSS\\Naturalmotion.css",
+                  "size": 1525
+                },
+                {
+                  "name": "PendulumClock.css",
+                  "path": "styles\\HomePage.CSS\\PendulumClock.css",
+                  "size": 4916
+                },
+                {
+                  "name": "plots-tabs-css.css",
+                  "path": "styles\\HomePage.CSS\\plots-tabs-css.css",
+                  "size": 4959
+                },
+                {
+                  "name": "ProcessingPanel.css",
+                  "path": "styles\\HomePage.CSS\\ProcessingPanel.css",
+                  "size": 6681
+                },
+                {
+                  "name": "PropertySelector.css",
+                  "path": "styles\\HomePage.CSS\\PropertySelector.css",
+                  "size": 3820
+                },
+                {
+                  "name": "ResetOptionsPopup.css",
+                  "path": "styles\\HomePage.CSS\\ResetOptionsPopup.css",
+                  "size": 1642
+                },
+                {
+                  "name": "ResultsPanel.css",
+                  "path": "styles\\HomePage.CSS\\ResultsPanel.css",
+                  "size": 6716
+                },
+                {
+                  "name": "RunOptionsPopup.css",
+                  "path": "styles\\HomePage.CSS\\RunOptionsPopup.css",
+                  "size": 1612
+                },
+                {
+                  "name": "ScalingSummary.css",
+                  "path": "styles\\HomePage.CSS\\ScalingSummary.css",
+                  "size": 6454
+                },
+                {
+                  "name": "SelectionPanel.css",
+                  "path": "styles\\HomePage.CSS\\SelectionPanel.css",
+                  "size": 6001
+                },
+                {
+                  "name": "sensitivity-plots-css.css",
+                  "path": "styles\\HomePage.CSS\\sensitivity-plots-css.css",
+                  "size": 3865
+                },
+                {
+                  "name": "SensitivityMonitor.css",
+                  "path": "styles\\HomePage.CSS\\SensitivityMonitor.css",
+                  "size": 19172
+                },
+                {
+                  "name": "SensitivitySelector.css",
+                  "path": "styles\\HomePage.CSS\\SensitivitySelector.css",
+                  "size": 7701
+                },
+                {
+                  "name": "StickerHeader.css",
+                  "path": "styles\\HomePage.CSS\\StickerHeader.css",
+                  "size": 11919
+                },
+                {
+                  "name": "TestingZone.css",
+                  "path": "styles\\HomePage.CSS\\TestingZone.css",
+                  "size": 1151
+                },
+                {
+                  "name": "ThemeButton.css",
+                  "path": "styles\\HomePage.CSS\\ThemeButton.css",
+                  "size": 1105
+                },
+                {
+                  "name": "ThemeConfigurator.css",
+                  "path": "styles\\HomePage.CSS\\ThemeConfigurator.css",
+                  "size": 9197
+                },
+                {
+                  "name": "TicTacToe.css",
+                  "path": "styles\\HomePage.CSS\\TicTacToe.css",
+                  "size": 3034
+                },
+                {
+                  "name": "TimeParameterMatrix.css",
+                  "path": "styles\\HomePage.CSS\\TimeParameterMatrix.css",
+                  "size": 2857
+                },
+                {
+                  "name": "unified-tooltip-css.css",
+                  "path": "styles\\HomePage.CSS\\unified-tooltip-css.css",
+                  "size": 12990
+                },
+                {
+                  "name": "VersionSelector.css",
+                  "path": "styles\\HomePage.CSS\\VersionSelector.css",
+                  "size": 4887
+                },
+                {
+                  "name": "WhakAMole.css",
+                  "path": "styles\\HomePage.CSS\\WhakAMole.css",
+                  "size": 3628
                 }
               ]
             },

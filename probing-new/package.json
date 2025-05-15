@@ -2,12 +2,12 @@
   "name": "probing",
   "version": "1.0.0",
   "description": "Probing module for code and financial entity analysis",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "npx react-scripts start",
-    "build": "npx react-scripts build",
-    "test": "npx react-scripts test",
-    "eject": "npx react-scripts eject"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "dependencies": {
     "react": "^18.0.0",

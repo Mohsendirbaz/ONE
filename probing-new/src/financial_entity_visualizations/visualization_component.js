@@ -8,6 +8,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import './visualization_component.css';
+import probingApiClient from '../api/probing-api-client';
 
 /**
  * VisualizationComponent - A React component for rendering financial entity visualizations
@@ -43,24 +44,12 @@ const VisualizationComponent = ({
           containerRef.current.innerHTML = '';
         }
 
-        // Call the API to render the visualization
-        const response = await fetch('/api/probing/visualization', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            visualizationType,
-            data,
-            options
-          })
-        });
-
-        if (!response.ok) {
-          throw new Error(`Failed to render visualization: ${response.statusText}`);
-        }
-
-        const result = await response.json();
+        // Call the API to render the visualization using the probing API client
+        const result = await probingApiClient.renderVisualization(
+          visualizationType,
+          data,
+          options
+        );
 
         // Render the visualization in the container
         if (containerRef.current && result.html) {
@@ -101,11 +90,10 @@ const VisualizationComponent = ({
     return () => {
       if (visualizationRef.current) {
         // Clean up the visualization if needed
-        fetch(`/api/probing/visualization/${visualizationRef.current}`, {
-          method: 'DELETE'
-        }).catch(err => {
-          console.error('Error cleaning up visualization:', err);
-        });
+        probingApiClient.deleteVisualization(visualizationRef.current)
+          .catch(err => {
+            console.error('Error cleaning up visualization:', err);
+          });
       }
     };
   }, [visualizationType, data, options, onVisualizationRendered, onVisualizationError]);
@@ -115,16 +103,11 @@ const VisualizationComponent = ({
     const handleResize = () => {
       if (visualizationRef.current) {
         // Resize the visualization
-        fetch(`/api/probing/visualization/${visualizationRef.current}/resize`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            width: containerRef.current?.clientWidth,
-            height: containerRef.current?.clientHeight
-          })
-        }).catch(err => {
+        probingApiClient.resizeVisualization(
+          visualizationRef.current,
+          containerRef.current?.clientWidth,
+          containerRef.current?.clientHeight
+        ).catch(err => {
           console.error('Error resizing visualization:', err);
         });
       }
@@ -192,17 +175,11 @@ const VisualizationSelector = ({ onVisualizationSelected }) => {
         setLoading(true);
         setError(null);
 
-        const response = await fetch('/api/probing/visualizations');
+        const availableTypes = await probingApiClient.getAvailableVisualizations();
+        setAvailableVisualizations(availableTypes);
 
-        if (!response.ok) {
-          throw new Error(`Failed to fetch visualizations: ${response.statusText}`);
-        }
-
-        const result = await response.json();
-        setAvailableVisualizations(result.available_types || []);
-
-        if (result.available_types && result.available_types.length > 0) {
-          setSelectedType(result.available_types[0]);
+        if (availableTypes && availableTypes.length > 0) {
+          setSelectedType(availableTypes[0]);
         }
       } catch (err) {
         console.error('Error fetching visualizations:', err);

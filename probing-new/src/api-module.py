@@ -10,6 +10,7 @@ import json
 from flask import Flask, request, jsonify, send_file
 from datetime import datetime
 from typing import Dict, Any, Optional
+from flask_cors import CORS
 
 # Import from the connector module
 from probing.src.connector import (
@@ -33,6 +34,8 @@ from probing.src.integration import (
 
 # Create a Flask app
 app = Flask(__name__)
+# Enable CORS for all routes
+CORS(app)
 
 # Root directory for output files
 OUTPUT_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'output')
@@ -59,13 +62,13 @@ def api_scan_changes():
     """Scan for changes in monitored directories."""
     try:
         changes = scan_for_changes()
-        
+
         # Determine if any changes were detected
         changes_detected = any(
             len(result['created']) > 0 or len(result['modified']) > 0
             for result in changes.values()
         )
-        
+
         return jsonify({
             'success': True,
             'changes': changes,
@@ -118,14 +121,14 @@ def api_download_file_associations():
                 'success': False,
                 'error': 'No file associations data found'
             }), 404
-        
+
         # Create a temporary file with the data
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         output_file = os.path.join(OUTPUT_DIR, f"file_associations_export_{timestamp}.json")
-        
+
         with open(output_file, 'w') as f:
             json.dump(data, f, indent=2)
-        
+
         # Send the file
         return send_file(
             output_file,
@@ -145,7 +148,7 @@ def api_get_visualization_sample_data():
     try:
         # Get integrated visualization data
         data = get_integrated_visualizations()
-        
+
         # If we don't have real data, provide some sample data
         if not data or all(not value for value in data.values()):
             # Create sample data
@@ -169,7 +172,7 @@ def api_get_visualization_sample_data():
                     ]
                 }
             }
-        
+
         return jsonify(data)
     except Exception as e:
         return jsonify({
@@ -196,20 +199,20 @@ def api_render_visualization():
     """Render a visualization with the provided data."""
     try:
         request_data = request.json
-        
+
         visualization_type = request_data.get('visualizationType')
         data = request_data.get('data', {})
         options = request_data.get('options', {})
-        
+
         if not visualization_type:
             return jsonify({
                 'success': False,
                 'error': 'Visualization type is required'
             }), 400
-        
+
         # Render the visualization
         result = visualize_data_direct(data, visualization_type, options)
-        
+
         # For now, just return the result
         # In a real implementation, this might include HTML and scripts
         return jsonify({
@@ -279,7 +282,7 @@ const mapDispatchToProps = {
 
 export default connect(mapStateToProps, mapDispatchToProps)(FinancialComponent);
 """
-    
+
     return jsonify({
         'success': True,
         'code': sample_code
@@ -290,20 +293,20 @@ def api_analyze_code_direct():
     """Analyze code directly using the connector."""
     try:
         request_data = request.json
-        
+
         code = request_data.get('code')
         analyzer_type = request_data.get('analyzer_type', 'dependency')
         options = request_data.get('options', {})
-        
+
         if not code:
             return jsonify({
                 'success': False,
                 'error': 'Code is required'
             }), 400
-        
+
         # Analyze the code
         result = analyze_code_direct(code, options.get('file_path'), analyzer_type)
-        
+
         return jsonify({
             'success': True,
             'result': result
@@ -319,20 +322,20 @@ def api_visualize_data_direct():
     """Visualize data directly using the connector."""
     try:
         request_data = request.json
-        
+
         data = request_data.get('data', {})
         visualization_type = request_data.get('visualization_type')
         options = request_data.get('options', {})
-        
+
         if not visualization_type:
             return jsonify({
                 'success': False,
                 'error': 'Visualization type is required'
             }), 400
-        
+
         # Visualize the data
         result = visualize_data_direct(data, visualization_type, options)
-        
+
         return jsonify({
             'success': True,
             'result': result
@@ -349,7 +352,7 @@ def api_generate_insights():
     try:
         # Get integrated insights data
         data = get_integrated_insights()
-        
+
         # If we have insights data, return it
         if data:
             return jsonify({
@@ -361,7 +364,7 @@ def api_generate_insights():
                 ),
                 **data
             })
-        
+
         # If we don't have real data, provide some sample insights
         sample_insights = {
             'success': True,
@@ -395,7 +398,7 @@ def api_generate_insights():
                 }
             ]
         }
-        
+
         return jsonify(sample_insights)
     except Exception as e:
         return jsonify({
@@ -408,12 +411,12 @@ def api_generate_report():
     """Generate an integrated report."""
     try:
         request_data = request.json
-        
+
         format_type = request_data.get('format_type', 'json')
-        
+
         # Generate the report
         report_path = generate_integrated_report_enhanced(None, format_type)
-        
+
         return jsonify({
             'success': True,
             'report_path': report_path
@@ -429,13 +432,13 @@ def api_download_report():
     """Download a generated report."""
     try:
         report_path = request.args.get('path')
-        
+
         if not report_path or not os.path.exists(report_path):
             return jsonify({
                 'success': False,
                 'error': 'Report not found'
             }), 404
-        
+
         # Send the file
         return send_file(
             report_path,

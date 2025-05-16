@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Home from './home';
 
+console.log('[DEBUG] Probing-new application starting...');
+
 // Create a root element to render our app
 const root = ReactDOM.createRoot(document.getElementById('root') || document.createElement('div'));
 

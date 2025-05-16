@@ -16,7 +16,7 @@ import PropTypes from 'prop-types';
 import './integration_ui.css';
 
 // Import API client
-import probingApiClient from '../api/probingApiClient';
+import probingApiClient from './api/probing-api-client';
 
 // Import the visualization components
 import { VisualizationComponent, VisualizationSelector } from './financial_entity_visualizations/visualization_component';
@@ -25,10 +25,10 @@ import { VisualizationComponent, VisualizationSelector } from './financial_entit
 import { CodeAnalyzerComponent, CodeAnalyzerSelector, CodeEditor } from './code-entity-analyzer/integration/code_analyzer_component';
 
 // Import the file associations component
-import { FileAssociationsComponent } from './file_associations/file_associations_component';
+import { FileAssociationsComponent } from './file_associations/file-associations-component';
 
 // Import the insights component
-import { InsightsComponent } from './insights_generator/insights_component';
+import { InsightsComponent } from './insights_generator/insights-component';
 
 /**
  * ProbingIntegrationUI - A React component that integrates all probing functionality
@@ -53,31 +53,40 @@ const ProbingIntegrationUI = ({ initialTab = 'visualizations', config = {} }) =>
 
   // Fetch initial data
   useEffect(() => {
+    console.log('[DEBUG] ProbingIntegrationUI: Component mounted with initialTab:', initialTab);
+
     const fetchInitialData = async () => {
+      console.log('[DEBUG] ProbingIntegrationUI: Fetching initial data');
       try {
         setLoading(true);
         setError(null);
 
         // Fetch all integrated data
         try {
+          console.log('[DEBUG] ProbingIntegrationUI: Fetching integrated data');
           const integratedResult = await probingApiClient.getIntegratedData();
+          console.log('[DEBUG] ProbingIntegrationUI: Received integrated data', {
+            hasFileAssociations: !!integratedResult.file_associations,
+            hasVisualizations: !!integratedResult.visualizations,
+            hasInsights: !!integratedResult.insights
+          });
           setIntegratedData(integratedResult);
-          
+
           // Extract specific data from integrated result
           if (integratedResult.file_associations) {
             setFileAssociationsData(integratedResult.file_associations);
           }
-          
+
           if (integratedResult.visualizations) {
             setVisualizationData(integratedResult.visualizations);
           }
-          
+
           if (integratedResult.insights) {
             setInsightsData(integratedResult.insights);
           }
         } catch (err) {
           console.warn('Could not fetch integrated data, falling back to individual sources');
-          
+
           // Fetch file associations data
           try {
             const fileAssociationsResult = await probingApiClient.getLatestFileAssociations();
@@ -85,7 +94,7 @@ const ProbingIntegrationUI = ({ initialTab = 'visualizations', config = {} }) =>
           } catch (e) {
             console.warn('Could not fetch file associations:', e);
           }
-          
+
           // Fetch sample data for visualizations
           try {
             const visualizationDataResult = await probingApiClient.getVisualizationSampleData();
@@ -122,7 +131,7 @@ function financialCalculation(price, quantity, fixedCosts, variableCosts) {
   const revenue = calculateRevenue(price, quantity);
   const expenses = calculateExpenses(fixedCosts, variableCosts, quantity);
   const profit = calculateProfit(revenue, expenses);
-  
+
   return {
     revenue,
     expenses,
@@ -142,14 +151,14 @@ function financialCalculation(price, quantity, fixedCosts, variableCosts) {
     };
 
     fetchInitialData();
-    
+
     // Set up automatic refresh timer (every 30 seconds)
     const timer = setInterval(() => {
       scanForChanges();
     }, 30000);
-    
+
     setUpdateTimer(timer);
-    
+
     // Clean up timer on component unmount
     return () => {
       if (updateTimer) {
@@ -160,34 +169,47 @@ function financialCalculation(price, quantity, fixedCosts, variableCosts) {
 
   // Scan for changes in files
   const scanForChanges = async () => {
+    console.log('[DEBUG] ProbingIntegrationUI: Scanning for changes');
     try {
       const result = await probingApiClient.scanForChanges();
-      
+      console.log('[DEBUG] ProbingIntegrationUI: Scan result', { 
+        changesDetected: result.changes_detected,
+        changedFiles: result.changed_files?.length || 0
+      });
+
       // If changes were detected, update our data
       if (result.changes_detected) {
+        console.log('[DEBUG] ProbingIntegrationUI: Changes detected, updating data');
         updateIntegratedData();
       }
     } catch (err) {
       console.error('Error scanning for changes:', err);
+      console.log('[DEBUG] ProbingIntegrationUI: Error scanning for changes', { error: err.message });
       // Don't set error state to avoid UI disruption
     }
   };
-  
+
   // Update integrated data
   const updateIntegratedData = async () => {
+    console.log('[DEBUG] ProbingIntegrationUI: Updating integrated data');
     try {
       const result = await probingApiClient.getIntegratedData();
+      console.log('[DEBUG] ProbingIntegrationUI: Received updated integrated data', {
+        hasFileAssociations: !!result.file_associations,
+        hasVisualizations: !!result.visualizations,
+        hasInsights: !!result.insights
+      });
       setIntegratedData(result);
-      
+
       // Extract specific data from integrated result
       if (result.file_associations) {
         setFileAssociationsData(result.file_associations);
       }
-      
+
       if (result.visualizations) {
         setVisualizationData(result.visualizations);
       }
-      
+
       if (result.insights) {
         setInsightsData(result.insights);
       }
@@ -199,52 +221,84 @@ function financialCalculation(price, quantity, fixedCosts, variableCosts) {
 
   // Handle tab change
   const handleTabChange = (tab) => {
+    console.log('[DEBUG] ProbingIntegrationUI: Tab changed', { from: activeTab, to: tab });
     setActiveTab(tab);
-    
+
     // Trigger a data refresh when changing tabs
+    console.log('[DEBUG] ProbingIntegrationUI: Refreshing data after tab change');
     updateIntegratedData();
   };
 
   // Handle visualization type selection
   const handleVisualizationSelected = (type) => {
+    console.log('[DEBUG] ProbingIntegrationUI: Visualization type selected', { type });
     setVisualizationType(type);
   };
 
   // Handle analyzer type selection
   const handleAnalyzerSelected = (type) => {
+    console.log('[DEBUG] ProbingIntegrationUI: Analyzer type selected', { type });
     setAnalyzerType(type);
   };
 
   // Handle code changes
   const handleCodeChange = (code) => {
+    console.log('[DEBUG] ProbingIntegrationUI: Code changed', { 
+      codeLength: code.length,
+      firstChars: code.substring(0, 20) + (code.length > 20 ? '...' : '')
+    });
     setCodeToAnalyze(code);
   };
 
   // Handle visualization rendered
   const handleVisualizationRendered = (result) => {
-    console.log('Visualization rendered:', result);
+    console.log('[DEBUG] ProbingIntegrationUI: Visualization rendered', {
+      visualizationType,
+      resultType: result?.type,
+      success: !!result
+    });
   };
 
   // Handle analysis complete
   const handleAnalysisComplete = (result) => {
-    console.log('Analysis complete:', result);
-    
+    console.log('[DEBUG] ProbingIntegrationUI: Analysis complete', {
+      analyzerType,
+      entities: result?.entities?.length || 0,
+      dependencies: result?.dependencies?.length || 0
+    });
+
     // If analysis generated new insights, refresh our data
+    console.log('[DEBUG] ProbingIntegrationUI: Refreshing data after analysis');
     updateIntegratedData();
   };
 
   // Enhanced version of the VisualizationComponent that uses our API client
   const EnhancedVisualizationComponent = (props) => {
+    console.log('[DEBUG] EnhancedVisualizationComponent: Rendering', { 
+      visualizationType: props.visualizationType,
+      hasData: !!props.data
+    });
+
     const directVisualize = async (data, options) => {
+      console.log('[DEBUG] EnhancedVisualizationComponent: Calling directVisualize', { 
+        visualizationType: props.visualizationType,
+        dataKeys: Object.keys(data || {}),
+        options
+      });
+
       try {
         const result = await probingApiClient.visualizeDataDirect(
           data, 
           props.visualizationType, 
           options
         );
+        console.log('[DEBUG] EnhancedVisualizationComponent: Visualization successful', { 
+          resultKeys: Object.keys(result.result || {})
+        });
         return result.result;
       } catch (error) {
         console.error('Visualization error:', error);
+        console.log('[DEBUG] EnhancedVisualizationComponent: Visualization error', { error: error.message });
         throw error;
       }
     };
@@ -259,15 +313,29 @@ function financialCalculation(price, quantity, fixedCosts, variableCosts) {
 
   // Enhanced version of the CodeAnalyzerComponent that uses our API client
   const EnhancedCodeAnalyzerComponent = (props) => {
+    console.log('[DEBUG] EnhancedCodeAnalyzerComponent: Rendering', { 
+      analyzerType: props.analyzerType,
+      codeLength: props.code?.length || 0
+    });
+
     const directAnalyze = async (code) => {
+      console.log('[DEBUG] EnhancedCodeAnalyzerComponent: Calling directAnalyze', { 
+        analyzerType: props.analyzerType,
+        codeLength: code?.length || 0
+      });
+
       try {
         const result = await probingApiClient.analyzeCodeDirect(
           code,
           props.analyzerType
         );
+        console.log('[DEBUG] EnhancedCodeAnalyzerComponent: Analysis successful', { 
+          resultKeys: Object.keys(result.result || {})
+        });
         return result.result;
       } catch (error) {
         console.error('Analysis error:', error);
+        console.log('[DEBUG] EnhancedCodeAnalyzerComponent: Analysis error', { error: error.message });
         throw error;
       }
     };
@@ -282,11 +350,24 @@ function financialCalculation(price, quantity, fixedCosts, variableCosts) {
 
   // Enhanced version of the InsightsComponent that uses our API client
   const EnhancedInsightsComponent = (props) => {
+    console.log('[DEBUG] EnhancedInsightsComponent: Rendering', { 
+      hasInitialData: !!props.initialData
+    });
+
     const directGenerateInsights = async (options) => {
+      console.log('[DEBUG] EnhancedInsightsComponent: Calling directGenerateInsights', { 
+        options
+      });
+
       try {
-        return await probingApiClient.generateInsights(options);
+        const result = await probingApiClient.generateInsights(options);
+        console.log('[DEBUG] EnhancedInsightsComponent: Insights generation successful', { 
+          resultKeys: Object.keys(result || {})
+        });
+        return result;
       } catch (error) {
         console.error('Insights generation error:', error);
+        console.log('[DEBUG] EnhancedInsightsComponent: Insights generation error', { error: error.message });
         throw error;
       }
     };
@@ -388,10 +469,24 @@ function financialCalculation(price, quantity, fixedCosts, variableCosts) {
               <button 
                 className="analyze-button"
                 onClick={() => {
+                  console.log('[DEBUG] ProbingIntegrationUI: Analyze button clicked', {
+                    analyzerType,
+                    codeLength: codeToAnalyze?.length || 0
+                  });
+
                   if (analyzerType && codeToAnalyze) {
+                    console.log('[DEBUG] ProbingIntegrationUI: Starting direct code analysis');
                     probingApiClient.analyzeCodeDirect(codeToAnalyze, analyzerType)
-                      .then(result => handleAnalysisComplete(result))
-                      .catch(err => setError(err.message));
+                      .then(result => {
+                        console.log('[DEBUG] ProbingIntegrationUI: Direct analysis completed successfully');
+                        handleAnalysisComplete(result);
+                      })
+                      .catch(err => {
+                        console.log('[DEBUG] ProbingIntegrationUI: Direct analysis failed', { error: err.message });
+                        setError(err.message);
+                      });
+                  } else {
+                    console.log('[DEBUG] ProbingIntegrationUI: Analysis skipped - missing analyzer type or code');
                   }
                 }}
                 disabled={!analyzerType || !codeToAnalyze}
@@ -448,7 +543,7 @@ function financialCalculation(price, quantity, fixedCosts, variableCosts) {
             />
           </div>
         )}
-        
+
         {/* Integrated View Tab */}
         {activeTab === 'integrated' && (
           <div className="integrated-tab">
@@ -463,13 +558,24 @@ function financialCalculation(price, quantity, fixedCosts, variableCosts) {
               <button 
                 className="export-button"
                 onClick={async () => {
+                  console.log('[DEBUG] ProbingIntegrationUI: Export report button clicked');
                   try {
+                    console.log('[DEBUG] ProbingIntegrationUI: Generating HTML report');
                     const result = await probingApiClient.generateReport('html');
+                    console.log('[DEBUG] ProbingIntegrationUI: Report generated successfully', { 
+                      reportPath: result.report_path 
+                    });
+
                     if (result.report_path) {
-                      window.open(probingApiClient.getReportDownloadUrl(result.report_path), '_blank');
+                      const downloadUrl = probingApiClient.getReportDownloadUrl(result.report_path);
+                      console.log('[DEBUG] ProbingIntegrationUI: Opening report download URL', { downloadUrl });
+                      window.open(downloadUrl, '_blank');
+                    } else {
+                      console.log('[DEBUG] ProbingIntegrationUI: No report path returned');
                     }
                   } catch (err) {
                     console.error('Error generating report:', err);
+                    console.log('[DEBUG] ProbingIntegrationUI: Error generating report', { error: err.message });
                     setError(err.message);
                   }
                 }}
@@ -517,7 +623,7 @@ function financialCalculation(price, quantity, fixedCosts, variableCosts) {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="integrated-visualization">
                     <h3>Integrated Visualization</h3>
                     {visualizationData && visualizationData.calculation_flow && (
@@ -528,7 +634,7 @@ function financialCalculation(price, quantity, fixedCosts, variableCosts) {
                       />
                     )}
                   </div>
-                  
+
                   <div className="integrated-insights">
                     <h3>Key Integrated Insights</h3>
                     {insightsData ? (

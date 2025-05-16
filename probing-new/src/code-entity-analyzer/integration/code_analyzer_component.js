@@ -8,6 +8,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import './code_analyzer_component.css';
+import probingApiClient from '../../api/probing-api-client';
 
 /**
  * CodeAnalyzerComponent - A React component for analyzing and visualizing code entities
@@ -34,41 +35,42 @@ const CodeAnalyzerComponent = ({
 
   useEffect(() => {
     const analyzeCode = async () => {
-      if (!code || !analyzerType) return;
+      if (!code || !analyzerType) {
+        console.log('[DEBUG] CodeAnalyzerComponent: Missing code or analyzerType, skipping analysis');
+        return;
+      }
+
+      console.log('[DEBUG] CodeAnalyzerComponent: Starting code analysis', { analyzerType, codeLength: code.length, options });
 
       try {
         setLoading(true);
         setError(null);
 
-        // Call the API to analyze the code
-        const response = await fetch('/api/probing/code-analysis', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            analyzerType,
-            code,
-            options
-          })
+        // Call the API to analyze the code using the probing API client
+        const result = await probingApiClient.analyzeCode(
+          code,
+          analyzerType,
+          options
+        );
+        console.log('[DEBUG] CodeAnalyzerComponent: Analysis completed successfully', { 
+          entities: result.entities?.length || 0,
+          dependencies: result.dependencies?.length || 0
         });
 
-        if (!response.ok) {
-          throw new Error(`Failed to analyze code: ${response.statusText}`);
-        }
-
-        const result = await response.json();
         setAnalysisResult(result);
 
         // Call the callback
         if (onAnalysisComplete) {
+          console.log('[DEBUG] CodeAnalyzerComponent: Calling onAnalysisComplete callback');
           onAnalysisComplete(result);
         }
       } catch (err) {
         console.error('Error analyzing code:', err);
+        console.log('[DEBUG] CodeAnalyzerComponent: Analysis failed', { error: err.message });
         setError(err.message);
 
         if (onAnalysisError) {
+          console.log('[DEBUG] CodeAnalyzerComponent: Calling onAnalysisError callback');
           onAnalysisError(err);
         }
       } finally {
@@ -76,6 +78,7 @@ const CodeAnalyzerComponent = ({
       }
     };
 
+    console.log('[DEBUG] CodeAnalyzerComponent: useEffect triggered', { analyzerType, hasCode: !!code });
     analyzeCode();
   }, [analyzerType, code, options, onAnalysisComplete, onAnalysisError]);
 
@@ -176,38 +179,42 @@ const CodeAnalyzerSelector = ({ onAnalyzerSelected }) => {
 
   useEffect(() => {
     const fetchAvailableAnalyzers = async () => {
+      console.log('[DEBUG] CodeAnalyzerSelector: Fetching available analyzers');
       try {
         setLoading(true);
         setError(null);
 
-        const response = await fetch('/api/probing/code-analyzers');
+        const availableTypes = await probingApiClient.getAvailableCodeAnalyzers();
+        console.log('[DEBUG] CodeAnalyzerSelector: Received available analyzers', availableTypes);
 
-        if (!response.ok) {
-          throw new Error(`Failed to fetch analyzers: ${response.statusText}`);
-        }
+        setAvailableAnalyzers(availableTypes);
 
-        const result = await response.json();
-        setAvailableAnalyzers(result.available_types || []);
-
-        if (result.available_types && result.available_types.length > 0) {
-          setSelectedType(result.available_types[0]);
+        if (availableTypes && availableTypes.length > 0) {
+          console.log('[DEBUG] CodeAnalyzerSelector: Setting default analyzer type', availableTypes[0]);
+          setSelectedType(availableTypes[0]);
+        } else {
+          console.log('[DEBUG] CodeAnalyzerSelector: No analyzer types available');
         }
       } catch (err) {
         console.error('Error fetching analyzers:', err);
+        console.log('[DEBUG] CodeAnalyzerSelector: Error fetching analyzers', { error: err.message });
         setError(err.message);
       } finally {
         setLoading(false);
       }
     };
 
+    console.log('[DEBUG] CodeAnalyzerSelector: Component mounted');
     fetchAvailableAnalyzers();
   }, []);
 
   const handleAnalyzerSelect = (e) => {
     const type = e.target.value;
+    console.log('[DEBUG] CodeAnalyzerSelector: Analyzer selected by user', { type });
     setSelectedType(type);
 
     if (onAnalyzerSelected) {
+      console.log('[DEBUG] CodeAnalyzerSelector: Calling onAnalyzerSelected callback');
       onAnalyzerSelected(type);
     }
   };
@@ -256,9 +263,18 @@ CodeAnalyzerSelector.propTypes = {
  * @returns {JSX.Element} - The rendered component
  */
 const CodeEditor = ({ code, onChange }) => {
+  console.log('[DEBUG] CodeEditor: Component rendered', { codeLength: code?.length || 0 });
+
   const handleChange = (e) => {
+    const newCode = e.target.value;
+    console.log('[DEBUG] CodeEditor: Code changed by user', { 
+      codeLength: newCode.length,
+      firstChars: newCode.substring(0, 20) + (newCode.length > 20 ? '...' : '')
+    });
+
     if (onChange) {
-      onChange(e.target.value);
+      console.log('[DEBUG] CodeEditor: Calling onChange callback');
+      onChange(newCode);
     }
   };
 

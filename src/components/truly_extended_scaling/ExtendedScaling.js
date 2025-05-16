@@ -13,172 +13,21 @@ import '../process_economics/styles/ScalingGroupsPreview.css';
 import '../../styles/HomePage.CSS/HCSS.css';
 import './styles/DeleteConfirmationModal.css';
 import './styles/ExtendedScaling.css';
-import { DndProvider, useDrag, useDrop } from 'react-dnd';
+import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { motion, AnimatePresence } from 'framer-motion';
 import PropTypes from 'prop-types';
+import { Tooltip } from '../../components/ui';
+import { CumulativeDocumentation } from '../../components/documentation';
+import { DraggableScalingItem } from '../../components/scaling';
+import scalingOperations from './utils/scalingOperations';
+import { calculateScaledValue, propagateChanges } from './utils/scalingUtils';
 
-// Tooltip component for operation explanations
-const Tooltip = ({ content, children }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const tooltipRef = useRef(null);
+// Using imported Tooltip component from src/components/ui/Tooltip.js
 
-  return (
-      <div
-          className="tooltip-container"
-          onMouseEnter={() => setIsVisible(true)}
-          onMouseLeave={() => setIsVisible(false)}
-      >
-        {children}
-        <AnimatePresence>
-          {isVisible && (
-              <motion.div
-                  ref={tooltipRef}
-                  className="tooltip"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  transition={{ duration: 0.2 }}
-              >
-                {content}
-              </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-  );
-};
+// Using imported CumulativeDocumentation component from src/components/documentation/CumulativeDocumentation.js
 
-// Documentation panel to explain cumulative calculations
-const CumulativeDocumentation = ({ onClose }) => (
-    <div className="scaling-documentation">
-      <h4>Understanding Cumulative Calculations</h4>
-      <p>In this scaling system, each tab (after the Default Scaling) builds upon the results of previous tabs:</p>
-
-      <ol>
-        <li><strong>Default Scaling</strong> - Uses original base values from your cost data</li>
-        <li><strong>Subsequent Tabs</strong> - Each uses the results from the previous tab as its base values</li>
-      </ol>
-
-      <p>When you add, remove, or modify tabs, all subsequent tabs automatically update to maintain the mathematical flow.</p>
-
-      <div className="scaling-documentation-example">
-        <div className="example-flow">
-          <div className="example-tab">
-            <div>Default Tab</div>
-            <div className="example-value">Base: 100</div>
-            <div className="example-op">× 2</div>
-            <div className="example-result">Result: 200</div>
-          </div>
-          <div className="example-arrow">→</div>
-          <div className="example-tab">
-            <div>Second Tab</div>
-            <div className="example-value">Base: 200</div>
-            <div className="example-op">+ 50</div>
-            <div className="example-result">Result: 250</div>
-          </div>
-          <div className="example-arrow">→</div>
-          <div className="example-tab">
-            <div>Third Tab</div>
-            <div className="example-value">Base: 250</div>
-            <div className="example-op">× 1.2</div>
-            <div className="example-result">Result: 300</div>
-          </div>
-        </div>
-      </div>
-
-      <button className="scaling-documentation-button" onClick={onClose}>
-        Got it
-      </button>
-    </div>
-);
-
-// Draggable scaling item component
-const DraggableScalingItem = ({ item, index, moveItem, V, R, toggleV, toggleR, ...props }) => {
-  const ref = useRef(null);
-
-  const [{ handlerId }, drop] = useDrop({
-    accept: 'scaling-item',
-    collect(monitor) {
-      return {
-        handlerId: monitor.getHandlerId(),
-      };
-    },
-    hover(item, monitor) {
-      if (!ref.current) return;
-      const dragIndex = item.index;
-      const hoverIndex = index;
-      if (dragIndex === hoverIndex) return;
-
-      const hoverBoundingRect = ref.current?.getBoundingClientRect();
-      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-      const clientOffset = monitor.getClientOffset();
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) return;
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) return;
-
-      moveItem(dragIndex, hoverIndex);
-      item.index = hoverIndex;
-    },
-  });
-
-  const [{ isDragging }, drag] = useDrag({
-    type: 'scaling-item',
-    item: () => ({ id: item.id, index }),
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-  });
-
-  drag(drop(ref));
-
-  // Render V and R checkboxes if applicable
-  const renderVRCheckboxes = () => {
-    return (
-        <div className="checkbox-section">
-          {item.vKey && (
-              <div className="checkbox-group">
-                <span className="checkbox-label">{item.vKey}</span>
-                <input
-                    type="checkbox"
-                    className="custom-checkbox"
-                    checked={V && V[item.vKey] === 'on'}
-                    onChange={() => toggleV && toggleV(item.vKey)}
-                />
-              </div>
-          )}
-          {item.rKey && (
-              <div className="checkbox-group">
-                <span className="checkbox-label">{item.rKey}</span>
-                <input
-                    type="checkbox"
-                    className="custom-checkbox"
-                    checked={R && R[item.rKey] === 'on'}
-                    onChange={() => toggleR && toggleR(item.rKey)}
-                />
-              </div>
-          )}
-        </div>
-    );
-  };
-
-  return (
-      <motion.div
-          ref={ref}
-          layout
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.2 }}
-          style={{ opacity: isDragging ? 0.5 : 1 }}
-          data-handler-id={handlerId}
-          {...props}
-      >
-        {(item.vKey || item.rKey) && renderVRCheckboxes()}
-        {props.children}
-      </motion.div>
-  );
-};
+// Using imported DraggableScalingItem component from src/components/scaling/DraggableScalingItem.js
 
 // Main ExtendedScaling Component
 const ExtendedScaling = ({
@@ -232,94 +81,13 @@ const ExtendedScaling = ({
   const [showVisualization, setShowVisualization] = useState(false);
   const [visualizationType, setVisualizationType] = useState('summary');
 
-  // Enhanced operations with descriptions
-  const operations = [
-    {
-      id: 'multiply',
-      label: 'Multiply',
-      symbol: '×',
-      description: 'Multiplies the base value by the scaling factor'
-    },
-    {
-      id: 'power',
-      label: 'Power',
-      symbol: '^',
-      description: 'Raises the base value to the power of the scaling factor'
-    },
-    {
-      id: 'divide',
-      label: 'Divide',
-      symbol: '÷',
-      description: 'Divides the base value by the scaling factor'
-    },
-    {
-      id: 'log',
-      label: 'Logarithmic',
-      symbol: 'ln',
-      description: 'Applies logarithmic scaling using the natural log'
-    },
-    {
-      id: 'exponential',
-      label: 'Exponential',
-      symbol: 'eˣ',
-      description: 'Applies exponential scaling'
-    },
-    {
-      id: 'add',
-      label: 'Add',
-      symbol: '+',
-      description: 'Adds the scaling factor to the base value'
-    },
-    {
-      id: 'subtract',
-      label: 'Subtract',
-      symbol: '-',
-      description: 'Subtracts the scaling factor from the base value'
-    }
-  ];
+  // Using imported operations from utils/scalingOperations.js
+  const operations = scalingOperations;
 
-  // Enhanced error handling and validation
-  const calculateScaledValue = useCallback((baseValue, operation, factor) => {
+  // Using imported calculateScaledValue function from utils/scalingUtils.js
+  const handleCalculateScaledValue = useCallback((baseValue, operation, factor) => {
     try {
-      if (baseValue === 0 && operation === 'divide') {
-        throw new Error('Division by zero');
-      }
-      if (baseValue < 0 && operation === 'log') {
-        throw new Error('Logarithm of negative number');
-      }
-
-      let result;
-      switch (operation) {
-        case 'multiply':
-          result = math.multiply(baseValue, factor);
-          break;
-        case 'power':
-          result = math.pow(baseValue, factor);
-          break;
-        case 'divide':
-          result = math.divide(baseValue, factor);
-          break;
-        case 'log':
-          result = math.multiply(math.log(baseValue), factor);
-          break;
-        case 'exponential':
-          result = math.exp(math.multiply(math.log(baseValue), factor));
-          break;
-        case 'add':
-          result = math.add(baseValue, factor);
-          break;
-        case 'subtract':
-          result = math.subtract(baseValue, factor);
-          break;
-        default:
-          result = baseValue;
-      }
-
-      if (!isFinite(result)) {
-        throw new Error('Result is not a finite number');
-      }
-
-      return result;
+      return calculateScaledValue(baseValue, operation, factor);
     } catch (error) {
       setErrors(prev => ({
         ...prev,
@@ -474,55 +242,10 @@ const ExtendedScaling = ({
     }
   }, [history, historyIndex]);
 
-  // Function to propagate changes to all subsequent groups
-  const propagateChanges = useCallback((groups, startIndex) => {
-    const updatedGroups = [...groups];
-
-    // Skip processing if we're at the last group or beyond
-    if (startIndex >= updatedGroups.length - 1) {
-      return updatedGroups;
-    }
-
-    // For each subsequent group, update base values from the previous group's results
-    for (let i = startIndex + 1; i < updatedGroups.length; i++) {
-      const previousGroup = updatedGroups[i - 1];
-      const currentGroup = {...updatedGroups[i]};
-
-      // Create a map of previous results
-      const previousResults = previousGroup.items.reduce((acc, item) => {
-        acc[item.id] = {
-          scaledValue: item.enabled ? item.scaledValue : item.baseValue,
-          enabled: item.enabled
-        };
-        return acc;
-      }, {});
-
-      // Update each item in the current group
-      currentGroup.items = currentGroup.items.map(item => {
-        const prevResult = previousResults[item.id];
-        if (!prevResult) return item;
-
-        // Calculate new scaled value based on updated base value
-        const newBaseValue = prevResult.scaledValue;
-        const newScaledValue = calculateScaledValue(
-            newBaseValue,
-            item.operation,
-            item.scalingFactor
-        );
-
-        return {
-          ...item,
-          originalBaseValue: item.originalBaseValue || item.baseValue, // Preserve original
-          baseValue: newBaseValue,
-          scaledValue: item.enabled ? newScaledValue : newBaseValue
-        };
-      });
-
-      updatedGroups[i] = currentGroup;
-    }
-
-    return updatedGroups;
-  }, [calculateScaledValue]);
+  // Using imported propagateChanges function from utils/scalingUtils.js
+  const handlePropagateChanges = useCallback((groups, startIndex) => {
+    return propagateChanges(groups, startIndex);
+  }, []);
 
   // Helper function to determine the correct insertion index
   const determineInsertionIndex = useCallback((groupNumber, groups) => {
@@ -570,7 +293,7 @@ const ExtendedScaling = ({
           vKey: item.vKey || null,
           rKey: item.rKey || null,
           scaledValue: item.scaledValue !== undefined ? item.scaledValue :
-              calculateScaledValue(
+              handleCalculateScaledValue(
                   item.baseValue || 0,
                   item.operation || 'multiply',
                   item.scalingFactor !== undefined ? item.scalingFactor : 1
@@ -589,7 +312,7 @@ const ExtendedScaling = ({
       validatedGroups[0].items = validatedGroups[0].items.map(item => ({
         ...item,
         baseValue: item.originalBaseValue || item.baseValue,
-        scaledValue: calculateScaledValue(
+        scaledValue: handleCalculateScaledValue(
             item.originalBaseValue || item.baseValue,
             item.operation,
             item.scalingFactor
@@ -620,7 +343,7 @@ const ExtendedScaling = ({
 
           // Calculate new scaled value
           const newScaledValue = item.enabled
-              ? calculateScaledValue(newBaseValue, item.operation, item.scalingFactor)
+              ? handleCalculateScaledValue(newBaseValue, item.operation, item.scalingFactor)
               : newBaseValue;
 
           return {
@@ -633,7 +356,7 @@ const ExtendedScaling = ({
     }
 
     return validatedGroups;
-  }, [calculateScaledValue, filterKeyword]);
+  }, [handleCalculateScaledValue, filterKeyword]);
 
   // Enhanced export with history and tabConfigs
   const exportConfiguration = useCallback(() => {
@@ -944,7 +667,7 @@ const ExtendedScaling = ({
     newGroups.splice(insertionIndex, 0, newGroup);
 
     // Recalculate all groups that come after to maintain cumulative calculations
-    const updatedGroups = propagateChanges(newGroups, insertionIndex);
+    const updatedGroups = handlePropagateChanges(newGroups, insertionIndex);
 
     setScalingGroups(updatedGroups);
 
@@ -1029,14 +752,14 @@ const ExtendedScaling = ({
           // Default behavior: propagate changes to maintain mathematical relationships
           if (index > 0) {
             // Propagate changes starting from the group before the one we just removed
-            newGroups = propagateChanges(newGroups, index - 1);
+            newGroups = handlePropagateChanges(newGroups, index - 1);
           } else {
             // If we removed the first group, the new first group should use original base values
             const firstGroup = {...newGroups[0]};
             firstGroup.items = firstGroup.items.map(item => ({
               ...item,
               baseValue: item.originalBaseValue || item.baseValue,
-              scaledValue: calculateScaledValue(
+              scaledValue: handleCalculateScaledValue(
                   item.originalBaseValue || item.baseValue,
                   item.operation,
                   item.scalingFactor
@@ -1045,7 +768,7 @@ const ExtendedScaling = ({
             newGroups[0] = firstGroup;
 
             // Then propagate changes from this group onward
-            newGroups = propagateChanges(newGroups, 0);
+            newGroups = handlePropagateChanges(newGroups, 0);
           }
           break;
 
@@ -1061,7 +784,7 @@ const ExtendedScaling = ({
             group.items = group.items.map(item => ({
               ...item,
               baseValue: item.originalBaseValue || item.baseValue,
-              scaledValue: calculateScaledValue(
+              scaledValue: handleCalculateScaledValue(
                   item.originalBaseValue || item.baseValue,
                   item.operation,
                   item.scalingFactor
@@ -1080,14 +803,14 @@ const ExtendedScaling = ({
             firstGroup.items = firstGroup.items.map(item => ({
               ...item,
               baseValue: item.originalBaseValue || item.baseValue,
-              scaledValue: calculateScaledValue(
+              scaledValue: handleCalculateScaledValue(
                   item.originalBaseValue || item.baseValue,
                   item.operation,
                   item.scalingFactor
               )
             }));
             newGroups[0] = firstGroup;
-            newGroups = propagateChanges(newGroups, 0);
+            newGroups = handlePropagateChanges(newGroups, 0);
           }
       }
     }
@@ -1140,7 +863,7 @@ const ExtendedScaling = ({
     addToHistory,
     protectedTabs,
     propagateChanges,
-    calculateScaledValue,
+    handleCalculateScaledValue,
     onScalingGroupsChange,
     filterKeyword,
     onActiveGroupChange
@@ -1191,7 +914,7 @@ const ExtendedScaling = ({
       const isEnabled = 'enabled' in updates ? updates.enabled : items[itemIndex].enabled;
 
       if (isEnabled) {
-        const scaledValue = calculateScaledValue(
+        const scaledValue = handleCalculateScaledValue(
             baseValue,
             items[itemIndex].operation,
             items[itemIndex].scalingFactor
@@ -1250,7 +973,7 @@ const ExtendedScaling = ({
     if (onScalingGroupsChange) {
       onScalingGroupsChange(updatedGroups);
     }
-  }, [scalingGroups, addToHistory, calculateScaledValue, propagateChanges, onScalingGroupsChange]);
+  }, [scalingGroups, addToHistory, handleCalculateScaledValue, propagateChanges, onScalingGroupsChange]);
 
   // Generate summary items for ScalingSummary component
   const generateSummaryItems = useCallback(() => {
@@ -1364,7 +1087,7 @@ const ExtendedScaling = ({
           id: item.id,
           originalBaseValue: item.originalBaseValue || item.baseValue,
           baseValue: item.baseValue,
-          scaledValue: item.enabled ? calculateScaledValue(
+          scaledValue: item.enabled ? handleCalculateScaledValue(
               item.baseValue,
               item.operation,
               item.scalingFactor
@@ -1380,7 +1103,7 @@ const ExtendedScaling = ({
 
       onScaledValuesChange(allScaledValues);
     }
-  }, [scalingGroups, protectedTabs, calculateScaledValue, onScaledValuesChange, filterKeyword]);
+  }, [scalingGroups, protectedTabs, handleCalculateScaledValue, onScaledValuesChange, filterKeyword]);
 
   // Handle expression changes from summary
   const handleExpressionChange = useCallback((itemId, expression) => {
@@ -1690,7 +1413,7 @@ const ExtendedScaling = ({
                               <div className="scaling-result-value">
                                 Scaled Value:{' '}
                                 {item.enabled
-                                    ? calculateScaledValue(
+                                    ? handleCalculateScaledValue(
                                         item.baseValue,
                                         item.operation,
                                         item.scalingFactor

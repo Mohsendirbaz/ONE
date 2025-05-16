@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
-import ProbingIntegrationUI from './integration_ui';
+import ProbingIntegrationUI from './integration-ui';
 import './home.css';
 
 /**

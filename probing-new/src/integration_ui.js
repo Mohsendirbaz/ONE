@@ -1,5 +1,8 @@
 /**
- * Probing Integration UI
+ * Probing Integration UI (DEPRECATED)
+ * 
+ * This file is deprecated and has been replaced by integration-ui.js.
+ * Please use integration-ui.js instead.
  * 
  * This component provides a unified React-based interface for interacting with
  * all the functionality provided by the probing module, including:
@@ -12,6 +15,9 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './integration_ui.css';
+
+// Import API client
+import probingApiClient from './api/probing-api-client';
 
 // Import the visualization components
 import { VisualizationComponent, VisualizationSelector } from './financial_entity_visualizations/visualization_component';
@@ -52,24 +58,57 @@ const ProbingIntegrationUI = ({ initialTab = 'visualizations', config = {} }) =>
         setError(null);
 
         // Fetch file associations data
-        const fileAssociationsResponse = await fetch('/api/probing/file-associations/latest');
-        if (fileAssociationsResponse.ok) {
-          const fileAssociationsResult = await fileAssociationsResponse.json();
+        try {
+          const fileAssociationsResult = await probingApiClient.getLatestFileAssociations();
           setFileAssociationsData(fileAssociationsResult);
+        } catch (e) {
+          console.warn('Could not fetch file associations:', e);
         }
 
         // Fetch sample data for visualizations
-        const visualizationDataResponse = await fetch('/api/probing/visualization-data/sample');
-        if (visualizationDataResponse.ok) {
-          const visualizationDataResult = await visualizationDataResponse.json();
+        try {
+          const visualizationDataResult = await probingApiClient.getVisualizationSampleData();
           setVisualizationData(visualizationDataResult);
+        } catch (e) {
+          console.warn('Could not fetch visualization data:', e);
         }
 
         // Fetch sample code for analysis
-        const sampleCodeResponse = await fetch('/api/probing/code-analysis/sample-code');
-        if (sampleCodeResponse.ok) {
-          const sampleCodeResult = await sampleCodeResponse.json();
+        try {
+          const sampleCodeResult = await probingApiClient.getSampleCode();
           setCodeToAnalyze(sampleCodeResult.code || '');
+        } catch (e) {
+          console.warn('Could not fetch sample code:', e);
+          // Set fallback sample code
+          setCodeToAnalyze(`
+function calculateRevenue(price, quantity) {
+  return price * quantity;
+}
+
+// Calculate expenses
+function calculateExpenses(fixedCosts, variableCosts, quantity) {
+  return fixedCosts + (variableCosts * quantity);
+}
+
+// Calculate profit
+function calculateProfit(revenue, expenses) {
+  return revenue - expenses;
+}
+
+// Main financial calculation
+function financialCalculation(price, quantity, fixedCosts, variableCosts) {
+  const revenue = calculateRevenue(price, quantity);
+  const expenses = calculateExpenses(fixedCosts, variableCosts, quantity);
+  const profit = calculateProfit(revenue, expenses);
+
+  return {
+    revenue,
+    expenses,
+    profit,
+    profitMargin: profit / revenue
+  };
+}
+          `);
         }
 
       } catch (err) {

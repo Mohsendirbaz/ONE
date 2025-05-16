@@ -8,7 +8,7 @@
 
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import probingApiClient from '../api/probingApiClient';
+import probingApiClient from '../api/probing-api-client';
 import './file-associations-component.css';
 
 /**

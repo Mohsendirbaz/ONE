@@ -5,3 +5,4 @@
  */
 
 export { default as DraggableScalingItem } from './DraggableScalingItem';
+export { default as ScalingSummary } from './ScalingSummary';

@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 
 // Agent Status Sidebar Component
 export const AgentStatusSidebar = ({ agentStatus, agentUtilization, getTotalScheduledTime, getCompletedTasksCount, getPendingTasksCount, bundles }) => {
+  console.log('[DEBUG] Rendering AgentStatusSidebar component');
+  console.log('[DEBUG] AgentStatusSidebar props - agentStatus:', agentStatus, 'totalScheduledTime:', getTotalScheduledTime());
+  console.log('[DEBUG] AgentStatusSidebar stats - completed:', getCompletedTasksCount(), 'pending:', getPendingTasksCount(), 'bundles:', bundles.length);
+
   return (
     <div className="w-64 bg-white rounded-lg shadow-sm p-4">
       <h2 className="font-semibold text-gray-700 mb-4">Agent Status</h2>
@@ -95,6 +99,9 @@ export const AgentStatusSidebar = ({ agentStatus, agentUtilization, getTotalSche
 
 // View Toggle Component
 export const ViewToggle = ({ activeView, setActiveView, filter, setFilter, setIsCreatingTask }) => {
+  console.log('[DEBUG] Rendering ViewToggle component');
+  console.log('[DEBUG] ViewToggle props - activeView:', activeView, 'filter:', filter);
+
   return (
     <div className="bg-white rounded-lg shadow-sm p-4 mb-4">
       <div className="flex justify-between items-center">

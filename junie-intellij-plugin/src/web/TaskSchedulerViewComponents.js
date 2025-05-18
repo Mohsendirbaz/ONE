@@ -18,6 +18,9 @@ export const ListView = ({
   handleCreateBundle, 
   setSelectedTasks 
 }) => {
+  console.log('[DEBUG] Rendering ListView component');
+  console.log('[DEBUG] ListView props - filteredTasks:', filteredTasks.length, 'isCreatingBundle:', isCreatingBundle, 'selectedTasks:', selectedTasks.length);
+
   return (
     <div>
       <h2 className="font-semibold text-gray-700 mb-4">Tasks</h2>
@@ -136,6 +139,9 @@ export const ListView = ({
 
 // Calendar View Component
 export const CalendarView = ({ tasks, bundles }) => {
+  console.log('[DEBUG] Rendering CalendarView component');
+  console.log('[DEBUG] CalendarView props - tasks:', tasks.length, 'bundles:', bundles.length);
+
   return (
     <div>
       <h2 className="font-semibold text-gray-700 mb-4">Calendar View</h2>
@@ -164,6 +170,12 @@ export const CalendarView = ({ tasks, bundles }) => {
 
 // Kanban View Component
 export const KanbanView = ({ tasks, deployTask }) => {
+  console.log('[DEBUG] Rendering KanbanView component');
+  console.log('[DEBUG] KanbanView props - tasks:', tasks.length);
+  console.log('[DEBUG] KanbanView task status counts - pending:', tasks.filter(t => t.status === 'pending').length, 
+    'in-progress:', tasks.filter(t => t.status === 'in-progress').length, 
+    'completed:', tasks.filter(t => t.status === 'completed').length);
+
   return (
     <div>
       <h2 className="font-semibold text-gray-700 mb-4">Kanban Board</h2>
@@ -213,6 +225,12 @@ export const KanbanView = ({ tasks, deployTask }) => {
 
 // Bundles View Component
 export const BundlesView = ({ bundles, tasks, deployBundle, acceptBundle, setIsCreatingBundle }) => {
+  console.log('[DEBUG] Rendering BundlesView component');
+  console.log('[DEBUG] BundlesView props - bundles:', bundles.length, 'tasks:', tasks.length);
+  console.log('[DEBUG] BundlesView bundle status counts - suggested:', bundles.filter(b => b.status === 'suggested').length, 
+    'scheduled:', bundles.filter(b => b.status === 'scheduled').length, 
+    'in-progress:', bundles.filter(b => b.status === 'in-progress').length);
+
   return (
     <div>
       <h2 className="font-semibold text-gray-700 mb-4">Task Bundles</h2>

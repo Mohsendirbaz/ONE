@@ -1028,7 +1028,6 @@ const MatrixApp = () => {
                                             </button>
                                         </div>
                                     </div>
-
                                     <div className="calculation-content">
                                         <CalculationMonitor
                                             selectedVersions={selectedRunVersions}

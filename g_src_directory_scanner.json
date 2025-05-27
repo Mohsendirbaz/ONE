@@ -1,6 +1,6 @@
 {
   "project_name": "src",
-  "analysis_date": "2025-05-15 09:48:59",
+  "analysis_date": "2025-05-27 10:47:16",
   "version": 9,
   "analysis_mode": "sorted_by_file_count",
   "src": {
@@ -87,6 +87,13 @@
                   "ProcessEconomicsTest.css"
                 ]
               },
+              "utils": {
+                "subdirectories": {},
+                "files": [
+                  "scalingOperations.js",
+                  "scalingUtils.js"
+                ]
+              },
               "tests": {
                 "subdirectories": {},
                 "files": [
@@ -109,6 +116,7 @@
               "DecarbonizationTargetTimeline.js",
               "DeleteConfirmationModal.js",
               "ExtendedScaling.js",
+              "ExtendedScaling.md",
               "multi-zone-selector.js",
               "PathwayComparisonChart.js",
               "ProcessEconomics.js",
@@ -122,13 +130,16 @@
             "subdirectories": {},
             "files": [
               "CalculationMonitor.js",
+              "CalculationMonitor.md",
               "CapacityMapPanel.js",
               "ConfigurationMonitor.js",
               "ConflictResolutionPanel.js",
               "CustomizableImage.js",
               "CustomizableTable.js",
               "Efficacy.js",
+              "Efficacy.md",
               "EfficacyMapContainer.js",
+              "EfficacyMapContainer.md",
               "FactEngine.js",
               "FactEngineAdmin.js",
               "HeaderBackground.js",
@@ -143,6 +154,7 @@
               "ThemeGenerator.js",
               "TicTacToe.js",
               "TimeParameterMatrix.js",
+              "TimeParameterMatrix.md",
               "WhakAMole.js"
             ]
           },
@@ -207,6 +219,21 @@
             },
             "files": []
           },
+          "cfa": {
+            "subdirectories": {},
+            "files": [
+              "CFAConsolidationUI.js",
+              "CFAConsolidationUI.md",
+              "IndividualResultsPanel.js",
+              "IndividualResultsPanel.md",
+              "ProcessingPanel.js",
+              "ProcessingPanel.md",
+              "ResultsPanel.js",
+              "ResultsPanel.md",
+              "SelectionPanel.js",
+              "SelectionPanel.md"
+            ]
+          },
           "build": {
             "subdirectories": {},
             "files": [
@@ -218,14 +245,13 @@
               "index.js"
             ]
           },
-          "cfa": {
+          "tabs": {
             "subdirectories": {},
             "files": [
-              "CFAConsolidationUI.js",
-              "IndividualResultsPanel.js",
-              "ProcessingPanel.js",
-              "ResultsPanel.js",
-              "SelectionPanel.js"
+              "CodeEntityAnalysisTab.js",
+              "index.js",
+              "InputTab.js",
+              "ResultsTab.js"
             ]
           },
           "process_economics_pilot": {
@@ -236,9 +262,47 @@
               "scaling-reference-data.js"
             ]
           },
+          "scaling": {
+            "subdirectories": {},
+            "files": [
+              "DraggableScalingItem.js",
+              "index.js",
+              "ScalingSummary.js"
+            ]
+          },
+          "ui": {
+            "subdirectories": {},
+            "files": [
+              "Card.js",
+              "index.js",
+              "Tooltip.js"
+            ]
+          },
+          "documentation": {
+            "subdirectories": {},
+            "files": [
+              "CumulativeDocumentation.js",
+              "index.js"
+            ]
+          },
+          "editors": {
+            "subdirectories": {},
+            "files": [
+              "index.js",
+              "MatrixValueEditor.js"
+            ]
+          },
+          "forms": {
+            "subdirectories": {},
+            "files": [
+              "GeneralFormConfig.js",
+              "index.js"
+            ]
+          },
           "matrix": {
             "subdirectories": {},
             "files": [
+              "index.js",
               "MatrixApp.js"
             ]
           },
@@ -246,7 +310,11 @@
             "subdirectories": {},
             "files": []
           },
-          "forms": {
+          "plots": {
+            "subdirectories": {},
+            "files": []
+          },
+          "selectors": {
             "subdirectories": {},
             "files": []
           }
@@ -271,13 +339,16 @@
               "ConfigurationMonitor.css",
               "ConflictResolutionPanel.css",
               "Consolidated.css",
+              "Consolidated.md",
               "coordinate-container-enhanced-css.css",
               "CustomizableTable.css",
               "dynamic-subplot-css.css",
               "Efficacy.css",
               "EfficacyMapContainer.css",
               "HCSS.css",
+              "HCSS.md",
               "HomePage1.css",
+              "HomePage1.md",
               "HomePage2.css",
               "HomePage3.css",
               "HomePage5.css",
@@ -322,6 +393,7 @@
             "files": [
               "creative-theme.css",
               "dark-theme.css",
+              "dark-theme.md",
               "light-theme.css"
             ]
           }
@@ -329,19 +401,30 @@
         "files": []
       },
       "utils": {
-        "subdirectories": {},
+        "subdirectories": {
+          "matrix": {
+            "subdirectories": {},
+            "files": []
+          }
+        },
         "files": [
           "component_graph.js",
           "context_analyzer.js",
           "dependency_mapper.js",
           "entity_analyzer.js",
           "ErrorBoundary.js",
+          "historyUtils.js",
           "hook_analyzer.js",
           "insight_generator.js",
           "labelReferences.js",
+          "labelReferences.md",
           "prop_flow_analyzer.js",
           "react_parser.js",
-          "serverUtils.js"
+          "scalingImportExport.js",
+          "scalingOperations.js",
+          "scalingUtils.js",
+          "serverUtils.js",
+          "serverUtils.md"
         ]
       },
       "docs": {
@@ -358,18 +441,48 @@
           "TrueConfigurationSpaceImplementation.md"
         ]
       },
-      "contexts": {
-        "subdirectories": {},
-        "files": [
-          "VersionStateContext.js",
-          "VersionStateContext.md"
-        ]
-      },
       "services": {
         "subdirectories": {},
         "files": [
           "CapacityTrackingService.js",
-          "MatrixSubmissionService.js"
+          "index.js",
+          "MatrixSubmissionService.js",
+          "MatrixSubmissionService.md",
+          "MatrixSyncService.js",
+          "MatrixValidator.js"
+        ]
+      },
+      "managers": {
+        "subdirectories": {},
+        "files": [
+          "index.js",
+          "MatrixInheritanceManager.js",
+          "MatrixInheritanceManager.md",
+          "MatrixScalingManager.js",
+          "VersionZoneManager.js"
+        ]
+      },
+      "contexts": {
+        "subdirectories": {},
+        "files": [
+          "VersionStateContext.js",
+          "VersionStateContext.js.md",
+          "VersionStateContext.md"
+        ]
+      },
+      "hooks": {
+        "subdirectories": {},
+        "files": [
+          "index.js",
+          "useMatrixFormValues.js",
+          "useMatrixFormValues.md"
+        ]
+      },
+      "state": {
+        "subdirectories": {},
+        "files": [
+          "MatrixStateAtoms.js",
+          "MatrixStateAtoms.md"
         ]
       },
       "code-entity-analyzer": {
@@ -386,1196 +499,36 @@
           }
         },
         "files": []
-      },
-      "state": {
-        "subdirectories": {},
-        "files": [
-          "MatrixStateAtoms.js"
-        ]
       }
     },
     "files": [
       "App.js",
+      "App.md",
       "centered-perspective-demo.js",
+      "centered-perspective-demo.md",
       "Consolidated.js",
+      "Consolidated.md",
       "Consolidated2.js",
+      "Consolidated2.md",
       "Consolidated3.js",
+      "Consolidated3.md",
+      "ConsolidatedRefactored.js",
+      "ConsolidatedRefactored.md",
       "GeneralFormConfig.js",
+      "GeneralFormConfig.md",
       "HomePage.js",
+      "HomePage.md",
       "index.js",
+      "index.md",
       "MatrixStateManager.js",
+      "MatrixStateManager.md",
       "Naturalmotion.js",
-      "unified-tooltip-js.js"
+      "Naturalmotion.md",
+      "README-REFACTORING-PLAN.md",
+      "README.md",
+      "README.md.md",
+      "unified-tooltip-js.js",
+      "unified-tooltip-js.md"
     ]
-  },
-  "files_by_extension": {
-    "js": {
-      "subdirectories": {
-        "code-entity-analyzer": {
-          "subdirectories": {
-            "integration": {
-              "files": [
-                {
-                  "name": "tab_integration.js",
-                  "path": "code-entity-analyzer\\integration\\tab_integration.js",
-                  "size": 14920
-                }
-              ]
-            }
-          }
-        },
-        "components": {
-          "subdirectories": {
-            "build": {
-              "files": [
-                {
-                  "name": "BuildWorkflowIntegrationExample.js",
-                  "path": "components\\build\\BuildWorkflowIntegrationExample.js",
-                  "size": 2487
-                },
-                {
-                  "name": "BuildWorkflowPanel.js",
-                  "path": "components\\build\\BuildWorkflowPanel.js",
-                  "size": 11365
-                },
-                {
-                  "name": "index.js",
-                  "path": "components\\build\\index.js",
-                  "size": 472
-                }
-              ]
-            },
-            "cfa": {
-              "files": [
-                {
-                  "name": "CFAConsolidationUI.js",
-                  "path": "components\\cfa\\CFAConsolidationUI.js",
-                  "size": 13017
-                },
-                {
-                  "name": "IndividualResultsPanel.js",
-                  "path": "components\\cfa\\IndividualResultsPanel.js",
-                  "size": 11717
-                },
-                {
-                  "name": "ProcessingPanel.js",
-                  "path": "components\\cfa\\ProcessingPanel.js",
-                  "size": 4508
-                },
-                {
-                  "name": "ResultsPanel.js",
-                  "path": "components\\cfa\\ResultsPanel.js",
-                  "size": 7432
-                },
-                {
-                  "name": "SelectionPanel.js",
-                  "path": "components\\cfa\\SelectionPanel.js",
-                  "size": 2631
-                }
-              ]
-            },
-            "find_factual_precedence": {
-              "subdirectories": {
-                "components": {
-                  "subdirectories": {
-                    "modules": {
-                      "subdirectories": {
-                        "FactualPrecedence": {
-                          "files": [
-                            {
-                              "name": "APIFactualPrecedence.js",
-                              "path": "components\\find_factual_precedence\\components\\modules\\FactualPrecedence\\APIFactualPrecedence.js",
-                              "size": 8375
-                            },
-                            {
-                              "name": "FactualPrecedenceBase.js",
-                              "path": "components\\find_factual_precedence\\components\\modules\\FactualPrecedence\\FactualPrecedenceBase.js",
-                              "size": 20153
-                            },
-                            {
-                              "name": "FilteredFactualPrecedence.js",
-                              "path": "components\\find_factual_precedence\\components\\modules\\FactualPrecedence\\FilteredFactualPrecedence.js",
-                              "size": 13255
-                            },
-                            {
-                              "name": "index.js",
-                              "path": "components\\find_factual_precedence\\components\\modules\\FactualPrecedence\\index.js",
-                              "size": 697
-                            },
-                            {
-                              "name": "LocalFactualPrecedence.js",
-                              "path": "components\\find_factual_precedence\\components\\modules\\FactualPrecedence\\LocalFactualPrecedence.js",
-                              "size": 398
-                            }
-                          ]
-                        }
-                      }
-                    }
-                  }
-                },
-                "data": {
-                  "files": [
-                    {
-                      "name": "factualPrecedenceData.js",
-                      "path": "components\\find_factual_precedence\\data\\factualPrecedenceData.js",
-                      "size": 21528
-                    },
-                    {
-                      "name": "keyPointsMapping.js",
-                      "path": "components\\find_factual_precedence\\data\\keyPointsMapping.js",
-                      "size": 1906
-                    }
-                  ]
-                },
-                "server": {
-                  "subdirectories": {
-                    "routes": {
-                      "files": [
-                        {
-                          "name": "factualPrecedence.js",
-                          "path": "components\\find_factual_precedence\\server\\routes\\factualPrecedence.js",
-                          "size": 3504
-                        }
-                      ]
-                    },
-                    "services": {
-                      "files": [
-                        {
-                          "name": "llmService.js",
-                          "path": "components\\find_factual_precedence\\server\\services\\llmService.js",
-                          "size": 6361
-                        }
-                      ]
-                    },
-                    "utils": {
-                      "files": [
-                        {
-                          "name": "promptGenerator.js",
-                          "path": "components\\find_factual_precedence\\server\\utils\\promptGenerator.js",
-                          "size": 1648
-                        }
-                      ]
-                    }
-                  }
-                }
-              }
-            },
-            "matrix": {
-              "files": [
-                {
-                  "name": "MatrixApp.js",
-                  "path": "components\\matrix\\MatrixApp.js",
-                  "size": 21364
-                }
-              ]
-            },
-            "modules": {
-              "files": [
-                {
-                  "name": "CalculationMonitor.js",
-                  "path": "components\\modules\\CalculationMonitor.js",
-                  "size": 18487
-                },
-                {
-                  "name": "CapacityMapPanel.js",
-                  "path": "components\\modules\\CapacityMapPanel.js",
-                  "size": 22929
-                },
-                {
-                  "name": "ConfigurationMonitor.js",
-                  "path": "components\\modules\\ConfigurationMonitor.js",
-                  "size": 28818
-                },
-                {
-                  "name": "ConflictResolutionPanel.js",
-                  "path": "components\\modules\\ConflictResolutionPanel.js",
-                  "size": 10855
-                },
-                {
-                  "name": "CustomizableImage.js",
-                  "path": "components\\modules\\CustomizableImage.js",
-                  "size": 2571
-                },
-                {
-                  "name": "CustomizableTable.js",
-                  "path": "components\\modules\\CustomizableTable.js",
-                  "size": 7128
-                },
-                {
-                  "name": "Efficacy.js",
-                  "path": "components\\modules\\Efficacy.js",
-                  "size": 9204
-                },
-                {
-                  "name": "EfficacyMapContainer.js",
-                  "path": "components\\modules\\EfficacyMapContainer.js",
-                  "size": 14882
-                },
-                {
-                  "name": "FactEngine.js",
-                  "path": "components\\modules\\FactEngine.js",
-                  "size": 7035
-                },
-                {
-                  "name": "FactEngineAdmin.js",
-                  "path": "components\\modules\\FactEngineAdmin.js",
-                  "size": 9245
-                },
-                {
-                  "name": "HeaderBackground.js",
-                  "path": "components\\modules\\HeaderBackground.js",
-                  "size": 23154
-                },
-                {
-                  "name": "PendulumClock.js",
-                  "path": "components\\modules\\PendulumClock.js",
-                  "size": 3200
-                },
-                {
-                  "name": "PlotsTabs.js",
-                  "path": "components\\modules\\PlotsTabs.js",
-                  "size": 8979
-                },
-                {
-                  "name": "SensitivityMonitor.js",
-                  "path": "components\\modules\\SensitivityMonitor.js",
-                  "size": 32403
-                },
-                {
-                  "name": "SensitivityPlotsTabs.js",
-                  "path": "components\\modules\\SensitivityPlotsTabs.js",
-                  "size": 7928
-                },
-                {
-                  "name": "TensorCapacityVisualization.js",
-                  "path": "components\\modules\\TensorCapacityVisualization.js",
-                  "size": 12966
-                },
-                {
-                  "name": "TestingZone.js",
-                  "path": "components\\modules\\TestingZone.js",
-                  "size": 3334
-                },
-                {
-                  "name": "ThemeButton.js",
-                  "path": "components\\modules\\ThemeButton.js",
-                  "size": 1337
-                },
-                {
-                  "name": "ThemeConfigurator.js",
-                  "path": "components\\modules\\ThemeConfigurator.js",
-                  "size": 35056
-                },
-                {
-                  "name": "ThemeGenerator.js",
-                  "path": "components\\modules\\ThemeGenerator.js",
-                  "size": 8666
-                },
-                {
-                  "name": "TicTacToe.js",
-                  "path": "components\\modules\\TicTacToe.js",
-                  "size": 3820
-                },
-                {
-                  "name": "TimeParameterMatrix.js",
-                  "path": "components\\modules\\TimeParameterMatrix.js",
-                  "size": 12624
-                },
-                {
-                  "name": "WhakAMole.js",
-                  "path": "components\\modules\\WhakAMole.js",
-                  "size": 5736
-                }
-              ]
-            },
-            "process_economics": {
-              "files": [
-                {
-                  "name": "LibrarySystem.js",
-                  "path": "components\\process_economics\\LibrarySystem.js",
-                  "size": 9503
-                }
-              ],
-              "subdirectories": {
-                "components": {
-                  "files": [
-                    {
-                      "name": "CategorySelector.js",
-                      "path": "components\\process_economics\\components\\CategorySelector.js",
-                      "size": 2978
-                    },
-                    {
-                      "name": "CiloExplorer.js",
-                      "path": "components\\process_economics\\components\\CiloExplorer.js",
-                      "size": 5994
-                    },
-                    {
-                      "name": "CiloSection.js",
-                      "path": "components\\process_economics\\components\\CiloSection.js",
-                      "size": 3709
-                    },
-                    {
-                      "name": "CopyLinkModal.js",
-                      "path": "components\\process_economics\\components\\CopyLinkModal.js",
-                      "size": 4029
-                    },
-                    {
-                      "name": "DecarbonizationLibrary.js",
-                      "path": "components\\process_economics\\components\\DecarbonizationLibrary.js",
-                      "size": 16381
-                    },
-                    {
-                      "name": "DecarbonizationPathwayCard.js",
-                      "path": "components\\process_economics\\components\\DecarbonizationPathwayCard.js",
-                      "size": 9518
-                    },
-                    {
-                      "name": "DecarbonizationPathwayPanel.js",
-                      "path": "components\\process_economics\\components\\DecarbonizationPathwayPanel.js",
-                      "size": 20415
-                    },
-                    {
-                      "name": "DecarbonizationTargetTimeline.js",
-                      "path": "components\\process_economics\\components\\DecarbonizationTargetTimeline.js",
-                      "size": 3630
-                    },
-                    {
-                      "name": "EditItemForm.js",
-                      "path": "components\\process_economics\\components\\EditItemForm.js",
-                      "size": 7696
-                    },
-                    {
-                      "name": "GeneralLibrary.js",
-                      "path": "components\\process_economics\\components\\GeneralLibrary.js",
-                      "size": 8329
-                    },
-                    {
-                      "name": "ImportExportPanel.js",
-                      "path": "components\\process_economics\\components\\ImportExportPanel.js",
-                      "size": 5295
-                    },
-                    {
-                      "name": "ItemCard.js",
-                      "path": "components\\process_economics\\components\\ItemCard.js",
-                      "size": 15544
-                    },
-                    {
-                      "name": "ItemDetailsModal.js",
-                      "path": "components\\process_economics\\components\\ItemDetailsModal.js",
-                      "size": 15349
-                    },
-                    {
-                      "name": "LibraryHeader.js",
-                      "path": "components\\process_economics\\components\\LibraryHeader.js",
-                      "size": 2105
-                    },
-                    {
-                      "name": "PathwayComparisonChart.js",
-                      "path": "components\\process_economics\\components\\PathwayComparisonChart.js",
-                      "size": 2775
-                    },
-                    {
-                      "name": "PersonalLibrary.js",
-                      "path": "components\\process_economics\\components\\PersonalLibrary.js",
-                      "size": 9159
-                    },
-                    {
-                      "name": "PopularItemsCarousel.js",
-                      "path": "components\\process_economics\\components\\PopularItemsCarousel.js",
-                      "size": 3948
-                    },
-                    {
-                      "name": "SaveToLibraryModal.js",
-                      "path": "components\\process_economics\\components\\SaveToLibraryModal.js",
-                      "size": 9553
-                    },
-                    {
-                      "name": "ScalingGroupsPreview.js",
-                      "path": "components\\process_economics\\components\\ScalingGroupsPreview.js",
-                      "size": 4234
-                    },
-                    {
-                      "name": "SearchPanel.js",
-                      "path": "components\\process_economics\\components\\SearchPanel.js",
-                      "size": 6053
-                    },
-                    {
-                      "name": "ShelfSelector.js",
-                      "path": "components\\process_economics\\components\\ShelfSelector.js",
-                      "size": 5345
-                    },
-                    {
-                      "name": "UsageIndicator.js",
-                      "path": "components\\process_economics\\components\\UsageIndicator.js",
-                      "size": 2054
-                    },
-                    {
-                      "name": "UsageStatsOverview.js",
-                      "path": "components\\process_economics\\components\\UsageStatsOverview.js",
-                      "size": 9179
-                    },
-                    {
-                      "name": "UsageStatsPanel.js",
-                      "path": "components\\process_economics\\components\\UsageStatsPanel.js",
-                      "size": 7780
-                    }
-                  ]
-                },
-                "data": {
-                  "files": [
-                    {
-                      "name": "categoryData.js",
-                      "path": "components\\process_economics\\data\\categoryData.js",
-                      "size": 7754
-                    },
-                    {
-                      "name": "ciloData.js",
-                      "path": "components\\process_economics\\data\\ciloData.js",
-                      "size": 2350
-                    }
-                  ]
-                },
-                "services": {
-                  "files": [
-                    {
-                      "name": "decarbonizationService.js",
-                      "path": "components\\process_economics\\services\\decarbonizationService.js",
-                      "size": 12170
-                    },
-                    {
-                      "name": "libraryService.js",
-                      "path": "components\\process_economics\\services\\libraryService.js",
-                      "size": 11380
-                    },
-                    {
-                      "name": "mockDataService.js",
-                      "path": "components\\process_economics\\services\\mockDataService.js",
-                      "size": 28232
-                    },
-                    {
-                      "name": "usageTrackingService.js",
-                      "path": "components\\process_economics\\services\\usageTrackingService.js",
-                      "size": 9519
-                    }
-                  ]
-                },
-                "utils": {
-                  "files": [
-                    {
-                      "name": "authUtils.js",
-                      "path": "components\\process_economics\\utils\\authUtils.js",
-                      "size": 4572
-                    },
-                    {
-                      "name": "blockchainUtils.js",
-                      "path": "components\\process_economics\\utils\\blockchainUtils.js",
-                      "size": 2842
-                    }
-                  ]
-                }
-              }
-            },
-            "process_economics_pilot": {
-              "files": [
-                {
-                  "name": "integration-module.js",
-                  "path": "components\\process_economics_pilot\\integration-module.js",
-                  "size": 5873
-                },
-                {
-                  "name": "process-economics-library.js",
-                  "path": "components\\process_economics_pilot\\process-economics-library.js",
-                  "size": 37023
-                },
-                {
-                  "name": "scaling-reference-data.js",
-                  "path": "components\\process_economics_pilot\\scaling-reference-data.js",
-                  "size": 14732
-                }
-              ]
-            },
-            "truly_extended_scaling": {
-              "files": [
-                {
-                  "name": "boundary-downloader.js",
-                  "path": "components\\truly_extended_scaling\\boundary-downloader.js",
-                  "size": 16633
-                },
-                {
-                  "name": "Card.js",
-                  "path": "components\\truly_extended_scaling\\Card.js",
-                  "size": 577
-                },
-                {
-                  "name": "CentralScalingTab.js",
-                  "path": "components\\truly_extended_scaling\\CentralScalingTab.js",
-                  "size": 9301
-                },
-                {
-                  "name": "climate-module-enhanced.js",
-                  "path": "components\\truly_extended_scaling\\climate-module-enhanced.js",
-                  "size": 71854
-                },
-                {
-                  "name": "ClimateMapOverlay.js",
-                  "path": "components\\truly_extended_scaling\\ClimateMapOverlay.js",
-                  "size": 25004
-                },
-                {
-                  "name": "coordinate-container-enhanced.js",
-                  "path": "components\\truly_extended_scaling\\coordinate-container-enhanced.js",
-                  "size": 13383
-                },
-                {
-                  "name": "CoordinateComponent.js",
-                  "path": "components\\truly_extended_scaling\\CoordinateComponent.js",
-                  "size": 24133
-                },
-                {
-                  "name": "CoordinateFactFinder.js",
-                  "path": "components\\truly_extended_scaling\\CoordinateFactFinder.js",
-                  "size": 32253
-                },
-                {
-                  "name": "DecarbonizationPathwayCard.js",
-                  "path": "components\\truly_extended_scaling\\DecarbonizationPathwayCard.js",
-                  "size": 8580
-                },
-                {
-                  "name": "DecarbonizationPathwayPanel.js",
-                  "path": "components\\truly_extended_scaling\\DecarbonizationPathwayPanel.js",
-                  "size": 20014
-                },
-                {
-                  "name": "DecarbonizationPathwaysFactory.js",
-                  "path": "components\\truly_extended_scaling\\DecarbonizationPathwaysFactory.js",
-                  "size": 19341
-                },
-                {
-                  "name": "DecarbonizationTargetTimeline.js",
-                  "path": "components\\truly_extended_scaling\\DecarbonizationTargetTimeline.js",
-                  "size": 4036
-                },
-                {
-                  "name": "DeleteConfirmationModal.js",
-                  "path": "components\\truly_extended_scaling\\DeleteConfirmationModal.js",
-                  "size": 5932
-                },
-                {
-                  "name": "ExtendedScaling.js",
-                  "path": "components\\truly_extended_scaling\\ExtendedScaling.js",
-                  "size": 72199
-                },
-                {
-                  "name": "multi-zone-selector.js",
-                  "path": "components\\truly_extended_scaling\\multi-zone-selector.js",
-                  "size": 41327
-                },
-                {
-                  "name": "PathwayComparisonChart.js",
-                  "path": "components\\truly_extended_scaling\\PathwayComparisonChart.js",
-                  "size": 3462
-                },
-                {
-                  "name": "ProcessEconomics.js",
-                  "path": "components\\truly_extended_scaling\\ProcessEconomics.js",
-                  "size": 22279
-                },
-                {
-                  "name": "scaling-active-natural-motion.js",
-                  "path": "components\\truly_extended_scaling\\scaling-active-natural-motion.js",
-                  "size": 10802
-                },
-                {
-                  "name": "ScalingSummary.js",
-                  "path": "components\\truly_extended_scaling\\ScalingSummary.js",
-                  "size": 17339
-                },
-                {
-                  "name": "StateManagementIntegration.js",
-                  "path": "components\\truly_extended_scaling\\StateManagementIntegration.js",
-                  "size": 3043
-                },
-                {
-                  "name": "zone-utils.js",
-                  "path": "components\\truly_extended_scaling\\zone-utils.js",
-                  "size": 20049
-                }
-              ],
-              "subdirectories": {
-                "tests": {
-                  "files": [
-                    {
-                      "name": "ProcessEconomicsTest.js",
-                      "path": "components\\truly_extended_scaling\\tests\\ProcessEconomicsTest.js",
-                      "size": 7668
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "contexts": {
-          "files": [
-            {
-              "name": "VersionStateContext.js",
-              "path": "contexts\\VersionStateContext.js",
-              "size": 1101
-            }
-          ]
-        },
-        "services": {
-          "files": [
-            {
-              "name": "CapacityTrackingService.js",
-              "path": "services\\CapacityTrackingService.js",
-              "size": 7670
-            },
-            {
-              "name": "MatrixSubmissionService.js",
-              "path": "services\\MatrixSubmissionService.js",
-              "size": 10358
-            }
-          ]
-        },
-        "state": {
-          "files": [
-            {
-              "name": "MatrixStateAtoms.js",
-              "path": "state\\MatrixStateAtoms.js",
-              "size": 9101
-            }
-          ]
-        },
-        "utils": {
-          "files": [
-            {
-              "name": "component_graph.js",
-              "path": "utils\\component_graph.js",
-              "size": 18791
-            },
-            {
-              "name": "context_analyzer.js",
-              "path": "utils\\context_analyzer.js",
-              "size": 16036
-            },
-            {
-              "name": "dependency_mapper.js",
-              "path": "utils\\dependency_mapper.js",
-              "size": 10229
-            },
-            {
-              "name": "entity_analyzer.js",
-              "path": "utils\\entity_analyzer.js",
-              "size": 6021
-            },
-            {
-              "name": "ErrorBoundary.js",
-              "path": "utils\\ErrorBoundary.js",
-              "size": 2463
-            },
-            {
-              "name": "hook_analyzer.js",
-              "path": "utils\\hook_analyzer.js",
-              "size": 12505
-            },
-            {
-              "name": "insight_generator.js",
-              "path": "utils\\insight_generator.js",
-              "size": 27338
-            },
-            {
-              "name": "labelReferences.js",
-              "path": "utils\\labelReferences.js",
-              "size": 6204
-            },
-            {
-              "name": "prop_flow_analyzer.js",
-              "path": "utils\\prop_flow_analyzer.js",
-              "size": 3393
-            },
-            {
-              "name": "react_parser.js",
-              "path": "utils\\react_parser.js",
-              "size": 19379
-            },
-            {
-              "name": "serverUtils.js",
-              "path": "utils\\serverUtils.js",
-              "size": 1514
-            }
-          ]
-        }
-      },
-      "files": [
-        {
-          "name": "App.js",
-          "path": ".\\App.js",
-          "size": 3095
-        },
-        {
-          "name": "centered-perspective-demo.js",
-          "path": ".\\centered-perspective-demo.js",
-          "size": 4803
-        },
-        {
-          "name": "Consolidated.js",
-          "path": ".\\Consolidated.js",
-          "size": 152337
-        },
-        {
-          "name": "Consolidated2.js",
-          "path": ".\\Consolidated2.js",
-          "size": 103026
-        },
-        {
-          "name": "Consolidated3.js",
-          "path": ".\\Consolidated3.js",
-          "size": 53290
-        },
-        {
-          "name": "GeneralFormConfig.js",
-          "path": ".\\GeneralFormConfig.js",
-          "size": 31990
-        },
-        {
-          "name": "HomePage.js",
-          "path": ".\\HomePage.js",
-          "size": 120205
-        },
-        {
-          "name": "index.js",
-          "path": ".\\index.js",
-          "size": 271
-        },
-        {
-          "name": "MatrixStateManager.js",
-          "path": ".\\MatrixStateManager.js",
-          "size": 49234
-        },
-        {
-          "name": "Naturalmotion.js",
-          "path": ".\\Naturalmotion.js",
-          "size": 2453
-        },
-        {
-          "name": "unified-tooltip-js.js",
-          "path": ".\\unified-tooltip-js.js",
-          "size": 36487
-        }
-      ]
-    },
-    "css": {
-      "subdirectories": {
-        "components": {
-          "subdirectories": {
-            "build": {
-              "files": [
-                {
-                  "name": "BuildWorkflowIntegrationExample.css",
-                  "path": "components\\build\\BuildWorkflowIntegrationExample.css",
-                  "size": 2504
-                },
-                {
-                  "name": "BuildWorkflowPanel.css",
-                  "path": "components\\build\\BuildWorkflowPanel.css",
-                  "size": 4744
-                }
-              ]
-            },
-            "find_factual_precedence": {
-              "subdirectories": {
-                "styles": {
-                  "files": [
-                    {
-                      "name": "FactualPrecedence.css",
-                      "path": "components\\find_factual_precedence\\styles\\FactualPrecedence.css",
-                      "size": 8287
-                    }
-                  ]
-                }
-              }
-            },
-            "process_economics": {
-              "subdirectories": {
-                "styles": {
-                  "files": [
-                    {
-                      "name": "DecarbonizationComponents.css",
-                      "path": "components\\process_economics\\styles\\DecarbonizationComponents.css",
-                      "size": 6024
-                    },
-                    {
-                      "name": "LibrarySystem.css",
-                      "path": "components\\process_economics\\styles\\LibrarySystem.css",
-                      "size": 49360
-                    },
-                    {
-                      "name": "ScalingGroupsPreview.css",
-                      "path": "components\\process_economics\\styles\\ScalingGroupsPreview.css",
-                      "size": 3051
-                    }
-                  ]
-                }
-              }
-            },
-            "truly_extended_scaling": {
-              "subdirectories": {
-                "styles": {
-                  "files": [
-                    {
-                      "name": "ClimateMapOverlay.css",
-                      "path": "components\\truly_extended_scaling\\styles\\ClimateMapOverlay.css",
-                      "size": 6009
-                    },
-                    {
-                      "name": "ClimateModule.css",
-                      "path": "components\\truly_extended_scaling\\styles\\ClimateModule.css",
-                      "size": 19730
-                    },
-                    {
-                      "name": "CoordinateComponent.css",
-                      "path": "components\\truly_extended_scaling\\styles\\CoordinateComponent.css",
-                      "size": 7516
-                    },
-                    {
-                      "name": "CoordinateFactFinder.css",
-                      "path": "components\\truly_extended_scaling\\styles\\CoordinateFactFinder.css",
-                      "size": 3205
-                    },
-                    {
-                      "name": "DeleteConfirmationModal.css",
-                      "path": "components\\truly_extended_scaling\\styles\\DeleteConfirmationModal.css",
-                      "size": 4204
-                    },
-                    {
-                      "name": "ProcessEconomicsTest.css",
-                      "path": "components\\truly_extended_scaling\\styles\\ProcessEconomicsTest.css",
-                      "size": 3086
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "styles": {
-          "subdirectories": {
-            "HomePage.CSS": {
-              "files": [
-                {
-                  "name": "boundary-downloader-css.css",
-                  "path": "styles\\HomePage.CSS\\boundary-downloader-css.css",
-                  "size": 5510
-                },
-                {
-                  "name": "buttons.css",
-                  "path": "styles\\HomePage.CSS\\buttons.css",
-                  "size": 1344
-                },
-                {
-                  "name": "CalculationMonitor.css",
-                  "path": "styles\\HomePage.CSS\\CalculationMonitor.css",
-                  "size": 4883
-                },
-                {
-                  "name": "CalculationMonitorRun.css",
-                  "path": "styles\\HomePage.CSS\\CalculationMonitorRun.css",
-                  "size": 1705
-                },
-                {
-                  "name": "CalculationMonitorRuns.css",
-                  "path": "styles\\HomePage.CSS\\CalculationMonitorRuns.css",
-                  "size": 2206
-                },
-                {
-                  "name": "CapacityMapPanel.css",
-                  "path": "styles\\HomePage.CSS\\CapacityMapPanel.css",
-                  "size": 492
-                },
-                {
-                  "name": "CentralScalingTab.css",
-                  "path": "styles\\HomePage.CSS\\CentralScalingTab.css",
-                  "size": 3843
-                },
-                {
-                  "name": "CFAConsolidationUI.css",
-                  "path": "styles\\HomePage.CSS\\CFAConsolidationUI.css",
-                  "size": 8876
-                },
-                {
-                  "name": "climate-module-enhanced-css.css",
-                  "path": "styles\\HomePage.CSS\\climate-module-enhanced-css.css",
-                  "size": 6823
-                },
-                {
-                  "name": "CommonSelector.css",
-                  "path": "styles\\HomePage.CSS\\CommonSelector.css",
-                  "size": 1485
-                },
-                {
-                  "name": "ConfigurationMonitor.css",
-                  "path": "styles\\HomePage.CSS\\ConfigurationMonitor.css",
-                  "size": 19803
-                },
-                {
-                  "name": "ConflictResolutionPanel.css",
-                  "path": "styles\\HomePage.CSS\\ConflictResolutionPanel.css",
-                  "size": 5477
-                },
-                {
-                  "name": "Consolidated.css",
-                  "path": "styles\\HomePage.CSS\\Consolidated.css",
-                  "size": 54158
-                },
-                {
-                  "name": "coordinate-container-enhanced-css.css",
-                  "path": "styles\\HomePage.CSS\\coordinate-container-enhanced-css.css",
-                  "size": 2701
-                },
-                {
-                  "name": "CustomizableTable.css",
-                  "path": "styles\\HomePage.CSS\\CustomizableTable.css",
-                  "size": 5089
-                },
-                {
-                  "name": "dynamic-subplot-css.css",
-                  "path": "styles\\HomePage.CSS\\dynamic-subplot-css.css",
-                  "size": 8321
-                },
-                {
-                  "name": "Efficacy.css",
-                  "path": "styles\\HomePage.CSS\\Efficacy.css",
-                  "size": 3739
-                },
-                {
-                  "name": "EfficacyMapContainer.css",
-                  "path": "styles\\HomePage.CSS\\EfficacyMapContainer.css",
-                  "size": 4127
-                },
-                {
-                  "name": "HCSS.css",
-                  "path": "styles\\HomePage.CSS\\HCSS.css",
-                  "size": 124034
-                },
-                {
-                  "name": "HomePage1.css",
-                  "path": "styles\\HomePage.CSS\\HomePage1.css",
-                  "size": 8039
-                },
-                {
-                  "name": "HomePage2.css",
-                  "path": "styles\\HomePage.CSS\\HomePage2.css",
-                  "size": 1951
-                },
-                {
-                  "name": "HomePage3.css",
-                  "path": "styles\\HomePage.CSS\\HomePage3.css",
-                  "size": 2605
-                },
-                {
-                  "name": "HomePage5.css",
-                  "path": "styles\\HomePage.CSS\\HomePage5.css",
-                  "size": 2620
-                },
-                {
-                  "name": "HomePage6.css",
-                  "path": "styles\\HomePage.CSS\\HomePage6.css",
-                  "size": 7785
-                },
-                {
-                  "name": "HomePage_AboutUs.css",
-                  "path": "styles\\HomePage.CSS\\HomePage_AboutUs.css",
-                  "size": 3873
-                },
-                {
-                  "name": "HomePage_buttons.css",
-                  "path": "styles\\HomePage.CSS\\HomePage_buttons.css",
-                  "size": 12395
-                },
-                {
-                  "name": "HomePage_FactAdmin.css",
-                  "path": "styles\\HomePage.CSS\\HomePage_FactAdmin.css",
-                  "size": 9201
-                },
-                {
-                  "name": "HomePage_FactEngine.css",
-                  "path": "styles\\HomePage.CSS\\HomePage_FactEngine.css",
-                  "size": 5975
-                },
-                {
-                  "name": "HomePage_monitoring.css",
-                  "path": "styles\\HomePage.CSS\\HomePage_monitoring.css",
-                  "size": 2749
-                },
-                {
-                  "name": "HomePage_neumorphic-tabs.css",
-                  "path": "styles\\HomePage.CSS\\HomePage_neumorphic-tabs.css",
-                  "size": 3658
-                },
-                {
-                  "name": "HomePage_scaling.css",
-                  "path": "styles\\HomePage.CSS\\HomePage_scaling.css",
-                  "size": 32915
-                },
-                {
-                  "name": "HomePage_scaling_t.css",
-                  "path": "styles\\HomePage.CSS\\HomePage_scaling_t.css",
-                  "size": 25779
-                },
-                {
-                  "name": "integration-point.css",
-                  "path": "styles\\HomePage.CSS\\integration-point.css",
-                  "size": 872
-                },
-                {
-                  "name": "Label.css",
-                  "path": "styles\\HomePage.CSS\\Label.css",
-                  "size": 1559
-                },
-                {
-                  "name": "multi-zone-selector-css.css",
-                  "path": "styles\\HomePage.CSS\\multi-zone-selector-css.css",
-                  "size": 8743
-                },
-                {
-                  "name": "Naturalmotion.css",
-                  "path": "styles\\HomePage.CSS\\Naturalmotion.css",
-                  "size": 1525
-                },
-                {
-                  "name": "PendulumClock.css",
-                  "path": "styles\\HomePage.CSS\\PendulumClock.css",
-                  "size": 4916
-                },
-                {
-                  "name": "plots-tabs-css.css",
-                  "path": "styles\\HomePage.CSS\\plots-tabs-css.css",
-                  "size": 4959
-                },
-                {
-                  "name": "ProcessingPanel.css",
-                  "path": "styles\\HomePage.CSS\\ProcessingPanel.css",
-                  "size": 6681
-                },
-                {
-                  "name": "PropertySelector.css",
-                  "path": "styles\\HomePage.CSS\\PropertySelector.css",
-                  "size": 3820
-                },
-                {
-                  "name": "ResetOptionsPopup.css",
-                  "path": "styles\\HomePage.CSS\\ResetOptionsPopup.css",
-                  "size": 1642
-                },
-                {
-                  "name": "ResultsPanel.css",
-                  "path": "styles\\HomePage.CSS\\ResultsPanel.css",
-                  "size": 6716
-                },
-                {
-                  "name": "RunOptionsPopup.css",
-                  "path": "styles\\HomePage.CSS\\RunOptionsPopup.css",
-                  "size": 1612
-                },
-                {
-                  "name": "ScalingSummary.css",
-                  "path": "styles\\HomePage.CSS\\ScalingSummary.css",
-                  "size": 6454
-                },
-                {
-                  "name": "SelectionPanel.css",
-                  "path": "styles\\HomePage.CSS\\SelectionPanel.css",
-                  "size": 6001
-                },
-                {
-                  "name": "sensitivity-plots-css.css",
-                  "path": "styles\\HomePage.CSS\\sensitivity-plots-css.css",
-                  "size": 3865
-                },
-                {
-                  "name": "SensitivityMonitor.css",
-                  "path": "styles\\HomePage.CSS\\SensitivityMonitor.css",
-                  "size": 19172
-                },
-                {
-                  "name": "SensitivitySelector.css",
-                  "path": "styles\\HomePage.CSS\\SensitivitySelector.css",
-                  "size": 7701
-                },
-                {
-                  "name": "StickerHeader.css",
-                  "path": "styles\\HomePage.CSS\\StickerHeader.css",
-                  "size": 11919
-                },
-                {
-                  "name": "TestingZone.css",
-                  "path": "styles\\HomePage.CSS\\TestingZone.css",
-                  "size": 1151
-                },
-                {
-                  "name": "ThemeButton.css",
-                  "path": "styles\\HomePage.CSS\\ThemeButton.css",
-                  "size": 1105
-                },
-                {
-                  "name": "ThemeConfigurator.css",
-                  "path": "styles\\HomePage.CSS\\ThemeConfigurator.css",
-                  "size": 9197
-                },
-                {
-                  "name": "TicTacToe.css",
-                  "path": "styles\\HomePage.CSS\\TicTacToe.css",
-                  "size": 3034
-                },
-                {
-                  "name": "TimeParameterMatrix.css",
-                  "path": "styles\\HomePage.CSS\\TimeParameterMatrix.css",
-                  "size": 2857
-                },
-                {
-                  "name": "unified-tooltip-css.css",
-                  "path": "styles\\HomePage.CSS\\unified-tooltip-css.css",
-                  "size": 12990
-                },
-                {
-                  "name": "VersionSelector.css",
-                  "path": "styles\\HomePage.CSS\\VersionSelector.css",
-                  "size": 4887
-                },
-                {
-                  "name": "WhakAMole.css",
-                  "path": "styles\\HomePage.CSS\\WhakAMole.css",
-                  "size": 3628
-                }
-              ]
-            },
-            "Themes": {
-              "files": [
-                {
-                  "name": "creative-theme.css",
-                  "path": "styles\\Themes\\creative-theme.css",
-                  "size": 5773
-                },
-                {
-                  "name": "dark-theme.css",
-                  "path": "styles\\Themes\\dark-theme.css",
-                  "size": 5957
-                },
-                {
-                  "name": "light-theme.css",
-                  "path": "styles\\Themes\\light-theme.css",
-                  "size": 5691
-                }
-              ]
-            }
-          }
-        }
-      }
-    },
-    "jsx": {
-      "subdirectories": {}
-    }
   }
 }

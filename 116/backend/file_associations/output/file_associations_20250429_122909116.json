@@ -1,0 +1,58 @@
+# file_associations_20250429_122909.json
+
+**Purpose**: Configuration
+
+**Functions**: project_name, analysis_date, file_associations
+
+**Keywords**: project_name, analysis_date, file_associations
+
+## Key Code Sections
+
+### JSON Structure
+
+```json
+{
+  "project_name": "backend",
+  "analysis_date": "122909",
+  "file_associations": dict with 53 items
+}
+```
+
+## File Info
+
+- **Size**: 8.8 KB
+- **Lines**: 278
+- **Complexity**: Low
+
+## Additional Details
+
+### Content Samples
+
+Beginning:
+```
+{
+  "project_name": "backend",
+  "analysis_date": "122909",
+  "file_associations": {
+    "cfa_list.p
+```
+
+Middle:
+```
+,
+      "dependency_references": []
+    },
+    "Configuration_management\\module1-updated.py": {
+   
+```
+
+End:
+```
+string_references": [],
+      "config_references": [],
+      "dependency_references": []
+    }
+  }
+}
+```
+

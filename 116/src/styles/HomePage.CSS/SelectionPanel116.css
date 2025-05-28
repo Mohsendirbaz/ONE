@@ -1,0 +1,20 @@
+# SelectionPanel.css
+
+**Purpose**: Styling
+
+**Keywords**: var, model, color, border, background, version, spacing
+
+## Key Code Sections
+
+### CSS Selectors
+
+```css
+.selection-panel { ... }
+/* Header Styles */
+.selection-panel__header { ... }
+.selection-panel__search { ... }
+.search-input { ... }
+.search-input:focus { ... }
+/* ...and 37 more selector
+
+... (truncated to meet size target) ...

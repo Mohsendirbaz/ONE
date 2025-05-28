@@ -1,0 +1,18 @@
+# CentralScalingTab.css
+
+**Purpose**: Styling
+
+## Key Code Sections
+
+### CSS Selectors
+
+```css
+/* Central Scaling Tab Styles */
+.central-scaling-container { ... }
+.central-scaling-title { ... }
+.central-scaling-description { ... }
+.central-scaling-tab-list { ... }
+.central-scaling-tab-list::-webkit-scrollbar { ... }
+/* ...and 17 more selectors... *
+
+... (truncated to meet size target) ...

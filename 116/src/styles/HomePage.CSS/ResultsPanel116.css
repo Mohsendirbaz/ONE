@@ -1,0 +1,20 @@
+# ResultsPanel.css
+
+**Purpose**: Styling
+
+**Keywords**: var, model, color, font, border, background, spacing
+
+## Key Code Sections
+
+### CSS Selectors
+
+```css
+.results-panel { ... }
+/* Header Styles */
+.results-panel__header { ... }
+.results-panel__title { ... }
+.results-panel__actions { ... }
+.action-button-rs { ... }
+/* ...and 44 more selectors...
+
+... (truncated to meet size target) ...

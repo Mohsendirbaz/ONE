@@ -1,0 +1,68 @@
+# postman_collection.json
+
+**Purpose**: Configuration
+
+**Functions**: info, item
+
+**Keywords**: info, item
+
+## Key Code Sections
+
+### JSON Structure
+
+```json
+{
+  "info": dict with 3 items,
+  "item": list with 19 items
+}
+```
+
+## File Info
+
+- **Size**: 148.7 KB
+- **Lines**: 4760
+- **Complexity**: Low
+
+## Additional Details
+
+### Line Statistics
+
+- Average line length: 30.0 characters
+- Longest line: 694 characters
+- Number of blank lines: 0
+
+### Content Samples
+
+Beginning:
+```
+{
+  "info": {
+    "name": "ONE1 API",
+    "description": "API endpoints for the ONE1 project",
+    "
+```
+
+Middle:
+```
+"example\": \"value\"\n}",
+              "options": {
+                "raw": {
+                  "la
+```
+
+End:
+```
+    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+
+================================================================================
+End of file summary
+================================================================================

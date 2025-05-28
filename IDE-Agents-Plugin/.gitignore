@@ -1,0 +1,16 @@
+# Dependency directories
+node_modules/
+
+# Lock files
+package-lock.json
+
+# IDE files
+.idea/
+.vscode/
+
+# Build outputs
+/dist/
+/build/
+
+# Logs
+*.log

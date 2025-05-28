@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Financial Entity Analyzer Visualizations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .visualization-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .visualization-container {
+            height: 500px;
+            border: 1px solid #eee;
+            margin-top: 20px;
+            overflow: auto;
+        }
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+        .tab.active {
+            border: 1px solid #ddd;
+            border-bottom-color: white;
+            border-radius: 5px 5px 0 0;
+            margin-bottom: -1px;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Financial Entity Analyzer Visualizations</h1>
+
+        <div class="tabs">
+            <div class="tab active" data-tab="calculation-flow">Calculation Flow</div>
+            <div class="tab" data-tab="parameter-influence">Parameter Influence</div>
+            <div class="tab" data-tab="sensitivity">Sensitivity Analysis</div>
+            <div class="tab" data-tab="optimization">Optimization Paths</div>
+        </div>
+
+        <div class="tab-content active" id="calculation-flow">
+            <div class="visualization-section">
+                <h2>Calculation Flow Diagram</h2>
+                <div id="calculation-flow-container" class="visualization-container"></div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="parameter-influence">
+            <div class="visualization-section">
+                <h2>Parameter Influence Graph</h2>
+                <div id="parameter-influence-container" class="visualization-container"></div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="sensitivity">
+            <div class="visualization-section">
+                <h2>Sensitivity Heat Map</h2>
+                <div id="sensitivity-container" class="visualization-container"></div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="optimization">
+            <div class="visualization-section">
+                <h2>Optimization Convergence Plot</h2>
+                <div id="optimization-container" class="visualization-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load D3.js -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <!-- Load the visualization scripts -->
+    <script src="calculation_flow_diagram.js"></script>
+    <script src="parameter_influence_graph.js"></script>
+    <script src="sensitivity_heat_map.js"></script>
+    <script src="optimization_convergence_plot.js"></script>
+
+    <script>
+        // Sample data for visualizations
+        const sampleCalculationFlowData = {
+            calculationBlocks: {
+                revenue: [{ name: 'Revenue Calculation', formula: 'units_sold * price_per_unit' }],
+                costs: [{ name: 'Cost Calculation', formula: 'fixed_costs + (units_sold * variable_cost_per_unit)' }],
+                profit: [{ name: 'Profit Calculation', formula: 'revenue - costs - depreciation' }],
+                taxes: [{ name: 'Tax Calculation', formula: 'profit * tax_rate' }],
+                cashFlow: [{ name: 'Cash Flow Calculation', formula: 'net_profit + depreciation' }],
+                npv: [{ name: 'NPV Calculation', formula: 'sum(cash_flows / (1 + discount_rate)^i)' }]
+            },
+            iterativeProcesses: [
+                { name: 'Price Optimization', steps: ['Calculate NPV', 'Adjust Price', 'Recalculate NPV'] }
+            ],
+            financialMetrics: [
+                { name: 'NPV', description: 'Net Present Value' },
+                { name: 'IRR', description: 'Internal Rate of Return' }
+            ]
+        };
+
+        const sampleParameterDependenciesData = {
+            parameters: [
+                ['price_per_unit', { type: 'input' }],
+                ['units_sold', { type: 'input' }],
+                ['fixed_costs', { type: 'input' }],
+                ['variable_cost_per_unit', { type: 'input' }],
+                ['discount_rate', { type: 'input' }],
+                ['tax_rate', { type: 'input' }],
+                ['revenue', { type: 'calculated' }],
+                ['costs', { type: 'calculated' }],
+                ['profit', { type: 'calculated' }],
+                ['taxes', { type: 'calculated' }],
+                ['net_profit', { type: 'calculated' }],
+                ['cash_flows', { type: 'calculated' }],
+                ['npv', { type: 'output' }],
+                ['irr', { type: 'output' }]
+            ],
+            dependencies: [
+                { source: 'price_per_unit', target: 'revenue', weight: 1 },
+                { source: 'units_sold', target: 'revenue', weight: 1 },
+                { source: 'units_sold', target: 'costs', weight: 1 },
+                { source: 'fixed_costs', target: 'costs', weight: 1 },
+                { source: 'variable_cost_per_unit', target: 'costs', weight: 1 },
+                { source: 'revenue', target: 'profit', weight: 1 },
+                { source: 'costs', target: 'profit', weight: 1 },
+                { source: 'profit', target: 'taxes', weight: 1 },
+                { source: 'tax_rate', target: 'taxes', weight: 1 },
+                { source: 'profit', target: 'net_profit', weight: 1 },
+                { source: 'taxes', target: 'net_profit', weight: 1 },
+                { source: 'net_profit', target: 'cash_flows', weight: 1 },
+                { source: 'cash_flows', target: 'npv', weight: 1 },
+                { source: 'discount_rate', target: 'npv', weight: 1 },
+                { source: 'cash_flows', target: 'irr', weight: 1 }
+            ]
+        };
+
+        const sampleSensitivityData = {
+            parameters: [
+                { name: 'price_per_unit', type: 'input' },
+                { name: 'units_sold', type: 'input' },
+                { name: 'fixed_costs', type: 'input' },
+                { name: 'variable_cost_per_unit', type: 'input' },
+                { name: 'discount_rate', type: 'input' },
+                { name: 'tax_rate', type: 'input' }
+            ],
+            metrics: [
+                { name: 'NPV', description: 'Net Present Value' },
+                { name: 'IRR', description: 'Internal Rate of Return' },
+                { name: 'Profit', description: 'Annual Profit' }
+            ]
+        };
+
+        const sampleOptimizationData = createSampleOptimizationData();
+
+        // Initialize tabs
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and content
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+                // Add active class to clicked tab and corresponding content
+                tab.classList.add('active');
+                document.getElementById(tab.getAttribute('data-tab')).classList.add('active');
+
+                // Render the visualization for the active tab
+                const tabId = tab.getAttribute('data-tab');
+                if (tabId === 'calculation-flow') {
+                    renderCalculationFlowDiagram(
+                        document.getElementById('calculation-flow-container'),
+                        sampleCalculationFlowData,
+                        { onNodeClick: node => console.log('Clicked node:', node) }
+                    );
+                } else if (tabId === 'parameter-influence') {
+                    renderParameterInfluenceGraph(
+                        document.getElementById('parameter-influence-container'),
+                        sampleParameterDependenciesData,
+                        { onNodeClick: node => console.log('Clicked node:', node) }
+                    );
+                } else if (tabId === 'sensitivity') {
+                    renderSensitivityHeatMap(
+                        document.getElementById('sensitivity-container'),
+                        sampleSensitivityData,
+                        { onCellClick: cell => console.log('Clicked cell:', cell) }
+                    );
+                } else if (tabId === 'optimization') {
+                    renderOptimizationConvergencePlot(
+                        document.getElementById('optimization-container'),
+                        sampleOptimizationData,
+                        { onPointClick: point => console.log('Clicked point:', point) }
+                    );
+                }
+            });
+        });
+
+        // Initialize the first tab
+        renderCalculationFlowDiagram(
+            document.getElementById('calculation-flow-container'),
+            sampleCalculationFlowData,
+            { onNodeClick: node => console.log('Clicked node:', node) }
+        );
+    </script>
+</body>
+</html>

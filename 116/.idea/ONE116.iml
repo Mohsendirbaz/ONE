@@ -1,0 +1,42 @@
+# ONE.iml
+
+**Purpose**: Ui Component
+
+## File Info
+
+- **Size**: 344 bytes
+- **Lines**: 9
+
+## Additional Details
+
+### Line Statistics
+
+- Average line length: 36.4 characters
+- Longest line: 72 characters
+- Number of blank lines: 0
+
+### Content Samples
+
+Beginning:
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="Ne
+```
+
+Middle:
+```
+" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$" />
+ 
+```
+
+End:
+```
+e="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
+```
+

@@ -1,0 +1,22 @@
+# SensitivitySelector.css
+
+**Purpose**: Styling
+
+**Keywords**: var, shadow, border, spacing, flex, color, model
+
+## Key Code Sections
+
+### CSS Selectors
+
+```css
+/* Overlay for the modal */
+.sensitivity-overlay { ... }
+/* Modal dialog */
+.sensitivity-dialog { ... }
+.sensitivity-dialog.closing { ... }
+.sensitivity-dialog-inner { ... }
+/* Header */
+.sensitivity-selector-header { ... }
+/* ...and 31 more selectors.
+
+... (truncated to meet size target) ...

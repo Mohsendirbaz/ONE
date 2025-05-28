@@ -1,0 +1,23 @@
+# RunOptionsPopup.css
+
+**Purpose**: Styling
+
+## Key Code Sections
+
+### CSS Selectors
+
+```css
+/* Run Options Popup Styling */
+.run-options-popup-overlay { ... }
+.run-options-popup { ... }
+.run-options-popup h3 { ... }
+.run-options-popup .checkbox-row { ... }
+.run-option-label { ... }
+/* ...and 7 more selectors... */
+```
+
+## File Info
+
+- **Size**: 1.6 KB
+- **Lines**: 84
+- **Complexity**: Low

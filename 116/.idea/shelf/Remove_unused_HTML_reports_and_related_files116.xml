@@ -1,0 +1,38 @@
+# Remove_unused_HTML_reports_and_related_files.xml
+
+**Purpose**: Config
+
+## File Info
+
+- **Size**: 408 bytes
+- **Lines**: 7
+
+## Additional Details
+
+### Line Statistics
+
+- Average line length: 57.4 characters
+- Longest line: 117 characters
+- Number of blank lines: 0
+
+### Content Samples
+
+Beginning:
+```
+<changelist name="Remove_unused_HTML_reports_and_related_files" date="1746879696142" recycled="false
+```
+
+Middle:
+```
+elf/Remove_unused_HTML_reports_and_related_files/shelved.patch" />
+  <option name="DESCRIPTION" valu
+```
+
+End:
+```
+<binary>
+    <option name="BEFORE_PATH" value="remove_sf_directory.ps1" />
+  </binary>
+</changelist>
+```
+

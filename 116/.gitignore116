@@ -1,0 +1,16 @@
+# .gitignore
+
+**Purpose**: File Io, also handles Config, Database
+
+## File Content Samples
+
+```
+# Dependencie
+... (truncated) ...
+```
+
+## File Information
+
+- **Complexity**: low
+- **Size**: 1.5 KB
+- **Lines**: 104

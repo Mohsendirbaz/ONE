@@ -1,0 +1,71 @@
+# SensitivityMonitor.css
+
+**Purpose**: Styling
+
+**Keywords**: color, var, border, font, background, neu, radius
+
+## Key Code Sections
+
+### CSS Selectors
+
+```css
+/* SensitivityMonitor.css */
+
+.sensitivity-monitor-s { ... }
+.sensitivity-monitor-s.collapsed { ... }
+.sensitivity-monitor-s.expanded { ... }
+.value.mode-directvalue { ... }
+.value.mode-absolutedeparture { ... }
+/* ...and 133 more selectors... */
+```
+
+## File Info
+
+- **Size**: 18.7 KB
+- **Lines**: 944
+- **Complexity**: Low
+
+## Additional Details
+
+### Line Statistics
+
+- Average line length: 18.3 characters
+- Longest line: 124 characters
+- Number of blank lines: 138
+
+### Content Samples
+
+Beginning:
+```
+/* SensitivityMonitor.css */
+
+.sensitivity-monitor-s {
+  position: relative;
+  height: 100%;
+  trans
+```
+
+Middle:
+```
+ize: var(--model-font-size-sm);
+  transition: all var(--neu-transition-fast);
+}
+
+.edit-button:hover:
+```
+
+End:
+```
+56, 39, 176, 0.1);
+}
+
+select option.mode-montecarlo {
+  background-color: rgba(76, 175, 80, 0.1);
+}
+
+```
+
+
+==================================================================
+End of file summary
+==================================================================

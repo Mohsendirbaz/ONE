@@ -1,0 +1,66 @@
+# HomePage_scaling.css
+
+**Purpose**: Styling
+
+**Keywords**: var, scaling, color, border, background, spacing, summary
+
+## Key Code Sections
+
+### CSS Selectors
+
+```css
+/* Summary Section */
+.scaling-summary { ... }
+.summary-header { ... }
+.scaling-summary-footer-item { ... }
+/* Animations */
+  @keyframes scaleIn { ... }
+to { ... }
+/* ...and 204 more selectors... */
+```
+
+## File Info
+
+- **Size**: 32.1 KB
+- **Lines**: 1433
+- **Complexity**: Low
+
+## Additional Details
+
+### Line Statistics
+
+- Average line length: 21.0 characters
+- Longest line: 62 characters
+- Number of blank lines: 203
+
+### Content Samples
+
+Beginning:
+```
+/* Summary Section */
+.scaling-summary {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: var(--
+```
+
+Middle:
+```
+.scaling-summary td{
+    padding: var(--spacing-lg) var(--spacing-md) ;
+    border-bottom: 1px solid
+```
+
+End:
+```
+indicator{
+    color: var(--primary-color) ;
+    margin-left: 0.25rem ;
+    font-size: 0.75rem ;
+  }
+```
+
+
+================================================================================
+End of file summary
+================================================================================

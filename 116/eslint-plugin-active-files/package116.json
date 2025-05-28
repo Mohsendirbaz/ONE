@@ -1,0 +1,20 @@
+# package.json
+
+**Purpose**: Configuration
+
+**Description**: ESLint plugin to differentiate between active and inactive project files
+
+## Key Code Sections
+
+### JSON Structure
+
+```json
+{
+  "name": "eslint-plugin-active-files",
+  "version": "1.0.0",
+  "description": "ESLint plugin to differentiate...",
+  "main": "index.js",
+  "author": ""
+  // ...2 
+
+... (truncated to meet size target) ...

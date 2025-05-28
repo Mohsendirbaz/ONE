@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tensor-Based 3D Capacity Space Visualization</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1, h2 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tensor-Based 3D Capacity Space Visualization</h1>
+        
+        <div id="visualization-container"></div>
+        
+        <script>
+        // Tensor-Based Capacity Space Visualization
+        // A multidimensional approach to visualizing parameter capacity
+        (function() {
+          // Initialize visualization when DOM is loaded
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initVisualization);
+          } else {
+            initVisualization();
+          }
+          
+          function initVisualization() {
+            const container = document.getElementById('visualization-container');
+            
+            // Create visualization description
+            const description = document.createElement('p');
+            description.innerHTML = `
+              <strong>Tensor-Based 3D Capacity Space Visualization</strong><br>
+              This visualization represents the multidimensional capacity space as a tensor with 5 dimensions:
+              <ul>
+                <li>Parameters (75 values: S10-S84)</li>
+                <li>Scaling Groups (5 per parameter)</li>
+                <li>Sensitivity Variations (6 per parameter-scaling group)</li>
+                <li>Years (20 plant lifetime years)</li>
+                <li>Versions (20 configuration variants)</li>
+              </ul>
+              <p>The theoretical maximum capacity is 75 × 5 × 6 × 20 × 20 = 450,000 combinations.</p>
+              <p>Current utilization is approximately 27% of total capacity.</p>
+            `;
+            container.appendChild(description);
+            
+            // Create placeholder for visualization
+            const placeholder = document.createElement('div');
+            placeholder.style.width = '100%';
+            placeholder.style.height = '400px';
+            placeholder.style.backgroundColor = '#f0f4f8';
+            placeholder.style.display = 'flex';
+            placeholder.style.alignItems = 'center';
+            placeholder.style.justifyContent = 'center';
+            placeholder.style.borderRadius = '8px';
+            placeholder.style.marginTop = '20px';
+            placeholder.innerHTML = `
+              <div style="text-align: center;">
+                <h3>3D Tensor Visualization</h3>
+                <p>The interactive 3D tensor visualization would appear here.</p>
+                <p>It allows exploring the multidimensional capacity space by:</p>
+                <ul style="text-align: left; display: inline-block;">
+                  <li>Rotating the 3D cube to view from different angles</li>
+                  <li>Selecting which 3 dimensions to display on X, Y, Z axes</li>
+                  <li>Setting specific slices for other dimensions</li>
+                  <li>Hovering over cells to see details</li>
+                  <li>Clicking cells to get detailed information</li>
+                </ul>
+              </div>
+            `;
+            container.appendChild(placeholder);
+            
+            // Add explanation of benefits
+            const benefits = document.createElement('div');
+            benefits.style.marginTop = '30px';
+            benefits.innerHTML = `
+              <h3>Key Benefits of the Tensor Approach</h3>
+              <ol>
+                <li><strong>Complete Space Representation</strong> - Shows the full combinatorial capacity space</li>
+                <li><strong>Simultaneous Dimension View</strong> - Allows viewing three dimensions at once</li>
+                <li><strong>Customizable Perspective</strong> - Users can select which dimensions to focus on</li>
+                <li><strong>Visual Impact</strong> - Creates a powerful visual understanding of the capacity space</li>
+                <li><strong>Unified Context</strong> - Maintains relationships between dimensions</li>
+              </ol>
+            `;
+            container.appendChild(benefits);
+          }
+        })();
+        </script>
+    </div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+# shelved.patch
+
+**Purpose**: Config
+
+**Keywords**: npv, price, from, primary_result, secondary_result, current, row
+
+## File Info
+
+- **Size**: 1.1 MB
+- **Lines**: 4693
+- **Complexity**: Low
+
+## Additional Details
+
+### Line Statistics
+
+- Average line length: 239.5 characters
+- Longest line: 293858 characters
+- Number of blank lines: 1
+
+### Content Samples
+
+Beginning:
+```
+Index: backend/Logs/SENSITIVITY.log
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.
+```
+
+Middle:
+```
+V: $268681.00, Iteration: 130, Price: $73.21\r\nDecreasing price to $72.11 due to NPV above toleranc
+```
+
+End:
+```
+1, 1, 1, 1, 1]
++amounts_per_unitAmount5=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
++
++filtered_values_json=[
++]
+
+```
+
+
+================================================================================
+End of file summary
+================================================================================

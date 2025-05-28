@@ -1,0 +1,72 @@
+# g_src_directory_scanner.json
+
+**Purpose**: Configuration
+
+**Functions**: project_name, analysis_date, version, analysis_mode, src and 1 more
+
+**Keywords**: project_name, analysis_date, version, analysis_mode, src, files_by_extension
+
+## Key Code Sections
+
+### JSON Structure
+
+```json
+{
+  "project_name": "src",
+  "analysis_date": "2025-04-29 12:17:51",
+  "version": 9,
+  "analysis_mode": "sorted_by_file_count",
+  "src": dict with 2 items
+  // ...1 more fields...
+}
+```
+
+## File Info
+
+- **Size**: 28.7 KB
+- **Lines**: 843
+- **Complexity**: Low
+
+## Additional Details
+
+### Line Statistics
+
+- Average line length: 32.8 characters
+- Longest line: 146 characters
+- Number of blank lines: 0
+
+### Content Samples
+
+Beginning:
+```
+{
+  "project_name": "src",
+  "analysis_date": "2025-04-29 12:17:51",
+  "version": 9,
+  "analysis_mod
+```
+
+Middle:
+```
+               "name": "PlotsTabs.js",
+                  "path": "components\\modules\\PlotsTabs.js"
+```
+
+End:
+```
+          }
+          }
+        }
+      }
+    },
+    "jsx": {
+      "subdirectories": {}
+    }
+  }
+}
+```
+
+
+================================================================================
+End of file summary
+================================================================================

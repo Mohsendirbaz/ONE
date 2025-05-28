@@ -1,0 +1,20 @@
+# light-theme.css
+
+**Purpose**: Styling
+
+**Keywords**: color, model, neu, shadow, background, var, border
+
+## Key Code Sections
+
+### CSS Selectors
+
+```css
+/* Normal Theme - Professional & Clean */
+:root.light-theme { ... }
+html { ... }
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) { ... }
+.scaling-item { ... }
+.scaling-operation-selec
+
+... (truncated to meet size target) ...

@@ -1,0 +1,20 @@
+# HomePage_monitoring.css
+
+**Purpose**: Styling
+
+## Key Code Sections
+
+### CSS Selectors
+
+```css
+/* HomePage_monitoring.css - Ultra Compact Edition */
+.content-container { ... }
+/* Compact styles for monitors layout */
+.sensitivity-monitor,
+.config-monitor { ... }
+/* Monitor headers */
+.monitor-header { ... }
+.monitor-header h3 { ... }
+/* Monitor b
+
+... (truncated to meet size target) ...

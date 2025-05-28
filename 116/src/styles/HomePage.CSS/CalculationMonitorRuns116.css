@@ -1,0 +1,17 @@
+# CalculationMonitorRuns.css
+
+**Purpose**: Styling
+
+## Key Code Sections
+
+### CSS Selectors
+
+```css
+/* CalculationMonitorRuns.css */
+/* Styles specific to the handleRuns function in CalculationMonitor */
+
+.calculation-monitor .version-monitor.sensitivity { ... }
+.calculation-monitor .payload-details { ... }
+.calculation-monitor .payload-details h5 
+
+... (truncated to meet size target) ...

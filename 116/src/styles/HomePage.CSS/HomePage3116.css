@@ -1,0 +1,23 @@
+# HomePage3.css
+
+**Purpose**: Styling
+
+## Key Code Sections
+
+### CSS Selectors
+
+```css
+/* Theme Transition Effects */
+.theme-ribbon { ... }
+.theme-ribbon::before { ... }
+.theme-ribbon.theme-transition::before { ... }
+@keyframes moveGlow { ... }
+100% { ... }
+/* ...and 13 more selectors... */
+```
+
+## File Info
+
+- **Size**: 2.5 KB
+- **Lines**: 128
+- **Complexity**: Low

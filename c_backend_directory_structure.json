@@ -1,0 +1,2630 @@
+{
+  "project_name": "Backend Structure",
+  "analysis_date": "2025-05-15 09:48:43",
+  "version": 4,
+  "root": {
+    "name": "ONE1",
+    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1",
+    "subdirectories": {
+      ".junie": {
+        "name": ".junie",
+        "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\.junie",
+        "subdirectories": {},
+        "files": [
+          "guidelines.md"
+        ]
+      },
+      ".pytest_cache": {
+        "name": ".pytest_cache",
+        "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\.pytest_cache",
+        "subdirectories": {
+          "v": {
+            "name": "v",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\.pytest_cache\\v",
+            "subdirectories": {
+              "cache": {
+                "name": "cache",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\.pytest_cache\\v\\cache",
+                "subdirectories": {},
+                "files": [
+                  "lastfailed",
+                  "nodeids",
+                  "stepwise"
+                ]
+              }
+            },
+            "files": []
+          }
+        },
+        "files": [
+          ".gitignore",
+          "CACHEDIR.TAG",
+          "README.md"
+        ]
+      },
+      "116": {
+        "name": "116",
+        "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116",
+        "subdirectories": {
+          ".junie": {
+            "name": ".junie",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\.junie",
+            "subdirectories": {},
+            "files": [
+              "guidelines116.md"
+            ]
+          },
+          "Active-Inactive-Marking": {
+            "name": "Active-Inactive-Marking",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\Active-Inactive-Marking",
+            "subdirectories": {
+              "logs": {
+                "name": "logs",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\Active-Inactive-Marking\\logs",
+                "subdirectories": {},
+                "files": [
+                  "active-files-analysis_2025-04-29_10-47-09116.log",
+                  "active-files-analysis_2025-04-29_10-48-28116.log",
+                  "active-files-analysis_2025-04-29_10-54-51116.log",
+                  "active-files-analysis_2025-04-29_11-14-18116.log",
+                  "active-files-analysis_2025-04-29_11-15-41116.log",
+                  "active-files-analysis_2025-04-29_11-18-23116.log",
+                  "active-files-analysis_2025-04-29_11-26-19116.log",
+                  "active-files-analysis_2025-04-29_11-37-14116.log",
+                  "active-files-analysis_2025-04-29_12-03-52116.log"
+                ]
+              }
+            },
+            "files": [
+              "install-active-files-plugin116.js",
+              "logger116.js",
+              "mark-active-files116.js",
+              "restore-filenames116.js",
+              "run-active-files-analysis116.js",
+              "run-active-files-workflow116.js",
+              "update-eslint-config116.js",
+              "update-imports116.js"
+            ]
+          },
+          "Original": {
+            "name": "Original",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\Original",
+            "subdirectories": {},
+            "files": []
+          },
+          "backend": {
+            "name": "backend",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\backend",
+            "subdirectories": {
+              "API_endpoints_and_controllers": {
+                "name": "API_endpoints_and_controllers",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\backend\\API_endpoints_and_controllers",
+                "subdirectories": {
+                  "k": {
+                    "name": "k",
+                    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\backend\\API_endpoints_and_controllers\\k",
+                    "subdirectories": {},
+                    "files": [
+                      "h116.py"
+                    ]
+                  }
+                },
+                "files": [
+                  "add_axis_labels116.py",
+                  "album_organizer116.py",
+                  "Calculations116.py",
+                  "Calculations_and_Sensitivity-LL116.py",
+                  "CalSen116.py",
+                  "ConfigurationAPI116.py",
+                  "Create_new_batch116.py",
+                  "generate_plots116.py",
+                  "html_album_organizer116.py",
+                  "IND2751116.py",
+                  "Load116.py",
+                  "PNG116.py",
+                  "process_sensitivity_results116.py",
+                  "Remove_batch116.py",
+                  "script_econ116.py",
+                  "sense_config_base116.py",
+                  "sensitivity_api116.py",
+                  "Sub116.py",
+                  "Subplot_metadata116.py",
+                  "Version_service116.py"
+                ]
+              },
+              "Configuration_management": {
+                "name": "Configuration_management",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\backend\\Configuration_management",
+                "subdirectories": {},
+                "files": [
+                  "config-modules-updated116.py",
+                  "config_modules116.py",
+                  "formatter-updated116.py",
+                  "formatter116.py",
+                  "module1-updated116.py",
+                  "module1116.py",
+                  "table-updated116.py",
+                  "Table116.py"
+                ]
+              },
+              "Core_calculation_engines": {
+                "name": "Core_calculation_engines",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\backend\\Core_calculation_engines",
+                "subdirectories": {
+                  "CFA_operations": {
+                    "name": "CFA_operations",
+                    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\backend\\Core_calculation_engines\\CFA_operations",
+                    "subdirectories": {},
+                    "files": [
+                      "config_operations116.py",
+                      "expense_operations116.py",
+                      "revenue_operations116.py",
+                      "tax_operations116.py",
+                      "utility116.py",
+                      "visualization_operations116.py",
+                      "__init__116.py"
+                    ]
+                  }
+                },
+                "files": [
+                  "app_CFA116.log",
+                  "CFA-b116.py",
+                  "consolidated_cfa_new116.py",
+                  "keyword_constants116.py",
+                  "price_optimization116.log"
+                ]
+              },
+              "Data_processors_and_transformers": {
+                "name": "Data_processors_and_transformers",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\backend\\Data_processors_and_transformers",
+                "subdirectories": {},
+                "files": [
+                  "Front_Subtab_HTML116.py",
+                  "Front_Subtab_Plot116.py",
+                  "Front_Subtab_Table116.py"
+                ]
+              },
+              "Logs": {
+                "name": "Logs",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\backend\\Logs",
+                "subdirectories": {},
+                "files": [
+                  "CALCULATIONS_SENSITIVITY116.log",
+                  "CALSEN116.log",
+                  "CFA_CALC116.log",
+                  "CONFIG_COPY116.log",
+                  "Flask_Sub116.log",
+                  "SENSITIVITY116.log"
+                ]
+              },
+              "Utility_functions": {
+                "name": "Utility_functions",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\backend\\Utility_functions",
+                "subdirectories": {},
+                "files": [
+                  "common_utils116.py",
+                  "file_utils116.py",
+                  "property_mapping_service116.py"
+                ]
+              },
+              "Visualization_generators": {
+                "name": "Visualization_generators",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\backend\\Visualization_generators",
+                "subdirectories": {},
+                "files": [
+                  "AggregatedSubPlots116.py",
+                  "cfa_plotting116.py",
+                  "PNG_PLOT116.py"
+                ]
+              },
+              "database": {
+                "name": "database",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\backend\\database",
+                "subdirectories": {},
+                "files": [
+                  "clickhouse_config116.py",
+                  "initialize_databases116.py",
+                  "postgresql_config116.py"
+                ]
+              },
+              "file_associations": {
+                "name": "file_associations",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\backend\\file_associations",
+                "subdirectories": {
+                  "output": {
+                    "name": "output",
+                    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\backend\\file_associations\\output",
+                    "subdirectories": {},
+                    "files": [
+                      "file_associations_20250429_122909116.json",
+                      "file_associations_summary_20250429_122909116.json"
+                    ]
+                  }
+                },
+                "files": []
+              },
+              "flask_api": {
+                "name": "flask_api",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\backend\\flask_api",
+                "subdirectories": {
+                  "routes": {
+                    "name": "routes",
+                    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\backend\\flask_api\\routes",
+                    "subdirectories": {},
+                    "files": [
+                      "theme_routes116.py"
+                    ]
+                  }
+                },
+                "files": []
+              },
+              "templates": {
+                "name": "templates",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\backend\\templates",
+                "subdirectories": {},
+                "files": [
+                  "index116.html"
+                ]
+              }
+            },
+            "files": [
+              "cfa_list116.py",
+              "requirements116.txt",
+              "Sensitivity_File_Manager116.py",
+              "sensitivity_logging116.py"
+            ]
+          },
+          "capacity_visualizations": {
+            "name": "capacity_visualizations",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\capacity_visualizations",
+            "subdirectories": {},
+            "files": [
+              "tensor_capacity_visualization116.html"
+            ]
+          },
+          "code-entity-analyzer": {
+            "name": "code-entity-analyzer",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\code-entity-analyzer",
+            "subdirectories": {
+              "core": {
+                "name": "core",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\code-entity-analyzer\\core",
+                "subdirectories": {},
+                "files": [
+                  "dependency_mapper116.js",
+                  "entity_analyzer116.js",
+                  "hook_analyzer116.js",
+                  "prop_flow_analyzer116.js",
+                  "react_parser116.js"
+                ]
+              },
+              "insights": {
+                "name": "insights",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\code-entity-analyzer\\insights",
+                "subdirectories": {},
+                "files": [
+                  "insight_generator116.js"
+                ]
+              },
+              "integration": {
+                "name": "integration",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\code-entity-analyzer\\integration",
+                "subdirectories": {},
+                "files": [
+                  "tab_integration116.js",
+                  "theme_provider116.js"
+                ]
+              },
+              "visualizations": {
+                "name": "visualizations",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\code-entity-analyzer\\visualizations",
+                "subdirectories": {},
+                "files": [
+                  "component_graph116.js",
+                  "dependency_heatmap116.js",
+                  "state_flow_diagram116.js"
+                ]
+              }
+            },
+            "files": []
+          },
+          "docs": {
+            "name": "docs",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\docs",
+            "subdirectories": {},
+            "files": [
+              "python_javascript_integration116.md"
+            ]
+          },
+          "eslint-plugin-active-files": {
+            "name": "eslint-plugin-active-files",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\eslint-plugin-active-files",
+            "subdirectories": {
+              "rules": {
+                "name": "rules",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\eslint-plugin-active-files\\rules",
+                "subdirectories": {},
+                "files": [
+                  "active-files-tracker116.js"
+                ]
+              }
+            },
+            "files": [
+              "index116.js",
+              "package116.json",
+              "README116.md"
+            ]
+          },
+          "file_associations": {
+            "name": "file_associations",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\file_associations",
+            "subdirectories": {
+              "output": {
+                "name": "output",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\file_associations\\output",
+                "subdirectories": {},
+                "files": [
+                  "common_ports_20250510_090930116.json",
+                  "direct_imports_20250510_090421116.json",
+                  "direct_imports_20250510_090930116.json",
+                  "file_associations_20250510_090930116.json",
+                  "file_associations_summary_20250510_090930116.json"
+                ]
+              }
+            },
+            "files": [
+              "cli116.py",
+              "common_ports116.py",
+              "config116.py",
+              "direct_imports116.py",
+              "file_associations116.py",
+              "file_association_base116.py",
+              "logging_utils116.py",
+              "main116.py",
+              "path_utils116.py",
+              "README116.md",
+              "utils116.py",
+              "__init__116.py"
+            ]
+          },
+          "financial-entity-analyzer": {
+            "name": "financial-entity-analyzer",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\financial-entity-analyzer",
+            "subdirectories": {
+              "core": {
+                "name": "core",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\financial-entity-analyzer\\core",
+                "subdirectories": {},
+                "files": [
+                  "calculation_flow_analyzer116.js",
+                  "financial_constants_analyzer116.js",
+                  "optimization_path_analyzer116.js",
+                  "parameter_dependency_tracker116.js",
+                  "sensitivity_model_analyzer116.js"
+                ]
+              },
+              "insights": {
+                "name": "insights",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\financial-entity-analyzer\\insights",
+                "subdirectories": {},
+                "files": []
+              },
+              "integration": {
+                "name": "integration",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\financial-entity-analyzer\\integration",
+                "subdirectories": {},
+                "files": [
+                  "tab_system_integration116.js"
+                ]
+              },
+              "visualizations": {
+                "name": "visualizations",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\financial-entity-analyzer\\visualizations",
+                "subdirectories": {},
+                "files": [
+                  "calculation_flow_diagram116.js",
+                  "optimization_convergence_plot116.js",
+                  "parameter_influence_graph116.js",
+                  "sensitivity_heat_map116.js"
+                ]
+              }
+            },
+            "files": []
+          },
+          "financial_entity_visualizations": {
+            "name": "financial_entity_visualizations",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\financial_entity_visualizations",
+            "subdirectories": {},
+            "files": [
+              "calculation_flow_diagram116.js",
+              "financial_entity_visualizations116.html",
+              "optimization_convergence_plot116.js",
+              "parameter_influence_graph116.js",
+              "sensitivity_heat_map116.js"
+            ]
+          },
+          "insights_generator": {
+            "name": "insights_generator",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\insights_generator",
+            "subdirectories": {},
+            "files": [
+              "d3_network_generator116.py",
+              "data_miner116.py",
+              "entity_analyzer116.py",
+              "html_generator116.py",
+              "insights_miner116.py",
+              "interactive_html_generator116.py",
+              "main116.py",
+              "network_analyzer116.py",
+              "__init__116.py"
+            ]
+          },
+          "probing": {
+            "name": "probing",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\probing",
+            "subdirectories": {
+              "file_associations": {
+                "name": "file_associations",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\probing\\file_associations",
+                "subdirectories": {
+                  "output": {
+                    "name": "output",
+                    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\probing\\file_associations\\output",
+                    "subdirectories": {},
+                    "files": []
+                  }
+                },
+                "files": [
+                  "cli116.py",
+                  "common_ports116.py",
+                  "config116.py",
+                  "direct_imports116.py",
+                  "file_associations116.py",
+                  "file_association_base116.py",
+                  "logging_utils116.py",
+                  "main116.py",
+                  "path_utils116.py",
+                  "README116.md",
+                  "utils116.py",
+                  "__init__116.py"
+                ]
+              },
+              "insights_generator": {
+                "name": "insights_generator",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\probing\\insights_generator",
+                "subdirectories": {},
+                "files": [
+                  "__init__116.py"
+                ]
+              }
+            },
+            "files": [
+              "integration116.py",
+              "__init__116.py"
+            ]
+          },
+          "public": {
+            "name": "public",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\public",
+            "subdirectories": {},
+            "files": [
+              "electron116.js",
+              "index116.html"
+            ]
+          },
+          "src": {
+            "name": "src",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src",
+            "subdirectories": {
+              "code-entity-analyzer": {
+                "name": "code-entity-analyzer",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\code-entity-analyzer",
+                "subdirectories": {
+                  "integration": {
+                    "name": "integration",
+                    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\code-entity-analyzer\\integration",
+                    "subdirectories": {},
+                    "files": [
+                      "tab_integration116.js"
+                    ]
+                  },
+                  "visualizations": {
+                    "name": "visualizations",
+                    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\code-entity-analyzer\\visualizations",
+                    "subdirectories": {},
+                    "files": []
+                  }
+                },
+                "files": []
+              },
+              "components": {
+                "name": "components",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\components",
+                "subdirectories": {
+                  "build": {
+                    "name": "build",
+                    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\components\\build",
+                    "subdirectories": {},
+                    "files": [
+                      "BuildWorkflowIntegrationExample116.css",
+                      "BuildWorkflowIntegrationExample116.js",
+                      "BuildWorkflowPanel116.css",
+                      "BuildWorkflowPanel116.js",
+                      "BuildWorkflowSuggestions116.md",
+                      "index116.js"
+                    ]
+                  },
+                  "cfa": {
+                    "name": "cfa",
+                    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\components\\cfa",
+                    "subdirectories": {},
+                    "files": [
+                      "CFAConsolidationUI116.js",
+                      "IndividualResultsPanel116.js",
+                      "ProcessingPanel116.js",
+                      "ResultsPanel116.js",
+                      "SelectionPanel116.js"
+                    ]
+                  },
+                  "common": {
+                    "name": "common",
+                    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\components\\common",
+                    "subdirectories": {},
+                    "files": []
+                  },
+                  "find_factual_precedence": {
+                    "name": "find_factual_precedence",
+                    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\components\\find_factual_precedence",
+                    "subdirectories": {
+                      "components": {
+                        "name": "components",
+                        "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\components\\find_factual_precedence\\components",
+                        "subdirectories": {
+                          "modules": {
+                            "name": "modules",
+                            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\components\\find_factual_precedence\\components\\modules",
+                            "subdirectories": {
+                              "FactualPrecedence": {
+                                "name": "FactualPrecedence",
+                                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\components\\find_factual_precedence\\components\\modules\\FactualPrecedence",
+                                "subdirectories": {},
+                                "files": [
+                                  "APIFactualPrecedence116.js",
+                                  "FactualPrecedenceBase116.js",
+                                  "FilteredFactualPrecedence116.js",
+                                  "index116.js",
+                                  "LocalFactualPrecedence116.js"
+                                ]
+                              }
+                            },
+                            "files": []
+                          }
+                        },
+                        "files": []
+                      },
+                      "data": {
+                        "name": "data",
+                        "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\components\\find_factual_precedence\\data",
+                        "subdirectories": {},
+                        "files": [
+                          "factualPrecedenceData116.js",
+                          "keyPointsMapping116.js"
+                        ]
+                      },
+                      "server": {
+                        "name": "server",
+                        "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\components\\find_factual_precedence\\server",
+                        "subdirectories": {
+                          "routes": {
+                            "name": "routes",
+                            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\components\\find_factual_precedence\\server\\routes",
+                            "subdirectories": {},
+                            "files": [
+                              "factualPrecedence116.js"
+                            ]
+                          },
+                          "services": {
+                            "name": "services",
+                            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\components\\find_factual_precedence\\server\\services",
+                            "subdirectories": {},
+                            "files": [
+                              "llmService116.js"
+                            ]
+                          },
+                          "utils": {
+                            "name": "utils",
+                            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\components\\find_factual_precedence\\server\\utils",
+                            "subdirectories": {},
+                            "files": [
+                              "promptGenerator116.js"
+                            ]
+                          }
+                        },
+                        "files": []
+                      },
+                      "styles": {
+                        "name": "styles",
+                        "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\components\\find_factual_precedence\\styles",
+                        "subdirectories": {},
+                        "files": [
+                          "FactualPrecedence116.css"
+                        ]
+                      }
+                    },
+                    "files": []
+                  },
+                  "modules": {
+                    "name": "modules",
+                    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\components\\modules",
+                    "subdirectories": {},
+                    "files": [
+                      "CalculationMonitor116.js",
+                      "CapacityMapPanel116.js",
+                      "ConfigurationMonitor116.js",
+                      "ConflictResolutionPanel116.js",
+                      "CustomizableImage116.js",
+                      "CustomizableTable116.js",
+                      "Efficacy116.js",
+                      "EfficacyMapContainer116.js",
+                      "FactEngine116.js",
+                      "FactEngineAdmin116.js",
+                      "HeaderBackground116.js",
+                      "PendulumClock116.js",
+                      "PlotsTabs116.js",
+                      "SensitivityMonitor116.js",
+                      "SensitivityPlotsTabs116.js",
+                      "TensorCapacityVisualization116.js",
+                      "TestingZone116.js",
+                      "ThemeButton116.js",
+                      "ThemeConfigurator116.js",
+                      "ThemeGenerator116.js",
+                      "TicTacToe116.js",
+                      "TimeParameterMatrix116.js",
+                      "WhakAMole116.js"
+                    ]
+                  },
+                  "process_economics": {
+                    "name": "process_economics",
+                    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\components\\process_economics",
+                    "subdirectories": {
+                      "components": {
+                        "name": "components",
+                        "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\components\\process_economics\\components",
+                        "subdirectories": {},
+                        "files": [
+                          "CategorySelector116.js",
+                          "CiloExplorer116.js",
+                          "CiloSection116.js",
+                          "CopyLinkModal116.js",
+                          "EditItemForm116.js",
+                          "GeneralLibrary116.js",
+                          "ImportExportPanel116.js",
+                          "ItemCard116.js",
+                          "ItemDetailsModal116.js",
+                          "LibraryHeader116.js",
+                          "PersonalLibrary116.js",
+                          "PopularItemsCarousel116.js",
+                          "SaveToLibraryModal116.js",
+                          "ScalingGroupsPreview116.js",
+                          "SearchPanel116.js",
+                          "ShelfSelector116.js",
+                          "UsageIndicator116.js",
+                          "UsageStatsOverview116.js",
+                          "UsageStatsPanel116.js"
+                        ]
+                      },
+                      "data": {
+                        "name": "data",
+                        "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\components\\process_economics\\data",
+                        "subdirectories": {},
+                        "files": [
+                          "categoryData116.js",
+                          "ciloData116.js"
+                        ]
+                      },
+                      "services": {
+                        "name": "services",
+                        "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\components\\process_economics\\services",
+                        "subdirectories": {},
+                        "files": [
+                          "libraryService116.js",
+                          "mockDataService116.js",
+                          "usageTrackingService116.js"
+                        ]
+                      },
+                      "styles": {
+                        "name": "styles",
+                        "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\components\\process_economics\\styles",
+                        "subdirectories": {},
+                        "files": [
+                          "LibrarySystem116.css",
+                          "ScalingGroupsPreview116.css"
+                        ]
+                      },
+                      "utils": {
+                        "name": "utils",
+                        "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\components\\process_economics\\utils",
+                        "subdirectories": {},
+                        "files": [
+                          "authUtils116.js",
+                          "blockchainUtils116.js"
+                        ]
+                      }
+                    },
+                    "files": [
+                      "LibrarySystem116.js"
+                    ]
+                  },
+                  "process_economics_pilot": {
+                    "name": "process_economics_pilot",
+                    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\components\\process_economics_pilot",
+                    "subdirectories": {},
+                    "files": [
+                      "integration-module116.js",
+                      "process-economics-library116.js",
+                      "scaling-reference-data116.js"
+                    ]
+                  },
+                  "truly_extended_scaling": {
+                    "name": "truly_extended_scaling",
+                    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\components\\truly_extended_scaling",
+                    "subdirectories": {
+                      "styles": {
+                        "name": "styles",
+                        "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\components\\truly_extended_scaling\\styles",
+                        "subdirectories": {},
+                        "files": [
+                          "DeleteConfirmationModal116.css"
+                        ]
+                      }
+                    },
+                    "files": [
+                      "Card116.js",
+                      "CentralScalingTab116.js",
+                      "DeleteConfirmationModal116.js",
+                      "ExtendedScaling116.js",
+                      "scaling-active-natural-motion116.js",
+                      "ScalingSummary116.js"
+                    ]
+                  }
+                },
+                "files": []
+              },
+              "contexts": {
+                "name": "contexts",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\contexts",
+                "subdirectories": {},
+                "files": [
+                  "VersionStateContext116.js",
+                  "VersionStateContext116.md"
+                ]
+              },
+              "docs": {
+                "name": "docs",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\docs",
+                "subdirectories": {},
+                "files": [
+                  "AntdDependencyFix116.md",
+                  "CapacityMapPanelImplementation116.md",
+                  "CapacityTrackingImplementation116.md",
+                  "EfficacyMapConsolidated3Integration116.md",
+                  "EfficacyMapIntegration116.md",
+                  "EfficacyMapIntegrationInInputTab116.md",
+                  "EfficacyTimeAndDegreeOfFreedom116.md",
+                  "EfficacyTimeImplementationSummary116.md",
+                  "TrueConfigurationSpaceImplementation116.md"
+                ]
+              },
+              "services": {
+                "name": "services",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\services",
+                "subdirectories": {},
+                "files": [
+                  "CapacityTrackingService116.js"
+                ]
+              },
+              "state": {
+                "name": "state",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\state",
+                "subdirectories": {},
+                "files": [
+                  "MatrixStateAtoms116.js"
+                ]
+              },
+              "styles": {
+                "name": "styles",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\styles",
+                "subdirectories": {
+                  "HomePage.CSS": {
+                    "name": "HomePage.CSS",
+                    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\styles\\HomePage.CSS",
+                    "subdirectories": {},
+                    "files": [
+                      "buttons116.css",
+                      "CalculationMonitor116.css",
+                      "CalculationMonitorRun116.css",
+                      "CalculationMonitorRuns116.css",
+                      "CapacityMapPanel116.css",
+                      "CentralScalingTab116.css",
+                      "CFAConsolidationUI116.css",
+                      "CommonSelector116.css",
+                      "ConfigurationMonitor116.css",
+                      "ConflictResolutionPanel116.css",
+                      "Consolidated116.css",
+                      "CustomizableTable116.css",
+                      "dynamic-subplot-css116.css",
+                      "Efficacy116.css",
+                      "EfficacyMapContainer116.css",
+                      "HCSS116.css",
+                      "HomePage1116.css",
+                      "HomePage2116.css",
+                      "HomePage3116.css",
+                      "HomePage5116.css",
+                      "HomePage6116.css",
+                      "HomePage_AboutUs116.css",
+                      "HomePage_buttons116.css",
+                      "HomePage_FactAdmin116.css",
+                      "HomePage_FactEngine116.css",
+                      "HomePage_monitoring116.css",
+                      "HomePage_neumorphic-tabs116.css",
+                      "HomePage_scaling116.css",
+                      "HomePage_scaling_t116.css",
+                      "integration-point116.css",
+                      "Label116.css",
+                      "Naturalmotion116.css",
+                      "PendulumClock116.css",
+                      "plots-tabs-css116.css",
+                      "ProcessingPanel116.css",
+                      "PropertySelector116.css",
+                      "ResetOptionsPopup116.css",
+                      "ResultsPanel116.css",
+                      "RunOptionsPopup116.css",
+                      "ScalingSummary116.css",
+                      "SelectionPanel116.css",
+                      "sensitivity-plots-css116.css",
+                      "SensitivityMonitor116.css",
+                      "SensitivitySelector116.css",
+                      "StickerHeader116.css",
+                      "TestingZone116.css",
+                      "ThemeButton116.css",
+                      "ThemeConfigurator116.css",
+                      "TicTacToe116.css",
+                      "TimeParameterMatrix116.css",
+                      "VersionSelector116.css",
+                      "WhakAMole116.css"
+                    ]
+                  },
+                  "Themes": {
+                    "name": "Themes",
+                    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\styles\\Themes",
+                    "subdirectories": {},
+                    "files": [
+                      "creative-theme116.css",
+                      "dark-theme116.css",
+                      "light-theme116.css"
+                    ]
+                  }
+                },
+                "files": []
+              },
+              "utils": {
+                "name": "utils",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\src\\utils",
+                "subdirectories": {},
+                "files": [
+                  "component_graph116.js",
+                  "context_analyzer116.js",
+                  "dependency_mapper116.js",
+                  "entity_analyzer116.js",
+                  "ErrorBoundary116.js",
+                  "hook_analyzer116.js",
+                  "insight_generator116.js",
+                  "labelReferences116.js",
+                  "prop_flow_analyzer116.js",
+                  "react_parser116.js",
+                  "serverUtils116.js"
+                ]
+              }
+            },
+            "files": [
+              "App116.js",
+              "centered-perspective-demo116.js",
+              "Consolidated116.js",
+              "Consolidated2116.js",
+              "Consolidated3116.js",
+              "GeneralFormConfig116.js",
+              "HomePage116.js",
+              "index116.js",
+              "MatrixStateManager116.js",
+              "Naturalmotion116.js",
+              "ValueTooltip116.js"
+            ]
+          },
+          "webpack-patches": {
+            "name": "webpack-patches",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\116\\webpack-patches",
+            "subdirectories": {},
+            "files": [
+              "axios-utils-patch116.js",
+              "express-view-patch116.js",
+              "react-dnd-invariant-patch116.js"
+            ]
+          }
+        },
+        "files": [
+          ".eslintrc116.js",
+          ".gitignore116",
+          "branch-documentation116.md",
+          "config-overrides116.js",
+          "c_backend_directory_structure116.json",
+          "c_backend_directory_structure116.py",
+          "g_src_directory_scanner116.json",
+          "HomePage116.js",
+          "install_packages116.bat",
+          "jotai_state_management_guide116.md",
+          "jsconfig116.json",
+          "labelUpdate-updated116.js",
+          "LICENSE116",
+          "limitations-addressed116.md",
+          "master-server116.js",
+          "matrix-submission-service116.js",
+          "ModEcon Matrix System Documentation116.md",
+          "package116.json",
+          "postman_collection116.json",
+          "qodana116.yaml",
+          "server116.py",
+          "start_servers116.py",
+          "submitCompleteSet-updated116.js",
+          "submit_parameter_append-updated116.js",
+          "text116.txt",
+          "visualization_runner116.py"
+        ]
+      },
+      "Active-Inactive-Marking": {
+        "name": "Active-Inactive-Marking",
+        "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\Active-Inactive-Marking",
+        "subdirectories": {
+          "logs": {
+            "name": "logs",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\Active-Inactive-Marking\\logs",
+            "subdirectories": {},
+            "files": [
+              "active-files-analysis_2025-04-29_10-47-09.log",
+              "active-files-analysis_2025-04-29_10-48-28.log",
+              "active-files-analysis_2025-04-29_10-54-51.log",
+              "active-files-analysis_2025-04-29_11-14-18.log",
+              "active-files-analysis_2025-04-29_11-15-41.log",
+              "active-files-analysis_2025-04-29_11-18-23.log",
+              "active-files-analysis_2025-04-29_11-26-19.log",
+              "active-files-analysis_2025-04-29_11-37-14.log",
+              "active-files-analysis_2025-04-29_12-03-52.log"
+            ]
+          }
+        },
+        "files": [
+          "install-active-files-plugin.js",
+          "logger.js",
+          "mark-active-files.js",
+          "restore-filenames.js",
+          "run-active-files-analysis.js",
+          "run-active-files-workflow.js",
+          "update-eslint-config.js",
+          "update-imports.js"
+        ]
+      },
+      "Original": {
+        "name": "Original",
+        "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\Original",
+        "subdirectories": {},
+        "files": []
+      },
+      "backend": {
+        "name": "backend",
+        "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\backend",
+        "subdirectories": {
+          "API_endpoints_and_controllers": {
+            "name": "API_endpoints_and_controllers",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\backend\\API_endpoints_and_controllers",
+            "subdirectories": {
+              "k": {
+                "name": "k",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\backend\\API_endpoints_and_controllers\\k",
+                "subdirectories": {},
+                "files": [
+                  "h.py"
+                ]
+              }
+            },
+            "files": [
+              "add_axis_labels.py",
+              "album_organizer.py",
+              "Calculations.py",
+              "Calculations_and_Sensitivity-LL.py",
+              "CalSen.py",
+              "ConfigurationAPI.py",
+              "Create_new_batch.py",
+              "generate_plots.py",
+              "html_album_organizer.py",
+              "IND2751.py",
+              "Load.py",
+              "PNG.py",
+              "process_sensitivity_results.py",
+              "Remove_batch.py",
+              "script_econ.py",
+              "sense_config_base.py",
+              "sensitivity_api.py",
+              "Sub.py",
+              "Subplot_metadata.py",
+              "Version_service.py"
+            ]
+          },
+          "Configuration_management": {
+            "name": "Configuration_management",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\backend\\Configuration_management",
+            "subdirectories": {},
+            "files": [
+              "config-modules-updated.py",
+              "config_modules.py",
+              "formatter-updated.py",
+              "formatter.py",
+              "module1-updated.py",
+              "module1.py",
+              "table-updated.py",
+              "Table.py"
+            ]
+          },
+          "Core_calculation_engines": {
+            "name": "Core_calculation_engines",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\backend\\Core_calculation_engines",
+            "subdirectories": {
+              "CFA_operations": {
+                "name": "CFA_operations",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\backend\\Core_calculation_engines\\CFA_operations",
+                "subdirectories": {},
+                "files": [
+                  "config_operations.py",
+                  "expense_operations.py",
+                  "revenue_operations.py",
+                  "tax_operations.py",
+                  "utility.py",
+                  "visualization_operations.py",
+                  "__init__.py"
+                ]
+              }
+            },
+            "files": [
+              "app_CFA.log",
+              "CFA-b.py",
+              "consolidated_cfa_new.py",
+              "keyword_constants.py",
+              "price_optimization.log"
+            ]
+          },
+          "Data_processors_and_transformers": {
+            "name": "Data_processors_and_transformers",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\backend\\Data_processors_and_transformers",
+            "subdirectories": {},
+            "files": [
+              "Front_Subtab_HTML.py",
+              "Front_Subtab_Plot.py",
+              "Front_Subtab_Table.py"
+            ]
+          },
+          "Logs": {
+            "name": "Logs",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\backend\\Logs",
+            "subdirectories": {},
+            "files": [
+              "CALCULATIONS_SENSITIVITY.log",
+              "CALSEN.log",
+              "CFA_CALC.log",
+              "CONFIG_COPY.log",
+              "Flask_Sub.log",
+              "SENSITIVITY.log"
+            ]
+          },
+          "Utility_functions": {
+            "name": "Utility_functions",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\backend\\Utility_functions",
+            "subdirectories": {},
+            "files": [
+              "common_utils.py",
+              "file_utils.py",
+              "property_mapping_service.py"
+            ]
+          },
+          "Visualization_generators": {
+            "name": "Visualization_generators",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\backend\\Visualization_generators",
+            "subdirectories": {},
+            "files": [
+              "AggregatedSubPlots.py",
+              "cfa_plotting.py",
+              "PNG_PLOT.py"
+            ]
+          },
+          "database": {
+            "name": "database",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\backend\\database",
+            "subdirectories": {},
+            "files": [
+              "clickhouse_config.py",
+              "initialize_databases.py",
+              "postgresql_config.py"
+            ]
+          },
+          "file_associations": {
+            "name": "file_associations",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\backend\\file_associations",
+            "subdirectories": {
+              "output": {
+                "name": "output",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\backend\\file_associations\\output",
+                "subdirectories": {},
+                "files": [
+                  "file_associations_20250429_122909.json",
+                  "file_associations_summary_20250429_122909.json"
+                ]
+              }
+            },
+            "files": []
+          },
+          "flask_api": {
+            "name": "flask_api",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\backend\\flask_api",
+            "subdirectories": {
+              "routes": {
+                "name": "routes",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\backend\\flask_api\\routes",
+                "subdirectories": {},
+                "files": [
+                  "theme_routes.py"
+                ]
+              }
+            },
+            "files": []
+          },
+          "templates": {
+            "name": "templates",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\backend\\templates",
+            "subdirectories": {},
+            "files": [
+              "index.html"
+            ]
+          }
+        },
+        "files": [
+          "cfa_list.py",
+          "requirements.txt",
+          "Sensitivity_File_Manager.py",
+          "sensitivity_logging.py"
+        ]
+      },
+      "capacity_visualizations": {
+        "name": "capacity_visualizations",
+        "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\capacity_visualizations",
+        "subdirectories": {},
+        "files": [
+          "tensor_capacity_visualization.html"
+        ]
+      },
+      "docs": {
+        "name": "docs",
+        "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\docs",
+        "subdirectories": {},
+        "files": [
+          "python_javascript_integration.md"
+        ]
+      },
+      "eslint-plugin-active-files": {
+        "name": "eslint-plugin-active-files",
+        "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\eslint-plugin-active-files",
+        "subdirectories": {
+          "rules": {
+            "name": "rules",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\eslint-plugin-active-files\\rules",
+            "subdirectories": {},
+            "files": [
+              "active-files-tracker.js"
+            ]
+          }
+        },
+        "files": [
+          "index.js",
+          "package.json",
+          "README.md"
+        ]
+      },
+      "junie-intellij-plugin": {
+        "name": "junie-intellij-plugin",
+        "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\junie-intellij-plugin",
+        "subdirectories": {
+          "junie-connector-plugin": {
+            "name": "junie-connector-plugin",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\junie-intellij-plugin\\junie-connector-plugin",
+            "subdirectories": {},
+            "files": [
+              "example.js",
+              "ide-integration.js",
+              "IMPLEMENTATION.md",
+              "index.js",
+              "package.json",
+              "plugin-directory.js",
+              "README.md",
+              "USAGE_AND_SCRIPTS.md"
+            ]
+          },
+          "src": {
+            "name": "src",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\junie-intellij-plugin\\src",
+            "subdirectories": {
+              "main": {
+                "name": "main",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\junie-intellij-plugin\\src\\main",
+                "subdirectories": {
+                  "java": {
+                    "name": "java",
+                    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\junie-intellij-plugin\\src\\main\\java",
+                    "subdirectories": {
+                      "com": {
+                        "name": "com",
+                        "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\junie-intellij-plugin\\src\\main\\java\\com",
+                        "subdirectories": {
+                          "junie": {
+                            "name": "junie",
+                            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\junie-intellij-plugin\\src\\main\\java\\com\\junie",
+                            "subdirectories": {
+                              "plugin": {
+                                "name": "plugin",
+                                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\junie-intellij-plugin\\src\\main\\java\\com\\junie\\plugin",
+                                "subdirectories": {
+                                  "ai": {
+                                    "name": "ai",
+                                    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\junie-intellij-plugin\\src\\main\\java\\com\\junie\\plugin\\ai",
+                                    "subdirectories": {
+                                      "multiagent": {
+                                        "name": "multiagent",
+                                        "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\junie-intellij-plugin\\src\\main\\java\\com\\junie\\plugin\\ai\\multiagent",
+                                        "subdirectories": {
+                                          "services": {
+                                            "name": "services",
+                                            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\junie-intellij-plugin\\src\\main\\java\\com\\junie\\plugin\\ai\\multiagent\\services",
+                                            "subdirectories": {},
+                                            "files": [
+                                              "AgentContextService.java",
+                                              "AgentCoordinatorService.java",
+                                              "AgentSchedulerService.java"
+                                            ]
+                                          },
+                                          "ui": {
+                                            "name": "ui",
+                                            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\junie-intellij-plugin\\src\\main\\java\\com\\junie\\plugin\\ai\\multiagent\\ui",
+                                            "subdirectories": {},
+                                            "files": [
+                                              "AgentActivityPanel.java",
+                                              "AgentConfigPanel.java",
+                                              "AgentToolWindowFactory.java"
+                                            ]
+                                          }
+                                        },
+                                        "files": [
+                                          "AgentMessage.java",
+                                          "ArchitectAgent.java",
+                                          "BaseAgent.java",
+                                          "CodeEditorAgent.java",
+                                          "MessageBus.java",
+                                          "MessageType.java",
+                                          "ObserverAgent.java"
+                                        ]
+                                      }
+                                    },
+                                    "files": [
+                                      "AIAssistantService.java",
+                                      "EditorFactoryListenerImpl.java",
+                                      "InlineSuggestionManager.java",
+                                      "JunieAIIntegration.java",
+                                      "SequentialAgentManager.java"
+                                    ]
+                                  }
+                                },
+                                "files": [
+                                  "JvmInteropLauncher.java",
+                                  "JvmInteropLayer.java",
+                                  "PluginDirectoryAccessor.java",
+                                  "PluginDirectoryController.java",
+                                  "PluginDirectoryService.java"
+                                ]
+                              }
+                            },
+                            "files": []
+                          }
+                        },
+                        "files": []
+                      }
+                    },
+                    "files": []
+                  },
+                  "resources": {
+                    "name": "resources",
+                    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\junie-intellij-plugin\\src\\main\\resources",
+                    "subdirectories": {
+                      "META-INF": {
+                        "name": "META-INF",
+                        "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\junie-intellij-plugin\\src\\main\\resources\\META-INF",
+                        "subdirectories": {},
+                        "files": [
+                          "plugin.xml"
+                        ]
+                      }
+                    },
+                    "files": []
+                  }
+                },
+                "files": []
+              }
+            },
+            "files": []
+          },
+          "web": {
+            "name": "web",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\junie-intellij-plugin\\web",
+            "subdirectories": {},
+            "files": [
+              "README.md",
+              "TaskSchedulerApp.js",
+              "TaskSchedulerViewComponents.js",
+              "TaskSchedulerViews.js"
+            ]
+          }
+        },
+        "files": []
+      },
+      "probing": {
+        "name": "probing",
+        "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\probing",
+        "subdirectories": {
+          "code-entity-analyzer": {
+            "name": "code-entity-analyzer",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\probing\\code-entity-analyzer",
+            "subdirectories": {
+              "core": {
+                "name": "core",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\probing\\code-entity-analyzer\\core",
+                "subdirectories": {},
+                "files": [
+                  "dependency_mapper.js",
+                  "entity_analyzer.js",
+                  "hook_analyzer.js",
+                  "prop_flow_analyzer.js",
+                  "react_parser.js",
+                  "__init__.py"
+                ]
+              },
+              "insights": {
+                "name": "insights",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\probing\\code-entity-analyzer\\insights",
+                "subdirectories": {},
+                "files": [
+                  "insight_generator.js",
+                  "__init__.py"
+                ]
+              },
+              "integration": {
+                "name": "integration",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\probing\\code-entity-analyzer\\integration",
+                "subdirectories": {},
+                "files": [
+                  "code_analyzer_component.js",
+                  "tab_integration.js",
+                  "theme_provider.js",
+                  "__init__.py"
+                ]
+              },
+              "visualizations": {
+                "name": "visualizations",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\probing\\code-entity-analyzer\\visualizations",
+                "subdirectories": {},
+                "files": [
+                  "component_graph.js",
+                  "dependency_heatmap.js",
+                  "state_flow_diagram.js",
+                  "__init__.py"
+                ]
+              }
+            },
+            "files": [
+              "__init__.py"
+            ]
+          },
+          "file_associations": {
+            "name": "file_associations",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\probing\\file_associations",
+            "subdirectories": {
+              "output": {
+                "name": "output",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\probing\\file_associations\\output",
+                "subdirectories": {},
+                "files": [
+                  "common_ports_20250510_090930.json",
+                  "direct_imports_20250510_090421.json",
+                  "direct_imports_20250510_090930.json",
+                  "file_associations_20250510_090930.json",
+                  "file_associations_summary_20250510_090930.json"
+                ]
+              }
+            },
+            "files": [
+              "cli.py",
+              "common_ports.py",
+              "config.py",
+              "direct_imports.py",
+              "file_associations.py",
+              "file_association_base.py",
+              "logging_utils.py",
+              "main.py",
+              "path_utils.py",
+              "README.md",
+              "utils.py",
+              "__init__.py"
+            ]
+          },
+          "financial-entity-analyzer": {
+            "name": "financial-entity-analyzer",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\probing\\financial-entity-analyzer",
+            "subdirectories": {
+              "core": {
+                "name": "core",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\probing\\financial-entity-analyzer\\core",
+                "subdirectories": {},
+                "files": [
+                  "calculation_flow_analyzer.js",
+                  "financial_constants_analyzer.js",
+                  "optimization_path_analyzer.js",
+                  "parameter_dependency_tracker.js",
+                  "sensitivity_model_analyzer.js",
+                  "__init__.py"
+                ]
+              },
+              "insights": {
+                "name": "insights",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\probing\\financial-entity-analyzer\\insights",
+                "subdirectories": {},
+                "files": [
+                  "__init__.py"
+                ]
+              },
+              "integration": {
+                "name": "integration",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\probing\\financial-entity-analyzer\\integration",
+                "subdirectories": {},
+                "files": [
+                  "tab_system_integration.js",
+                  "__init__.py"
+                ]
+              },
+              "visualizations": {
+                "name": "visualizations",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\probing\\financial-entity-analyzer\\visualizations",
+                "subdirectories": {},
+                "files": [
+                  "calculation_flow_diagram.js",
+                  "optimization_convergence_plot.js",
+                  "parameter_influence_graph.js",
+                  "sensitivity_heat_map.js",
+                  "__init__.py"
+                ]
+              }
+            },
+            "files": [
+              "__init__.py"
+            ]
+          },
+          "financial_entity_visualizations": {
+            "name": "financial_entity_visualizations",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\probing\\financial_entity_visualizations",
+            "subdirectories": {},
+            "files": [
+              "calculation_flow_diagram.js",
+              "financial_entity_visualizations.html",
+              "optimization_convergence_plot.js",
+              "parameter_influence_graph.js",
+              "sensitivity_heat_map.js",
+              "visualization_component.js"
+            ]
+          },
+          "insights_generator": {
+            "name": "insights_generator",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\probing\\insights_generator",
+            "subdirectories": {},
+            "files": [
+              "d3_network_generator.py",
+              "data_miner.py",
+              "entity_analyzer.py",
+              "html_generator.py",
+              "insights_miner.py",
+              "interactive_html_generator.py",
+              "main.py",
+              "network_analyzer.py",
+              "__init__.py"
+            ]
+          },
+          "public": {
+            "name": "public",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\probing\\public",
+            "subdirectories": {},
+            "files": [
+              "index.html"
+            ]
+          },
+          "src": {
+            "name": "src",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\probing\\src",
+            "subdirectories": {
+              "public": {
+                "name": "public",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\probing\\src\\public",
+                "subdirectories": {},
+                "files": [
+                  "index.html"
+                ]
+              }
+            },
+            "files": [
+              "code_entity_interface.py",
+              "home.css",
+              "home.js",
+              "index.js",
+              "integration.py",
+              "integration_ui.css",
+              "integration_ui.js",
+              "package-lock.json",
+              "package.json",
+              "visualization_interface.py",
+              "__init__.py"
+            ]
+          }
+        },
+        "files": [
+          "package.json"
+        ]
+      },
+      "public": {
+        "name": "public",
+        "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\public",
+        "subdirectories": {},
+        "files": [
+          "electron.js",
+          "index.html"
+        ]
+      },
+      "src": {
+        "name": "src",
+        "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src",
+        "subdirectories": {
+          "code-entity-analyzer": {
+            "name": "code-entity-analyzer",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\code-entity-analyzer",
+            "subdirectories": {
+              "integration": {
+                "name": "integration",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\code-entity-analyzer\\integration",
+                "subdirectories": {},
+                "files": [
+                  "tab_integration.js"
+                ]
+              },
+              "visualizations": {
+                "name": "visualizations",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\code-entity-analyzer\\visualizations",
+                "subdirectories": {},
+                "files": []
+              }
+            },
+            "files": []
+          },
+          "components": {
+            "name": "components",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\components",
+            "subdirectories": {
+              "build": {
+                "name": "build",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\components\\build",
+                "subdirectories": {},
+                "files": [
+                  "BuildWorkflowIntegrationExample.css",
+                  "BuildWorkflowIntegrationExample.js",
+                  "BuildWorkflowPanel.css",
+                  "BuildWorkflowPanel.js",
+                  "BuildWorkflowSuggestions.md",
+                  "index.js"
+                ]
+              },
+              "cfa": {
+                "name": "cfa",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\components\\cfa",
+                "subdirectories": {},
+                "files": [
+                  "CFAConsolidationUI.js",
+                  "IndividualResultsPanel.js",
+                  "ProcessingPanel.js",
+                  "ResultsPanel.js",
+                  "SelectionPanel.js"
+                ]
+              },
+              "common": {
+                "name": "common",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\components\\common",
+                "subdirectories": {},
+                "files": []
+              },
+              "find_factual_precedence": {
+                "name": "find_factual_precedence",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\components\\find_factual_precedence",
+                "subdirectories": {
+                  "components": {
+                    "name": "components",
+                    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\components\\find_factual_precedence\\components",
+                    "subdirectories": {
+                      "modules": {
+                        "name": "modules",
+                        "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\components\\find_factual_precedence\\components\\modules",
+                        "subdirectories": {
+                          "FactualPrecedence": {
+                            "name": "FactualPrecedence",
+                            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\components\\find_factual_precedence\\components\\modules\\FactualPrecedence",
+                            "subdirectories": {},
+                            "files": [
+                              "APIFactualPrecedence.js",
+                              "FactualPrecedenceBase.js",
+                              "FilteredFactualPrecedence.js",
+                              "index.js",
+                              "LocalFactualPrecedence.js"
+                            ]
+                          }
+                        },
+                        "files": []
+                      }
+                    },
+                    "files": []
+                  },
+                  "data": {
+                    "name": "data",
+                    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\components\\find_factual_precedence\\data",
+                    "subdirectories": {},
+                    "files": [
+                      "factualPrecedenceData.js",
+                      "keyPointsMapping.js"
+                    ]
+                  },
+                  "server": {
+                    "name": "server",
+                    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\components\\find_factual_precedence\\server",
+                    "subdirectories": {
+                      "routes": {
+                        "name": "routes",
+                        "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\components\\find_factual_precedence\\server\\routes",
+                        "subdirectories": {},
+                        "files": [
+                          "factualPrecedence.js"
+                        ]
+                      },
+                      "services": {
+                        "name": "services",
+                        "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\components\\find_factual_precedence\\server\\services",
+                        "subdirectories": {},
+                        "files": [
+                          "llmService.js"
+                        ]
+                      },
+                      "utils": {
+                        "name": "utils",
+                        "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\components\\find_factual_precedence\\server\\utils",
+                        "subdirectories": {},
+                        "files": [
+                          "promptGenerator.js"
+                        ]
+                      }
+                    },
+                    "files": []
+                  },
+                  "styles": {
+                    "name": "styles",
+                    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\components\\find_factual_precedence\\styles",
+                    "subdirectories": {},
+                    "files": [
+                      "FactualPrecedence.css"
+                    ]
+                  }
+                },
+                "files": []
+              },
+              "forms": {
+                "name": "forms",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\components\\forms",
+                "subdirectories": {},
+                "files": []
+              },
+              "matrix": {
+                "name": "matrix",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\components\\matrix",
+                "subdirectories": {},
+                "files": [
+                  "MatrixApp.js"
+                ]
+              },
+              "modules": {
+                "name": "modules",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\components\\modules",
+                "subdirectories": {},
+                "files": [
+                  "CalculationMonitor.js",
+                  "CapacityMapPanel.js",
+                  "ConfigurationMonitor.js",
+                  "ConflictResolutionPanel.js",
+                  "CustomizableImage.js",
+                  "CustomizableTable.js",
+                  "Efficacy.js",
+                  "EfficacyMapContainer.js",
+                  "FactEngine.js",
+                  "FactEngineAdmin.js",
+                  "HeaderBackground.js",
+                  "PendulumClock.js",
+                  "PlotsTabs.js",
+                  "SensitivityMonitor.js",
+                  "SensitivityPlotsTabs.js",
+                  "TensorCapacityVisualization.js",
+                  "TestingZone.js",
+                  "ThemeButton.js",
+                  "ThemeConfigurator.js",
+                  "ThemeGenerator.js",
+                  "TicTacToe.js",
+                  "TimeParameterMatrix.js",
+                  "WhakAMole.js"
+                ]
+              },
+              "process_economics": {
+                "name": "process_economics",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\components\\process_economics",
+                "subdirectories": {
+                  "components": {
+                    "name": "components",
+                    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\components\\process_economics\\components",
+                    "subdirectories": {},
+                    "files": [
+                      "CategorySelector.js",
+                      "CiloExplorer.js",
+                      "CiloSection.js",
+                      "CopyLinkModal.js",
+                      "DecarbonizationLibrary.js",
+                      "DecarbonizationPathwayCard.js",
+                      "DecarbonizationPathwayPanel.js",
+                      "DecarbonizationTargetTimeline.js",
+                      "EditItemForm.js",
+                      "GeneralLibrary.js",
+                      "ImportExportPanel.js",
+                      "ItemCard.js",
+                      "ItemDetailsModal.js",
+                      "LibraryHeader.js",
+                      "PathwayComparisonChart.js",
+                      "PersonalLibrary.js",
+                      "PopularItemsCarousel.js",
+                      "SaveToLibraryModal.js",
+                      "ScalingGroupsPreview.js",
+                      "SearchPanel.js",
+                      "ShelfSelector.js",
+                      "UsageIndicator.js",
+                      "UsageStatsOverview.js",
+                      "UsageStatsPanel.js"
+                    ]
+                  },
+                  "data": {
+                    "name": "data",
+                    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\components\\process_economics\\data",
+                    "subdirectories": {},
+                    "files": [
+                      "categoryData.js",
+                      "ciloData.js"
+                    ]
+                  },
+                  "services": {
+                    "name": "services",
+                    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\components\\process_economics\\services",
+                    "subdirectories": {},
+                    "files": [
+                      "decarbonizationService.js",
+                      "libraryService.js",
+                      "mockDataService.js",
+                      "usageTrackingService.js"
+                    ]
+                  },
+                  "styles": {
+                    "name": "styles",
+                    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\components\\process_economics\\styles",
+                    "subdirectories": {},
+                    "files": [
+                      "DecarbonizationComponents.css",
+                      "LibrarySystem.css",
+                      "ScalingGroupsPreview.css"
+                    ]
+                  },
+                  "utils": {
+                    "name": "utils",
+                    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\components\\process_economics\\utils",
+                    "subdirectories": {},
+                    "files": [
+                      "authUtils.js",
+                      "blockchainUtils.js"
+                    ]
+                  }
+                },
+                "files": [
+                  "LibrarySystem.js"
+                ]
+              },
+              "process_economics_pilot": {
+                "name": "process_economics_pilot",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\components\\process_economics_pilot",
+                "subdirectories": {},
+                "files": [
+                  "integration-module.js",
+                  "process-economics-library.js",
+                  "scaling-reference-data.js"
+                ]
+              },
+              "truly_extended_scaling": {
+                "name": "truly_extended_scaling",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\components\\truly_extended_scaling",
+                "subdirectories": {
+                  "styles": {
+                    "name": "styles",
+                    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\components\\truly_extended_scaling\\styles",
+                    "subdirectories": {},
+                    "files": [
+                      "ClimateMapOverlay.css",
+                      "ClimateModule.css",
+                      "CoordinateComponent.css",
+                      "CoordinateFactFinder.css",
+                      "DeleteConfirmationModal.css",
+                      "ProcessEconomicsTest.css"
+                    ]
+                  },
+                  "tests": {
+                    "name": "tests",
+                    "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\components\\truly_extended_scaling\\tests",
+                    "subdirectories": {},
+                    "files": [
+                      "ProcessEconomicsTest.js"
+                    ]
+                  }
+                },
+                "files": [
+                  "boundary-downloader.js",
+                  "Card.js",
+                  "CentralScalingTab.js",
+                  "climate-module-enhanced.js",
+                  "ClimateMapOverlay.js",
+                  "coordinate-container-enhanced.js",
+                  "CoordinateComponent.js",
+                  "CoordinateFactFinder.js",
+                  "DecarbonizationPathwayCard.js",
+                  "DecarbonizationPathwayPanel.js",
+                  "DecarbonizationPathwaysFactory.js",
+                  "DecarbonizationTargetTimeline.js",
+                  "DeleteConfirmationModal.js",
+                  "ExtendedScaling.js",
+                  "multi-zone-selector.js",
+                  "PathwayComparisonChart.js",
+                  "ProcessEconomics.js",
+                  "scaling-active-natural-motion.js",
+                  "ScalingSummary.js",
+                  "StateManagementIntegration.js",
+                  "zone-utils.js"
+                ]
+              }
+            },
+            "files": []
+          },
+          "contexts": {
+            "name": "contexts",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\contexts",
+            "subdirectories": {},
+            "files": [
+              "VersionStateContext.js",
+              "VersionStateContext.md"
+            ]
+          },
+          "docs": {
+            "name": "docs",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\docs",
+            "subdirectories": {},
+            "files": [
+              "AntdDependencyFix.md",
+              "CapacityMapPanelImplementation.md",
+              "CapacityTrackingImplementation.md",
+              "EfficacyMapConsolidated3Integration.md",
+              "EfficacyMapIntegration.md",
+              "EfficacyMapIntegrationInInputTab.md",
+              "EfficacyTimeAndDegreeOfFreedom.md",
+              "EfficacyTimeImplementationSummary.md",
+              "TrueConfigurationSpaceImplementation.md"
+            ]
+          },
+          "services": {
+            "name": "services",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\services",
+            "subdirectories": {},
+            "files": [
+              "CapacityTrackingService.js",
+              "MatrixSubmissionService.js"
+            ]
+          },
+          "state": {
+            "name": "state",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\state",
+            "subdirectories": {},
+            "files": [
+              "MatrixStateAtoms.js"
+            ]
+          },
+          "styles": {
+            "name": "styles",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\styles",
+            "subdirectories": {
+              "HomePage.CSS": {
+                "name": "HomePage.CSS",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\styles\\HomePage.CSS",
+                "subdirectories": {},
+                "files": [
+                  "boundary-downloader-css.css",
+                  "buttons.css",
+                  "CalculationMonitor.css",
+                  "CalculationMonitorRun.css",
+                  "CalculationMonitorRuns.css",
+                  "CapacityMapPanel.css",
+                  "CentralScalingTab.css",
+                  "CFAConsolidationUI.css",
+                  "climate-module-enhanced-css.css",
+                  "CommonSelector.css",
+                  "ConfigurationMonitor.css",
+                  "ConflictResolutionPanel.css",
+                  "Consolidated.css",
+                  "coordinate-container-enhanced-css.css",
+                  "CustomizableTable.css",
+                  "dynamic-subplot-css.css",
+                  "Efficacy.css",
+                  "EfficacyMapContainer.css",
+                  "HCSS.css",
+                  "HomePage1.css",
+                  "HomePage2.css",
+                  "HomePage3.css",
+                  "HomePage5.css",
+                  "HomePage6.css",
+                  "HomePage_AboutUs.css",
+                  "HomePage_buttons.css",
+                  "HomePage_FactAdmin.css",
+                  "HomePage_FactEngine.css",
+                  "HomePage_monitoring.css",
+                  "HomePage_neumorphic-tabs.css",
+                  "HomePage_scaling.css",
+                  "HomePage_scaling_t.css",
+                  "integration-point.css",
+                  "Label.css",
+                  "multi-zone-selector-css.css",
+                  "Naturalmotion.css",
+                  "PendulumClock.css",
+                  "plots-tabs-css.css",
+                  "ProcessingPanel.css",
+                  "PropertySelector.css",
+                  "ResetOptionsPopup.css",
+                  "ResultsPanel.css",
+                  "RunOptionsPopup.css",
+                  "ScalingSummary.css",
+                  "SelectionPanel.css",
+                  "sensitivity-plots-css.css",
+                  "SensitivityMonitor.css",
+                  "SensitivitySelector.css",
+                  "StickerHeader.css",
+                  "TestingZone.css",
+                  "ThemeButton.css",
+                  "ThemeConfigurator.css",
+                  "TicTacToe.css",
+                  "TimeParameterMatrix.css",
+                  "unified-tooltip-css.css",
+                  "VersionSelector.css",
+                  "WhakAMole.css"
+                ]
+              },
+              "Themes": {
+                "name": "Themes",
+                "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\styles\\Themes",
+                "subdirectories": {},
+                "files": [
+                  "creative-theme.css",
+                  "dark-theme.css",
+                  "light-theme.css"
+                ]
+              }
+            },
+            "files": []
+          },
+          "utils": {
+            "name": "utils",
+            "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\src\\utils",
+            "subdirectories": {},
+            "files": [
+              "component_graph.js",
+              "context_analyzer.js",
+              "dependency_mapper.js",
+              "entity_analyzer.js",
+              "ErrorBoundary.js",
+              "hook_analyzer.js",
+              "insight_generator.js",
+              "labelReferences.js",
+              "prop_flow_analyzer.js",
+              "react_parser.js",
+              "serverUtils.js"
+            ]
+          }
+        },
+        "files": [
+          "App.js",
+          "centered-perspective-demo.js",
+          "Consolidated.js",
+          "Consolidated2.js",
+          "Consolidated3.js",
+          "GeneralFormConfig.js",
+          "HomePage.js",
+          "index.js",
+          "MatrixStateManager.js",
+          "Naturalmotion.js",
+          "unified-tooltip-js.js"
+        ]
+      },
+      "webpack-patches": {
+        "name": "webpack-patches",
+        "absolute_path": "C:\\Users\\Mohse\\IdeaProjects3\\ONE1\\webpack-patches",
+        "subdirectories": {},
+        "files": [
+          "axios-utils-patch.js",
+          "express-view-patch.js",
+          "react-dnd-invariant-patch.js"
+        ]
+      }
+    },
+    "files": [
+      ".env",
+      ".env.development",
+      ".env.production",
+      ".eslintrc.js",
+      ".gitignore",
+      "branch-documentation.md",
+      "clean_116_directory.py",
+      "config-overrides.js",
+      "c_backend_directory_structure.json",
+      "c_backend_directory_structure.py",
+      "file_history_log.md",
+      "g_src_directory_scanner.json",
+      "g_src_directory_scanner.py",
+      "jotai_state_management_guide.md",
+      "jsconfig.json",
+      "labelUpdate-updated.js",
+      "LICENSE",
+      "master-server.js",
+      "matrix-submission-service.js",
+      "ModEcon Matrix System Documentation.md",
+      "package-lock.json",
+      "package.json",
+      "postman_collection.json",
+      "Project Upgrade Step Wise",
+      "qodana.yaml",
+      "reduce_codebase.py",
+      "replace_with_commentary.py",
+      "server.py",
+      "start_servers.py",
+      "submitCompleteSet-updated.js",
+      "submit_parameter_append-updated.js",
+      "subplot_metadata.log",
+      "text.txt",
+      "visualization_runner.py"
+    ]
+  },
+  "api_endpoints": [
+    {
+      "path": "/analyze-project",
+      "method": "POST",
+      "function": "analyze_project",
+      "file": "server.py",
+      "description": ""
+    },
+    {
+      "path": "/analyze-project",
+      "method": "OPTIONS",
+      "function": "analyze_project",
+      "file": "server.py",
+      "description": ""
+    },
+    {
+      "path": "/generate-insights",
+      "method": "POST",
+      "function": "generate_insights",
+      "file": "server.py",
+      "description": ""
+    },
+    {
+      "path": "/generate-insights",
+      "method": "OPTIONS",
+      "function": "generate_insights",
+      "file": "server.py",
+      "description": ""
+    },
+    {
+      "path": "/",
+      "method": "GET",
+      "function": "index",
+      "file": "server.py",
+      "description": ""
+    },
+    {
+      "path": "/<path:filename>",
+      "method": "GET",
+      "function": "serve_file",
+      "file": "server.py",
+      "description": ""
+    },
+    {
+      "path": "/",
+      "method": "GET",
+      "function": "index",
+      "file": "backend\\cfa_list.py",
+      "description": "Render the selection interface"
+    },
+    {
+      "path": "/api/versions",
+      "method": "GET",
+      "function": "api_versions",
+      "file": "backend\\cfa_list.py",
+      "description": "Return the list of available CFA versions"
+    },
+    {
+      "path": "/api/directory-structure",
+      "method": "GET",
+      "function": "directory_structure",
+      "file": "backend\\cfa_list.py",
+      "description": "Debug endpoint to return the directory structure"
+    },
+    {
+      "path": "/api/select-versions",
+      "method": "POST",
+      "function": "select_versions",
+      "file": "backend\\cfa_list.py",
+      "description": "Update the selected versions based on the request"
+    },
+    {
+      "path": "/api/process/<version>",
+      "method": "GET",
+      "function": "process_cfa_file",
+      "file": "backend\\cfa_list.py",
+      "description": "Process the CFA file for the specified version"
+    },
+    {
+      "path": "/api/process-selected",
+      "method": "GET",
+      "function": "process_selected",
+      "file": "backend\\cfa_list.py",
+      "description": "Process all selected CFA files"
+    },
+    {
+      "path": "/api/consolidate",
+      "method": "POST",
+      "function": "start_consolidation",
+      "file": "backend\\cfa_list.py",
+      "description": "Start a consolidation job for the specified versions"
+    },
+    {
+      "path": "/api/consolidate/status/<job_id>",
+      "method": "GET",
+      "function": "get_consolidation_status",
+      "file": "backend\\cfa_list.py",
+      "description": "Get the status of a consolidation job"
+    },
+    {
+      "path": "/api/consolidate/results/<job_id>",
+      "method": "GET",
+      "function": "get_consolidation_results",
+      "file": "backend\\cfa_list.py",
+      "description": "Get the results of a completed consolidation job"
+    },
+    {
+      "path": "/api/cell-details",
+      "method": "POST",
+      "function": "get_cell_details",
+      "file": "backend\\cfa_list.py",
+      "description": "Get detailed breakdown of a specific cell, particularly for summed columns\n    such as Revenue and Operating Expenses, showing the contribution from each version."
+    },
+    {
+      "path": "/stream_price/<version>",
+      "method": "GET",
+      "function": "stream_price",
+      "file": "backend\\API_endpoints_and_controllers\\Calculations.py",
+      "description": "Stream real-time price optimization updates for a specific version using Server-Sent Events (SSE).\n    This endpoint connects to a PriceOptimizationMonitor that watches status files for changes."
+    },
+    {
+      "path": "/price/<version>",
+      "method": "GET",
+      "function": "get_price",
+      "file": "backend\\API_endpoints_and_controllers\\Calculations.py",
+      "description": "Get the final optimized price for a specific version"
+    },
+    {
+      "path": "/run",
+      "method": "POST",
+      "function": "run_scripts",
+      "file": "backend\\API_endpoints_and_controllers\\Calculations.py",
+      "description": ""
+    },
+    {
+      "path": "/status",
+      "method": "GET",
+      "function": "get_pipeline_status",
+      "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+      "description": "Get current pipeline execution status"
+    },
+    {
+      "path": "/register_payload",
+      "method": "POST",
+      "function": "register_payload",
+      "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+      "description": "Register payload and initialize pipeline"
+    },
+    {
+      "path": "/baseline_calculation",
+      "method": "POST",
+      "function": "baseline_calculation",
+      "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+      "description": "Perform baseline calculation without sensitivity variations"
+    },
+    {
+      "path": "/sensitivity/configure",
+      "method": "POST",
+      "function": "configure_sensitivity",
+      "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+      "description": "Generate and save sensitivity configurations"
+    },
+    {
+      "path": "/runs",
+      "method": "POST",
+      "function": "run_calculations",
+      "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+      "description": "Execute sensitivity calculations based on configured parameters"
+    },
+    {
+      "path": "/calculate-sensitivity",
+      "method": "POST",
+      "function": "calculate_sensitivity",
+      "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+      "description": "Execute specific sensitivity calculations using CFA-b.py with paths from CalSen service.\n    This endpoint runs after the general sensitivity configurations and runs have completed.\n    It leverages the CalSen service for path resolution to ensure consistent file locations."
+    },
+    {
+      "path": "/api/sensitivity/visualize",
+      "method": "POST",
+      "function": "sensitivity_visualize",
+      "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+      "description": "Generate visualization data for sensitivity analysis.\n\n    Expected JSON payload:\n    {\n        \"version\": 1,\n        \"param_id\": \"S10\",\n        \"mode\": \"percentage\",\n        \"compareToKey\": \"S13\",\n        \"plotTypes\": [\"waterfall\", \"bar\", \"point\"]\n    }"
+    },
+    {
+      "path": "/api/sensitivity/parameters",
+      "method": "GET",
+      "function": "get_sensitivity_parameters",
+      "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+      "description": "Get all available sensitivity parameters for visualization."
+    },
+    {
+      "path": "/run-all-sensitivity",
+      "method": "POST",
+      "function": "run_all_sensitivity",
+      "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+      "description": "Unified wrapper to execute all sensitivity endpoints sequentially.\n    Meant to replicate frontend's full analysis process with a single call."
+    },
+    {
+      "path": "/check-calsen-paths",
+      "method": "GET",
+      "function": "check_calsen_paths",
+      "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+      "description": "Check if calsen_paths.json exists for the specified version."
+    },
+    {
+      "path": "/run-script-econ",
+      "method": "POST",
+      "function": "run_script_econ",
+      "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+      "description": "Extract metrics from Economic Summary CSV files and append them to calsen_paths.json\n    using the incorporated extract_metrics_to_json function."
+    },
+    {
+      "path": "/run-add-axis-labels",
+      "method": "POST",
+      "function": "run_add_axis_labels",
+      "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+      "description": "Execute add_axis_labels.py to add axis labels to sensitivity plots."
+    },
+    {
+      "path": "/run-generate-plots",
+      "method": "POST",
+      "function": "run_generate_plots",
+      "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+      "description": "Generate sensitivity plots using the incorporated generate_plots function."
+    },
+    {
+      "path": "/run-html-album-organizer",
+      "method": "POST",
+      "function": "run_html_album_organizer",
+      "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+      "description": "Organize HTML plot files into standardized album directories using the incorporated organize_html_albums function."
+    },
+    {
+      "path": "/run-album-organizer",
+      "method": "POST",
+      "function": "run_album_organizer",
+      "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+      "description": "Organize PNG plots into standardized album directories using the incorporated organize_plot_albums function."
+    },
+    {
+      "path": "/run-process-sensitivity-results",
+      "method": "POST",
+      "function": "run_process_sensitivity_results",
+      "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+      "description": "Process sensitivity results using the incorporated process_sensitivity_results function."
+    },
+    {
+      "path": "/reset_pipeline",
+      "method": "POST",
+      "function": "reset_pipeline",
+      "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+      "description": "Reset the execution pipeline and clear all event flags"
+    },
+    {
+      "path": "/health",
+      "method": "GET",
+      "function": "health_check",
+      "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+      "description": "Health check endpoint that's always accessible"
+    },
+    {
+      "path": "/health",
+      "method": "GET",
+      "function": "health_check",
+      "file": "backend\\API_endpoints_and_controllers\\CalSen.py",
+      "description": "Health check endpoint"
+    },
+    {
+      "path": "/get_config_paths",
+      "method": "POST",
+      "function": "get_config_paths",
+      "file": "backend\\API_endpoints_and_controllers\\CalSen.py",
+      "description": "Get configuration paths based on version and payload.\n\n    Expected JSON request format:\n    {\n        \"version\": 1,\n        \"payload\": {\n            \"selectedVersions\": [1],\n            \"selectedV\": {\"V1\": \"on\", ...},\n            \"selectedF\": {\"F1\": \"on\", ...},\n            \"calculationOption\": \"freeFlowNPV\",\n            \"targetRow\": 20,\n            \"SenParameters\": {\n                \"S13\": {\n                    \"enabled\": true,\n                    \"mode\": \"percentage\",\n                    \"values\": [10],\n                    ...\n                },\n                ...\n            }\n        }\n    }"
+    },
+    {
+      "path": "/find_config_files",
+      "method": "POST",
+      "function": "find_config_files",
+      "file": "backend\\API_endpoints_and_controllers\\CalSen.py",
+      "description": "Find configuration files based on provided filters.\n\n    Expected JSON request format:\n    {\n        \"version\": 1,\n        \"param_id\": \"S35\",  # Optional\n        \"mode\": \"percentage\",  # Optional\n        \"variation\": 10.0  # Optional\n    }"
+    },
+    {
+      "path": "/list_parameters",
+      "method": "POST",
+      "function": "list_parameters",
+      "file": "backend\\API_endpoints_and_controllers\\CalSen.py",
+      "description": "List all enabled sensitivity parameters for a version.\n\n    Expected JSON request format:\n    {\n        \"version\": 1\n    }"
+    },
+    {
+      "path": "/load_configuration",
+      "method": "POST",
+      "function": "load_configuration",
+      "file": "backend\\API_endpoints_and_controllers\\ConfigurationAPI.py",
+      "description": ""
+    },
+    {
+      "path": "/delete_custom_param",
+      "method": "POST",
+      "function": "delete_custom_param",
+      "file": "backend\\API_endpoints_and_controllers\\ConfigurationAPI.py",
+      "description": "Delete a customized parameter from the U_configurations file.\n\n    Expected JSON payload:\n    {\n        \"version\": \"1\",\n        \"paramId\": \"someParameterId\",\n        \"start\": 5,\n        \"end\": 10\n    }\n\n    Returns:\n        JSON response with success message or error"
+    },
+    {
+      "path": "/create_new_batch",
+      "method": "POST",
+      "function": "create_new_batch_route",
+      "file": "backend\\API_endpoints_and_controllers\\Create_new_batch.py",
+      "description": ""
+    },
+    {
+      "path": "/inject-names",
+      "method": "POST",
+      "function": "inject_names",
+      "file": "backend\\API_endpoints_and_controllers\\IND2751.py",
+      "description": ""
+    },
+    {
+      "path": "/load_configuration",
+      "method": "POST",
+      "function": "load_configuration",
+      "file": "backend\\API_endpoints_and_controllers\\Load.py",
+      "description": ""
+    },
+    {
+      "path": "/generate_png_plots",
+      "method": "POST",
+      "function": "run_scripts",
+      "file": "backend\\API_endpoints_and_controllers\\PNG.py",
+      "description": "Main endpoint for running PNG visualization scripts.\n    Handles request validation, script execution, and error handling.\n\n    Returns:\n        tuple: (response, status_code)"
+    },
+    {
+      "path": "/api/plots/<version>",
+      "method": "GET",
+      "function": "get_plots",
+      "file": "backend\\API_endpoints_and_controllers\\PNG.py",
+      "description": "Get all plots for a specific version.\n\n    Args:\n        version (str): The version number\n\n    Returns:\n        Tuple[Response, int]: JSON response with plot information and HTTP status code"
+    },
+    {
+      "path": "/api/plots/<version>/<category>/<group>",
+      "method": "GET",
+      "function": "get_plots_by_group",
+      "file": "backend\\API_endpoints_and_controllers\\PNG.py",
+      "description": "Get plots for a specific version, category, and group.\n\n    Args:\n        version (str): The version number\n        category (str): The plot category\n        group (str): The plot group\n\n    Returns:\n        JSON response with plot information"
+    },
+    {
+      "path": "/api/sensitivity-plots/<version>",
+      "method": "GET",
+      "function": "get_sensitivity_plots",
+      "file": "backend\\API_endpoints_and_controllers\\PNG.py",
+      "description": "Get all sensitivity plots for a specific version.\n\n    Args:\n        version (str): The version number\n\n    Returns:\n        JSON response with plot information"
+    },
+    {
+      "path": "/api/sensitivity-plots/<version>/<category>/<group>",
+      "method": "GET",
+      "function": "get_sensitivity_plots_by_group",
+      "file": "backend\\API_endpoints_and_controllers\\PNG.py",
+      "description": "Get sensitivity plots for a specific version, category, and group.\n\n    Args:\n        version (str): The version number\n        category (str): The plot category\n        group (str): The plot group\n\n    Returns:\n        JSON response with plot information"
+    },
+    {
+      "path": "/images/<path:filename>",
+      "method": "GET",
+      "function": "serve_image",
+      "file": "backend\\API_endpoints_and_controllers\\PNG.py",
+      "description": "Serve image files from the Original directory\n\n    Args:\n        filename (str): Path to the image file relative to PUBLIC_DIR\n\n    Returns:\n        Union[Response, Tuple[Response, int]]: The image file or an error response"
+    },
+    {
+      "path": "/clear-log",
+      "method": "POST",
+      "function": "clear_log_endpoint",
+      "file": "backend\\API_endpoints_and_controllers\\Remove_batch.py",
+      "description": "Clear the contents of a specified log file."
+    },
+    {
+      "path": "/Remove_batch",
+      "method": "POST",
+      "function": "remove_batch_endpoint",
+      "file": "backend\\API_endpoints_and_controllers\\Remove_batch.py",
+      "description": "Handle batch removal via POST request."
+    },
+    {
+      "path": "/copy-config-modules",
+      "method": "POST",
+      "function": "copy_config_modules",
+      "file": "backend\\API_endpoints_and_controllers\\sense_config_base.py",
+      "description": "Endpoint to process all configuration modules with sensitivity variations."
+    },
+    {
+      "path": "/health",
+      "method": "GET",
+      "function": "health_check",
+      "file": "backend\\API_endpoints_and_controllers\\sense_config_base.py",
+      "description": "Health check endpoint for server detection.\n    Returns a 200 OK response with basic server information."
+    },
+    {
+      "path": "/runSub",
+      "method": "POST",
+      "function": "run_scripts",
+      "file": "backend\\API_endpoints_and_controllers\\Sub.py",
+      "description": ""
+    },
+    {
+      "path": "/subplotMetadata",
+      "method": "GET",
+      "function": "get_subplot_metadata",
+      "file": "backend\\API_endpoints_and_controllers\\Subplot_metadata.py",
+      "description": "Endpoint to retrieve metadata about available subplots\n    Provides information about available metrics and visualizations\n    \n    Returns:\n        JSON response with subplot metadata"
+    },
+    {
+      "path": "/versions",
+      "method": "GET",
+      "function": "list_versions_route",
+      "file": "backend\\API_endpoints_and_controllers\\Version_service.py",
+      "description": ""
+    },
+    {
+      "path": "/formatter/<version>",
+      "method": "GET",
+      "function": "run_formatter",
+      "file": "backend\\Configuration_management\\formatter-updated.py",
+      "description": "Run the formatter for a specific version."
+    },
+    {
+      "path": "/module1/<version>",
+      "method": "GET",
+      "function": "run_module1",
+      "file": "backend\\Configuration_management\\module1-updated.py",
+      "description": "Run module1 for a specific version."
+    },
+    {
+      "path": "/table/<version>",
+      "method": "GET",
+      "function": "run_table",
+      "file": "backend\\Configuration_management\\table-updated.py",
+      "description": "Run the Table module for a specific version."
+    },
+    {
+      "path": "/api/album_html/<version>",
+      "method": "GET",
+      "function": "get_html_files",
+      "file": "backend\\Data_processors_and_transformers\\Front_Subtab_HTML.py",
+      "description": ""
+    },
+    {
+      "path": "/static/html/<version>/<album>/<filename>",
+      "method": "GET",
+      "function": "serve_html",
+      "file": "backend\\Data_processors_and_transformers\\Front_Subtab_HTML.py",
+      "description": "Serve HTML files from the correct directory based on version and album"
+    },
+    {
+      "path": "/test",
+      "method": "GET",
+      "function": "test",
+      "file": "backend\\Data_processors_and_transformers\\Front_Subtab_HTML.py",
+      "description": "Simple test endpoint to check if the server is running"
+    },
+    {
+      "path": "/test/album_endpoints",
+      "method": "GET",
+      "function": "test_album_endpoints",
+      "file": "backend\\Data_processors_and_transformers\\Front_Subtab_HTML.py",
+      "description": "Test endpoint to verify the album HTML content endpoints are working\n\n    This endpoint tests both /api/album_html_content/<album> and /api/album_html_all\n    by attempting to find and retrieve content from the first available album.\n\n    Returns:\n        JSON response with test results"
+    },
+    {
+      "path": "/api/album_html_content/<album>",
+      "method": "GET",
+      "function": "get_album_html_content",
+      "file": "backend\\Data_processors_and_transformers\\Front_Subtab_HTML.py",
+      "description": "Fetch HTML content for a specific album\n\n    Args:\n        album: The album identifier\n\n    Returns:\n        JSON response with the album's HTML content"
+    },
+    {
+      "path": "/api/album_html_all",
+      "method": "GET",
+      "function": "get_all_albums_html",
+      "file": "backend\\Data_processors_and_transformers\\Front_Subtab_HTML.py",
+      "description": "Fetch HTML content for all albums across specified versions\n\n    Query parameters:\n        version: One or more version numbers (can be specified multiple times)\n\n    Returns:\n        JSON response with all albums' HTML content"
+    },
+    {
+      "path": "/api/logs",
+      "method": "GET",
+      "function": "get_logs",
+      "file": "backend\\Data_processors_and_transformers\\Front_Subtab_HTML.py",
+      "description": "Return the most recent log entries"
+    },
+    {
+      "path": "/api/album/<version>",
+      "method": "GET",
+      "function": "get_png_files",
+      "file": "backend\\Data_processors_and_transformers\\Front_Subtab_Plot.py",
+      "description": ""
+    },
+    {
+      "path": "/api/csv-files/<version>",
+      "method": "GET",
+      "function": "get_csv_files",
+      "file": "backend\\Data_processors_and_transformers\\Front_Subtab_Table.py",
+      "description": ""
+    }
+  ]
+}

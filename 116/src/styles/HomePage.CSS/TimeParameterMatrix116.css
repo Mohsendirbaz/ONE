@@ -1,0 +1,24 @@
+# TimeParameterMatrix.css
+
+**Purpose**: Styling
+
+## Key Code Sections
+
+### CSS Selectors
+
+```css
+/* TimeParameterMatrix.css */
+
+.time-parameter-matrix { ... }
+.matrix-controls { ... }
+.view-toggle-button { ... }
+.view-toggle-button:hover { ... }
+.matrix-description { ... }
+/* ...and 24 more selectors... */
+```
+
+## File Info
+
+- **Size**: 2.8 KB
+- **Lines**: 179
+- **Complexity**: Low

@@ -1,0 +1,4760 @@
+{
+  "info": {
+    "name": "ONE1 API",
+    "description": "API endpoints for the ONE1 project",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "server.py",
+      "item": [
+        {
+          "name": "POST /analyze-project",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/analyze-project",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "analyze-project"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"example\": \"value\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/analyze-project",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "analyze-project"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"example\": \"value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "OPTIONS /analyze-project",
+          "request": {
+            "method": "OPTIONS",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/analyze-project",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "analyze-project"
+              ]
+            },
+            "description": ""
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "OPTIONS",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/analyze-project",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "analyze-project"
+                  ]
+                },
+                "description": ""
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST /generate-insights",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/generate-insights",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "generate-insights"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"example\": \"value\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/generate-insights",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "generate-insights"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"example\": \"value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "OPTIONS /generate-insights",
+          "request": {
+            "method": "OPTIONS",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/generate-insights",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "generate-insights"
+              ]
+            },
+            "description": ""
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "OPTIONS",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/generate-insights",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "generate-insights"
+                  ]
+                },
+                "description": ""
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "GET /",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                ""
+              ]
+            },
+            "description": ""
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    ""
+                  ]
+                },
+                "description": ""
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "GET /<path:filename>",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/<path:filename>",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "<path:filename>"
+              ]
+            },
+            "description": ""
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/<path:filename>",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "<path:filename>"
+                  ]
+                },
+                "description": ""
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "backend\\cfa_list.py",
+      "item": [
+        {
+          "name": "GET /",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                ""
+              ]
+            },
+            "description": "Render the selection interface"
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    ""
+                  ]
+                },
+                "description": "Render the selection interface"
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "GET /api/versions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/api/versions",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "api",
+                "versions"
+              ]
+            },
+            "description": "Return the list of available CFA versions"
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/api/versions",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "api",
+                    "versions"
+                  ]
+                },
+                "description": "Return the list of available CFA versions"
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "GET /api/directory-structure",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/api/directory-structure",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "api",
+                "directory-structure"
+              ]
+            },
+            "description": "Debug endpoint to return the directory structure"
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/api/directory-structure",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "api",
+                    "directory-structure"
+                  ]
+                },
+                "description": "Debug endpoint to return the directory structure"
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST /api/select-versions",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/api/select-versions",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "api",
+                "select-versions"
+              ]
+            },
+            "description": "Update the selected versions based on the request",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"example\": \"value\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/api/select-versions",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "api",
+                    "select-versions"
+                  ]
+                },
+                "description": "Update the selected versions based on the request",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"example\": \"value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "GET /api/process/<version>",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/api/process/<version>",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "api",
+                "process",
+                "<version>"
+              ]
+            },
+            "description": "Process the CFA file for the specified version"
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/api/process/<version>",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "api",
+                    "process",
+                    "<version>"
+                  ]
+                },
+                "description": "Process the CFA file for the specified version"
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "GET /api/process-selected",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/api/process-selected",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "api",
+                "process-selected"
+              ]
+            },
+            "description": "Process all selected CFA files"
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/api/process-selected",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "api",
+                    "process-selected"
+                  ]
+                },
+                "description": "Process all selected CFA files"
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST /api/consolidate",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/api/consolidate",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "api",
+                "consolidate"
+              ]
+            },
+            "description": "Start a consolidation job for the specified versions",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"example\": \"value\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/api/consolidate",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "api",
+                    "consolidate"
+                  ]
+                },
+                "description": "Start a consolidation job for the specified versions",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"example\": \"value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "GET /api/consolidate/status/<job_id>",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/api/consolidate/status/<job_id>",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "api",
+                "consolidate",
+                "status",
+                "<job_id>"
+              ]
+            },
+            "description": "Get the status of a consolidation job"
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/api/consolidate/status/<job_id>",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "api",
+                    "consolidate",
+                    "status",
+                    "<job_id>"
+                  ]
+                },
+                "description": "Get the status of a consolidation job"
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "GET /api/consolidate/results/<job_id>",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/api/consolidate/results/<job_id>",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "api",
+                "consolidate",
+                "results",
+                "<job_id>"
+              ]
+            },
+            "description": "Get the results of a completed consolidation job"
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/api/consolidate/results/<job_id>",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "api",
+                    "consolidate",
+                    "results",
+                    "<job_id>"
+                  ]
+                },
+                "description": "Get the results of a completed consolidation job"
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST /api/cell-details",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/api/cell-details",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "api",
+                "cell-details"
+              ]
+            },
+            "description": "Get detailed breakdown of a specific cell, particularly for summed columns\n    such as Revenue and Operating Expenses, showing the contribution from each version.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"example\": \"value\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/api/cell-details",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "api",
+                    "cell-details"
+                  ]
+                },
+                "description": "Get detailed breakdown of a specific cell, particularly for summed columns\n    such as Revenue and Operating Expenses, showing the contribution from each version.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"example\": \"value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "backend\\API_endpoints_and_controllers\\Calculations.py",
+      "item": [
+        {
+          "name": "GET /stream_price/<version>",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/stream_price/<version>",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "stream_price",
+                "<version>"
+              ]
+            },
+            "description": "Stream real-time price optimization updates for a specific version using Server-Sent Events (SSE).\n    This endpoint connects to a PriceOptimizationMonitor that watches status files for changes."
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/stream_price/<version>",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "stream_price",
+                    "<version>"
+                  ]
+                },
+                "description": "Stream real-time price optimization updates for a specific version using Server-Sent Events (SSE).\n    This endpoint connects to a PriceOptimizationMonitor that watches status files for changes."
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "GET /price/<version>",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/price/<version>",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "price",
+                "<version>"
+              ]
+            },
+            "description": "Get the final optimized price for a specific version"
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/price/<version>",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "price",
+                    "<version>"
+                  ]
+                },
+                "description": "Get the final optimized price for a specific version"
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST /run",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/run",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "run"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"example\": \"value\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/run",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "run"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"example\": \"value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+      "item": [
+        {
+          "name": "GET /status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/status",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "status"
+              ]
+            },
+            "description": "Get current pipeline execution status"
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/status",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "status"
+                  ]
+                },
+                "description": "Get current pipeline execution status"
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST /register_payload",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/register_payload",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "register_payload"
+              ]
+            },
+            "description": "Register payload and initialize pipeline",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"example\": \"value\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/register_payload",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "register_payload"
+                  ]
+                },
+                "description": "Register payload and initialize pipeline",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"example\": \"value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST /baseline_calculation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/baseline_calculation",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "baseline_calculation"
+              ]
+            },
+            "description": "Perform baseline calculation without sensitivity variations",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"example\": \"value\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/baseline_calculation",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "baseline_calculation"
+                  ]
+                },
+                "description": "Perform baseline calculation without sensitivity variations",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"example\": \"value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST /sensitivity/configure",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/sensitivity/configure",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "sensitivity",
+                "configure"
+              ]
+            },
+            "description": "Generate and save sensitivity configurations",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"example\": \"value\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/sensitivity/configure",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "sensitivity",
+                    "configure"
+                  ]
+                },
+                "description": "Generate and save sensitivity configurations",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"example\": \"value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST /runs",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/runs",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "runs"
+              ]
+            },
+            "description": "Execute sensitivity calculations based on configured parameters",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"example\": \"value\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/runs",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "runs"
+                  ]
+                },
+                "description": "Execute sensitivity calculations based on configured parameters",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"example\": \"value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST /calculate-sensitivity",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/calculate-sensitivity",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "calculate-sensitivity"
+              ]
+            },
+            "description": "Execute specific sensitivity calculations using CFA-b.py with paths from CalSen service.\n    This endpoint runs after the general sensitivity configurations and runs have completed.\n    It leverages the CalSen service for path resolution to ensure consistent file locations.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"example\": \"value\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/calculate-sensitivity",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "calculate-sensitivity"
+                  ]
+                },
+                "description": "Execute specific sensitivity calculations using CFA-b.py with paths from CalSen service.\n    This endpoint runs after the general sensitivity configurations and runs have completed.\n    It leverages the CalSen service for path resolution to ensure consistent file locations.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"example\": \"value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST /api/sensitivity/visualize",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/api/sensitivity/visualize",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "api",
+                "sensitivity",
+                "visualize"
+              ]
+            },
+            "description": "Generate visualization data for sensitivity analysis.\n\n    Expected JSON payload:\n    {\n        \"version\": 1,\n        \"param_id\": \"S10\",\n        \"mode\": \"percentage\",\n        \"compareToKey\": \"S13\",\n        \"plotTypes\": [\"waterfall\", \"bar\", \"point\"]\n    }",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"example\": \"value\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/api/sensitivity/visualize",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "api",
+                    "sensitivity",
+                    "visualize"
+                  ]
+                },
+                "description": "Generate visualization data for sensitivity analysis.\n\n    Expected JSON payload:\n    {\n        \"version\": 1,\n        \"param_id\": \"S10\",\n        \"mode\": \"percentage\",\n        \"compareToKey\": \"S13\",\n        \"plotTypes\": [\"waterfall\", \"bar\", \"point\"]\n    }",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"example\": \"value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "GET /api/sensitivity/parameters",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/api/sensitivity/parameters",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "api",
+                "sensitivity",
+                "parameters"
+              ]
+            },
+            "description": "Get all available sensitivity parameters for visualization."
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/api/sensitivity/parameters",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "api",
+                    "sensitivity",
+                    "parameters"
+                  ]
+                },
+                "description": "Get all available sensitivity parameters for visualization."
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST /run-all-sensitivity",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/run-all-sensitivity",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "run-all-sensitivity"
+              ]
+            },
+            "description": "Unified wrapper to execute all sensitivity endpoints sequentially.\n    Meant to replicate frontend's full analysis process with a single call.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"example\": \"value\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/run-all-sensitivity",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "run-all-sensitivity"
+                  ]
+                },
+                "description": "Unified wrapper to execute all sensitivity endpoints sequentially.\n    Meant to replicate frontend's full analysis process with a single call.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"example\": \"value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "GET /check-calsen-paths",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/check-calsen-paths",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "check-calsen-paths"
+              ]
+            },
+            "description": "Check if calsen_paths.json exists for the specified version."
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/check-calsen-paths",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "check-calsen-paths"
+                  ]
+                },
+                "description": "Check if calsen_paths.json exists for the specified version."
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST /run-script-econ",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/run-script-econ",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "run-script-econ"
+              ]
+            },
+            "description": "Extract metrics from Economic Summary CSV files and append them to calsen_paths.json\n    using the incorporated extract_metrics_to_json function.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"example\": \"value\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/run-script-econ",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "run-script-econ"
+                  ]
+                },
+                "description": "Extract metrics from Economic Summary CSV files and append them to calsen_paths.json\n    using the incorporated extract_metrics_to_json function.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"example\": \"value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST /run-add-axis-labels",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/run-add-axis-labels",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "run-add-axis-labels"
+              ]
+            },
+            "description": "Execute add_axis_labels.py to add axis labels to sensitivity plots.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"example\": \"value\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/run-add-axis-labels",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "run-add-axis-labels"
+                  ]
+                },
+                "description": "Execute add_axis_labels.py to add axis labels to sensitivity plots.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"example\": \"value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST /run-generate-plots",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/run-generate-plots",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "run-generate-plots"
+              ]
+            },
+            "description": "Generate sensitivity plots using the incorporated generate_plots function.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"example\": \"value\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/run-generate-plots",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "run-generate-plots"
+                  ]
+                },
+                "description": "Generate sensitivity plots using the incorporated generate_plots function.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"example\": \"value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST /run-html-album-organizer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/run-html-album-organizer",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "run-html-album-organizer"
+              ]
+            },
+            "description": "Organize HTML plot files into standardized album directories using the incorporated organize_html_albums function.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"example\": \"value\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/run-html-album-organizer",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "run-html-album-organizer"
+                  ]
+                },
+                "description": "Organize HTML plot files into standardized album directories using the incorporated organize_html_albums function.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"example\": \"value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST /run-album-organizer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/run-album-organizer",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "run-album-organizer"
+              ]
+            },
+            "description": "Organize PNG plots into standardized album directories using the incorporated organize_plot_albums function.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"example\": \"value\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/run-album-organizer",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "run-album-organizer"
+                  ]
+                },
+                "description": "Organize PNG plots into standardized album directories using the incorporated organize_plot_albums function.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"example\": \"value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST /run-process-sensitivity-results",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/run-process-sensitivity-results",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "run-process-sensitivity-results"
+              ]
+            },
+            "description": "Process sensitivity results using the incorporated process_sensitivity_results function.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"example\": \"value\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/run-process-sensitivity-results",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "run-process-sensitivity-results"
+                  ]
+                },
+                "description": "Process sensitivity results using the incorporated process_sensitivity_results function.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"example\": \"value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST /reset_pipeline",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/reset_pipeline",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "reset_pipeline"
+              ]
+            },
+            "description": "Reset the execution pipeline and clear all event flags",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"example\": \"value\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/reset_pipeline",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "reset_pipeline"
+                  ]
+                },
+                "description": "Reset the execution pipeline and clear all event flags",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"example\": \"value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "GET /health",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/health",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "health"
+              ]
+            },
+            "description": "Health check endpoint that's always accessible"
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/health",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "health"
+                  ]
+                },
+                "description": "Health check endpoint that's always accessible"
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "backend\\API_endpoints_and_controllers\\CalSen.py",
+      "item": [
+        {
+          "name": "GET /health",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/health",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "health"
+              ]
+            },
+            "description": "Health check endpoint"
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/health",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "health"
+                  ]
+                },
+                "description": "Health check endpoint"
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST /get_config_paths",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/get_config_paths",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "get_config_paths"
+              ]
+            },
+            "description": "Get configuration paths based on version and payload.\n\n    Expected JSON request format:\n    {\n        \"version\": 1,\n        \"payload\": {\n            \"selectedVersions\": [1],\n            \"selectedV\": {\"V1\": \"on\", ...},\n            \"selectedF\": {\"F1\": \"on\", ...},\n            \"calculationOption\": \"freeFlowNPV\",\n            \"targetRow\": 20,\n            \"SenParameters\": {\n                \"S13\": {\n                    \"enabled\": true,\n                    \"mode\": \"percentage\",\n                    \"values\": [10],\n                    ...\n                },\n                ...\n            }\n        }\n    }",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"example\": \"value\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/get_config_paths",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "get_config_paths"
+                  ]
+                },
+                "description": "Get configuration paths based on version and payload.\n\n    Expected JSON request format:\n    {\n        \"version\": 1,\n        \"payload\": {\n            \"selectedVersions\": [1],\n            \"selectedV\": {\"V1\": \"on\", ...},\n            \"selectedF\": {\"F1\": \"on\", ...},\n            \"calculationOption\": \"freeFlowNPV\",\n            \"targetRow\": 20,\n            \"SenParameters\": {\n                \"S13\": {\n                    \"enabled\": true,\n                    \"mode\": \"percentage\",\n                    \"values\": [10],\n                    ...\n                },\n                ...\n            }\n        }\n    }",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"example\": \"value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST /find_config_files",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/find_config_files",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "find_config_files"
+              ]
+            },
+            "description": "Find configuration files based on provided filters.\n\n    Expected JSON request format:\n    {\n        \"version\": 1,\n        \"param_id\": \"S35\",  # Optional\n        \"mode\": \"percentage\",  # Optional\n        \"variation\": 10.0  # Optional\n    }",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"example\": \"value\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/find_config_files",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "find_config_files"
+                  ]
+                },
+                "description": "Find configuration files based on provided filters.\n\n    Expected JSON request format:\n    {\n        \"version\": 1,\n        \"param_id\": \"S35\",  # Optional\n        \"mode\": \"percentage\",  # Optional\n        \"variation\": 10.0  # Optional\n    }",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"example\": \"value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST /list_parameters",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/list_parameters",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "list_parameters"
+              ]
+            },
+            "description": "List all enabled sensitivity parameters for a version.\n\n    Expected JSON request format:\n    {\n        \"version\": 1\n    }",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"example\": \"value\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/list_parameters",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "list_parameters"
+                  ]
+                },
+                "description": "List all enabled sensitivity parameters for a version.\n\n    Expected JSON request format:\n    {\n        \"version\": 1\n    }",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"example\": \"value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "backend\\API_endpoints_and_controllers\\Create_new_batch.py",
+      "item": [
+        {
+          "name": "POST /create_new_batch",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/create_new_batch",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "create_new_batch"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"example\": \"value\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/create_new_batch",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "create_new_batch"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"example\": \"value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "backend\\API_endpoints_and_controllers\\Load.py",
+      "item": [
+        {
+          "name": "POST /load_configuration",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/load_configuration",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "load_configuration"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"example\": \"value\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/load_configuration",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "load_configuration"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"example\": \"value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "backend\\API_endpoints_and_controllers\\PNG.py",
+      "item": [
+        {
+          "name": "POST /generate_png_plots",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/generate_png_plots",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "generate_png_plots"
+              ]
+            },
+            "description": "Main endpoint for running PNG visualization scripts.\n    Handles request validation, script execution, and error handling.\n\n    Returns:\n        tuple: (response, status_code)",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"example\": \"value\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/generate_png_plots",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "generate_png_plots"
+                  ]
+                },
+                "description": "Main endpoint for running PNG visualization scripts.\n    Handles request validation, script execution, and error handling.\n\n    Returns:\n        tuple: (response, status_code)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"example\": \"value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "GET /api/plots/<version>",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/api/plots/<version>",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "api",
+                "plots",
+                "<version>"
+              ]
+            },
+            "description": "Get all plots for a specific version.\n\n    Args:\n        version (str): The version number\n\n    Returns:\n        Tuple[Response, int]: JSON response with plot information and HTTP status code"
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/api/plots/<version>",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "api",
+                    "plots",
+                    "<version>"
+                  ]
+                },
+                "description": "Get all plots for a specific version.\n\n    Args:\n        version (str): The version number\n\n    Returns:\n        Tuple[Response, int]: JSON response with plot information and HTTP status code"
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "GET /api/plots/<version>/<category>/<group>",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/api/plots/<version>/<category>/<group>",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "api",
+                "plots",
+                "<version>",
+                "<category>",
+                "<group>"
+              ]
+            },
+            "description": "Get plots for a specific version, category, and group.\n\n    Args:\n        version (str): The version number\n        category (str): The plot category\n        group (str): The plot group\n\n    Returns:\n        JSON response with plot information"
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/api/plots/<version>/<category>/<group>",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "api",
+                    "plots",
+                    "<version>",
+                    "<category>",
+                    "<group>"
+                  ]
+                },
+                "description": "Get plots for a specific version, category, and group.\n\n    Args:\n        version (str): The version number\n        category (str): The plot category\n        group (str): The plot group\n\n    Returns:\n        JSON response with plot information"
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "GET /api/sensitivity-plots/<version>",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/api/sensitivity-plots/<version>",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "api",
+                "sensitivity-plots",
+                "<version>"
+              ]
+            },
+            "description": "Get all sensitivity plots for a specific version.\n\n    Args:\n        version (str): The version number\n\n    Returns:\n        JSON response with plot information"
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/api/sensitivity-plots/<version>",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "api",
+                    "sensitivity-plots",
+                    "<version>"
+                  ]
+                },
+                "description": "Get all sensitivity plots for a specific version.\n\n    Args:\n        version (str): The version number\n\n    Returns:\n        JSON response with plot information"
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "GET /api/sensitivity-plots/<version>/<category>/<group>",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/api/sensitivity-plots/<version>/<category>/<group>",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "api",
+                "sensitivity-plots",
+                "<version>",
+                "<category>",
+                "<group>"
+              ]
+            },
+            "description": "Get sensitivity plots for a specific version, category, and group.\n\n    Args:\n        version (str): The version number\n        category (str): The plot category\n        group (str): The plot group\n\n    Returns:\n        JSON response with plot information"
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/api/sensitivity-plots/<version>/<category>/<group>",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "api",
+                    "sensitivity-plots",
+                    "<version>",
+                    "<category>",
+                    "<group>"
+                  ]
+                },
+                "description": "Get sensitivity plots for a specific version, category, and group.\n\n    Args:\n        version (str): The version number\n        category (str): The plot category\n        group (str): The plot group\n\n    Returns:\n        JSON response with plot information"
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "GET /images/<path:filename>",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/images/<path:filename>",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "images",
+                "<path:filename>"
+              ]
+            },
+            "description": "Serve image files from the Original directory\n\n    Args:\n        filename (str): Path to the image file relative to PUBLIC_DIR\n\n    Returns:\n        Union[Response, Tuple[Response, int]]: The image file or an error response"
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/images/<path:filename>",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "images",
+                    "<path:filename>"
+                  ]
+                },
+                "description": "Serve image files from the Original directory\n\n    Args:\n        filename (str): Path to the image file relative to PUBLIC_DIR\n\n    Returns:\n        Union[Response, Tuple[Response, int]]: The image file or an error response"
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "backend\\API_endpoints_and_controllers\\Remove_batch.py",
+      "item": [
+        {
+          "name": "POST /clear-log",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/clear-log",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "clear-log"
+              ]
+            },
+            "description": "Clear the contents of a specified log file.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"example\": \"value\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/clear-log",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "clear-log"
+                  ]
+                },
+                "description": "Clear the contents of a specified log file.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"example\": \"value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST /Remove_batch",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/Remove_batch",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "Remove_batch"
+              ]
+            },
+            "description": "Handle batch removal via POST request.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"example\": \"value\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/Remove_batch",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "Remove_batch"
+                  ]
+                },
+                "description": "Handle batch removal via POST request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"example\": \"value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "backend\\API_endpoints_and_controllers\\sense_config_base.py",
+      "item": [
+        {
+          "name": "POST /copy-config-modules",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/copy-config-modules",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "copy-config-modules"
+              ]
+            },
+            "description": "Endpoint to process all configuration modules with sensitivity variations.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"example\": \"value\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/copy-config-modules",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "copy-config-modules"
+                  ]
+                },
+                "description": "Endpoint to process all configuration modules with sensitivity variations.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"example\": \"value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "GET /health",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/health",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "health"
+              ]
+            },
+            "description": "Health check endpoint for server detection.\n    Returns a 200 OK response with basic server information."
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/health",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "health"
+                  ]
+                },
+                "description": "Health check endpoint for server detection.\n    Returns a 200 OK response with basic server information."
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "backend\\API_endpoints_and_controllers\\Sub.py",
+      "item": [
+        {
+          "name": "POST /runSub",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/runSub",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "runSub"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"example\": \"value\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/runSub",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "runSub"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"example\": \"value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "backend\\API_endpoints_and_controllers\\Subplot_metadata.py",
+      "item": [
+        {
+          "name": "GET /subplotMetadata",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/subplotMetadata",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "subplotMetadata"
+              ]
+            },
+            "description": "Endpoint to retrieve metadata about available subplots\n    Provides information about available metrics and visualizations\n    \n    Returns:\n        JSON response with subplot metadata"
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/subplotMetadata",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "subplotMetadata"
+                  ]
+                },
+                "description": "Endpoint to retrieve metadata about available subplots\n    Provides information about available metrics and visualizations\n    \n    Returns:\n        JSON response with subplot metadata"
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "backend\\API_endpoints_and_controllers\\Version_service.py",
+      "item": [
+        {
+          "name": "GET /versions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/versions",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "versions"
+              ]
+            },
+            "description": ""
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/versions",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "versions"
+                  ]
+                },
+                "description": ""
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "backend\\Configuration_management\\formatter-updated.py",
+      "item": [
+        {
+          "name": "GET /formatter/<version>",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/formatter/<version>",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "formatter",
+                "<version>"
+              ]
+            },
+            "description": "Run the formatter for a specific version."
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/formatter/<version>",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "formatter",
+                    "<version>"
+                  ]
+                },
+                "description": "Run the formatter for a specific version."
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "backend\\Configuration_management\\module1-updated.py",
+      "item": [
+        {
+          "name": "GET /module1/<version>",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/module1/<version>",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "module1",
+                "<version>"
+              ]
+            },
+            "description": "Run module1 for a specific version."
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/module1/<version>",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "module1",
+                    "<version>"
+                  ]
+                },
+                "description": "Run module1 for a specific version."
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "backend\\Configuration_management\\table-updated.py",
+      "item": [
+        {
+          "name": "GET /table/<version>",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/table/<version>",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "table",
+                "<version>"
+              ]
+            },
+            "description": "Run the Table module for a specific version."
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/table/<version>",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "table",
+                    "<version>"
+                  ]
+                },
+                "description": "Run the Table module for a specific version."
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "backend\\Data_processors_and_transformers\\Front_Subtab_HTML.py",
+      "item": [
+        {
+          "name": "GET /api/album_html/<version>",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/api/album_html/<version>",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "api",
+                "album_html",
+                "<version>"
+              ]
+            },
+            "description": ""
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/api/album_html/<version>",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "api",
+                    "album_html",
+                    "<version>"
+                  ]
+                },
+                "description": ""
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "GET /static/html/<version>/<album>/<filename>",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/static/html/<version>/<album>/<filename>",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "static",
+                "html",
+                "<version>",
+                "<album>",
+                "<filename>"
+              ]
+            },
+            "description": "Serve HTML files from the correct directory based on version and album"
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/static/html/<version>/<album>/<filename>",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "static",
+                    "html",
+                    "<version>",
+                    "<album>",
+                    "<filename>"
+                  ]
+                },
+                "description": "Serve HTML files from the correct directory based on version and album"
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "GET /test",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/test",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "test"
+              ]
+            },
+            "description": "Simple test endpoint to check if the server is running"
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/test",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "test"
+                  ]
+                },
+                "description": "Simple test endpoint to check if the server is running"
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "GET /test/album_endpoints",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/test/album_endpoints",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "test",
+                "album_endpoints"
+              ]
+            },
+            "description": "Test endpoint to verify the album HTML content endpoints are working\n\n    This endpoint tests both /api/album_html_content/<album> and /api/album_html_all\n    by attempting to find and retrieve content from the first available album.\n\n    Returns:\n        JSON response with test results"
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/test/album_endpoints",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "test",
+                    "album_endpoints"
+                  ]
+                },
+                "description": "Test endpoint to verify the album HTML content endpoints are working\n\n    This endpoint tests both /api/album_html_content/<album> and /api/album_html_all\n    by attempting to find and retrieve content from the first available album.\n\n    Returns:\n        JSON response with test results"
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "GET /api/album_html_content/<album>",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/api/album_html_content/<album>",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "api",
+                "album_html_content",
+                "<album>"
+              ]
+            },
+            "description": "Fetch HTML content for a specific album\n\n    Args:\n        album: The album identifier\n\n    Returns:\n        JSON response with the album's HTML content"
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/api/album_html_content/<album>",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "api",
+                    "album_html_content",
+                    "<album>"
+                  ]
+                },
+                "description": "Fetch HTML content for a specific album\n\n    Args:\n        album: The album identifier\n\n    Returns:\n        JSON response with the album's HTML content"
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "GET /api/album_html_all",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/api/album_html_all",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "api",
+                "album_html_all"
+              ]
+            },
+            "description": "Fetch HTML content for all albums across specified versions\n\n    Query parameters:\n        version: One or more version numbers (can be specified multiple times)\n\n    Returns:\n        JSON response with all albums' HTML content"
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/api/album_html_all",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "api",
+                    "album_html_all"
+                  ]
+                },
+                "description": "Fetch HTML content for all albums across specified versions\n\n    Query parameters:\n        version: One or more version numbers (can be specified multiple times)\n\n    Returns:\n        JSON response with all albums' HTML content"
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        },
+        {
+          "name": "GET /api/logs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/api/logs",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "api",
+                "logs"
+              ]
+            },
+            "description": "Return the most recent log entries"
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/api/logs",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "api",
+                    "logs"
+                  ]
+                },
+                "description": "Return the most recent log entries"
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "backend\\Data_processors_and_transformers\\Front_Subtab_Plot.py",
+      "item": [
+        {
+          "name": "GET /api/album/<version>",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/api/album/<version>",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "api",
+                "album",
+                "<version>"
+              ]
+            },
+            "description": ""
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/api/album/<version>",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "api",
+                    "album",
+                    "<version>"
+                  ]
+                },
+                "description": ""
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "backend\\Data_processors_and_transformers\\Front_Subtab_Table.py",
+      "item": [
+        {
+          "name": "GET /api/csv-files/<version>",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:15000/api/csv-files/<version>",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "15000",
+              "path": [
+                "api",
+                "csv-files",
+                "<version>"
+              ]
+            },
+            "description": ""
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:15000/api/csv-files/<version>",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "15000",
+                  "path": [
+                    "api",
+                    "csv-files",
+                    "<version>"
+                  ]
+                },
+                "description": ""
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"data\": {}\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

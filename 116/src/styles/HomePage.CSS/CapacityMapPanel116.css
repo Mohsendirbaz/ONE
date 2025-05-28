@@ -1,0 +1,21 @@
+# CapacityMapPanel.css
+
+**Purpose**: Styling
+
+## Key Code Sections
+
+### CSS Selectors
+
+```css
+/* CapacityMapPanel.css */
+
+.global-usage-section { ... }
+.category-usage-section,
+.local-usage-section,
+.capacity-config-section { ... }
+.ant-progress-text { ... }
+.ant-card-small .ant-card-body { ... }
+.ant-slider-mark-text { ... }
+/* ...and 1 more selec
+
+... (truncated to meet size target) ...

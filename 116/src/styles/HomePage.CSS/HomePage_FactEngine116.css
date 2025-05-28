@@ -1,0 +1,20 @@
+# HomePage_FactEngine.css
+
+**Purpose**: Styling
+
+**Keywords**: var, color, neu, shadow, fact, btn, spacing
+
+## Key Code Sections
+
+### CSS Selectors
+
+```css
+.fact-engine-container { ... }
+.fact-engine-header { ... }
+.fact-engine-header:hover { ... }
+.fact-engine-header:active { ... }
+.fact-engine-header h3 { ... }
+/* ...and 42 more selectors... */
+`
+
+... (truncated to meet size target) ...

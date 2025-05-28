@@ -1,0 +1,158 @@
+{
+  "scan_date": "2025-05-16 13:29:00",
+  "total_files": 38,
+  "files": [
+    {
+      "path": "src\\styles\\HomePage.CSS\\HCSS.css",
+      "line_count": 5248
+    },
+    {
+      "path": "src\\Consolidated2.js",
+      "line_count": 3557
+    },
+    {
+      "path": "src\\Consolidated.js",
+      "line_count": 2926
+    },
+    {
+      "path": "src\\HomePage.js",
+      "line_count": 2721
+    },
+    {
+      "path": "src\\components\\process_economics\\styles\\LibrarySystem.css",
+      "line_count": 2328
+    },
+    {
+      "path": "src\\styles\\HomePage.CSS\\Consolidated.css",
+      "line_count": 2264
+    },
+    {
+      "path": "src\\components\\truly_extended_scaling\\climate-module-enhanced.js",
+      "line_count": 1753
+    },
+    {
+      "path": "src\\components\\truly_extended_scaling\\ExtendedScaling.js",
+      "line_count": 1659
+    },
+    {
+      "path": "src\\components\\process_economics_pilot\\process-economics-library.js",
+      "line_count": 1514
+    },
+    {
+      "path": "src\\MatrixStateManager.js",
+      "line_count": 1505
+    },
+    {
+      "path": "src\\styles\\HomePage.CSS\\HomePage_scaling.css",
+      "line_count": 1433
+    },
+    {
+      "path": "src\\styles\\HomePage.CSS\\HomePage_scaling_t.css",
+      "line_count": 1227
+    },
+    {
+      "path": "src\\Consolidated3.js",
+      "line_count": 1140
+    },
+    {
+      "path": "src\\components\\truly_extended_scaling\\multi-zone-selector.js",
+      "line_count": 1126
+    },
+    {
+      "path": "src\\components\\truly_extended_scaling\\styles\\ClimateModule.css",
+      "line_count": 1004
+    },
+    {
+      "path": "src\\components\\modules\\ThemeConfigurator.js",
+      "line_count": 975
+    },
+    {
+      "path": "src\\unified-tooltip-js.js",
+      "line_count": 965
+    },
+    {
+      "path": "src\\styles\\HomePage.CSS\\SensitivityMonitor.css",
+      "line_count": 943
+    },
+    {
+      "path": "src\\styles\\HomePage.CSS\\ConfigurationMonitor.css",
+      "line_count": 916
+    },
+    {
+      "path": "src\\styles\\HomePage.CSS\\unified-tooltip-css.css",
+      "line_count": 847
+    },
+    {
+      "path": "src\\components\\truly_extended_scaling\\CoordinateFactFinder.js",
+      "line_count": 837
+    },
+    {
+      "path": "src\\utils\\insight_generator.js",
+      "line_count": 823
+    },
+    {
+      "path": "src\\GeneralFormConfig.js",
+      "line_count": 752
+    },
+    {
+      "path": "src\\components\\modules\\SensitivityMonitor.js",
+      "line_count": 751
+    },
+    {
+      "path": "src\\components\\modules\\ConfigurationMonitor.js",
+      "line_count": 668
+    },
+    {
+      "path": "src\\components\\modules\\CapacityMapPanel.js",
+      "line_count": 658
+    },
+    {
+      "path": "src\\utils\\component_graph.js",
+      "line_count": 657
+    },
+    {
+      "path": "src\\components\\truly_extended_scaling\\ProcessEconomics.js",
+      "line_count": 651
+    },
+    {
+      "path": "src\\components\\truly_extended_scaling\\ClimateMapOverlay.js",
+      "line_count": 650
+    },
+    {
+      "path": "src\\components\\truly_extended_scaling\\zone-utils.js",
+      "line_count": 642
+    },
+    {
+      "path": "src\\utils\\react_parser.js",
+      "line_count": 642
+    },
+    {
+      "path": "src\\components\\truly_extended_scaling\\CoordinateComponent.js",
+      "line_count": 616
+    },
+    {
+      "path": "src\\components\\process_economics\\services\\mockDataService.js",
+      "line_count": 599
+    },
+    {
+      "path": "src\\components\\process_economics_pilot\\scaling-reference-data.js",
+      "line_count": 587
+    },
+    {
+      "path": "src\\components\\truly_extended_scaling\\DecarbonizationPathwaysFactory.js",
+      "line_count": 559
+    },
+    {
+      "path": "src\\styles\\HomePage.CSS\\HomePage_buttons.css",
+      "line_count": 542
+    },
+    {
+      "path": "src\\styles\\HomePage.CSS\\multi-zone-selector-css.css",
+      "line_count": 527
+    },
+    {
+      "path": "src\\components\\modules\\HeaderBackground.js",
+      "line_count": 512
+    }
+  ]
+}

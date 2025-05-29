@@ -1,164 +1,227 @@
-# Codebase Refactoring Project
+# TEA Space - Advanced Techno-Economic Analysis Platform
 
-This project involved refactoring large files in the codebase to improve maintainability, readability, and reusability. The refactoring process focused on breaking down large files into smaller, more manageable components and extracting common patterns into reusable utility functions.
+<div align="center">
+  <img src="https://img.shields.io/badge/React-18.2.0-61DAFB?style=for-the-badge&logo=react&logoColor=white" alt="React">
+  <img src="https://img.shields.io/badge/Python-3.9+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License">
+  <img src="https://img.shields.io/badge/AI-GPT--4-412991?style=for-the-badge&logo=openai&logoColor=white" alt="AI">
+</div>
 
-## Refactoring Strategy
+## 🌟 Overview
 
-The refactoring strategy involved the following steps:
+TEA Space is a cutting-edge techno-economic analysis platform that revolutionizes process economics evaluation through innovative matrix-based architecture, advanced environmental intelligence, and AI-powered assistance. Designed for industrial and chemical process optimization, TEA Space uniquely combines financial modeling with carbon tracking and regulatory compliance.
 
-1. **Identify large files**: Used a custom script (`find_large_files.py`) to identify the largest files in the codebase by both size and line count.
+### 🎯 Key Features
 
-2. **Analyze file structure**: Examined the structure and content of large files to understand their purpose and complexity.
+• **Advanced Financial Modeling Engine**: Built a comprehensive Cash Flow Analysis (CFA) system with modular revenue/expense component tracking, supporting complex industrial process economics with time-sensitive parameter activation through the proprietary Efficacy Time System.
 
-3. **Extract components**: Extracted self-contained components into separate files.
+• **Multi-dimensional Parameter Management**: Engineered a unified matrix state management system that treats all parameters as elements in a 5-dimensional space (versions, zones, time periods, configurations, and capacity), enabling powerful cross-dimensional comparisons and inheritance patterns with theoretical capacity handling up to 900,000 configurations.
 
-4. **Extract utility functions**: Identified and extracted common patterns and utility functions.
+• **Comprehensive Climate Intelligence Module**: Implemented multi-dimensional carbon tracking across Scope 1, 2, and 3 emissions with configurable emission factors for equipment, installation, materials, energy, and transportation. Features specialized tracking for hard-to-decarbonize sectors (steel, cement, chemicals) with interactive geospatial visualization using heatmaps, bubble charts, and gradient overlays.
 
-5. **Create documentation**: Added documentation to explain the refactoring and how to use the extracted components and utilities.
+• **Three-Tier Regulatory Compliance Framework**: Developed multilevel emissions treatment supporting local (municipal), state (regional), and federal (national) regulatory thresholds with automatic compliance status monitoring (compliant/warning/non-compliant) and region-specific incentive integration including carbon tax rebates and emissions trading benefits.
 
-## Refactored Components and Utilities
+• **AI-Powered Factual Precedence System**: Integrated GPT-4 Turbo to provide context-aware historical business insights and parameter recommendations based on industry type, technology level, scale, and regulatory framework. The system analyzes corporate evolution patterns from companies like Tesla and Toyota to suggest phased deployment strategies, partnerships, and value-based pricing approaches.
 
-### Components
+• **Intelligent Virtual Assistant for Modelers**: Built the Junie Connector Plugin providing inline AI-powered suggestions directly in the IDE, featuring sequential agent architecture with isolated contexts, ghost text suggestions, and asynchronous execution for seamless modeling assistance without disrupting workflow.
 
-- **ScalingSummary** (`src/components/scaling/ScalingSummary.js`): A component for displaying scaling summaries with filtering and detailed views.
+• **Decarbonization Pathway Analysis**: Created a comprehensive pathway comparison system evaluating 8 pre-configured hydrogen production methods (renewable, low-carbon, fossil, emerging) with metrics including carbon intensity (1.2-18.2 kg CO2e/kg H2), technology readiness levels, water usage, and cost analysis, enabling side-by-side comparison of up to 4 pathways.
 
-- **Card Components** (`src/components/ui/Card.js`): UI components for card-like layouts, including Card, CardHeader, and CardContent.
+• **Comprehensive Sensitivity Analysis Suite**: Implemented multiple sensitivity testing modes including percentage variation, direct value modification, absolute departure analysis, and Monte Carlo simulations, all orchestrated through a sequential event processing system ensuring proper workflow execution.
 
-### Utilities
+• **Interactive Visualization Framework**: Developed dynamic visualization capabilities using React/D3.js for real-time rendering of waterfall charts, operational cost breakdowns, cumulative economic summaries, capacity utilization tracking, and climate impact overlays with weighted calculations across all dimensions.
 
-- **Scaling Operations** (`src/utils/scalingOperations.js`): Defines available scaling operations (multiply, power, divide, log, exponential, add, subtract).
+• **Scalable Architecture with Environmental Focus**: Designed a modular full-stack solution using React.js with Jotai state management, Python Flask APIs with factory-based calculation engines, dual database integration (PostgreSQL/ClickHouse), and blockchain-ready architecture for future carbon credit tracking and immutable compliance records.
 
-- **Scaling Utilities** (`src/utils/scalingUtils.js`): Utility functions for scaling calculations, including:
-  - `calculateScaledValue`: Calculates scaled values based on operations
-  - `propagateChanges`: Propagates changes through scaling groups
-  - `determineInsertionIndex`: Determines the correct insertion index for a new scaling group
-  - `processImportedConfiguration`: Processes imported configuration for cumulative calculations
+• **Enterprise Environmental Features**: Incorporated multi-zone carbon generation with clustering analysis, regional system support (SI/USD and Europe/EUR), dynamic carbon incentive calculations, and machine learning readiness for predictive emissions modeling and optimization recommendations.
 
-- **Import/Export Utilities** (`src/utils/scalingImportExport.js`): Functions for importing and exporting scaling configurations:
-  - `exportConfiguration`: Exports scaling configuration to a JSON file
-  - `importConfiguration`: Imports scaling configuration from a file
+## 🚀 Getting Started
 
-- **History Utilities** (`src/utils/historyUtils.js`): Functions for managing history and undo/redo operations:
-  - `addToHistory`: Adds an entry to the history stack
-  - `undo`: Undoes the last action
-  - `redo`: Redoes the last undone action
-  - `initializeHistory`: Initializes history with initial scaling groups
+### Prerequisites
 
-## Example Usage
+- Node.js v16.0+ 
+- Python 3.9+
+- PostgreSQL 14+
+- ClickHouse (optional for analytics)
 
-The refactored components and utilities can be used as follows:
+### Installation
 
-```jsx
-import React from 'react';
-import ScalingSummary from './components/scaling/ScalingSummary';
-import { Card, CardHeader, CardContent } from './components/ui/Card';
-import scalingOperations from './utils/scalingOperations';
-import { calculateScaledValue, propagateChanges } from './utils/scalingUtils';
-import { exportConfiguration, importConfiguration } from './utils/scalingImportExport';
-import { addToHistory, undo, redo, initializeHistory } from './utils/historyUtils';
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/tea-space.git
+   cd tea-space
+   ```
 
-const MyComponent = () => {
-  // Use the extracted components and utilities
-  return (
-    <Card>
-      <CardHeader>
-        <h2>Scaling Summary</h2>
-      </CardHeader>
-      <CardContent>
-        <ScalingSummary
-          items={items}
-          tabConfigs={tabConfigs}
-          onExpressionChange={handleExpressionChange}
-          V={V}
-          R={R}
-          toggleV={toggleV}
-          toggleR={toggleR}
-        />
-      </CardContent>
-    </Card>
-  );
+2. **Install frontend dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Install backend dependencies**
+   ```bash
+   cd backend
+   pip install -r requirements.txt
+   ```
+
+4. **Initialize databases**
+   ```bash
+   python backend/database/initialize_databases.py
+   ```
+
+5. **Start the application**
+   ```bash
+   # Terminal 1 - Backend
+   python server.py
+
+   # Terminal 2 - Frontend
+   npm start
+   ```
+
+## 🏗️ Architecture
+
+### Frontend Stack
+- **React 18.2** with functional components
+- **Jotai** for atomic state management
+- **Ant Design** for UI components
+- **D3.js** for data visualizations
+- **React Router** for navigation
+
+### Backend Stack
+- **Flask** API framework
+- **PostgreSQL** for relational data
+- **ClickHouse** for time-series analytics
+- **Modular calculation engines**
+- **Factory pattern architecture**
+
+### AI Integration
+- **GPT-4 Turbo** for factual precedence
+- **Sequential agent architecture**
+- **Rate-limited queue system**
+- **Context-aware recommendations**
+
+## 📊 Core Modules
+
+### 1. Financial Modeling Engine
+- Cash Flow Analysis (CFA) with modular components
+- Revenue/expense tracking with time-sensitive activation
+- Tax operations and utility calculations
+- Multi-version configuration management
+
+### 2. Climate Intelligence Module
+```javascript
+// Example: Track emissions across zones
+const emissionFactors = {
+  equipment: 2.5,
+  installation: 1.2,
+  materials: 3.8,
+  energy: 4.5,
+  transportation: 5.2
 };
 ```
 
-## Benefits of Refactoring
+### 3. Sensitivity Analysis Suite
+- Percentage variation
+- Direct value modification
+- Absolute departure analysis
+- Monte Carlo simulations
 
-The refactoring work has resulted in several benefits:
+### 4. Decarbonization Pathways
+- Wind-PEM, Solar-PEM, Biomass-PEM
+- Natural gas with/without CCS
+- Coal with/without CCS
+- Emerging technologies (Solid Oxide)
 
-1. **Improved maintainability**: Smaller files are easier to understand and maintain.
+## 🤖 AI-Powered Features
 
-2. **Better code organization**: Related functionality is grouped together in separate files.
+### Factual Precedence System
+The platform provides context-aware business insights based on:
+- Industry type and technology level
+- Corporate evolution patterns (Tesla, Toyota, Amazon)
+- Regulatory framework considerations
+- Phased deployment strategies
 
-3. **Enhanced reusability**: Extracted components and utilities can be reused across the application.
+### Virtual Assistant (Junie Plugin)
+- Inline code suggestions in IDE
+- Ghost text recommendations
+- Asynchronous background processing
+- Context isolation for focused assistance
 
-4. **Easier testing**: Smaller, focused components and functions are easier to test.
+## 🌍 Environmental Compliance
 
-5. **Better documentation**: Added JSDoc comments and documentation to explain the purpose and usage of components and utilities.
+### Emission Thresholds
+| Level | Threshold | Status |
+|-------|-----------|--------|
+| Local | < 1,000 kg CO₂e | Compliant |
+| State | < 10,000 kg CO₂e | Warning at 80% |
+| Federal | < 25,000 kg CO₂e | Non-compliant if exceeded |
 
-## Future Improvements
+### Regional Systems
+- **SI/USD**: Standard international metrics
+- **EUR**: EU-specific regulations and incentives
 
-While the current refactoring has significantly improved the codebase, there are still opportunities for further improvements:
+## 📈 Visualization Capabilities
 
-1. **Additional component extraction**: Some components could be further broken down into smaller, more focused components.
+- **Waterfall Charts** - Financial flow analysis
+- **Heatmaps** - Geographic emission distribution
+- **Bubble Charts** - Multi-dimensional comparisons
+- **Capacity Tracking** - Real-time utilization metrics
 
-2. **Enhanced error handling**: Add more robust error handling to utility functions.
+## 🛠️ Development Tools
 
-3. **Unit tests**: Add unit tests for the extracted components and utilities.
-
-4. **Performance optimizations**: Identify and optimize performance bottlenecks.
-
-5. **TypeScript conversion**: Consider converting the codebase to TypeScript for better type safety and developer experience.
-
-## Code Analysis Tools
-
-The repository includes several tools for analyzing the codebase:
-
-### Large File Analyzer
-
-The `find_large_files.py` script mentioned in the refactoring strategy is used to identify large files across the entire codebase.
-
-### Source Directory Line Counter
-
-The `find_large_src_files.py` script specifically analyzes the `src` directory to identify files with more than 500 lines of code. This helps in targeting refactoring efforts and monitoring code complexity.
-
-#### Usage:
-
+### Code Analysis
 ```bash
+# Find large files for refactoring
+python find_large_files.py
+
+# Analyze source directory
 python find_large_src_files.py
 ```
 
-#### Features:
+### Testing
+```bash
+# Run unit tests
+npm test
 
-- Recursively scans all files in the `src` directory
-- Counts the number of lines in each file
-- Identifies files with more than 500 lines of code
-- Outputs results to the console in descending order by line count
-- Saves results to a JSON file (`src_large_files_analysis.json`) with timestamp for tracking changes over time
-
-#### Example Output:
-
-The script generates a JSON file with the following structure:
-
-```
-{
-  "scan_date": "2025-05-16 13:29:00",
-  "total_files": 38,
-  "files": [
-    {
-      "path": "src\\styles\\HomePage.CSS\\HCSS.css",
-      "line_count": 5248
-    },
-    {
-      "path": "src\\Consolidated2.js",
-      "line_count": 3557
-    }
-  ]
-}
+# Run backend tests
+pytest backend/tests/
 ```
 
-Note: The actual JSON file contains all 38 files with their paths and line counts.
+## 📚 Documentation
 
-This tool is valuable for:
-- Identifying candidates for refactoring
-- Monitoring code complexity over time
-- Setting targets for code quality metrics
-- Tracking progress in reducing file sizes
+- [API Documentation](./docs/api.md)
+- [Component Guide](./docs/components.md)
+- [Climate Module Guide](./docs/climate-module.md)
+- [AI Integration Guide](./docs/ai-integration.md)
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- OpenAI for GPT-4 integration capabilities
+- React and Python communities
+- Contributors to open-source dependencies
+
+## 📞 Contact & Support
+
+- **Issues**: [GitHub Issues](https://github.com/yourusername/tea-space/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/yourusername/tea-space/discussions)
+- **Email**: support@teaspace.com
+
+---
+
+<div align="center">
+  <p>Built with ❤️ for sustainable industrial transformation</p>
+  <p>© 2025 TEA Space. Making complex economics simple, sustainable, and intelligent.</p>
+</div>

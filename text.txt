@@ -68,14 +68,18 @@ Stop-Process -Id (netstat -ano | findstr 5001).OwningProcess -Force
 
 
 
-TWIN MD
-Now creating markdown documentation twins for a significant portion of the src directory has been completed. However, there are still many more files to document. The g_src_directory_scanner.json contains all target files and their locations. I suggest first, you remove every file name which their twin md exists, once the remaining files are naturally identified, then embark on the journey of generating md twins and removing their corresponding name in json file, (maintain tracking to facilitate completion of task). quality wise each markdown file should contain:
+For each and every file in src, including the ones deeply nested in all subdirectories Generate md twins ( save in TWIN MD directory in a manner identical to original structure inside src) and remove their corresponding name in g_src_directory_scanner.json file which contains information of all existing files, Quality wise each markdown file should contain:
 
   - Multi-level architectural summaries
+
   - Core features and functionality
+
   - Component props and data structures
+
   - Usage patterns and integration points
+
   - CSS architecture where applicable
+
   - Best practices and considerations
 
   The documentation length should be proportional to the original file size, with more complex components receiving more detailed documentation.

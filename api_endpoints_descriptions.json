@@ -1,0 +1,618 @@
+{ "api_endpoints": [
+  {
+    "path": "/analyze-project",
+    "method": "POST",
+    "function": "analyze_project",
+    "file": "server.py",
+    "description": "Executes file association analysis on the specified project directory. This endpoint runs the file_associations module to analyze import relationships, common ports usage, and generates timestamped output files containing comprehensive file dependency data. Critical for understanding project structure and module interdependencies."
+  },
+  {
+    "path": "/analyze-project",
+    "method": "OPTIONS",
+    "function": "analyze_project",
+    "file": "server.py",
+    "description": "CORS preflight handler for the analyze-project endpoint."
+  },
+  {
+    "path": "/generate-insights",
+    "method": "POST",
+    "function": "generate_insights",
+    "file": "server.py",
+    "description": "Generates comprehensive HTML visualization reports from file association analysis results. Takes the summary JSON data and transforms it into interactive HTML pages with network diagrams, dependency graphs, and insights about the codebase structure. Essential for visualizing and understanding complex project architectures."
+  },
+  {
+    "path": "/generate-insights",
+    "method": "OPTIONS",
+    "function": "generate_insights",
+    "file": "server.py",
+    "description": "CORS preflight handler for the generate-insights endpoint."
+  },
+  {
+    "path": "/",
+    "method": "GET",
+    "function": "index",
+    "file": "server.py",
+    "description": "Serves the main file association analysis tool HTML interface. This is the entry point for users to interact with the file analysis system."
+  },
+  {
+    "path": "/<path:filename>",
+    "method": "GET",
+    "function": "serve_file",
+    "file": "server.py",
+    "description": "Static file server endpoint that serves HTML, JavaScript, CSS, and JSON files. Provides access to frontend assets and generated analysis results."
+  },
+  {
+    "path": "/",
+    "method": "GET",
+    "function": "index",
+    "file": "backend\\cfa_list.py",
+    "description": "Render the selection interface"
+  },
+  {
+    "path": "/api/versions",
+    "method": "GET",
+    "function": "api_versions",
+    "file": "backend\\cfa_list.py",
+    "description": "Return the list of available CFA versions"
+  },
+  {
+    "path": "/api/directory-structure",
+    "method": "GET",
+    "function": "directory_structure",
+    "file": "backend\\cfa_list.py",
+    "description": "Debug endpoint to return the directory structure"
+  },
+  {
+    "path": "/api/select-versions",
+    "method": "POST",
+    "function": "select_versions",
+    "file": "backend\\cfa_list.py",
+    "description": "Update the selected versions based on the request"
+  },
+  {
+    "path": "/api/process/<version>",
+    "method": "GET",
+    "function": "process_cfa_file",
+    "file": "backend\\cfa_list.py",
+    "description": "Process the CFA file for the specified version"
+  },
+  {
+    "path": "/api/process-selected",
+    "method": "GET",
+    "function": "process_selected",
+    "file": "backend\\cfa_list.py",
+    "description": "Process all selected CFA files"
+  },
+  {
+    "path": "/api/consolidate",
+    "method": "POST",
+    "function": "start_consolidation",
+    "file": "backend\\cfa_list.py",
+    "description": "Start a consolidation job for the specified versions"
+  },
+  {
+    "path": "/api/consolidate/status/<job_id>",
+    "method": "GET",
+    "function": "get_consolidation_status",
+    "file": "backend\\cfa_list.py",
+    "description": "Get the status of a consolidation job"
+  },
+  {
+    "path": "/api/consolidate/results/<job_id>",
+    "method": "GET",
+    "function": "get_consolidation_results",
+    "file": "backend\\cfa_list.py",
+    "description": "Get the results of a completed consolidation job"
+  },
+  {
+    "path": "/api/cell-details",
+    "method": "POST",
+    "function": "get_cell_details",
+    "file": "backend\\cfa_list.py",
+    "description": "Get detailed breakdown of a specific cell, particularly for summed columns\n    such as Revenue and Operating Expenses, showing the contribution from each version."
+  },
+  {
+    "path": "/stream_price/<version>",
+    "method": "GET",
+    "function": "stream_price",
+    "file": "backend\\API_endpoints_and_controllers\\Calculations.py",
+    "description": "Stream real-time price optimization updates for a specific version using Server-Sent Events (SSE).\n    This endpoint connects to a PriceOptimizationMonitor that watches status files for changes."
+  },
+  {
+    "path": "/price/<version>",
+    "method": "GET",
+    "function": "get_price",
+    "file": "backend\\API_endpoints_and_controllers\\Calculations.py",
+    "description": "Get the final optimized price for a specific version"
+  },
+  {
+    "path": "/run",
+    "method": "POST",
+    "function": "run_scripts",
+    "file": "backend\\API_endpoints_and_controllers\\Calculations.py",
+    "description": "Core calculation engine endpoint that orchestrates complex economic calculations. Processes multiple parameter states (V/F/R/RF), runs optimization algorithms, performs sensitivity analysis, and executes a sequence of calculation scripts. This is the primary computational workhorse of the economic modeling system, handling everything from basic calculations to advanced price optimization and sensitivity studies."
+  },
+  {
+    "path": "/status",
+    "method": "GET",
+    "function": "get_pipeline_status",
+    "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+    "description": "Returns the current execution status of the sensitivity calculation pipeline. Provides real-time information about which stages have completed, are in progress, or pending. Essential for monitoring long-running sensitivity analysis workflows."
+  },
+  {
+    "path": "/register_payload",
+    "method": "POST",
+    "function": "register_payload",
+    "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+    "description": "Registers calculation payload and initializes the sensitivity analysis pipeline. Stores parameter configurations, selected versions, and sensitivity settings. This is the first step in any sensitivity analysis workflow, establishing the foundation for subsequent calculations."
+  },
+  {
+    "path": "/baseline_calculation",
+    "method": "POST",
+    "function": "baseline_calculation",
+    "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+    "description": "Executes baseline economic calculations without sensitivity variations. Establishes reference values against which sensitivity variations will be compared. Critical for determining the base case scenario before applying parameter perturbations."
+  },
+  {
+    "path": "/sensitivity/configure",
+    "method": "POST",
+    "function": "configure_sensitivity",
+    "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+    "description": "Generates and saves sensitivity analysis configurations based on enabled parameters and their variation modes. Creates configuration files for each parameter-variation combination, preparing the system for systematic sensitivity calculations. Key step in setting up comprehensive parameter studies."
+  },
+  {
+    "path": "/runs",
+    "method": "POST",
+    "function": "run_calculations",
+    "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+    "description": "Executes the main sensitivity calculation runs based on previously configured parameters. Processes each sensitivity configuration through the calculation engine, generating results for all parameter variations. This is the computational core of the sensitivity analysis system."
+  },
+  {
+    "path": "/calculate-sensitivity",
+    "method": "POST",
+    "function": "calculate_sensitivity",
+    "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+    "description": "Execute specific sensitivity calculations using CFA-b.py with paths from CalSen service.\n    This endpoint runs after the general sensitivity configurations and runs have completed.\n    It leverages the CalSen service for path resolution to ensure consistent file locations."
+  },
+  {
+    "path": "/api/sensitivity/visualize",
+    "method": "POST",
+    "function": "sensitivity_visualize",
+    "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+    "description": "Generate visualization data for sensitivity analysis.\n\n    Expected JSON payload:\n    {\n        \"version\": 1,\n        \"param_id\": \"S10\",\n        \"mode\": \"percentage\",\n        \"compareToKey\": \"S13\",\n        \"plotTypes\": [\"waterfall\", \"bar\", \"point\"]\n    }"
+  },
+  {
+    "path": "/api/sensitivity/parameters",
+    "method": "GET",
+    "function": "get_sensitivity_parameters",
+    "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+    "description": "Get all available sensitivity parameters for visualization."
+  },
+  {
+    "path": "/run-all-sensitivity",
+    "method": "POST",
+    "function": "run_all_sensitivity",
+    "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+    "description": "Unified wrapper to execute all sensitivity endpoints sequentially.\n    Meant to replicate frontend's full analysis process with a single call."
+  },
+  {
+    "path": "/check-calsen-paths",
+    "method": "GET",
+    "function": "check_calsen_paths",
+    "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+    "description": "Check if calsen_paths.json exists for the specified version."
+  },
+  {
+    "path": "/run-script-econ",
+    "method": "POST",
+    "function": "run_script_econ",
+    "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+    "description": "Extract metrics from Economic Summary CSV files and append them to calsen_paths.json\n    using the incorporated extract_metrics_to_json function."
+  },
+  {
+    "path": "/run-add-axis-labels",
+    "method": "POST",
+    "function": "run_add_axis_labels",
+    "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+    "description": "Execute add_axis_labels.py to add axis labels to sensitivity plots."
+  },
+  {
+    "path": "/run-generate-plots",
+    "method": "POST",
+    "function": "run_generate_plots",
+    "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+    "description": "Generate sensitivity plots using the incorporated generate_plots function."
+  },
+  {
+    "path": "/run-html-album-organizer",
+    "method": "POST",
+    "function": "run_html_album_organizer",
+    "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+    "description": "Organize HTML plot files into standardized album directories using the incorporated organize_html_albums function."
+  },
+  {
+    "path": "/run-album-organizer",
+    "method": "POST",
+    "function": "run_album_organizer",
+    "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+    "description": "Organize PNG plots into standardized album directories using the incorporated organize_plot_albums function."
+  },
+  {
+    "path": "/run-process-sensitivity-results",
+    "method": "POST",
+    "function": "run_process_sensitivity_results",
+    "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+    "description": "Process sensitivity results using the incorporated process_sensitivity_results function."
+  },
+  {
+    "path": "/reset_pipeline",
+    "method": "POST",
+    "function": "reset_pipeline",
+    "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+    "description": "Resets the sensitivity analysis pipeline to its initial state, clearing all execution flags and cached data. Essential for starting fresh calculations or recovering from errors. Ensures clean state for new analysis runs."
+  },
+  {
+    "path": "/health",
+    "method": "GET",
+    "function": "health_check",
+    "file": "backend\\API_endpoints_and_controllers\\Calculations_and_Sensitivity-LL.py",
+    "description": "Service health check endpoint providing server availability status. Always accessible regardless of pipeline state, useful for monitoring and load balancer configurations."
+  },
+  {
+    "path": "/health",
+    "method": "GET",
+    "function": "health_check",
+    "file": "backend\\API_endpoints_and_controllers\\CalSen.py",
+    "description": "Service health check endpoint for the CalSen (Calculation-Sensitivity) path resolution service. Confirms service availability for configuration path operations."
+  },
+  {
+    "path": "/get_config_paths",
+    "method": "POST",
+    "function": "get_config_paths",
+    "file": "backend\\API_endpoints_and_controllers\\CalSen.py",
+    "description": "Get configuration paths based on version and payload.\n\n    Expected JSON request format:\n    {\n        \"version\": 1,\n        \"payload\": {\n            \"selectedVersions\": [1],\n            \"selectedV\": {\"V1\": \"on\", ...},\n            \"selectedF\": {\"F1\": \"on\", ...},\n            \"calculationOption\": \"freeFlowNPV\",\n            \"targetRow\": 20,\n            \"SenParameters\": {\n                \"S13\": {\n                    \"enabled\": true,\n                    \"mode\": \"percentage\",\n                    \"values\": [10],\n                    ...\n                },\n                ...\n            }\n        }\n    }"
+  },
+  {
+    "path": "/find_config_files",
+    "method": "POST",
+    "function": "find_config_files",
+    "file": "backend\\API_endpoints_and_controllers\\CalSen.py",
+    "description": "Find configuration files based on provided filters.\n\n    Expected JSON request format:\n    {\n        \"version\": 1,\n        \"param_id\": \"S35\",  # Optional\n        \"mode\": \"percentage\",  # Optional\n        \"variation\": 10.0  # Optional\n    }"
+  },
+  {
+    "path": "/list_parameters",
+    "method": "POST",
+    "function": "list_parameters",
+    "file": "backend\\API_endpoints_and_controllers\\CalSen.py",
+    "description": "List all enabled sensitivity parameters for a version.\n\n    Expected JSON request format:\n    {\n        \"version\": 1\n    }"
+  },
+  {
+    "path": "/load_configuration",
+    "method": "POST",
+    "function": "load_configuration",
+    "file": "backend\\API_endpoints_and_controllers\\ConfigurationAPI.py",
+    "description": "Loads and parses U_configurations files for specified versions. Extracts filteredValues and filteredValue objects containing customized parameter configurations with time segments. Essential for retrieving user-defined parameter customizations that override default values."
+  },
+  {
+    "path": "/delete_custom_param",
+    "method": "POST",
+    "function": "delete_custom_param",
+    "file": "backend\\API_endpoints_and_controllers\\ConfigurationAPI.py",
+    "description": "Delete a customized parameter from the U_configurations file.\n\n    Expected JSON payload:\n    {\n        \"version\": \"1\",\n        \"paramId\": \"someParameterId\",\n        \"start\": 5,\n        \"end\": 10\n    }\n\n    Returns:\n        JSON response with success message or error"
+  },
+  {
+    "path": "/create_new_batch",
+    "method": "POST",
+    "function": "create_new_batch_route",
+    "file": "backend\\API_endpoints_and_controllers\\Create_new_batch.py",
+    "description": "Creates new batch folders by duplicating the Batch(0) template structure. Handles intelligent version numbering, validates folder creation, and returns the new batch number. Critical for initializing new calculation scenarios and maintaining version control of different parameter sets."
+  },
+  {
+    "path": "/inject-names",
+    "method": "POST",
+    "function": "inject_names",
+    "file": "backend\\API_endpoints_and_controllers\\IND2751.py",
+    "description": "Generates human-readable display names for sensitivity parameters by mapping parameter IDs to descriptive property names and variation labels. Transforms technical parameter codes (like S13, S35) into meaningful names for UI display, improving user experience and parameter comprehension."
+  },
+  {
+    "path": "/load_configuration",
+    "method": "POST",
+    "function": "load_configuration",
+    "file": "backend\\API_endpoints_and_controllers\\Load.py",
+    "description": "Legacy configuration loading endpoint (appears to duplicate ConfigurationAPI functionality). Loads and parses U_configurations files for retrieving customized parameter values."
+  },
+  {
+    "path": "/generate_png_plots",
+    "method": "POST",
+    "function": "run_scripts",
+    "file": "backend\\API_endpoints_and_controllers\\PNG.py",
+    "description": "Main endpoint for running PNG visualization scripts.\n    Handles request validation, script execution, and error handling.\n\n    Returns:\n        tuple: (response, status_code)"
+  },
+  {
+    "path": "/api/plots/<version>",
+    "method": "GET",
+    "function": "get_plots",
+    "file": "backend\\API_endpoints_and_controllers\\PNG.py",
+    "description": "Get all plots for a specific version.\n\n    Args:\n        version (str): The version number\n\n    Returns:\n        Tuple[Response, int]: JSON response with plot information and HTTP status code"
+  },
+  {
+    "path": "/api/plots/<version>/<category>/<group>",
+    "method": "GET",
+    "function": "get_plots_by_group",
+    "file": "backend\\API_endpoints_and_controllers\\PNG.py",
+    "description": "Get plots for a specific version, category, and group.\n\n    Args:\n        version (str): The version number\n        category (str): The plot category\n        group (str): The plot group\n\n    Returns:\n        JSON response with plot information"
+  },
+  {
+    "path": "/api/sensitivity-plots/<version>",
+    "method": "GET",
+    "function": "get_sensitivity_plots",
+    "file": "backend\\API_endpoints_and_controllers\\PNG.py",
+    "description": "Get all sensitivity plots for a specific version.\n\n    Args:\n        version (str): The version number\n\n    Returns:\n        JSON response with plot information"
+  },
+  {
+    "path": "/api/sensitivity-plots/<version>/<category>/<group>",
+    "method": "GET",
+    "function": "get_sensitivity_plots_by_group",
+    "file": "backend\\API_endpoints_and_controllers\\PNG.py",
+    "description": "Get sensitivity plots for a specific version, category, and group.\n\n    Args:\n        version (str): The version number\n        category (str): The plot category\n        group (str): The plot group\n\n    Returns:\n        JSON response with plot information"
+  },
+  {
+    "path": "/images/<path:filename>",
+    "method": "GET",
+    "function": "serve_image",
+    "file": "backend\\API_endpoints_and_controllers\\PNG.py",
+    "description": "Serves PNG and other image files from the visualization output directories. Provides direct access to generated plots and charts for display in the frontend. Supports nested directory structures for organized image retrieval."
+  },
+  {
+    "path": "/clear-log",
+    "method": "POST",
+    "function": "clear_log_endpoint",
+    "file": "backend\\API_endpoints_and_controllers\\Remove_batch.py",
+    "description": "Clears the contents of specified log files to manage disk space and reset logging state. Supports selective log clearing for different system components. Important for log maintenance and troubleshooting."
+  },
+  {
+    "path": "/Remove_batch",
+    "method": "POST",
+    "function": "remove_batch_endpoint",
+    "file": "backend\\API_endpoints_and_controllers\\Remove_batch.py",
+    "description": "Removes specified batch folders from both main and backup locations. Handles complete cleanup of calculation scenarios including all associated files and subdirectories. Critical for managing storage and removing obsolete calculation versions."
+  },
+  {
+    "path": "/copy-config-modules",
+    "method": "POST",
+    "function": "copy_config_modules",
+    "file": "backend\\API_endpoints_and_controllers\\sense_config_base.py",
+    "description": "Processes and replicates configuration modules for each sensitivity variation. Creates modified configuration copies with applied parameter variations, enabling parallel sensitivity calculations. Fundamental for setting up the sensitivity analysis infrastructure."
+  },
+  {
+    "path": "/health",
+    "method": "GET",
+    "function": "health_check",
+    "file": "backend\\API_endpoints_and_controllers\\sense_config_base.py",
+    "description": "Health check endpoint for the sensitivity configuration base service. Confirms service availability and returns basic server information. Used for monitoring and service discovery in the sensitivity analysis infrastructure."
+  },
+  {
+    "path": "/runSub",
+    "method": "POST",
+    "function": "run_scripts",
+    "file": "backend\\API_endpoints_and_controllers\\Sub.py",
+    "description": "Executes advanced visualization pipeline for generating aggregated subplot visualizations. Processes selected versions, properties, and customization options to create comprehensive visual outputs. Also triggers HTML album organization for proper display structure. Key endpoint for producing final visual analysis results."
+  },
+  {
+    "path": "/subplotMetadata",
+    "method": "GET",
+    "function": "get_subplot_metadata",
+    "file": "backend\\API_endpoints_and_controllers\\Subplot_metadata.py",
+    "description": "Retrieves comprehensive metadata about available subplot configurations and visualization options. Returns information about supported metrics, chart types, and customization parameters. Essential for dynamic UI generation and helping users understand available visualization choices."
+  },
+  {
+    "path": "/versions",
+    "method": "GET",
+    "function": "list_versions_route",
+    "file": "backend\\API_endpoints_and_controllers\\Version_service.py",
+    "description": "Lists all available version numbers by scanning Batch folders in the Original directory. Supports both integer and decimal version formats, providing a comprehensive inventory of available calculation scenarios. Essential for version selection and batch management operations."
+  },
+  {
+    "path": "/formatter/<version>",
+    "method": "GET",
+    "function": "run_formatter",
+    "file": "backend\\Configuration_management\\formatter-updated.py",
+    "description": "Executes data formatting operations for a specific version. Processes and standardizes configuration data structures to ensure consistent format across the system. Essential for data normalization and preparation before calculations."
+  },
+  {
+    "path": "/module1/<version>",
+    "method": "GET",
+    "function": "run_module1",
+    "file": "backend\\Configuration_management\\module1-updated.py",
+    "description": "Executes the primary configuration processing module for a specific version. Handles core configuration transformations and data preparation steps required before main calculations can proceed."
+  },
+  {
+    "path": "/table/<version>",
+    "method": "GET",
+    "function": "run_table",
+    "file": "backend\\Configuration_management\\table-updated.py",
+    "description": "Generates tabular data representations for a specific version. Converts raw calculation results into structured table formats suitable for display and further analysis. Key component in the data presentation pipeline."
+  },
+  {
+    "path": "/api/album_html/<version>",
+    "method": "GET",
+    "function": "get_html_files",
+    "file": "backend\\Data_processors_and_transformers\\Front_Subtab_HTML.py",
+    "description": "Retrieves organized HTML visualization files for a specific version. Returns structured album data containing HTML plots and visualizations organized by categories and groups. Critical for frontend display of analysis results."
+  },
+  {
+    "path": "/static/html/<version>/<album>/<filename>",
+    "method": "GET",
+    "function": "serve_html",
+    "file": "backend\\Data_processors_and_transformers\\Front_Subtab_HTML.py",
+    "description": "Serves individual HTML visualization files from organized album directories. Provides direct access to specific visualizations based on version, album category, and filename. Critical for displaying interactive plots and charts in the frontend."
+  },
+  {
+    "path": "/test",
+    "method": "GET",
+    "function": "test",
+    "file": "backend\\Data_processors_and_transformers\\Front_Subtab_HTML.py",
+    "description": "Basic connectivity test endpoint for the HTML visualization service. Returns simple confirmation of service availability. Useful for debugging and health monitoring."
+  },
+  {
+    "path": "/test/album_endpoints",
+    "method": "GET",
+    "function": "test_album_endpoints",
+    "file": "backend\\Data_processors_and_transformers\\Front_Subtab_HTML.py",
+    "description": "Test endpoint to verify the album HTML content endpoints are working\n\n    This endpoint tests both /api/album_html_content/<album> and /api/album_html_all\n    by attempting to find and retrieve content from the first available album.\n\n    Returns:\n        JSON response with test results"
+  },
+  {
+    "path": "/api/album_html_content/<album>",
+    "method": "GET",
+    "function": "get_album_html_content",
+    "file": "backend\\Data_processors_and_transformers\\Front_Subtab_HTML.py",
+    "description": "Fetch HTML content for a specific album\n\n    Args:\n        album: The album identifier\n\n    Returns:\n        JSON response with the album's HTML content"
+  },
+  {
+    "path": "/api/album_html_all",
+    "method": "GET",
+    "function": "get_all_albums_html",
+    "file": "backend\\Data_processors_and_transformers\\Front_Subtab_HTML.py",
+    "description": "Fetch HTML content for all albums across specified versions\n\n    Query parameters:\n        version: One or more version numbers (can be specified multiple times)\n\n    Returns:\n        JSON response with all albums' HTML content"
+  },
+  {
+    "path": "/api/logs",
+    "method": "GET",
+    "function": "get_logs",
+    "file": "backend\\Data_processors_and_transformers\\Front_Subtab_HTML.py",
+    "description": "Returns recent log entries from the HTML visualization service. Provides debugging information and operational history for troubleshooting visualization generation issues. Useful for monitoring system behavior."
+  },
+  {
+    "path": "/api/album/<version>",
+    "method": "GET",
+    "function": "get_png_files",
+    "file": "backend\\Data_processors_and_transformers\\Front_Subtab_Plot.py",
+    "description": "Retrieves organized PNG plot files for a specific version. Returns structured album data containing plot images organized by categories and groups. Essential for visual display of calculation results and sensitivity analyses."
+  },
+  {
+    "path": "/api/csv-files/<version>",
+    "method": "GET",
+    "function": "get_csv_files",
+    "file": "backend\\Data_processors_and_transformers\\Front_Subtab_Table.py",
+    "description": "Retrieves CSV data files for a specific version. Provides access to tabular calculation results in CSV format, enabling data export and further analysis in external tools. Important for data portability and integration."
+  },
+  {
+    "path": "/api/probing/status",
+    "method": "GET",
+    "function": "get_status",
+    "file": "probing-new\\src\\api-module.py",
+    "description": "Returns the current operational status of the probing module. Provides health check information and module availability for the code analysis and visualization subsystem."
+  },
+  {
+    "path": "/api/probing/scan-changes",
+    "method": "POST",
+    "function": "api_scan_changes",
+    "file": "probing-new\\src\\api-module.py",
+    "description": "Initiates a scan for file changes in monitored directories. Detects modifications, additions, and deletions to trigger appropriate analysis updates. Essential for maintaining up-to-date code analysis results."
+  },
+  {
+    "path": "/api/probing/integrated-data",
+    "method": "GET",
+    "function": "api_get_integrated_data",
+    "file": "probing-new\\src\\api-module.py",
+    "description": "Retrieves comprehensive integrated analysis data from all probing modules. Aggregates file associations, code analysis results, and visualization data into a unified response. Central endpoint for accessing complete system analysis."
+  },
+  {
+    "path": "/api/probing/file-associations/latest",
+    "method": "GET",
+    "function": "api_get_latest_file_associations",
+    "file": "probing-new\\src\\api-module.py",
+    "description": "Returns the most recent file association analysis results. Provides current import relationships, dependencies, and module connections. Key for understanding the latest project structure state."
+  },
+  {
+    "path": "/api/probing/file-associations/download",
+    "method": "GET",
+    "function": "api_download_file_associations",
+    "file": "probing-new\\src\\api-module.py",
+    "description": "Provides file association analysis data as a downloadable JSON file. Enables export of dependency analysis results for offline review or integration with other tools. Useful for documentation and architecture review processes."
+  },
+  {
+    "path": "/api/probing/visualization-data/sample",
+    "method": "GET",
+    "function": "api_get_visualization_sample_data",
+    "file": "probing-new\\src\\api-module.py",
+    "description": "Returns sample visualization data for testing and demonstration purposes. Provides example datasets that showcase visualization capabilities without requiring actual analysis. Helpful for UI development and user training."
+  },
+  {
+    "path": "/api/probing/visualizations",
+    "method": "GET",
+    "function": "api_get_visualizations",
+    "file": "probing-new\\src\\api-module.py",
+    "description": "Lists all available visualization types and their configurations. Returns metadata about supported graph types, charts, and diagrams for code analysis results. Essential for dynamic UI generation and visualization selection."
+  },
+  {
+    "path": "/api/probing/visualization",
+    "method": "POST",
+    "function": "api_render_visualization",
+    "file": "probing-new\\src\\api-module.py",
+    "description": "Renders specific visualizations based on provided data and visualization type. Generates interactive graphs, dependency diagrams, and other visual representations of code analysis results. Core endpoint for creating visual insights from analysis data."
+  },
+  {
+    "path": "/api/probing/code-analysis/analyzers",
+    "method": "GET",
+    "function": "api_get_code_analyzers",
+    "file": "probing-new\\src\\api-module.py",
+    "description": "Returns list of available code analysis modules and their capabilities. Includes entity analyzers, dependency mappers, and specialized analyzers for different code patterns. Important for selecting appropriate analysis tools."
+  },
+  {
+    "path": "/api/probing/code-analysis/sample-code",
+    "method": "GET",
+    "function": "api_get_sample_code",
+    "file": "probing-new\\src\\api-module.py",
+    "description": "Provides sample code snippets for testing analysis features. Returns example code that demonstrates various patterns and structures the analyzers can process. Useful for testing and demonstrating analysis capabilities."
+  },
+  {
+    "path": "/api/probing/analyze-direct",
+    "method": "POST",
+    "function": "api_analyze_code_direct",
+    "file": "probing-new\\src\\api-module.py",
+    "description": "Performs direct code analysis on submitted content without file system interaction. Enables real-time analysis of code snippets or dynamic content. Particularly useful for live coding environments and immediate feedback scenarios."
+  },
+  {
+    "path": "/api/probing/visualize-direct",
+    "method": "POST",
+    "function": "api_visualize_data_direct",
+    "file": "probing-new\\src\\api-module.py",
+    "description": "Creates visualizations directly from provided data without requiring prior analysis. Enables immediate visualization of custom data structures and relationships. Valuable for rapid prototyping and custom visualization needs."
+  },
+  {
+    "path": "/api/probing/insights/generate",
+    "method": "POST",
+    "function": "api_generate_insights",
+    "file": "probing-new\\src\\api-module.py",
+    "description": "Generates comprehensive insights by analyzing all available data sources. Combines file associations, code patterns, and structural analysis to produce actionable recommendations. Critical for deriving meaningful conclusions from complex analysis results."
+  },
+  {
+    "path": "/api/probing/generate-report",
+    "method": "POST",
+    "function": "api_generate_report",
+    "file": "probing-new\\src\\api-module.py",
+    "description": "Creates comprehensive integrated reports combining all analysis results, visualizations, and insights. Produces formatted documents suitable for architecture reviews and technical documentation. Essential for formal reporting and knowledge sharing."
+  },
+  {
+    "path": "/api/probing/download-report",
+    "method": "GET",
+    "function": "api_download_report",
+    "file": "probing-new\\src\\api-module.py",
+    "description": "Downloads previously generated analysis reports in various formats. Provides access to completed reports for distribution and archival. Supports multiple output formats for different use cases."
+  },
+  {
+    "path": "/",
+    "method": "GET",
+    "function": "index",
+    "file": "probing-new\\src\\server-module.py",
+    "description": "Serves the main probing module interface HTML file. Entry point for the code analysis and visualization subsystem's web interface."
+  },
+  {
+    "path": "/<path:path>",
+    "method": "GET",
+    "function": "static_files",
+    "file": "probing-new\\src\\server-module.py",
+    "description": "Static file server for the probing module's web interface. Serves JavaScript, CSS, and other assets required for the code analysis UI. Essential for frontend functionality."
+  }
+]}

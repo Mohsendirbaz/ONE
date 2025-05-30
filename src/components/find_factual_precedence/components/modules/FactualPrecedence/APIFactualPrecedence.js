@@ -251,5 +251,5 @@ const APIFactualPrecedence = (props) => {
   );
 };
 
-export { getAPIPrecedenceData };
 export default APIFactualPrecedence;
+export { getAPIPrecedenceData };

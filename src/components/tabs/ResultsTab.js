@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
-import CustomizableTable from '../modules/CustomizableTable';
+import CustomizableTable from '../../components/modules/CustomizableTable';
 import '../../styles/HomePage.CSS/HCSS.css';
 import '../../styles/HomePage.CSS/CustomizableTable.css';
 

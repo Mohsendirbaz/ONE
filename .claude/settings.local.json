@@ -2,10 +2,14 @@
   "permissions": {
     "allow": [
       "Bash(ls:*)",
+<<<<<<< HEAD
+      "Bash(grep:*)"
+=======
       "Bash(grep:*)",
       "Bash(realpath:*)",
       "Bash(find:*)",
       "Bash(rm:*)"
+>>>>>>> origin/main
     ],
     "deny": []
   }

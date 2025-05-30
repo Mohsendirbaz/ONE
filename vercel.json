@@ -1,6 +1,0 @@
-{
-  "installCommand": "node vercel-pre-install.js && npm install || true",
-  "buildCommand": "node build-bypass.js",
-  "outputDirectory": "build",
-  "framework": null
-}

@@ -9,10 +9,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
-import MatrixSubmissionService from '../../../services/MatrixSubmissionService';
+import MatrixSubmissionService from '../../services/MatrixSubmissionService';
 import ExtendedScaling from '../../truly_extended_scaling/ExtendedScaling';
 import GeneralFormConfig from '../../forms/GeneralFormConfig';
-import '../../../styles/HomePage.CSS/HCSS.css';
+import '../../styles/HomePage.CSS/HCSS.css';
 
 /**
  * Integrated MatrixApp Component

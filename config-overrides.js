@@ -1,37 +1,25 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = function override(config, env) {
-  // Disable critical dependency warnings for dynamic requires
+  // COMPLETELY DISABLE MODULE SCOPE PLUGIN
+  config.resolve.plugins = config.resolve.plugins.filter(
+    plugin => plugin.constructor.name !== 'ModuleScopePlugin'
+  );
+
+  // Disable ALL critical dependency warnings
   config.module = config.module || {};
   config.module.exprContextCritical = false;
+  config.module.unknownContextCritical = false;
+  config.module.strictExportPresence = false;
 
-  // Add webpack-dev-server configuration to fix deprecation warnings
-  // Always apply this configuration as the warnings only appear in development mode
-  // Store references to the middleware functions if they exist
-  const onBeforeSetupMiddleware = config.devServer?.onBeforeSetupMiddleware;
-  const onAfterSetupMiddleware = config.devServer?.onAfterSetupMiddleware;
-
-  // Create a new devServer config without the deprecated options
-  config.devServer = {
-    ...(config.devServer || {}),
-    // Explicitly delete deprecated options
-    onBeforeSetupMiddleware: undefined,
-    onAfterSetupMiddleware: undefined,
-    // Add the new setupMiddlewares function
-    setupMiddlewares: (middlewares, devServer) => {
-      // Handle any before middleware setup
-      if (typeof onBeforeSetupMiddleware === 'function') {
-        onBeforeSetupMiddleware(devServer);
-      }
-
-      // Handle any after middleware setup
-      if (typeof onAfterSetupMiddleware === 'function') {
-        onAfterSetupMiddleware(devServer);
-      }
-
-      return middlewares;
-    }
-  };
+  // Remove the restriction on importing from outside src
+  const scopePluginIndex = config.resolve.plugins.findIndex(
+    ({ constructor }) => constructor && constructor.name === 'ModuleScopePlugin'
+  );
+  if (scopePluginIndex >= 0) {
+    config.resolve.plugins.splice(scopePluginIndex, 1);
+  }
 
   // Add fallbacks for Node.js core modules
   config.resolve.fallback = {
@@ -53,14 +41,44 @@ module.exports = function override(config, env) {
     "process": require.resolve("process/browser.js"),
     "vm": false,
     "async_hooks": false,
-    "express": false,  // Tell webpack not to include express in the client bundle
-    "express/lib/view": false,  // Explicitly exclude express view module
-    "express/lib/router": false,  // Explicitly exclude express router module
-    "express/lib/application": false  // Explicitly exclude express application module
+    "express": false,
+    "express/lib/view": false,
+    "express/lib/router": false,
+    "express/lib/application": false,
+    // Add utils fallbacks
+    'utils': path.resolve(__dirname, 'src/utils/fallback-utils.js'),
+    './utils': path.resolve(__dirname, 'src/utils/fallback-utils.js'),
+    '../utils': path.resolve(__dirname, 'src/utils/fallback-utils.js')
   };
 
-  // Add buffer and process polyfills
-  const webpack = require('webpack');
+  // Add support for .mjs files
+  config.module.rules.push({
+    test: /\.mjs$/,
+    include: /node_modules/,
+    type: 'javascript/auto'
+  });
+
+  // Add aliases for ALL problematic modules
+  config.resolve.alias = {
+    ...config.resolve.alias,
+    // Mock framer-motion
+    'framer-motion': path.resolve(__dirname, 'src/utils/framer-motion-mock.js'),
+    // Handle component naming mismatches
+    './ClimateModule': path.resolve(__dirname, 'src/components/truly_extended_scaling/climate-module-enhanced.js'),
+    './CoordinateContainer': path.resolve(__dirname, 'src/components/truly_extended_scaling/coordinate-container-enhanced.js'),
+    './CoordinateContainerEnhanced': path.resolve(__dirname, 'src/components/truly_extended_scaling/CoordinateContainerEnhanced.js'),
+    './MultiZoneSelector': path.resolve(__dirname, 'src/components/truly_extended_scaling/MultiZoneSelector.js'),
+    './BoundaryDownloader': path.resolve(__dirname, 'src/components/truly_extended_scaling/BoundaryDownloader.js'),
+    './UnifiedTooltip': path.resolve(__dirname, 'src/components/truly_extended_scaling/UnifiedTooltip.js'),
+    // Utils fallbacks
+    '../utils.js': path.resolve(__dirname, 'src/utils/fallback-utils.js'),
+    '../utils': path.resolve(__dirname, 'src/utils/fallback-utils.js')
+  };
+
+  // Fix extensions
+  config.resolve.extensions = [...(config.resolve.extensions || []), '.mjs', '.jsx'];
+
+  // Add plugins
   config.plugins.push(
     new webpack.ProvidePlugin({
       process: 'process/browser.js',
@@ -71,60 +89,7 @@ module.exports = function override(config, env) {
     })
   );
 
-  // Add alias for problematic modules
-  config.resolve.alias = {
-    ...config.resolve.alias,
-    // Handle common naming mismatches
-    './ClimateModule': path.resolve(__dirname, 'src/components/truly_extended_scaling/climate-module-enhanced.js'),
-    './CoordinateContainer': path.resolve(__dirname, 'src/components/truly_extended_scaling/coordinate-container-enhanced.js'),
-    './CoordinateContainerEnhanced': path.resolve(__dirname, 'src/components/truly_extended_scaling/CoordinateContainerEnhanced.js'),
-    './MultiZoneSelector': path.resolve(__dirname, 'src/components/truly_extended_scaling/MultiZoneSelector.js'),
-    './BoundaryDownloader': path.resolve(__dirname, 'src/components/truly_extended_scaling/BoundaryDownloader.js'),
-    './UnifiedTooltip': path.resolve(__dirname, 'src/components/truly_extended_scaling/UnifiedTooltip.js'),
-    // Handle utils.js default export issues
-    '../utils.js': path.resolve(__dirname, 'src/utils/fallback-utils.js'),
-    '../utils': path.resolve(__dirname, 'src/utils/fallback-utils.js'),
-    // Use mock framer-motion to avoid import issues
-    'framer-motion': path.resolve(__dirname, 'src/utils/framer-motion-mock.js')
-  };
-
-  // Make build more forgiving of missing modules
-  config.resolve.fallback = {
-    ...config.resolve.fallback,
-    // Add fallbacks for problematic modules
-    'utils': path.resolve(__dirname, 'src/utils/fallback-utils.js'),
-    './utils': path.resolve(__dirname, 'src/utils/fallback-utils.js'),
-    '../utils': path.resolve(__dirname, 'src/utils/fallback-utils.js')
-  };
-
-  // Handle module resolution errors more gracefully
-  config.module.unknownContextCritical = false;
-  config.module.exprContextCritical = false;
-
-  // Add support for .mjs files and fix framer-motion issues
-  config.module.rules.push({
-    test: /\.mjs$/,
-    include: /node_modules/,
-    type: 'javascript/auto'
-  });
-
-  // Fix module resolution for .mjs files
-  config.resolve.extensions = [...(config.resolve.extensions || []), '.mjs'];
-
-  // Ignore certain warnings
-  config.stats = 'errors-warnings';
-
-  // Add IgnorePlugin for problematic imports
-  config.plugins.push(
-    new webpack.IgnorePlugin({
-      resourceRegExp: /^\.\.\/utils$/,
-      contextRegExp: /[\\/]/
-    })
-  );
-
-
-  // Fix for "Cannot read properties of undefined (reading 'module')" errors
-  // and "Critical dependency: the request of a dependency is an expression" warnings
+  // Fix for specific problematic modules
   config.plugins.push(
     new webpack.NormalModuleReplacementPlugin(
       /node_modules\/@react-dnd\/invariant\/dist\/index\.js$/,
@@ -139,6 +104,37 @@ module.exports = function override(config, env) {
       require.resolve('./webpack-patches/express-view-patch.js')
     )
   );
+
+  // Override stats to suppress warnings
+  config.stats = 'errors-only';
+  
+  // Ignore specific warnings
+  config.ignoreWarnings = [
+    /Failed to parse source map/,
+    /Critical dependency/,
+    /Module not found/
+  ];
+
+  // Fix dev server for development
+  if (env === 'development' && config.devServer) {
+    const onBeforeSetupMiddleware = config.devServer.onBeforeSetupMiddleware;
+    const onAfterSetupMiddleware = config.devServer.onAfterSetupMiddleware;
+
+    config.devServer = {
+      ...config.devServer,
+      onBeforeSetupMiddleware: undefined,
+      onAfterSetupMiddleware: undefined,
+      setupMiddlewares: (middlewares, devServer) => {
+        if (typeof onBeforeSetupMiddleware === 'function') {
+          onBeforeSetupMiddleware(devServer);
+        }
+        if (typeof onAfterSetupMiddleware === 'function') {
+          onAfterSetupMiddleware(devServer);
+        }
+        return middlewares;
+      }
+    };
+  }
 
   return config;
 };

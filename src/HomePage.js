@@ -5,6 +5,8 @@ import { VersionStateProvider, useVersionState } from './contexts/VersionStateCo
 import CustomizableImage from './components/modules/CustomizableImage';
 import CustomizableTable from './components/modules/CustomizableTable';
 import ExtendedScaling from 'src/components/truly_extended_scaling/ExtendedScaling';
+import ClimateModuleEnhanced from 'src/components/truly_extended_scaling/climate-module-enhanced';
+import { MatrixProvider } from './MatrixStateManager';
 import FactEngine from './components/modules/FactEngine';
 import FactEngineAdmin from './components/modules/FactEngineAdmin';
 import GeneralFormConfig from './GeneralFormConfig.js';
@@ -2554,6 +2556,44 @@ const HomePageContent = () => {
                     </div>
                 </div>;
 
+            case 'Climate':
+                return (
+                    <div className="climate-management-container">
+                        <h2>Climate Management</h2>
+                        <div className="climate-content">
+                            <MatrixProvider initialData={{
+                                formMatrix: formValues || {},
+                                versions: { 
+                                    active: version || 'v1', 
+                                    list: selectedVersions ? Object.keys(selectedVersions) : ['v1'],
+                                    metadata: {}
+                                },
+                                zones: { 
+                                    active: 'z1', 
+                                    list: ['z1', 'z2', 'z3'],
+                                    metadata: {}
+                                }
+                            }}>
+                                <ClimateModuleEnhanced 
+                                    scalingGroups={formValues || []}
+                                    versions={{ 
+                                        active: version || 'v1', 
+                                        list: selectedVersions ? Object.keys(selectedVersions) : ['v1'] 
+                                    }}
+                                    zones={{ 
+                                        active: 'z1', 
+                                        list: ['z1', 'z2', 'z3'] 
+                                    }}
+                                    onCarbonFootprintChange={(footprints) => {
+                                        console.log('Carbon footprint changed:', footprints);
+                                    }}
+                                    showCoordinateComponent={true}
+                                />
+                            </MatrixProvider>
+                        </div>
+                    </div>
+                );
+
             default:
                 return null;
         }
@@ -2682,12 +2722,18 @@ const HomePageContent = () => {
                         >
                             Code Entity Analysis
                         </button>
+                        <button
+                            className={`tab-button ${activeTab === 'Climate' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('Climate')}
+                        >
+                            Climate Management
+                        </button>
                     </div>
                 </nav>
                 <div className="content-container">
                     {activeTab !== 'AboutUs' && activeTab !== 'TestingZone' && 
                      activeTab !== 'Consolidated1' && activeTab !== 'Consolidated2' && activeTab !== 'Consolidated3' && 
-                     activeTab !== 'CodeEntityAnalysis' &&
+                     activeTab !== 'CodeEntityAnalysis' && activeTab !== 'Climate' &&
                         (
                         <>
                             <SensitivityMonitor

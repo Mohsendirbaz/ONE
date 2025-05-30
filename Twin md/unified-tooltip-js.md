@@ -1,4 +1,4 @@
-# unified-tooltip-js.js - Architectural Summary
+# unified-tooltip.js - Architectural Summary
 
 ## Overview
 A comprehensive React tooltip component (965 lines) that provides a unified interface for displaying various types of contextual information. It supports value tooltips (financial data), climate tooltips (environmental data), and generic tooltips with advanced positioning and animation features.

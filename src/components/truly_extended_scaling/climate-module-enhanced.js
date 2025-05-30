@@ -2,9 +2,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
-import CoordinateContainerEnhanced from './CoordinateContainerEnhanced';
+import CoordinateContainerEnhanced from './coordinate-container-enhanced';
 import { getAPIPrecedenceData } from '../find_factual_precedence/components/modules/FactualPrecedence/APIFactualPrecedence';
-import './styles/ClimateModule.css';
 import './styles/ClimateModuleEnhanced.css';
 
 /**
@@ -121,7 +120,7 @@ const ClimateModuleEnhanced = ({
   });
 
   const [regionSystem, setRegionSystem] = useState('SI');
-  
+
   // Enhanced state for multi-zone support
   const [zoneGenerationMode, setZoneGenerationMode] = useState('standard'); // 'standard', 'grid', 'custom'
   const [zoneGenerationOptions, setZoneGenerationOptions] = useState({
@@ -827,7 +826,7 @@ const ClimateModuleEnhanced = ({
             </button>
           </div>
         </div>
-        
+
         <div className="zone-panel-content">
           {zoneGenerationMode === 'standard' && (
             <div className="zone-grid-options">
@@ -856,7 +855,7 @@ const ClimateModuleEnhanced = ({
                   </div>
                 </div>
               </div>
-              
+
               <div className="zone-grid-options-group">
                 <label>Zone Size:</label>
                 <div className="zone-size-inputs">
@@ -893,7 +892,7 @@ const ClimateModuleEnhanced = ({
                   </div>
                 </div>
               </div>
-              
+
               <div className="zone-grid-options-group">
                 <label>Zone Shape:</label>
                 <div className="zone-shape-options">
@@ -932,7 +931,7 @@ const ClimateModuleEnhanced = ({
                   </label>
                 </div>
               </div>
-              
+
               <div className="zone-grid-options-group">
                 <label>Naming Pattern:</label>
                 <input 
@@ -945,7 +944,7 @@ const ClimateModuleEnhanced = ({
                   <span>Use {'{x}'} for column index and {'{y}'} for row index</span>
                 </div>
               </div>
-              
+
               <div className="zone-grid-options-group">
                 <label>Start Index:</label>
                 <input 
@@ -955,7 +954,7 @@ const ClimateModuleEnhanced = ({
                   onChange={(e) => handleZoneGenerationOptionChange('nameStartIndex', parseInt(e.target.value) || 0)}
                 />
               </div>
-              
+
               <div className="zone-grid-action">
                 <button className="generate-zones-btn">
                   Generate {zoneGenerationOptions.gridSize.rows * zoneGenerationOptions.gridSize.columns} Zones
@@ -963,12 +962,12 @@ const ClimateModuleEnhanced = ({
               </div>
             </div>
           )}
-          
+
           {zoneGenerationMode === 'custom' && (
             <div className="zone-custom-options">
               <p>Select an area on the map to define a custom zone shape.</p>
               <p>Use the Multi-Zone Selection tool to draw areas and generate zones.</p>
-              
+
               <div className="zone-custom-link">
                 <button 
                   className="go-to-multi-zone-btn"
@@ -989,7 +988,7 @@ const ClimateModuleEnhanced = ({
       </div>
     );
   };
-  
+
   // JSX for zone cluster analysis panel
   const renderZoneClusterAnalysisPanel = () => {
     return (
@@ -1008,7 +1007,7 @@ const ClimateModuleEnhanced = ({
             </label>
           </div>
         </div>
-        
+
         <div className="cluster-panel-content">
           {zoneClusterAnalysis.enabled ? (
             <>
@@ -1024,7 +1023,7 @@ const ClimateModuleEnhanced = ({
                     <option value="combined">Combined Factors</option>
                   </select>
                 </div>
-                
+
                 <div className="cluster-option-group">
                   <label>Number of Clusters:</label>
                   <input
@@ -1035,17 +1034,17 @@ const ClimateModuleEnhanced = ({
                     onChange={(e) => handleZoneClusterAnalysisChange('clusterCount', parseInt(e.target.value) || 3)}
                   />
                 </div>
-                
+
                 <div className="cluster-action">
                   <button className="run-analysis-btn">
                     Run Cluster Analysis
                   </button>
                 </div>
               </div>
-              
+
               <div className="cluster-results">
                 <p>Analysis will run across {zones.list.length} zones and identify patterns based on {zoneClusterAnalysis.analysisType} data.</p>
-                
+
                 {zoneClusterAnalysis.clusters.length > 0 ? (
                   <div className="cluster-visualization">
                     <h4>Cluster Results</h4>

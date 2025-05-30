@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
-import './styles/BoundaryDownloader.css';
+import '../../styles/HomePage.CSS/BoundaryDownloader.css';
 
 // Base URL for boundary file downloads
 const BOUNDARY_FILE_BASE_URL = 'https://api.climate-data-service.org/boundaries';
@@ -36,13 +36,13 @@ const BoundaryDownloader = ({
     state: [],
     county: []
   });
-  
+
   // State for selected boundary for download
   const [selectedBoundary, setSelectedBoundary] = useState(null);
-  
+
   // State for loading status
   const [loading, setLoading] = useState(false);
-  
+
   // State for advanced options
   const [advancedOptions, setAdvancedOptions] = useState({
     include3D: boundaryOptions.include3D,
@@ -51,7 +51,7 @@ const BoundaryDownloader = ({
     simplified: false, // Whether to use simplified geometries
     resolution: 'high' // high, medium, low
   });
-  
+
   // Find intersecting boundary layers when selected area changes
   useEffect(() => {
     if (!selectedArea) {
@@ -63,21 +63,21 @@ const BoundaryDownloader = ({
       setSelectedBoundary(null);
       return;
     }
-    
+
     findIntersectingBoundaries(selectedArea);
   }, [selectedArea]);
-  
+
   // Find intersecting boundary layers
   const findIntersectingBoundaries = useCallback(async (area) => {
     setLoading(true);
-    
+
     try {
       // In a real implementation, this would make API calls to a GIS service
       // Here we're simulating the process with setTimeout
-      
+
       // Simulate API call latency
       await new Promise(resolve => setTimeout(resolve, 500));
-      
+
       // Mock data - in a real implementation, this would be from an API
       const mockBoundaries = {
         country: [
@@ -94,14 +94,14 @@ const BoundaryDownloader = ({
           { id: 'CT3', name: 'Islington', type: 'county', intersects: false }
         ]
       };
-      
+
       // Filter for intersecting boundaries only
       const intersectingBoundaries = {
         country: mockBoundaries.country.filter(b => b.intersects),
         state: mockBoundaries.state.filter(b => b.intersects),
         county: mockBoundaries.county.filter(b => b.intersects)
       };
-      
+
       setBoundaryLayers(intersectingBoundaries);
     } catch (error) {
       console.error('Error finding intersecting boundaries:', error);
@@ -109,51 +109,51 @@ const BoundaryDownloader = ({
       setLoading(false);
     }
   }, []);
-  
+
   // Handle boundary selection
   const handleBoundarySelect = useCallback((boundary) => {
     setSelectedBoundary(boundary);
   }, []);
-  
+
   // Generate download URL for boundary file
   const getBoundaryDownloadUrl = useCallback((boundary, format) => {
     if (!boundary) return '';
-    
+
     const baseUrl = BOUNDARY_FILE_BASE_URL;
     let url = `${baseUrl}/${boundary.type}/${boundary.id}?format=${format}`;
-    
+
     // Add advanced options to the URL
     if (advancedOptions.include3D) {
       url += '&include3D=true';
     }
-    
+
     if (advancedOptions.includeElevation) {
       url += '&includeElevation=true';
     }
-    
+
     if (advancedOptions.bufferZone > 0) {
       url += `&buffer=${advancedOptions.bufferZone}`;
     }
-    
+
     if (advancedOptions.simplified) {
       url += '&simplified=true';
     }
-    
+
     url += `&resolution=${advancedOptions.resolution}`;
-    
+
     return url;
   }, [advancedOptions]);
-  
+
   // Handle download button click
   const handleDownload = useCallback((format) => {
     if (!selectedBoundary) return;
-    
+
     const url = getBoundaryDownloadUrl(selectedBoundary, format);
-    
+
     // Trigger the download (in a real implementation, this would be a proper download)
     window.open(url, '_blank');
   }, [selectedBoundary, getBoundaryDownloadUrl]);
-  
+
   // Handle advanced option change
   const handleAdvancedOptionChange = useCallback((option, value) => {
     setAdvancedOptions(prev => ({
@@ -161,7 +161,7 @@ const BoundaryDownloader = ({
       [option]: value
     }));
   }, []);
-  
+
   // Get count of downloadable boundaries
   const getBoundaryCount = useCallback(() => {
     return (
@@ -170,7 +170,7 @@ const BoundaryDownloader = ({
       boundaryLayers.county.length
     );
   }, [boundaryLayers]);
-  
+
   return (
     <div className="boundary-downloader">
       <div className="boundary-downloader-header">
@@ -186,7 +186,7 @@ const BoundaryDownloader = ({
           )}
         </div>
       </div>
-      
+
       <div className="boundary-downloader-content">
         {loading ? (
           <div className="boundary-downloader-loading">
@@ -220,7 +220,7 @@ const BoundaryDownloader = ({
                   </div>
                 </div>
               )}
-              
+
               {boundaryOptions.enableState && boundaryLayers.state.length > 0 && (
                 <div className="boundary-tab">
                   <h4>States/Provinces</h4>
@@ -237,7 +237,7 @@ const BoundaryDownloader = ({
                   </div>
                 </div>
               )}
-              
+
               {boundaryOptions.enableCounty && boundaryLayers.county.length > 0 && (
                 <div className="boundary-tab">
                   <h4>Counties/Districts</h4>
@@ -255,7 +255,7 @@ const BoundaryDownloader = ({
                 </div>
               )}
             </div>
-            
+
             {selectedBoundary && (
               <motion.div 
                 className="boundary-download-panel"
@@ -269,7 +269,7 @@ const BoundaryDownloader = ({
                     {selectedBoundary.type.charAt(0).toUpperCase() + selectedBoundary.type.slice(1)}
                   </span>
                 </div>
-                
+
                 <div className="boundary-format-section">
                   <h5>File Formats</h5>
                   <div className="boundary-format-grid">
@@ -284,12 +284,12 @@ const BoundaryDownloader = ({
                     ))}
                   </div>
                 </div>
-                
+
                 <div className="boundary-advanced-section">
                   <div className="advanced-section-header">
                     <h5>Advanced Options</h5>
                   </div>
-                  
+
                   <div className="advanced-options-grid">
                     <div className="advanced-option-group">
                       <label className="advanced-checkbox-label">
@@ -304,7 +304,7 @@ const BoundaryDownloader = ({
                         Includes 3D geometry data (where available)
                       </span>
                     </div>
-                    
+
                     <div className="advanced-option-group">
                       <label className="advanced-checkbox-label">
                         <input 
@@ -318,7 +318,7 @@ const BoundaryDownloader = ({
                         Includes elevation data (DEM)
                       </span>
                     </div>
-                    
+
                     <div className="advanced-option-group">
                       <label className="advanced-checkbox-label">
                         <input 
@@ -332,7 +332,7 @@ const BoundaryDownloader = ({
                         Reduces file size with simplified boundary shapes
                       </span>
                     </div>
-                    
+
                     <div className="advanced-option-group">
                       <label>Buffer Zone (km):</label>
                       <input 
@@ -348,7 +348,7 @@ const BoundaryDownloader = ({
                         Extends boundary by specified distance
                       </span>
                     </div>
-                    
+
                     <div className="advanced-option-group">
                       <label>Resolution:</label>
                       <select 
@@ -366,7 +366,7 @@ const BoundaryDownloader = ({
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="boundary-for-zones-section">
                   <h5>Apply to Generated Zones</h5>
                   <div className="boundary-zones-options">
@@ -384,7 +384,7 @@ const BoundaryDownloader = ({
                     }
                   </p>
                 </div>
-                
+
                 <div className="boundary-format-info">
                   <h5>Format Information</h5>
                   <div className="format-info-grid">

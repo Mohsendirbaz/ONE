@@ -18,7 +18,7 @@ Based on analysis of the codebase, the following files exceed or approach the 10
 | Consolidated3.js | 53,290 | 1,400+ | High |
 | MatrixStateManager.js | 49,234 | 1,500+ | High |
 | multi-zone-selector.js | 41,327 | 1,200+ | Medium |
-| unified-tooltip-js.js | 36,487 | 950+ | Medium |
+| unified-tooltip.js | 36,487 | 950+ | Medium |
 | process-economics-library.js | 37,023 | 1,000+ | Medium |
 | CoordinateFactFinder.js | 32,253 | 900+ | Medium |
 | GeneralFormConfig.js | 31,990 | 900+ | Medium |
@@ -159,7 +159,7 @@ Refactoring Plan:
 
 1. Refactor remaining files:
    - multi-zone-selector.js
-   - unified-tooltip-js.js
+   - unified-tooltip.js
    - process-economics-library.js
    - CoordinateFactFinder.js
    - GeneralFormConfig.js

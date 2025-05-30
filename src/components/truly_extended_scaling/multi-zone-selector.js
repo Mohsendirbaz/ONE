@@ -7,8 +7,8 @@ import { MapContainer, TileLayer, FeatureGroup, Polygon, Circle, Rectangle, useM
 import { EditControl } from 'react-leaflet-draw';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-draw/dist/leaflet.draw.css';
-import './styles/MultiZoneSelector.css';
-import { UnifiedTooltip } from './UnifiedTooltip';
+import '../../styles/HomePage.CSS/MultiZoneSelector.css';
+import UnifiedTooltip from '../../unified-tooltip';
 
 // Base URL for boundary file downloads
 const BOUNDARY_FILE_BASE_URL = 'https://api.climate-data-service.org/boundaries';
@@ -55,11 +55,11 @@ const MultiZoneSelector = ({
   // Refs
   const mapRef = useRef(null);
   const featuresRef = useRef(null);
-  
+
   // State for selected area
   const [selectedArea, setSelectedArea] = useState(null);
   const [selectedPolygon, setSelectedPolygon] = useState(null);
-  
+
   // State for zone generation options
   const [zoneOptions, setZoneOptions] = useState({
     areaUnit: 'km2', // 'm2', 'km2', 'acres', 'hectares'
@@ -69,23 +69,23 @@ const MultiZoneSelector = ({
     maxZones: 50, // Max number of zones to generate
     namePattern: 'Zone-{i}' // Pattern for zone names
   });
-  
+
   // State for generatedZones
   const [generatedZones, setGeneratedZones] = useState([]);
-  
+
   // State for loading
   const [loading, setLoading] = useState(false);
-  
+
   // State for boundary layer and downloads
   const [boundaryLayers, setBoundaryLayers] = useState({
     country: [],
     state: [],
     county: []
   });
-  
+
   // State for selected boundary
   const [selectedBoundary, setSelectedBoundary] = useState(null);
-  
+
   // State for UI
   const [activeTab, setActiveTab] = useState('draw'); // 'draw', 'zones', 'boundaries'
   const [showTooltip, setShowTooltip] = useState(false);
@@ -94,7 +94,7 @@ const MultiZoneSelector = ({
   const [mapCenter, setMapCenter] = useState([51.505, -0.09]); // Default to London
   const [mapZoom, setMapZoom] = useState(13);
   const [viewportChanged, setViewportChanged] = useState(false);
-  
+
   // Convert area units to square meters
   const convertToSquareMeters = useCallback((value, unit) => {
     switch (unit) {
@@ -110,7 +110,7 @@ const MultiZoneSelector = ({
         return value;
     }
   }, []);
-  
+
   // Convert square meters to selected unit
   const convertFromSquareMeters = useCallback((value, unit) => {
     switch (unit) {
@@ -126,13 +126,13 @@ const MultiZoneSelector = ({
         return value;
     }
   }, []);
-  
+
   // Format area display
   const formatArea = useCallback((area, unit) => {
     const formatted = convertFromSquareMeters(area, unit);
     return `${formatted.toFixed(2)} ${unit}`;
   }, [convertFromSquareMeters]);
-  
+
   // Format point list for display
   const formatPointList = useCallback((points) => {
     if (!points || !Array.isArray(points)) return '';
@@ -144,11 +144,11 @@ const MultiZoneSelector = ({
       }
     }).join(', ');
   }, []);
-  
+
   // Handle area selection from drawn shapes
   const handleAreaSelected = useCallback((e) => {
     const { layerType, layer } = e;
-    
+
     // Clear existing layers
     if (featuresRef.current) {
       // Keep only the newly created layer
@@ -159,11 +159,11 @@ const MultiZoneSelector = ({
         }
       });
     }
-    
+
     let selectedGeoJSON = null;
     let area = 0;
     let polygon = null;
-    
+
     switch (layerType) {
       case 'polygon':
         polygon = layer.getLatLngs()[0];
@@ -184,10 +184,10 @@ const MultiZoneSelector = ({
       case 'circle':
         const center = layer.getLatLng();
         const radius = layer.getRadius(); // in meters
-        
+
         selectedGeoJSON = turf.circle([center.lng, center.lat], radius / 1000); // radius in km
         area = Math.PI * radius * radius; // πr²
-        
+
         // Get the polygon points from the GeoJSON
         polygon = selectedGeoJSON.geometry.coordinates[0].map(
           coord => ({ lat: coord[1], lng: coord[0] })
@@ -197,7 +197,7 @@ const MultiZoneSelector = ({
         console.warn('Unsupported layer type:', layerType);
         return;
     }
-    
+
     setSelectedArea({
       type: layerType,
       geoJSON: selectedGeoJSON,
@@ -206,18 +206,18 @@ const MultiZoneSelector = ({
         ? layer.getLatLng() 
         : turf.center(selectedGeoJSON).geometry.coordinates
     });
-    
+
     setSelectedPolygon(polygon);
-    
+
     // Auto generate zones if enabled
     if (zoneOptions.autoGenerate) {
       generateZones(selectedGeoJSON, area, polygon);
     }
-    
+
     // Search for intersecting boundary layers
     findIntersectingBoundaries(selectedGeoJSON);
   }, [zoneOptions.autoGenerate]);
-  
+
   // Handle deleting drawn shapes
   const handleAreaDeleted = useCallback(() => {
     setSelectedArea(null);
@@ -225,36 +225,36 @@ const MultiZoneSelector = ({
     setGeneratedZones([]);
     setSelectedBoundary(null);
   }, []);
-  
+
   // Generate zones within the selected area
   const generateZones = useCallback((geoJSON, totalArea, polygon) => {
     setLoading(true);
-    
+
     // Defer calculation to not block the UI
     setTimeout(() => {
       try {
         const zoneSize = convertToSquareMeters(zoneOptions.size, zoneOptions.areaUnit);
         let zones = [];
-        
+
         // Calculate approximately how many zones will fit
         const numberOfZones = Math.min(
           Math.floor(totalArea / zoneSize),
           zoneOptions.maxZones
         );
-        
+
         if (numberOfZones <= 0) {
           setGeneratedZones([]);
           setLoading(false);
           return;
         }
-        
+
         // Generate zones based on geometry type
         switch (zoneOptions.geometry) {
           case 'square': {
             // For square zones, create a grid
             const bbox = turf.bbox(geoJSON);
             const squareSideLength = Math.sqrt(zoneSize);
-            
+
             // Calculate how many squares fit in each dimension
             const width = turf.distance(
               [bbox[0], bbox[1]],
@@ -266,14 +266,14 @@ const MultiZoneSelector = ({
               [bbox[0], bbox[3]],
               { units: 'meters' }
             );
-            
+
             const columns = Math.min(Math.floor(width / squareSideLength), Math.ceil(Math.sqrt(numberOfZones)));
             const rows = Math.min(Math.floor(height / squareSideLength), Math.ceil(numberOfZones / columns));
-            
+
             // Create grid cells
             const cellWidth = (bbox[2] - bbox[0]) / columns;
             const cellHeight = (bbox[3] - bbox[1]) / rows;
-            
+
             let zoneIndex = 0;
             for (let i = 0; i < rows && zoneIndex < numberOfZones; i++) {
               for (let j = 0; j < columns && zoneIndex < numberOfZones; j++) {
@@ -284,7 +284,7 @@ const MultiZoneSelector = ({
                   [bbox[0] + j * cellWidth, bbox[1] + (i + 1) * cellHeight],
                   [bbox[0] + j * cellWidth, bbox[1] + i * cellHeight], // Close the polygon
                 ];
-                
+
                 const cellPolygon = {
                   type: 'Feature',
                   geometry: {
@@ -292,7 +292,7 @@ const MultiZoneSelector = ({
                     coordinates: [cell]
                   }
                 };
-                
+
                 // Only include cells that intersect with the selected area
                 if (turf.booleanIntersects(cellPolygon, geoJSON)) {
                   // Get the intersection of the cell and the selected area
@@ -303,11 +303,11 @@ const MultiZoneSelector = ({
                     // If intersection fails, just use the original cell
                     intersectedCell = cellPolygon;
                   }
-                  
+
                   if (intersectedCell) {
                     const zoneName = zoneOptions.namePattern.replace('{i}', zoneIndex + 1);
                     const zoneCenter = turf.center(intersectedCell).geometry.coordinates;
-                    
+
                     zones.push({
                       id: `zone-${Date.now()}-${zoneIndex}`,
                       name: zoneName,
@@ -320,7 +320,7 @@ const MultiZoneSelector = ({
                         latitude: zoneCenter[1]
                       }
                     });
-                    
+
                     zoneIndex++;
                   }
                 }
@@ -328,13 +328,13 @@ const MultiZoneSelector = ({
             }
             break;
           }
-          
+
           case 'round': {
             // For round zones, create circle packing
             // This is a simplified approach - advanced circle packing is more complex
             const center = turf.center(geoJSON).geometry.coordinates;
             const radiusInMeters = Math.sqrt(zoneSize / Math.PI);
-            
+
             // Create a single center circle
             const centerCircle = {
               id: `zone-${Date.now()}-0`,
@@ -348,31 +348,31 @@ const MultiZoneSelector = ({
                 latitude: center[1]
               }
             };
-            
+
             zones.push(centerCircle);
-            
+
             // Place additional circles in rings around the center
             // For a first ring, we can fit about 6 circles
             if (numberOfZones > 1) {
               const rings = Math.ceil(Math.log2(numberOfZones));
               let zoneIndex = 1;
-              
+
               for (let ring = 1; ring <= rings && zoneIndex < numberOfZones; ring++) {
                 // Each ring can fit approximately 6 * ring circles
                 const circlesInRing = 6 * ring;
                 const ringRadius = radiusInMeters * 2 * ring;
-                
+
                 for (let i = 0; i < circlesInRing && zoneIndex < numberOfZones; i++) {
                   const angle = (2 * Math.PI * i) / circlesInRing;
                   const x = center[0] + (ringRadius / 111320) * Math.cos(angle); // 111320 meters = 1 degree longitude at equator
                   const y = center[1] + (ringRadius / 110540) * Math.sin(angle); // 110540 meters = 1 degree latitude
-                  
+
                   // Check if the circle is within or intersects the selected area
                   const circleGeoJSON = turf.circle([x, y], radiusInMeters / 1000); // radius in km
-                  
+
                   if (turf.booleanIntersects(circleGeoJSON, geoJSON)) {
                     const zoneName = zoneOptions.namePattern.replace('{i}', zoneIndex + 1);
-                    
+
                     zones.push({
                       id: `zone-${Date.now()}-${zoneIndex}`,
                       name: zoneName,
@@ -385,7 +385,7 @@ const MultiZoneSelector = ({
                         latitude: y
                       }
                     });
-                    
+
                     zoneIndex++;
                   }
                 }
@@ -393,20 +393,20 @@ const MultiZoneSelector = ({
             }
             break;
           }
-          
+
           case 'hex': {
             // For hexagonal zones, create a hex grid
             const bbox = turf.bbox(geoJSON);
-            
+
             // Calculate hex side length from desired area
             // Area of a regular hexagon = (3√3/2) * s², where s is the side length
             const hexSideLength = Math.sqrt((2 * zoneSize) / (3 * Math.sqrt(3)));
-            
+
             // Height of a hex is 2 * apothem, where apothem = (√3/2) * side
             const hexHeight = 2 * ((Math.sqrt(3) / 2) * hexSideLength);
             // Width of a hex is 2 * side
             const hexWidth = 2 * hexSideLength;
-            
+
             // Calculate grid dimensions
             const width = turf.distance(
               [bbox[0], bbox[1]],
@@ -418,14 +418,14 @@ const MultiZoneSelector = ({
               [bbox[0], bbox[3]],
               { units: 'meters' }
             );
-            
+
             const columns = Math.min(Math.floor(width / (hexWidth * 0.75)), Math.ceil(Math.sqrt(numberOfZones)));
             const rows = Math.min(Math.floor(height / hexHeight), Math.ceil(numberOfZones / columns));
-            
+
             // Convert to degrees for longitude and latitude
             const hexWidthDeg = hexWidth / (111320 * Math.cos(bbox[1] * Math.PI / 180));
             const hexHeightDeg = hexHeight / 110540;
-            
+
             let zoneIndex = 0;
             for (let i = 0; i < rows && zoneIndex < numberOfZones; i++) {
               for (let j = 0; j < columns && zoneIndex < numberOfZones; j++) {
@@ -433,7 +433,7 @@ const MultiZoneSelector = ({
                 const offset = (i % 2 === 0) ? 0 : hexWidthDeg * 0.5;
                 const centerLon = bbox[0] + (j * hexWidthDeg * 0.75) + offset + (hexWidthDeg * 0.5);
                 const centerLat = bbox[1] + (i * hexHeightDeg) + (hexHeightDeg * 0.5);
-                
+
                 // Create hexagon points (approximated as a circle with 6 points)
                 const hexPoints = [];
                 for (let k = 0; k < 6; k++) {
@@ -443,7 +443,7 @@ const MultiZoneSelector = ({
                   hexPoints.push([x, y]);
                 }
                 hexPoints.push(hexPoints[0]); // Close the polygon
-                
+
                 const hexPolygon = {
                   type: 'Feature',
                   geometry: {
@@ -451,7 +451,7 @@ const MultiZoneSelector = ({
                     coordinates: [hexPoints]
                   }
                 };
-                
+
                 // Only include hexes that intersect with the selected area
                 if (turf.booleanIntersects(hexPolygon, geoJSON)) {
                   // Get the intersection of the hex and the selected area
@@ -462,11 +462,11 @@ const MultiZoneSelector = ({
                     // If intersection fails, just use the original hex
                     intersectedHex = hexPolygon;
                   }
-                  
+
                   if (intersectedHex) {
                     const zoneName = zoneOptions.namePattern.replace('{i}', zoneIndex + 1);
                     const zoneCenter = [centerLon, centerLat];
-                    
+
                     zones.push({
                       id: `zone-${Date.now()}-${zoneIndex}`,
                       name: zoneName,
@@ -479,7 +479,7 @@ const MultiZoneSelector = ({
                         latitude: zoneCenter[1]
                       }
                     });
-                    
+
                     zoneIndex++;
                   }
                 }
@@ -488,10 +488,10 @@ const MultiZoneSelector = ({
             break;
           }
         }
-        
+
         // Update generated zones state
         setGeneratedZones(zones);
-        
+
         // Notify parent component
         onZonesSelected(zones);
       } catch (error) {
@@ -501,18 +501,18 @@ const MultiZoneSelector = ({
       }
     }, 0);
   }, [zoneOptions, convertToSquareMeters, onZonesSelected]);
-  
+
   // Find intersecting boundary layers
   const findIntersectingBoundaries = useCallback(async (geoJSON) => {
     setLoading(true);
-    
+
     try {
       // In a real implementation, this would make API calls to a GIS service
       // Here we're simulating the process with setTimeout
-      
+
       // Simulate API call latency
       await new Promise(resolve => setTimeout(resolve, 500));
-      
+
       // Mock data - in a real implementation, this would be from an API
       const mockBoundaries = {
         country: [
@@ -529,14 +529,14 @@ const MultiZoneSelector = ({
           { id: 'CT3', name: 'Islington', type: 'county', intersects: false }
         ]
       };
-      
+
       // Filter for intersecting boundaries only
       const intersectingBoundaries = {
         country: mockBoundaries.country.filter(b => b.intersects),
         state: mockBoundaries.state.filter(b => b.intersects),
         county: mockBoundaries.county.filter(b => b.intersects)
       };
-      
+
       setBoundaryLayers(intersectingBoundaries);
     } catch (error) {
       console.error('Error finding intersecting boundaries:', error);
@@ -544,32 +544,32 @@ const MultiZoneSelector = ({
       setLoading(false);
     }
   }, []);
-  
+
   // Generate download URL for boundary file
   const getBoundaryDownloadUrl = useCallback((boundary, format, options = {}) => {
     const { include3D, includeElevation } = options;
     const baseUrl = BOUNDARY_FILE_BASE_URL;
     let url = `${baseUrl}/${boundary.type}/${boundary.id}?format=${format}`;
-    
+
     if (include3D) {
       url += '&include3D=true';
     }
-    
+
     if (includeElevation) {
       url += '&includeElevation=true';
     }
-    
+
     return url;
   }, []);
-  
+
   // Handle map click
   const handleMapClick = useCallback((e) => {
     // If no feature group or in view mode, do nothing
     if (!featuresRef.current || activeTab !== 'draw') return;
-    
+
     // Get the clicked location
     const { lat, lng } = e.latlng;
-    
+
     // Check if click is within a zone
     let clickInZone = false;
     generatedZones.forEach(zone => {
@@ -578,12 +578,12 @@ const MultiZoneSelector = ({
         const point = turf.point([lng, lat]);
         if (turf.booleanPointInPolygon(point, zone.geoJSON)) {
           clickInZone = true;
-          
+
           setTooltipContent({
             type: 'zone',
             zone: zone
           });
-          
+
           setTooltipPosition({ x: e.containerPoint.x, y: e.containerPoint.y });
           setShowTooltip(true);
         }
@@ -595,26 +595,26 @@ const MultiZoneSelector = ({
           [zone.center.lng, zone.center.lat],
           { units: 'meters' }
         );
-        
+
         if (distance <= zone.radius) {
           clickInZone = true;
-          
+
           setTooltipContent({
             type: 'zone',
             zone: zone
           });
-          
+
           setTooltipPosition({ x: e.containerPoint.x, y: e.containerPoint.y });
           setShowTooltip(true);
         }
       }
     });
-    
+
     if (!clickInZone) {
       setShowTooltip(false);
     }
   }, [generatedZones, activeTab]);
-  
+
   // Handle map move
   const handleMapMove = useCallback((e) => {
     const map = e.target;
@@ -622,7 +622,7 @@ const MultiZoneSelector = ({
     setMapZoom(map.getZoom());
     setViewportChanged(true);
   }, []);
-  
+
   // Handle zone option change
   const handleZoneOptionChange = useCallback((option, value) => {
     setZoneOptions(prev => ({
@@ -630,38 +630,38 @@ const MultiZoneSelector = ({
       [option]: value
     }));
   }, []);
-  
+
   // Handle generate zones button click
   const handleGenerateZones = useCallback(() => {
     if (selectedArea && selectedPolygon) {
       generateZones(selectedArea.geoJSON, selectedArea.area, selectedPolygon);
     }
   }, [selectedArea, selectedPolygon, generateZones]);
-  
+
   // Handle boundary selection
   const handleBoundarySelect = useCallback((boundary) => {
     setSelectedBoundary(boundary);
   }, []);
-  
+
   // Handle download button click
   const handleDownloadBoundary = useCallback((format) => {
     if (!selectedBoundary) return;
-    
+
     const url = getBoundaryDownloadUrl(selectedBoundary, format, {
       include3D: boundaryOptions.include3D,
       includeElevation: boundaryOptions.includeElevation
     });
-    
+
     // Trigger the download (in a real implementation, this would be a proper download)
     window.open(url, '_blank');
   }, [selectedBoundary, boundaryOptions, getBoundaryDownloadUrl]);
-  
+
   // Render boundary selection options
   const renderBoundaryOptions = useCallback(() => {
     return (
       <div className="multi-zone-boundary-selection">
         <h4>Available Boundaries</h4>
-        
+
         {loading ? (
           <div className="multi-zone-loading">Loading boundaries...</div>
         ) : (
@@ -682,7 +682,7 @@ const MultiZoneSelector = ({
                 </ul>
               </div>
             )}
-            
+
             {boundaryOptions.enableState && boundaryLayers.state.length > 0 && (
               <div className="multi-zone-boundary-tab">
                 <h5>States/Provinces</h5>
@@ -699,7 +699,7 @@ const MultiZoneSelector = ({
                 </ul>
               </div>
             )}
-            
+
             {boundaryOptions.enableCounty && boundaryLayers.county.length > 0 && (
               <div className="multi-zone-boundary-tab">
                 <h5>Counties/Districts</h5>
@@ -716,7 +716,7 @@ const MultiZoneSelector = ({
                 </ul>
               </div>
             )}
-            
+
             {(!boundaryLayers.country.length && !boundaryLayers.state.length && !boundaryLayers.county.length) && (
               <div className="multi-zone-no-boundaries">
                 No boundaries found for the selected area. Try selecting a larger area or a different location.
@@ -724,7 +724,7 @@ const MultiZoneSelector = ({
             )}
           </div>
         )}
-        
+
         {selectedBoundary && (
           <div className="multi-zone-boundary-download">
             <h4>Download Boundary: {selectedBoundary.name}</h4>
@@ -740,7 +740,7 @@ const MultiZoneSelector = ({
                   </button>
                 ))}
               </div>
-              
+
               <div className="multi-zone-advanced-options">
                 <label>
                   <input 
@@ -750,7 +750,7 @@ const MultiZoneSelector = ({
                   />
                   Include 3D
                 </label>
-                
+
                 <label>
                   <input 
                     type="checkbox" 
@@ -773,13 +773,13 @@ const MultiZoneSelector = ({
     handleBoundarySelect, 
     handleDownloadBoundary
   ]);
-  
+
   // Render zone options panel
   const renderZoneOptions = useCallback(() => {
     return (
       <div className="multi-zone-options-panel">
         <h4>Zone Generation Options</h4>
-        
+
         <div className="multi-zone-option-group">
           <label htmlFor="zone-area-unit">Area Unit:</label>
           <select
@@ -793,7 +793,7 @@ const MultiZoneSelector = ({
             <option value="hectares">Hectares</option>
           </select>
         </div>
-        
+
         <div className="multi-zone-option-group">
           <label htmlFor="zone-geometry">Zone Geometry:</label>
           <select
@@ -806,7 +806,7 @@ const MultiZoneSelector = ({
             <option value="hex">Hexagonal Grid</option>
           </select>
         </div>
-        
+
         <div className="multi-zone-option-group">
           <label htmlFor="zone-size">
             {zoneOptions.geometry === 'round' ? 'Radius' : 'Area'} Size:
@@ -825,7 +825,7 @@ const MultiZoneSelector = ({
               : zoneOptions.areaUnit}
           </span>
         </div>
-        
+
         <div className="multi-zone-option-group">
           <label htmlFor="zone-max">Maximum Zones:</label>
           <input
@@ -837,7 +837,7 @@ const MultiZoneSelector = ({
             onChange={(e) => handleZoneOptionChange('maxZones', parseInt(e.target.value) || 50)}
           />
         </div>
-        
+
         <div className="multi-zone-option-group">
           <label htmlFor="zone-name-pattern">Name Pattern:</label>
           <input
@@ -848,7 +848,7 @@ const MultiZoneSelector = ({
           />
           <small>Use {'{i}'} for index number</small>
         </div>
-        
+
         <div className="multi-zone-option-group multi-zone-checkbox-group">
           <label htmlFor="zone-auto-generate">
             <input
@@ -860,7 +860,7 @@ const MultiZoneSelector = ({
             Auto-generate zones on selection
           </label>
         </div>
-        
+
         <button 
           className="multi-zone-generate-button"
           onClick={handleGenerateZones}
@@ -871,13 +871,13 @@ const MultiZoneSelector = ({
       </div>
     );
   }, [zoneOptions, selectedArea, loading, handleZoneOptionChange, handleGenerateZones]);
-  
+
   // Render generated zones overview
   const renderZonesOverview = useCallback(() => {
     return (
       <div className="multi-zone-overview">
         <h4>Generated Zones</h4>
-        
+
         {loading ? (
           <div className="multi-zone-loading">Generating zones...</div>
         ) : generatedZones.length === 0 ? (
@@ -891,14 +891,14 @@ const MultiZoneSelector = ({
                 <span className="multi-zone-summary-label">Total Zones:</span>
                 <span className="multi-zone-summary-value">{generatedZones.length}</span>
               </div>
-              
+
               <div className="multi-zone-summary-item">
                 <span className="multi-zone-summary-label">Total Area:</span>
                 <span className="multi-zone-summary-value">
                   {formatArea(generatedZones.reduce((sum, zone) => sum + zone.area, 0), zoneOptions.areaUnit)}
                 </span>
               </div>
-              
+
               <div className="multi-zone-summary-item">
                 <span className="multi-zone-summary-label">Zone Type:</span>
                 <span className="multi-zone-summary-value">
@@ -906,7 +906,7 @@ const MultiZoneSelector = ({
                 </span>
               </div>
             </div>
-            
+
             <div className="multi-zone-list">
               {generatedZones.map(zone => (
                 <motion.div 
@@ -920,7 +920,7 @@ const MultiZoneSelector = ({
                     <span className="multi-zone-name">{zone.name}</span>
                     <span className="multi-zone-type">{zone.type}</span>
                   </div>
-                  
+
                   <div className="multi-zone-list-details">
                     <div className="multi-zone-detail">
                       <span className="multi-zone-detail-label">Coordinates:</span>
@@ -928,7 +928,7 @@ const MultiZoneSelector = ({
                         {zone.coordinates.latitude.toFixed(6)}, {zone.coordinates.longitude.toFixed(6)}
                       </span>
                     </div>
-                    
+
                     <div className="multi-zone-detail">
                       <span className="multi-zone-detail-label">Area:</span>
                       <span className="multi-zone-detail-value">
@@ -944,7 +944,7 @@ const MultiZoneSelector = ({
       </div>
     );
   }, [generatedZones, loading, zoneOptions.areaUnit, zoneOptions.geometry, formatArea]);
-  
+
   return (
     <div className="multi-zone-selector">
       <div className="multi-zone-tabs">
@@ -967,7 +967,7 @@ const MultiZoneSelector = ({
           Boundary Downloads
         </button>
       </div>
-      
+
       <div className="multi-zone-content">
         <div className="multi-zone-map-container">
           <MapContainer
@@ -982,9 +982,9 @@ const MultiZoneSelector = ({
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            
+
             <MapEventHandler onMapClick={handleMapClick} onMapMove={handleMapMove} />
-            
+
             <FeatureGroup ref={featuresRef}>
               {activeTab === 'draw' && (
                 <EditControl
@@ -1002,7 +1002,7 @@ const MultiZoneSelector = ({
                 />
               )}
             </FeatureGroup>
-            
+
             {/* Render the selected polygon */}
             {selectedPolygon && activeTab !== 'draw' && (
               <Polygon 
@@ -1010,7 +1010,7 @@ const MultiZoneSelector = ({
                 pathOptions={{ color: '#3388ff', fillOpacity: 0.2 }}
               />
             )}
-            
+
             {/* Render the generated zones */}
             {generatedZones.map(zone => {
               if (zone.type === 'round') {
@@ -1034,43 +1034,39 @@ const MultiZoneSelector = ({
               }
             })}
           </MapContainer>
-          
-          {/* Tooltip for zone info */}
-          {showTooltip && tooltipContent && (
-            <div 
-              className="multi-zone-tooltip"
-              style={{ 
-                left: tooltipPosition.x + 10, 
-                top: tooltipPosition.y + 10 
+
+          {/* Zone tooltip using UnifiedTooltip */}
+          {tooltipContent?.type === 'zone' && (
+            <UnifiedTooltip
+              type="zone"
+              data={{
+                name: tooltipContent.zone.name,
+                type: tooltipContent.zone.type,
+                area: formatArea(tooltipContent.zone.area, zoneOptions.areaUnit),
+                coordinates: `${tooltipContent.zone.coordinates.latitude.toFixed(6)}, ${tooltipContent.zone.coordinates.longitude.toFixed(6)}`
               }}
             >
-              {tooltipContent.type === 'zone' && (
-                <>
-                  <h5>{tooltipContent.zone.name}</h5>
-                  <div className="multi-zone-tooltip-details">
-                    <div>
-                      <strong>Type:</strong> {tooltipContent.zone.type}
-                    </div>
-                    <div>
-                      <strong>Area:</strong> {formatArea(tooltipContent.zone.area, zoneOptions.areaUnit)}
-                    </div>
-                    <div>
-                      <strong>Coordinates:</strong> {tooltipContent.zone.coordinates.latitude.toFixed(6)}, {tooltipContent.zone.coordinates.longitude.toFixed(6)}
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
+              <div 
+                style={{
+                  position: 'absolute',
+                  left: tooltipPosition.x,
+                  top: tooltipPosition.y,
+                  width: '1px',
+                  height: '1px',
+                  pointerEvents: 'none'
+                }}
+              />
+            </UnifiedTooltip>
           )}
         </div>
-        
+
         <div className="multi-zone-sidebar">
           {activeTab === 'draw' && renderZoneOptions()}
           {activeTab === 'zones' && renderZonesOverview()}
           {activeTab === 'boundaries' && renderBoundaryOptions()}
         </div>
       </div>
-      
+
       <div className="multi-zone-selected-area-info">
         {selectedArea ? (
           <div className="multi-zone-area-details">
@@ -1080,7 +1076,7 @@ const MultiZoneSelector = ({
                 {formatArea(selectedArea.area, zoneOptions.areaUnit)}
               </span>
             </div>
-            
+
             <div className="multi-zone-area-details-grid">
               <div className="multi-zone-area-detail">
                 <span className="multi-zone-detail-label">Type:</span>
@@ -1088,7 +1084,7 @@ const MultiZoneSelector = ({
                   {selectedArea.type.charAt(0).toUpperCase() + selectedArea.type.slice(1)}
                 </span>
               </div>
-              
+
               <div className="multi-zone-area-detail">
                 <span className="multi-zone-detail-label">Center:</span>
                 <span className="multi-zone-detail-value">

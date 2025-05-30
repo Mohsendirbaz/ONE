@@ -1,14 +1,15 @@
 // CoordinateContainerEnhanced.js
 import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useVersionZone } from '../../MatrixStateManager';
+import { useVersionZone } from 'src/MatrixStateManager'
 import CoordinateComponent from './CoordinateComponent';
 import CoordinateFactFinder from './CoordinateFactFinder';
 import ClimateMapOverlay from './ClimateMapOverlay';
-import MultiZoneSelector from './MultiZoneSelector';
-import BoundaryDownloader from './BoundaryDownloader';
+import MultiZoneSelector from './multi-zone-selector';
+import BoundaryDownloader from './boundary-downloader';
 import { motion } from 'framer-motion';
-import './styles/CoordinateContainerEnhanced.css';
+import '../../styles/HomePage.CSS/coordinate-container-enhanced-css.css';
+import '../../styles/HomePage.CSS/CoordinateComponent.css';
 
 /**
  * CoordinateContainerEnhanced
@@ -27,14 +28,14 @@ const CoordinateContainerEnhanced = ({
   // State for fact-finding results
   const [locationFacts, setLocationFacts] = useState(null);
   const [assetFacts, setAssetFacts] = useState({});
-  
+
   // State for active view
   const [activeView, setActiveView] = useState('single'); // 'single', 'multi', 'boundary'
-  
+
   // State for multi zone selection
   const [selectedArea, setSelectedArea] = useState(null);
   const [generatedZones, setGeneratedZones] = useState([]);
-  
+
   // State for boundary options
   const [boundaryOptions, setBoundaryOptions] = useState({
     enableCountry: true,
@@ -85,24 +86,24 @@ const CoordinateContainerEnhanced = ({
       }));
     }
   }, []);
-  
+
   // Handle zones selected from MultiZoneSelector
   const handleZonesSelected = useCallback((newZones) => {
     setGeneratedZones(newZones);
-    
+
     // Store the selected area if available
     if (newZones.length > 0 && newZones[0].geoJSON) {
       setSelectedArea(newZones[0].geoJSON);
     }
   }, []);
-  
+
   // Handle adding generated zones to the system
   const handleAddGeneratedZones = useCallback(() => {
     if (generatedZones.length === 0) return;
-    
+
     // Convert the generated zones to the format expected by the MatrixStateManager
     const zonesToAdd = {};
-    
+
     generatedZones.forEach(zone => {
       zonesToAdd[zone.id] = {
         label: zone.name,
@@ -110,14 +111,14 @@ const CoordinateContainerEnhanced = ({
         assets: [] // Start with empty assets
       };
     });
-    
+
     // Add the zones to the system
     addZones(zonesToAdd);
-    
+
     // Show success message or notification
     alert(`Added ${generatedZones.length} zones to the system.`);
   }, [generatedZones, addZones]);
-  
+
   // Handle boundary option change
   const handleBoundaryOptionChange = useCallback((option, value) => {
     setBoundaryOptions(prev => ({
@@ -130,7 +131,7 @@ const CoordinateContainerEnhanced = ({
     <div className="coordinate-container-enhanced">
       <div className="coordinate-container-header">
         <h2>Zone Management and Multi-Zone Selection</h2>
-        
+
         <div className="coordinate-container-tabs">
           <button 
             className={`coordinate-tab ${activeView === 'single' ? 'active' : ''}`}
@@ -152,7 +153,7 @@ const CoordinateContainerEnhanced = ({
           </button>
         </div>
       </div>
-      
+
       <div className="coordinate-container-content">
         {activeView === 'single' && (
           <motion.div 
@@ -183,7 +184,7 @@ const CoordinateContainerEnhanced = ({
             />
           </motion.div>
         )}
-        
+
         {activeView === 'multi' && (
           <motion.div 
             className="coordinate-multi-view"
@@ -197,7 +198,7 @@ const CoordinateContainerEnhanced = ({
               existingZones={existingZones()}
               boundaryOptions={boundaryOptions}
             />
-            
+
             {generatedZones.length > 0 && (
               <div className="multi-view-actions">
                 <button 
@@ -210,7 +211,7 @@ const CoordinateContainerEnhanced = ({
             )}
           </motion.div>
         )}
-        
+
         {activeView === 'boundary' && (
           <motion.div 
             className="coordinate-boundary-view"
@@ -224,10 +225,10 @@ const CoordinateContainerEnhanced = ({
               generatedZones={generatedZones}
               boundaryOptions={boundaryOptions}
             />
-            
+
             <div className="boundary-options-panel">
               <h3>Boundary Download Options</h3>
-              
+
               <div className="boundary-option-group">
                 <label className="boundary-option-label">
                   <input 
@@ -238,7 +239,7 @@ const CoordinateContainerEnhanced = ({
                   Enable Country Boundaries
                 </label>
               </div>
-              
+
               <div className="boundary-option-group">
                 <label className="boundary-option-label">
                   <input 
@@ -249,7 +250,7 @@ const CoordinateContainerEnhanced = ({
                   Enable State/Province Boundaries
                 </label>
               </div>
-              
+
               <div className="boundary-option-group">
                 <label className="boundary-option-label">
                   <input 
@@ -260,7 +261,7 @@ const CoordinateContainerEnhanced = ({
                   Enable County/District Boundaries
                 </label>
               </div>
-              
+
               <div className="boundary-option-group">
                 <label className="boundary-option-label">
                   <input 
@@ -271,7 +272,7 @@ const CoordinateContainerEnhanced = ({
                   Include 3D Data (when available)
                 </label>
               </div>
-              
+
               <div className="boundary-option-group">
                 <label className="boundary-option-label">
                   <input 
@@ -282,7 +283,7 @@ const CoordinateContainerEnhanced = ({
                   Include Elevation Data (when available)
                 </label>
               </div>
-              
+
               <div className="boundary-option-group">
                 <label>Available Formats:</label>
                 <div className="format-checkboxes">
@@ -299,7 +300,7 @@ const CoordinateContainerEnhanced = ({
                     />
                     GeoJSON
                   </label>
-                  
+
                   <label className="format-checkbox">
                     <input 
                       type="checkbox" 
@@ -313,7 +314,7 @@ const CoordinateContainerEnhanced = ({
                     />
                     Shapefile
                   </label>
-                  
+
                   <label className="format-checkbox">
                     <input 
                       type="checkbox" 
@@ -327,7 +328,7 @@ const CoordinateContainerEnhanced = ({
                     />
                     TIF
                   </label>
-                  
+
                   <label className="format-checkbox">
                     <input 
                       type="checkbox" 

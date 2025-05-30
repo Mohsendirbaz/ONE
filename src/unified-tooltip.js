@@ -2,8 +2,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAtom } from 'jotai';
-import { efficacyAwareScalingGroupsAtom } from '../../atoms/efficacyMatrix';
-import { versionsAtom, zonesAtom } from '../../atoms/matrixFormValues';
+import { efficacyAwareScalingGroupsAtom } from './atoms/efficacyMatrix';
+import { versionsAtom, zonesAtom } from './atoms/matrixFormValues';
 import './UnifiedTooltip.css';
 
 /**
@@ -39,7 +39,7 @@ const UnifiedTooltip = ({
   const [isVisible, setIsVisible] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
   const [tooltipContent, setTooltipContent] = useState(null);
-  
+
   // Refs
   const triggerRef = useRef(null);
   const tooltipRef = useRef(null);
@@ -83,7 +83,7 @@ const UnifiedTooltip = ({
       percentChange,
     });
   }, [itemId, efficacyGroups]);
-  
+
   // Handle mouse events for trigger element
   const handleMouseEnter = () => {
     clearTimeout(hideTimerRef.current);
@@ -92,27 +92,27 @@ const UnifiedTooltip = ({
       setIsVisible(true);
     }, showDelay);
   };
-  
+
   const handleMouseLeave = () => {
     clearTimeout(showTimerRef.current);
     hideTimerRef.current = setTimeout(() => {
       setIsVisible(false);
     }, hideDelay);
   };
-  
+
   // Calculate tooltip position
   const calculatePosition = () => {
     if (!triggerRef.current || !tooltipRef.current) return;
-    
+
     const triggerRect = triggerRef.current.getBoundingClientRect();
     const tooltipRect = tooltipRef.current.getBoundingClientRect();
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
-    
+
     // Calculate initial position based on preference
     let top = 0;
     let left = 0;
-    
+
     switch (position) {
       case 'top':
         top = triggerRect.top - tooltipRect.height - 10;
@@ -134,17 +134,17 @@ const UnifiedTooltip = ({
         top = triggerRect.top - tooltipRect.height - 10;
         left = triggerRect.left + (triggerRect.width / 2) - (tooltipRect.width / 2);
     }
-    
+
     // Adjust to keep tooltip within viewport
     if (left < 10) left = 10;
     if (left + tooltipRect.width > viewportWidth - 10) left = viewportWidth - tooltipRect.width - 10;
     if (top < 10) top = 10;
     if (top + tooltipRect.height > viewportHeight - 10) top = viewportHeight - tooltipRect.height - 10;
-    
+
     // Set position state
     setTooltipPosition({ top, left });
   };
-  
+
   // Clean up timers on unmount
   useEffect(() => {
     return () => {
@@ -154,7 +154,7 @@ const UnifiedTooltip = ({
   }, []);
 
   // ===== Helper Functions =====
-  
+
   // Format date display
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
@@ -187,7 +187,7 @@ const UnifiedTooltip = ({
       .replace(/Risk$/, '') // Remove "Risk" suffix
       .trim();
   };
-  
+
   // Helper function to get risk description
   const getRiskDescription = (risk, level) => {
     const descriptions = {
@@ -212,16 +212,16 @@ const UnifiedTooltip = ({
         Low: "Minimal sea level rise impact expected at this location."
       }
     };
-    
+
     return descriptions[risk]?.[level] || "No detailed information available.";
   };
-  
+
   // Helper function to get risk recommendations
   const getRiskRecommendation = (risk, level) => {
     if (level === "Low") {
       return "Standard precautions sufficient. Monitor for changes in risk profile.";
     }
-    
+
     const recommendations = {
       floodRisk: {
         High: "Implement flood protection barriers, elevate critical equipment, develop emergency response protocols.",
@@ -240,10 +240,10 @@ const UnifiedTooltip = ({
         Medium: "Plan for potential flooding, install check valves, implement regular maintenance protocols."
       }
     };
-    
+
     return recommendations[risk]?.[level] || "Implement industry-standard adaptation measures.";
   };
-  
+
   // Helper function to format energy source names
   const formatEnergySource = (source) => {
     const sourceNames = {
@@ -257,16 +257,16 @@ const UnifiedTooltip = ({
       geothermal: "Geothermal",
       other: "Other"
     };
-    
+
     return sourceNames[source] || source;
   };
 
   // ===== Climate Tooltip Content Renderers =====
-  
+
   // Render emission factor tooltip content
   const renderEmissionFactorTooltip = () => {
     const { itemType, value, source, metadata } = data;
-    
+
     return (
       <div className="tooltip-emission-factor">
         <div className="tooltip-header">
@@ -277,7 +277,7 @@ const UnifiedTooltip = ({
             </span>
           )}
         </div>
-        
+
         <div className="tooltip-value-section">
           <div className="tooltip-primary-value">
             {value.toFixed(2)} kg CO₂e/unit
@@ -299,7 +299,7 @@ const UnifiedTooltip = ({
             </div>
           )}
         </div>
-        
+
         <div className="tooltip-metadata">
           <div className="metadata-row">
             <span className="metadata-label">Source:</span>
@@ -320,13 +320,13 @@ const UnifiedTooltip = ({
             </div>
           )}
         </div>
-        
+
         {metadata?.description && (
           <div className="tooltip-description">
             {metadata.description}
           </div>
         )}
-        
+
         {metadata?.examples && metadata.examples.length > 0 && (
           <div className="tooltip-examples">
             <h5>Reference Values</h5>
@@ -346,11 +346,11 @@ const UnifiedTooltip = ({
       </div>
     );
   };
-  
+
   // Render regulatory threshold tooltip content
   const renderRegulatoryThresholdTooltip = () => {
     const { level, threshold, name, description, authority, source, complianceStatus, lastUpdated } = data;
-    
+
     return (
       <div className="tooltip-regulatory-threshold">
         <div className="tooltip-header">
@@ -360,13 +360,13 @@ const UnifiedTooltip = ({
              complianceStatus === 'warning' ? 'Warning' : 'Non-Compliant'}
           </span>
         </div>
-        
+
         <div className="tooltip-value-section">
           <div className="tooltip-primary-value">
             Threshold: {threshold.toLocaleString()} kg CO₂e
           </div>
         </div>
-        
+
         <div className="tooltip-metadata">
           <div className="metadata-row">
             <span className="metadata-label">Jurisdiction:</span>
@@ -387,13 +387,13 @@ const UnifiedTooltip = ({
             </div>
           )}
         </div>
-        
+
         {description && (
           <div className="tooltip-description">
             {description}
           </div>
         )}
-        
+
         <div className="tooltip-compliance-info">
           <h5>Compliance Status</h5>
           <div className={`compliance-status-detail ${complianceStatus}`}>
@@ -409,11 +409,11 @@ const UnifiedTooltip = ({
       </div>
     );
   };
-  
+
   // Render asset carbon intensity tooltip content
   const renderAssetCarbonIntensityTooltip = () => {
     const { asset, benchmarks, alternatives, decarbonizationPathway } = data;
-    
+
     return (
       <div className="tooltip-asset-carbon-intensity">
         <div className="tooltip-header">
@@ -422,12 +422,12 @@ const UnifiedTooltip = ({
             {asset.type}
           </span>
         </div>
-        
+
         <div className="tooltip-value-section">
           <div className="tooltip-primary-value">
             {asset.carbonIntensity.toFixed(2)} kg CO₂e/unit
           </div>
-          
+
           {benchmarks && (
             <div className="tooltip-benchmarks">
               <div className="tooltip-benchmark-bar">
@@ -452,7 +452,7 @@ const UnifiedTooltip = ({
                   title={`Innovation Target: ${benchmarks.innovationTarget.toFixed(2)}`}
                 ></div>
               </div>
-              
+
               <div className="benchmark-labels">
                 <span>Better</span>
                 <span>Industry Avg</span>
@@ -460,7 +460,7 @@ const UnifiedTooltip = ({
             </div>
           )}
         </div>
-        
+
         <div className="tooltip-metadata">
           <div className="metadata-row">
             <span className="metadata-label">Source:</span>
@@ -479,7 +479,7 @@ const UnifiedTooltip = ({
             </div>
           )}
         </div>
-        
+
         {alternatives && alternatives.length > 0 && (
           <div className="tooltip-alternatives">
             <h5>Low-Carbon Alternatives</h5>
@@ -505,7 +505,7 @@ const UnifiedTooltip = ({
             </div>
           </div>
         )}
-        
+
         {decarbonizationPathway && (
           <div className="tooltip-decarbonization">
             <h5>Decarbonization Pathway</h5>
@@ -533,17 +533,17 @@ const UnifiedTooltip = ({
       </div>
     );
   };
-  
+
   // Render geographic context tooltip content
   const renderGeographicContextTooltip = () => {
     const { coordinates, geographicContext, environmentalRisks, climateProjections } = data;
-    
+
     return (
       <div className="tooltip-geographic-context">
         <div className="tooltip-header">
           <h4>Geographic Context</h4>
         </div>
-        
+
         <div className="tooltip-coordinates">
           <div className="coordinate-row">
             <span className="coordinate-label">Latitude:</span>
@@ -554,7 +554,7 @@ const UnifiedTooltip = ({
             <span className="coordinate-value">{coordinates.longitude.toFixed(6)}°</span>
           </div>
         </div>
-        
+
         {geographicContext && (
           <div className="tooltip-location-details">
             <div className="location-primary">
@@ -564,7 +564,7 @@ const UnifiedTooltip = ({
                 geographicContext.country
               ].filter(Boolean).join(', ')}
             </div>
-            
+
             <div className="location-metadata">
               <div className="metadata-item">
                 <span className="metadata-label">Climate:</span>
@@ -588,7 +588,7 @@ const UnifiedTooltip = ({
             </div>
           </div>
         )}
-        
+
         {geographicContext?.energyGrid && (
           <div className="tooltip-energy-grid">
             <h5>Energy Grid</h5>
@@ -611,7 +611,7 @@ const UnifiedTooltip = ({
             </div>
           </div>
         )}
-        
+
         {environmentalRisks && Object.keys(environmentalRisks).length > 0 && (
           <div className="tooltip-risks">
             <h5>Environmental Risks</h5>
@@ -625,7 +625,7 @@ const UnifiedTooltip = ({
             </div>
           </div>
         )}
-        
+
         {climateProjections && (
           <div className="tooltip-climate-projections">
             <h5>Climate Projections (2050)</h5>
@@ -651,7 +651,7 @@ const UnifiedTooltip = ({
       </div>
     );
   };
-  
+
   // Render environmental risks tooltip content
   const renderEnvironmentalRisksTooltip = () => {
     const risks = data;
@@ -665,13 +665,13 @@ const UnifiedTooltip = ({
         </div>
       );
     }
-    
+
     return (
       <div className="tooltip-environmental-risks">
         <div className="tooltip-header">
           <h4>Environmental Risks</h4>
         </div>
-        
+
         <div className="tooltip-risks-detailed">
           {Object.entries(risks).map(([risk, level]) => (
             <div key={risk} className="risk-detail-item">
@@ -690,14 +690,14 @@ const UnifiedTooltip = ({
             </div>
           ))}
         </div>
-        
+
         <div className="tooltip-risk-footer">
           <p>Risk assessments based on current climate data and projections.</p>
         </div>
       </div>
     );
   };
-  
+
   // Render energy grid tooltip content
   const renderEnergyGridTooltip = () => {
     const grid = data;
@@ -711,13 +711,13 @@ const UnifiedTooltip = ({
         </div>
       );
     }
-    
+
     return (
       <div className="tooltip-energy-grid-detail">
         <div className="tooltip-header">
           <h4>{grid.name} Energy Grid</h4>
         </div>
-        
+
         <div className="tooltip-grid-metrics">
           <div className="grid-carbon-intensity">
             <div className="metric-header">
@@ -746,7 +746,7 @@ const UnifiedTooltip = ({
               </div>
             </div>
           </div>
-          
+
           <div className="grid-renewable-percentage">
             <div className="metric-header">
               <span className="metric-label">Renewable Energy</span>
@@ -779,7 +779,7 @@ const UnifiedTooltip = ({
             </div>
           </div>
         </div>
-        
+
         <div className="tooltip-grid-sources">
           <h5>Energy Mix</h5>
           <div className="sources-bars">
@@ -801,7 +801,7 @@ const UnifiedTooltip = ({
             )}
           </div>
         </div>
-        
+
         <div className="tooltip-grid-footer">
           <p>Lower carbon intensity indicates cleaner electricity generation.</p>
         </div>
@@ -924,7 +924,7 @@ const UnifiedTooltip = ({
         return renderGenericTooltip();
     }
   };
-  
+
   return (
     <div 
       ref={triggerRef}
@@ -933,7 +933,7 @@ const UnifiedTooltip = ({
       onMouseLeave={handleMouseLeave}
     >
       {children}
-      
+
       <AnimatePresence>
         {isVisible && (
           <motion.div
@@ -959,6 +959,52 @@ const UnifiedTooltip = ({
         )}
       </AnimatePresence>
     </div>
+  );
+};
+
+/**
+ * SimpleTooltip - A controlled tooltip component for external positioning
+ * 
+ * @param {Object} props - Component props
+ * @param {boolean} props.show - Whether to show the tooltip
+ * @param {Object} props.position - Position object with x, y coordinates
+ * @param {React.ReactNode} props.content - Content to display
+ * @param {number} [props.width=320] - Width of tooltip in pixels
+ */
+export const SimpleTooltip = ({
+  show,
+  position,
+  content,
+  width = 320
+}) => {
+  if (!show || !content) return null;
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        className="unified-tooltip-container"
+        style={{
+          position: 'absolute',
+          top: position.y + 10,
+          left: position.x + 10,
+          width: width,
+          zIndex: 9999,
+          background: 'rgba(0, 0, 0, 0.9)',
+          color: 'white',
+          padding: '1rem',
+          borderRadius: '12px',
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          boxShadow: '0 10px 30px rgba(0, 0, 0, 0.3)',
+          backdropFilter: 'blur(20px)'
+        }}
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.9 }}
+        transition={{ duration: 0.2 }}
+      >
+        {content}
+      </motion.div>
+    </AnimatePresence>
   );
 };
 

@@ -124,7 +124,7 @@
     ]
   },
   "devDependencies": {
-    "@anthropic-ai/claude-code": "github:anthropic-ai/claude-code#main",
+    "@anthropic-ai/claude-code": "https://github.com/anthropic-ai/claude-code.git#main",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@shadcn/ui": "^0.0.4",
     "@types/react": "^18.2.6",

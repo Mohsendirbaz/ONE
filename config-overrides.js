@@ -71,7 +71,8 @@ module.exports = function override(config, env) {
 
   // Add alias for problematic modules
   config.resolve.alias = {
-    ...config.resolve.alias
+    ...config.resolve.alias,
+    './ClimateModule': require.resolve('./webpack-patches/climate-module-dummy.js')
   };
 
   // Fix for "Cannot read properties of undefined (reading 'module')" errors

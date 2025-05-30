@@ -100,14 +100,15 @@ module.exports = function override(config, env) {
   config.module.exprContextCritical = false;
 
   // Ignore certain warnings
-  config.stats = {
-    ...config.stats,
-    warningsFilter: [
-      /Failed to parse source map/,
-      /export .* was not found in/,
-      /Cannot find module/
-    ]
-  };
+  config.stats = 'errors-warnings';
+
+  // Add IgnorePlugin for problematic imports
+  config.plugins.push(
+    new webpack.IgnorePlugin({
+      resourceRegExp: /^\.\.\/utils$/,
+      contextRegExp: /[\\/]/
+    })
+  );
 
   // Fix for "Cannot read properties of undefined (reading 'module')" errors
   // and "Critical dependency: the request of a dependency is an expression" warnings

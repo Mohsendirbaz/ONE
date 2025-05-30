@@ -84,8 +84,8 @@ module.exports = function override(config, env) {
     // Handle utils.js default export issues
     '../utils.js': path.resolve(__dirname, 'src/utils/fallback-utils.js'),
     '../utils': path.resolve(__dirname, 'src/utils/fallback-utils.js'),
-    // Fix framer-motion to use CommonJS version
-    'framer-motion': path.resolve(__dirname, 'node_modules/framer-motion/dist/framer-motion.cjs.js')
+    // Use mock framer-motion to avoid import issues
+    'framer-motion': path.resolve(__dirname, 'src/utils/framer-motion-mock.js')
   };
 
   // Make build more forgiving of missing modules
@@ -122,15 +122,6 @@ module.exports = function override(config, env) {
     })
   );
 
-  // Fix for framer-motion mjs imports
-  config.plugins.push(
-    new webpack.NormalModuleReplacementPlugin(
-      /\.mjs$/,
-      (resource) => {
-        resource.request = resource.request.replace(/\.mjs$/, '.js');
-      }
-    )
-  );
 
   // Fix for "Cannot read properties of undefined (reading 'module')" errors
   // and "Critical dependency: the request of a dependency is an expression" warnings

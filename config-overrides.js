@@ -83,7 +83,9 @@ module.exports = function override(config, env) {
     './UnifiedTooltip': path.resolve(__dirname, 'src/components/truly_extended_scaling/UnifiedTooltip.js'),
     // Handle utils.js default export issues
     '../utils.js': path.resolve(__dirname, 'src/utils/fallback-utils.js'),
-    '../utils': path.resolve(__dirname, 'src/utils/fallback-utils.js')
+    '../utils': path.resolve(__dirname, 'src/utils/fallback-utils.js'),
+    // Fix framer-motion to use CommonJS version
+    'framer-motion': path.resolve(__dirname, 'node_modules/framer-motion/dist/framer-motion.cjs.js')
   };
 
   // Make build more forgiving of missing modules
@@ -99,14 +101,14 @@ module.exports = function override(config, env) {
   config.module.unknownContextCritical = false;
   config.module.exprContextCritical = false;
 
-  // Add support for .mjs files
+  // Add support for .mjs files and fix framer-motion issues
   config.module.rules.push({
     test: /\.mjs$/,
     include: /node_modules/,
     type: 'javascript/auto'
   });
 
-  // Fix for framer-motion and other packages using .mjs
+  // Fix module resolution for .mjs files
   config.resolve.extensions = [...(config.resolve.extensions || []), '.mjs'];
 
   // Ignore certain warnings

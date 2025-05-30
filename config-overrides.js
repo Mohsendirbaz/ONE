@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = function override(config, env) {
   // Disable critical dependency warnings for dynamic requires
   config.module = config.module || {};

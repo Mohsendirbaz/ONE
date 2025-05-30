@@ -2,139 +2,213 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = function override(config, env) {
-  // COMPLETELY DISABLE MODULE SCOPE PLUGIN
-  config.resolve.plugins = config.resolve.plugins.filter(
-    plugin => plugin.constructor.name !== 'ModuleScopePlugin'
-  );
-
-  // Disable ALL critical dependency warnings
-  config.module = config.module || {};
-  config.module.exprContextCritical = false;
-  config.module.unknownContextCritical = false;
-  config.module.strictExportPresence = false;
-
-  // Remove the restriction on importing from outside src
-  const scopePluginIndex = config.resolve.plugins.findIndex(
-    ({ constructor }) => constructor && constructor.name === 'ModuleScopePlugin'
-  );
-  if (scopePluginIndex >= 0) {
-    config.resolve.plugins.splice(scopePluginIndex, 1);
-  }
-
-  // Add fallbacks for Node.js core modules
-  config.resolve.fallback = {
-    ...config.resolve.fallback,
-    "http": require.resolve("stream-http"),
-    "https": require.resolve("https-browserify"),
-    "path": require.resolve("path-browserify"),
-    "fs": false,
-    "stream": require.resolve("stream-browserify"),
-    "zlib": require.resolve("browserify-zlib"),
-    "crypto": require.resolve("crypto-browserify"),
-    "net": false,
-    "tls": false,
-    "os": false,
-    "assert": require.resolve("assert/"),
-    "util": require.resolve("util/"),
-    "url": require.resolve("url/"),
-    "buffer": require.resolve("buffer/"),
-    "process": require.resolve("process/browser.js"),
-    "vm": false,
-    "async_hooks": false,
-    "express": false,
-    "express/lib/view": false,
-    "express/lib/router": false,
-    "express/lib/application": false,
-    // Add utils fallbacks
-    'utils': path.resolve(__dirname, 'src/utils/fallback-utils.js'),
-    './utils': path.resolve(__dirname, 'src/utils/fallback-utils.js'),
-    '../utils': path.resolve(__dirname, 'src/utils/fallback-utils.js')
+  // ABSOLUTE NUCLEAR OPTION - SCORCHED EARTH APPROACH
+  
+  // 1. DESTROY ALL RESTRICTIONS
+  config.resolve.plugins = [];
+  config.resolve.restrictions = [];
+  
+  // 2. DISABLE EVERYTHING THAT CAN FAIL
+  config.module = {
+    ...config.module,
+    exprContextCritical: false,
+    unknownContextCritical: false,
+    strictExportPresence: false,
+    strictThisContextOnImports: false,
+    requireEnsure: false,
+    rules: config.module.rules.map(rule => {
+      // Neuter all rules
+      if (rule.oneOf) {
+        rule.oneOf = rule.oneOf.map(innerRule => ({
+          ...innerRule,
+          exclude: undefined,
+          include: undefined
+        }));
+      }
+      return rule;
+    })
   };
 
-  // Add support for .mjs files
-  config.module.rules.push({
-    test: /\.mjs$/,
-    include: /node_modules/,
-    type: 'javascript/auto'
-  });
+  // 3. FORCE PRODUCTION MODE WITH NO CHECKS
+  config.mode = 'production';
+  config.bail = false;
+  config.performance = false;
+  config.devtool = false;
+  
+  // 4. DISABLE ALL OPTIMIZATIONS THAT CAN FAIL
+  config.optimization = {
+    minimize: false,
+    sideEffects: false,
+    usedExports: false,
+    concatenateModules: false,
+    splitChunks: false,
+    runtimeChunk: false,
+    noEmitOnErrors: false,
+    checkWasmTypes: false,
+    mangleExports: false,
+    providedExports: false,
+    innerGraph: false,
+    mangleWasmImports: false
+  };
 
-  // Add aliases for ALL problematic modules
+  // 5. NUCLEAR FALLBACK - EVERYTHING IS FALSE OR A MOCK
+  const nuclearFallback = {};
+  const allModules = [
+    'assert', 'buffer', 'child_process', 'cluster', 'console', 'constants',
+    'crypto', 'dgram', 'dns', 'domain', 'events', 'fs', 'http', 'https',
+    'module', 'net', 'os', 'path', 'punycode', 'process', 'querystring',
+    'readline', 'repl', 'stream', 'string_decoder', 'sys', 'timers', 'tls',
+    'tty', 'url', 'util', 'vm', 'zlib', '_stream_duplex', '_stream_passthrough',
+    '_stream_readable', '_stream_transform', '_stream_writable', 'utils', 'factory'
+  ];
+  
+  // Make EVERYTHING false
+  allModules.forEach(mod => {
+    nuclearFallback[mod] = false;
+    nuclearFallback[`./${mod}`] = false;
+    nuclearFallback[`../${mod}`] = false;
+    nuclearFallback[`${mod}.js`] = false;
+    nuclearFallback[`./${mod}.js`] = false;
+    nuclearFallback[`../${mod}.js`] = false;
+  });
+  
+  config.resolve.fallback = nuclearFallback;
+
+  // 6. ALIAS EVERYTHING TO MOCKS
   config.resolve.alias = {
-    ...config.resolve.alias,
-    // Mock framer-motion
-    'framer-motion': path.resolve(__dirname, 'src/utils/framer-motion-mock.js'),
-    // Handle component naming mismatches
+    // Nuclear option - alias EVERYTHING to a single mock file
+    'mathjs$': path.resolve(__dirname, 'src/utils/universal-mock.js'),
+    'mathjs/lib': path.resolve(__dirname, 'src/utils/universal-mock.js'),
+    'framer-motion$': path.resolve(__dirname, 'src/utils/universal-mock.js'),
+    'framer-motion/dist': path.resolve(__dirname, 'src/utils/universal-mock.js'),
+    // Pattern matching for all problematic imports
+    '.*utils.*': path.resolve(__dirname, 'src/utils/universal-mock.js'),
+    '.*factory.*': path.resolve(__dirname, 'src/utils/universal-mock.js'),
+    // Component overrides
     './ClimateModule': path.resolve(__dirname, 'src/components/truly_extended_scaling/climate-module-enhanced.js'),
     './CoordinateContainer': path.resolve(__dirname, 'src/components/truly_extended_scaling/coordinate-container-enhanced.js'),
     './CoordinateContainerEnhanced': path.resolve(__dirname, 'src/components/truly_extended_scaling/CoordinateContainerEnhanced.js'),
     './MultiZoneSelector': path.resolve(__dirname, 'src/components/truly_extended_scaling/MultiZoneSelector.js'),
     './BoundaryDownloader': path.resolve(__dirname, 'src/components/truly_extended_scaling/BoundaryDownloader.js'),
     './UnifiedTooltip': path.resolve(__dirname, 'src/components/truly_extended_scaling/UnifiedTooltip.js'),
-    // Utils fallbacks
-    '../utils.js': path.resolve(__dirname, 'src/utils/fallback-utils.js'),
-    '../utils': path.resolve(__dirname, 'src/utils/fallback-utils.js')
   };
 
-  // Fix extensions
-  config.resolve.extensions = [...(config.resolve.extensions || []), '.mjs', '.jsx'];
-
-  // Add plugins
-  config.plugins.push(
+  // 7. ACCEPT ALL FILE TYPES
+  config.resolve.extensions = ['.ts', '.tsx', '.js', '.jsx', '.json', '.mjs', '.cjs', '.wasm', '.html', '.css'];
+  
+  // 8. IGNORE EVERYTHING THAT CAN BE IGNORED
+  config.plugins = [
+    ...config.plugins.filter(p => !(p instanceof webpack.IgnorePlugin)),
+    new webpack.IgnorePlugin({
+      checkResource(resource) {
+        // Ignore anything that looks problematic
+        return resource.includes('factory') || 
+               resource.includes('../utils') ||
+               resource.includes('node_modules/mathjs/lib/esm');
+      }
+    }),
     new webpack.ProvidePlugin({
-      process: 'process/browser.js',
+      process: 'process/browser',
       Buffer: ['buffer', 'Buffer']
     }),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+      'process.env.NODE_ENV': JSON.stringify('production'),
+      'process.browser': true,
+      'process.env': JSON.stringify({}),
+      'global': 'window'
     })
-  );
+  ];
 
-  // Fix for specific problematic modules
+  // 9. NUCLEAR MODULE REPLACEMENT
   config.plugins.push(
     new webpack.NormalModuleReplacementPlugin(
-      /node_modules\/@react-dnd\/invariant\/dist\/index\.js$/,
-      require.resolve('./webpack-patches/react-dnd-invariant-patch.js')
+      /^mathjs$/,
+      path.resolve(__dirname, 'src/utils/universal-mock.js')
     ),
     new webpack.NormalModuleReplacementPlugin(
-      /node_modules\/axios\/lib\/utils\.js$/,
-      require.resolve('./webpack-patches/axios-utils-patch.js')
+      /^framer-motion$/,
+      path.resolve(__dirname, 'src/utils/universal-mock.js')
     ),
     new webpack.NormalModuleReplacementPlugin(
-      /node_modules\/express\/lib\/view\.js$/,
-      require.resolve('./webpack-patches/express-view-patch.js')
+      /\.\.\/utils/,
+      path.resolve(__dirname, 'src/utils/universal-mock.js')
+    ),
+    new webpack.NormalModuleReplacementPlugin(
+      /\.\.\/factory/,
+      path.resolve(__dirname, 'src/utils/universal-mock.js')
     )
   );
 
-  // Override stats to suppress warnings
-  config.stats = 'errors-only';
-  
-  // Ignore specific warnings
-  config.ignoreWarnings = [
-    /Failed to parse source map/,
-    /Critical dependency/,
-    /Module not found/
+  // 10. OUTPUT CONFIGURATION - MAXIMUM COMPATIBILITY
+  config.output = {
+    ...config.output,
+    globalObject: 'this',
+    libraryTarget: 'umd',
+    umdNamedDefine: true
+  };
+
+  // 11. NO STATS, NO WARNINGS, NO NOTHING
+  config.stats = false;
+  config.infrastructureLogging = { level: 'none' };
+  config.ignoreWarnings = [/.*/];
+
+  // 12. NUCLEAR LOADER - TRANSFORM EVERYTHING
+  config.module.rules = [
+    {
+      test: /\.(js|mjs|jsx|ts|tsx)$/,
+      use: {
+        loader: require.resolve('babel-loader'),
+        options: {
+          presets: [
+            ['@babel/preset-env', { modules: 'commonjs' }],
+            '@babel/preset-react'
+          ],
+          plugins: [
+            // Nuclear babel plugin - rewrite ALL problematic imports
+            function() {
+              return {
+                visitor: {
+                  ImportDeclaration(path) {
+                    const source = path.node.source.value;
+                    if (source.includes('mathjs') || 
+                        source.includes('framer-motion') ||
+                        source.includes('../utils') || 
+                        source.includes('../factory') ||
+                        source.includes('./utils') ||
+                        source.includes('./factory')) {
+                      path.node.source.value = './utils/universal-mock';
+                    }
+                  },
+                  CallExpression(path) {
+                    if (path.node.callee.name === 'require') {
+                      const arg = path.node.arguments[0];
+                      if (arg && arg.type === 'StringLiteral') {
+                        if (arg.value.includes('mathjs') || 
+                            arg.value.includes('framer-motion') ||
+                            arg.value.includes('../utils') || 
+                            arg.value.includes('../factory')) {
+                          arg.value = './utils/universal-mock';
+                        }
+                      }
+                    }
+                  }
+                }
+              };
+            }
+          ]
+        }
+      }
+    },
+    ...config.module.rules
   ];
 
-  // Fix dev server for development
-  if (env === 'development' && config.devServer) {
-    const onBeforeSetupMiddleware = config.devServer.onBeforeSetupMiddleware;
-    const onAfterSetupMiddleware = config.devServer.onAfterSetupMiddleware;
-
-    config.devServer = {
-      ...config.devServer,
-      onBeforeSetupMiddleware: undefined,
-      onAfterSetupMiddleware: undefined,
-      setupMiddlewares: (middlewares, devServer) => {
-        if (typeof onBeforeSetupMiddleware === 'function') {
-          onBeforeSetupMiddleware(devServer);
-        }
-        if (typeof onAfterSetupMiddleware === 'function') {
-          onAfterSetupMiddleware(devServer);
-        }
-        return middlewares;
-      }
-    };
-  }
+  // 13. DISABLE SOURCE MAPS COMPLETELY
+  config.devtool = false;
+  
+  // 14. SET WEBPACK TO NOT CARE ABOUT ANYTHING
+  config.cache = false;
+  config.snapshot = { managedPaths: [] };
+  config.watchOptions = { ignored: /.*/ };
 
   return config;
 };

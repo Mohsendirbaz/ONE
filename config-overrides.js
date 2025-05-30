@@ -99,6 +99,16 @@ module.exports = function override(config, env) {
   config.module.unknownContextCritical = false;
   config.module.exprContextCritical = false;
 
+  // Add support for .mjs files
+  config.module.rules.push({
+    test: /\.mjs$/,
+    include: /node_modules/,
+    type: 'javascript/auto'
+  });
+
+  // Fix for framer-motion and other packages using .mjs
+  config.resolve.extensions = [...(config.resolve.extensions || []), '.mjs'];
+
   // Ignore certain warnings
   config.stats = 'errors-warnings';
 
@@ -108,6 +118,16 @@ module.exports = function override(config, env) {
       resourceRegExp: /^\.\.\/utils$/,
       contextRegExp: /[\\/]/
     })
+  );
+
+  // Fix for framer-motion mjs imports
+  config.plugins.push(
+    new webpack.NormalModuleReplacementPlugin(
+      /\.mjs$/,
+      (resource) => {
+        resource.request = resource.request.replace(/\.mjs$/, '.js');
+      }
+    )
   );
 
   // Fix for "Cannot read properties of undefined (reading 'module')" errors

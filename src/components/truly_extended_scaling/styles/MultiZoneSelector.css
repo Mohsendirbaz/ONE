@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /* MultiZoneSelector.css - Elegant styles for multi-zone selection component */
 
 .multi-zone-selector {
@@ -712,9 +711,4 @@
 
 .multi-zone-list::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(45deg, #45a049, #4CAF50);
-=======
-/* Placeholder for MultiZoneSelector.css */
-.multi-zone-selector {
-  /* Temporary styles */
->>>>>>> origin/main
 }
